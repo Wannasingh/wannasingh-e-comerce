@@ -61,3 +61,6 @@ ehthumbs.db
 tmp/
 temp/
 .cache/
+
+# MongoDB keyfile (replica set key)
+docker/mongo/keyfile

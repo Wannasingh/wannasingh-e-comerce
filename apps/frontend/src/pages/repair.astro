@@ -1,0 +1,407 @@
+---
+// src/pages/repair.astro — Repair & Restoration Program | AETHER Cyber-Minimalism
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="AETHER | REPAIR & RESTORATION PROTOCOL" description="Our lifetime restoration guarantee ensures your performance equipment evolves with you. Laser-sealed, pressure-tested integrity.">
+  <div class="reveal">
+    <!-- Hero Section -->
+    <section class="relative h-[550px] flex items-center overflow-hidden bg-black">
+      <div class="absolute inset-0 opacity-40">
+        <img 
+          alt="Technical repair close up" 
+          class="w-full h-full object-cover grayscale contrast-125 brightness-50" 
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsRXlEeg9BGknP21GXpQeKIVYVrSdPhU6c5_zDy7BMBMbSZYbfnwJj8JstZTCHkQRA6wfAA-aRTCkkF_A9PkpkwVry3p2cCFh-FWesajl0trZtQJW6OLYziX1m8rVfG8EvVJAe5mi9B1bTZauLGhm_Qo1CB5kSjlR7OkWI5u9eaCN8FZgv3FjL8CNhLiEGw9ueSCyivEGm-du6GSRAJBZRmeV25Bcmr0LSx5xZzTu2--gVl3ZApknI9SFQmK4sHyrY9KVhohorbzrX"
+        />
+      </div>
+      <div class="relative z-10 px-6 md:px-16 max-w-[1440px] mx-auto w-full">
+        <div class="max-w-2xl">
+          <span class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em] mb-4 block">WANNASINGH CARE SYSTEM</span>
+          <h1 class="font-display text-5xl md:text-6xl text-white mb-6 leading-none">PRECISION<br>RESTORATION.</h1>
+          <p class="font-body-lg text-lg text-white/80 mb-10 max-w-lg leading-relaxed">
+            Our Lifetime Restoration guarantee ensures your performance equipment evolves with you. From technical seam welding to material revitalization, we engineer longevity.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <button 
+              type="button"
+              class="px-8 py-4 bg-white text-black font-data-label text-xs tracking-widest hover:bg-[var(--secondary)] hover:text-white transition-all cursor-pointer" 
+              onclick="document.getElementById('start-repair').scrollIntoView({behavior: 'smooth'})"
+            >
+              START REPAIR FLOW
+            </button>
+            <button 
+              type="button"
+              class="px-8 py-4 border border-white text-white font-data-label text-xs tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer" 
+              onclick="document.getElementById('track-repair').scrollIntoView({behavior: 'smooth'})"
+            >
+              TRACK STATUS
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Repair Tracker Section -->
+    <section class="py-24 px-6 md:px-16 max-w-[1440px] mx-auto" id="track-repair">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+        <div>
+          <h2 class="font-headline-lg text-3xl mb-2 text-[var(--primary)]">ACTIVE RESTORATION</h2>
+          <p class="font-data-label text-xs text-[var(--on-surface-variant)] uppercase tracking-widest">ID: AE-2944-XPR</p>
+        </div>
+        <div class="border border-[var(--outline-variant)]/40 p-4 bg-[var(--surface-container-low)] flex items-center gap-4">
+          <div class="w-2.5 h-2.5 rounded-full bg-[var(--secondary)] animate-pulse"></div>
+          <span class="font-data-label text-xs uppercase text-[var(--on-surface)]">STAGE: TECHNICAL ASSESSMENT</span>
+        </div>
+      </div>
+
+      <!-- Timeline Tracker -->
+      <div class="relative py-12 mb-16 overflow-x-auto">
+        <div class="absolute top-[36px] md:top-[36px] left-0 w-full h-[1px] bg-[var(--outline-variant)]/30 -translate-y-1/2"></div>
+        <div class="relative flex justify-between min-w-[600px] px-8">
+          <!-- Step 1: Complete -->
+          <div class="flex flex-col items-center gap-4 group">
+            <div class="w-12 h-12 rounded-none bg-[var(--primary)] text-[var(--on-primary)] flex items-center justify-center z-10 border border-[var(--outline-variant)]/30">
+              <span class="material-symbols-outlined" style="font-size: 20px;">check</span>
+            </div>
+            <div class="text-center">
+              <p class="font-data-label text-xs text-[var(--primary)] uppercase">INTAKE</p>
+              <p class="font-caption text-[10px] text-[var(--on-surface-variant)] mt-1">NOV 12</p>
+            </div>
+          </div>
+          <!-- Step 2: Active -->
+          <div class="flex flex-col items-center gap-4 group">
+            <div class="w-12 h-12 rounded-none bg-[var(--surface)] text-[var(--secondary)] flex items-center justify-center z-10 border-2 border-[var(--secondary)]">
+              <span class="material-symbols-outlined" style="font-size: 20px; font-variation-settings: 'FILL' 1;">biotech</span>
+            </div>
+            <div class="text-center">
+              <p class="font-data-label text-xs text-[var(--secondary)] uppercase font-semibold">DIAGNOSTICS</p>
+              <p class="font-caption text-[10px] text-[var(--secondary)] mt-1">IN PROGRESS</p>
+            </div>
+          </div>
+          <!-- Step 3: Pending -->
+          <div class="flex flex-col items-center gap-4 opacity-40 grayscale">
+            <div class="w-12 h-12 rounded-none bg-[var(--surface)] text-[var(--on-surface-variant)] flex items-center justify-center z-10 border border-[var(--outline-variant)]/30">
+              <span class="material-symbols-outlined" style="font-size: 20px;">rebase_edit</span>
+            </div>
+            <div class="text-center">
+              <p class="font-data-label text-xs uppercase">RESTORATION</p>
+              <p class="font-caption text-[10px] mt-1">PENDING</p>
+            </div>
+          </div>
+          <!-- Step 4: Pending -->
+          <div class="flex flex-col items-center gap-4 opacity-40 grayscale">
+            <div class="w-12 h-12 rounded-none bg-[var(--surface)] text-[var(--on-surface-variant)] flex items-center justify-center z-10 border border-[var(--outline-variant)]/30">
+              <span class="material-symbols-outlined" style="font-size: 20px;">verified</span>
+            </div>
+            <div class="text-center">
+              <p class="font-data-label text-xs uppercase">QC VERIFIED</p>
+              <p class="font-caption text-[10px] mt-1">EST. NOV 22</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagnostic Telemetry -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-8 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-lowest)]">
+          <span class="font-data-label text-xs text-[var(--on-surface-variant)] uppercase mb-6 block tracking-widest">EQUIPMENT DATA</span>
+          <div class="space-y-4">
+            <div class="flex justify-between border-b border-[var(--outline-variant)]/10 pb-2">
+              <span class="font-data-value text-xs text-[var(--on-surface-variant)] uppercase">MODEL</span>
+              <span class="font-data-value text-xs text-[var(--primary)] uppercase font-semibold">X-1 SHELL V4</span>
+            </div>
+            <div class="flex justify-between border-b border-[var(--outline-variant)]/10 pb-2">
+              <span class="font-data-value text-xs text-[var(--on-surface-variant)] uppercase">MATERIAL</span>
+              <span class="font-data-value text-xs text-[var(--primary)] uppercase">GORE-TEX PRO</span>
+            </div>
+            <div class="flex justify-between border-b border-[var(--outline-variant)]/10 pb-2">
+              <span class="font-data-value text-xs text-[var(--on-surface-variant)] uppercase">COLORWAY</span>
+              <span class="font-data-value text-xs text-[var(--primary)] uppercase">DEEP CARBON</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-8 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-lowest)]">
+          <span class="font-data-label text-xs text-[var(--on-surface-variant)] uppercase mb-6 block tracking-widest">DIAGNOSTIC NOTES</span>
+          <p class="font-body-md text-sm text-[var(--on-surface-variant)] leading-relaxed mb-4 italic">
+            "Minor delamination detected on left shoulder seam. Micro-tear in lateral ventilation mesh. Thermal lining requires recalibration."
+          </p>
+          <div class="flex items-center gap-2 text-[var(--secondary)]">
+            <span class="material-symbols-outlined" style="font-size: 16px;">build</span>
+            <span class="font-data-label text-xs uppercase tracking-wider">REPAIR PLAN APPROVED</span>
+          </div>
+        </div>
+
+        <div class="p-8 bg-[var(--primary)] text-[var(--on-primary)] flex flex-col justify-between">
+          <div>
+            <span class="font-data-label text-xs text-[var(--on-primary)]/60 uppercase mb-6 block tracking-widest">ESTIMATED COMPLETION</span>
+            <div class="text-3xl font-data-value text-white tracking-widest" id="countdown-timer">05D : 14H : 22M</div>
+          </div>
+          <button 
+            type="button"
+            class="w-full mt-8 py-3 border border-[var(--on-primary)]/30 text-[var(--on-primary)] font-data-label text-xs uppercase tracking-widest hover:bg-[var(--secondary)] hover:border-none hover:text-white transition-all cursor-pointer"
+          >
+            VIEW LIVE FEED
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Start Repair Flow -->
+    <section class="bg-[var(--surface-container)] py-32" id="start-repair">
+      <div class="px-6 md:px-16 max-w-[1440px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          
+          <div class="space-y-8">
+            <h2 class="font-display text-4xl md:text-5xl leading-none text-[var(--primary)]">INITIATE<br>PROTOCOL.</h2>
+            <p class="font-body-lg text-[var(--on-surface-variant)] leading-relaxed max-w-md">
+              Our intake system analyzes your gear's usage patterns to determine the optimal restoration path. Provide your unit's unique serial identifier below.
+            </p>
+            <form id="intake-form" class="space-y-8" onsubmit="return false">
+              <div class="relative border-b border-[var(--outline-variant)]/50 pb-2 group">
+                <label class="font-data-label text-[10px] uppercase tracking-widest text-[var(--secondary)] block mb-2">01. PRODUCT SERIAL</label>
+                <input 
+                  required
+                  id="serial-input"
+                  class="w-full bg-transparent border-none text-2xl font-data-value uppercase transition-colors placeholder:text-[var(--outline-variant)]/30 focus:outline-none focus:ring-0 text-[var(--primary)]" 
+                  placeholder="AE-XXXX-XXXX" 
+                  type="text"
+                />
+              </div>
+              <div class="relative space-y-3">
+                <label class="font-data-label text-[10px] uppercase tracking-widest text-[var(--on-surface-variant)] block">02. SERVICE TYPE</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <button 
+                    type="button" 
+                    class="service-type-btn flex items-center justify-between p-4 border border-[var(--outline-variant)] bg-[var(--surface)] hover:border-[var(--secondary)] hover:text-[var(--secondary)] transition-all text-left cursor-pointer"
+                    data-type="maintenance"
+                  >
+                    <span class="font-data-label text-xs uppercase">MAINTENANCE</span>
+                    <span class="material-symbols-outlined" style="font-size: 20px;">settings_backup_restore</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    class="service-type-btn flex items-center justify-between p-4 border border-[var(--outline-variant)] bg-[var(--surface)] hover:border-[var(--secondary)] hover:text-[var(--secondary)] transition-all text-left cursor-pointer"
+                    data-type="technical-repair"
+                  >
+                    <span class="font-data-label text-xs uppercase">TECHNICAL REPAIR</span>
+                    <span class="material-symbols-outlined" style="font-size: 20px;">handyman</span>
+                  </button>
+                </div>
+              </div>
+              <button 
+                type="submit" 
+                class="w-full py-6 bg-[var(--primary)] text-[var(--on-primary)] font-data-label text-xs tracking-[0.3em] hover:bg-[var(--secondary)] transition-all duration-500 cursor-pointer"
+              >
+                REQUEST SHIPPING ARCHIVE
+              </button>
+            </form>
+          </div>
+
+          <div class="relative aspect-square">
+            <div class="absolute inset-0 border border-[var(--outline-variant)]/30 translate-x-4 translate-y-4 -z-10"></div>
+            <img 
+              alt="Technical repair close up" 
+              class="w-full h-full object-cover grayscale contrast-125 brightness-90" 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsRXlEeg9BGknP21GXpQeKIVYVrSdPhU6c5_zDy7BMBMbSZYbfnwJj8JstZTCHkQRA6wfAA-aRTCkkF_A9PkpkwVry3p2cCFh-FWesajl0trZtQJW6OLYziX1m8rVfG8EvVJAe5mi9B1bTZauLGhm_Qo1CB5kSjlR7OkWI5u9eaCN8FZgv3FjL8CNhLiEGw9ueSCyivEGm-du6GSRAJBZRmeV25Bcmr0LSx5xZzTu2--gVl3ZApknI9SFQmK4sHyrY9KVhohorbzrX"
+            />
+            <div class="absolute bottom-8 left-8 bg-[var(--surface)]/90 backdrop-blur-md p-6 max-w-xs border border-[var(--outline-variant)]/30">
+              <p class="font-data-label text-[10px] text-[var(--secondary)] uppercase mb-2">TECH SPEC #042</p>
+              <p class="font-body-md text-sm text-[var(--on-surface)] italic leading-relaxed">
+                "Every seam is laser-sealed and pressure-tested for absolute atmospheric integrity."
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Lifetime Restoration Grid Section -->
+    <section class="py-32 bg-[var(--primary)] text-[var(--on-primary)] overflow-hidden">
+      <div class="px-6 md:px-16 max-w-[1440px] mx-auto relative">
+        <div class="mb-24">
+          <h2 class="font-display text-4xl md:text-5xl mb-4 tracking-tighter text-white">LIFETIME<br>RESTORATION.</h2>
+          <div class="h-[2px] w-24 bg-[var(--secondary)]"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div class="space-y-6 group">
+            <span class="font-data-value text-3xl text-white/20 group-hover:text-[var(--secondary)] transition-colors block">01</span>
+            <h3 class="font-headline-md text-lg uppercase text-white">ETERNAL DURABILITY</h3>
+            <p class="font-body-md text-sm text-white/60 leading-relaxed">
+              We don't believe in obsolescence. Our gear is designed to be disassembled, repaired, and re-engineered for the next generation of performance.
+            </p>
+          </div>
+          <div class="space-y-6 group">
+            <span class="font-data-value text-3xl text-white/20 group-hover:text-[var(--secondary)] transition-colors block">02</span>
+            <h3 class="font-headline-md text-lg uppercase text-white">MATERIAL RECOVERY</h3>
+            <p class="font-body-md text-sm text-white/60 leading-relaxed">
+              Damaged components are harvested and recycled into new performance textiles, maintaining a closed-loop system of technical innovation.
+            </p>
+          </div>
+          <div class="space-y-6 group">
+            <span class="font-data-value text-3xl text-white/20 group-hover:text-[var(--secondary)] transition-colors block">03</span>
+            <h3 class="font-headline-md text-lg uppercase text-white">TRACEABLE ORIGIN</h3>
+            <p class="font-body-md text-sm text-white/60 leading-relaxed">
+              Every repair is logged into your unit's digital twin, creating a permanent technical record of its evolution and field performance history.
+            </p>
+          </div>
+          <div class="space-y-6 group">
+            <span class="font-data-value text-3xl text-white/20 group-hover:text-[var(--secondary)] transition-colors block">04</span>
+            <h3 class="font-headline-md text-lg uppercase text-white">EXPERT HANDCRAFT</h3>
+            <p class="font-body-md text-sm text-white/60 leading-relaxed">
+              Each unit is processed by WANNASINGH technicians in our specialized lab, utilizing tools calibrated for tactical-grade tolerances.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-32 p-12 border border-white/10 bg-white/5 relative overflow-hidden group">
+          <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="max-w-xl text-center md:text-left">
+              <h4 class="font-headline-md text-xl mb-4 uppercase text-white">BECOME A CERTIFIED COLLECTOR</h4>
+              <p class="font-body-md text-sm text-white/60 leading-relaxed">
+                Owners of archive pieces (Pre-2022) receive priority intake status and complimentary material stress testing during every service interval.
+              </p>
+            </div>
+            <button 
+              type="button"
+              class="px-8 py-5 bg-[var(--secondary)] text-white font-data-label text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
+            >
+              EXPLORE ARCHIVE PROGRAM
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter / Support Consultation -->
+    <section class="py-24 px-6 md:px-16 max-w-[1440px] mx-auto border-t border-[var(--outline-variant)]/20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+        <div class="max-w-md space-y-6">
+          <h5 class="font-data-label text-xs uppercase tracking-[0.2em] text-[var(--primary)]">TECHNICAL SUPPORT</h5>
+          <p class="font-body-md text-sm text-[var(--on-surface-variant)] leading-relaxed">
+            Our engineers are available for live consultations regarding specialized equipment repair and material maintenance protocols.
+          </p>
+          <a class="font-data-value text-lg text-[var(--primary)] underline underline-offset-8 hover:text-[var(--secondary)] transition-colors block font-semibold no-underline" href="mailto:support@aether.systems">
+            SUPPORT@WANNASINGH.SYSTEMS
+          </a>
+        </div>
+        <div>
+          <div class="border border-[var(--outline-variant)]/30 p-8 bg-[var(--surface-container-lowest)]">
+            <h5 class="font-data-label text-xs uppercase mb-4 tracking-wider text-[var(--primary)]">REPAIR STATUS UPDATES</h5>
+            <form id="updates-form" class="flex items-center border-b border-[var(--outline-variant)] py-2">
+              <input 
+                required
+                class="flex-1 bg-transparent border-none text-xs font-data-value uppercase transition-colors placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:ring-0 text-[var(--primary)]" 
+                placeholder="ENCRYPTED EMAIL" 
+                type="email"
+              />
+              <button type="submit" class="material-symbols-outlined text-[var(--secondary)] hover:scale-110 transition-transform cursor-pointer">arrow_forward</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client-Side Toast Notification -->
+  <div id="toast" class="fixed bottom-8 right-8 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-4 border border-[var(--outline-variant)] z-50 hidden opacity-0 transition-opacity duration-300">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-[var(--secondary)]">info</span>
+      <span id="toast-message" class="font-data-label text-xs tracking-wider"></span>
+    </div>
+  </div>
+
+  <script>
+    // Countdown simulation
+    let secondsLeft = 5 * 24 * 3600 + 14 * 3600 + 22 * 60;
+    const timerEl = document.getElementById('countdown-timer');
+    
+    function updateTimer() {
+      if (!timerEl) return;
+      
+      const d = Math.floor(secondsLeft / (24 * 3600));
+      const h = Math.floor((secondsLeft % (24 * 3600)) / 3600);
+      const m = Math.floor((secondsLeft % 3600) / 60);
+      
+      const pad = (n: number) => String(n).padStart(2, '0');
+      timerEl.textContent = `${pad(d)}D : ${pad(h)}H : ${pad(m)}M`;
+      secondsLeft = Math.max(0, secondsLeft - 60);
+    }
+    
+    setInterval(updateTimer, 60000);
+    updateTimer();
+
+    // Intake Service buttons selection state
+    const serviceBtns = document.querySelectorAll('.service-type-btn');
+    let selectedType = '';
+    
+    serviceBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        serviceBtns.forEach(b => {
+          b.classList.remove('border-[var(--secondary)]', 'text-[var(--secondary)]');
+          b.classList.add('border-[var(--outline-variant)]');
+        });
+        
+        btn.classList.add('border-[var(--secondary)]', 'text-[var(--secondary)]');
+        btn.classList.remove('border-[var(--outline-variant)]');
+        selectedType = btn.getAttribute('data-type') || '';
+      });
+    });
+
+    // Form inputs focus visual enhancements
+    const textInputs = document.querySelectorAll('input');
+    textInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        const borderParent = input.closest('.border-b');
+        if (borderParent) {
+          borderParent.classList.add('border-[var(--secondary)]');
+        }
+      });
+      input.addEventListener('blur', () => {
+        const borderParent = input.closest('.border-b');
+        if (borderParent) {
+          borderParent.classList.remove('border-[var(--secondary)]');
+        }
+      });
+    });
+
+    // Show Toast helper
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    
+    function showToast(msg: string) {
+      if (!toast || !toastMessage) return;
+      toastMessage.textContent = msg;
+      toast.classList.remove('hidden');
+      // trigger reflow
+      toast.offsetHeight;
+      toast.classList.add('opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        setTimeout(() => toast.classList.add('hidden'), 300);
+      }, 4000);
+    }
+
+    // Handle Forms Submission
+    const intakeForm = document.getElementById('intake-form');
+    intakeForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const serial = (document.getElementById('serial-input') as HTMLInputElement)?.value;
+      if (!selectedType) {
+        showToast("ERROR: SPECIFY SERVICE TYPE PROTOCOL");
+        return;
+      }
+      showToast(`SUCCESS: INTAKE REGISTERED FOR SERIAL ${serial}`);
+    });
+
+    const updatesForm = document.getElementById('updates-form');
+    updatesForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast("SUCCESS: STATUS SUBSCRIPTION LINKED");
+    });
+  </script>
+</Layout>

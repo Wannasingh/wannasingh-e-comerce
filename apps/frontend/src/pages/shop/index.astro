@@ -1,120 +1,333 @@
 ---
-// src/pages/shop/index.astro — Product listing page (SSR)
-export const prerender = false;
-
+// src/pages/shop/index.astro — Shop Outerwear | AETHER Cyber-Minimalist Design
 import Layout from "@layouts/Layout.astro";
 
-const title = "Shop — Wannasingh";
-const description = "Explore our full collection of premium products.";
+const siteTitle = "OUTERWEAR | WANNASINGH PERFORMANCE SYSTEMS";
+const siteDescription =
+  "Engineered for extreme performance. Our outerwear collection fuses technical tactical utility with minimalist aesthetic precision.";
 
-// Fetch products from Medusa backend (server-side)
-let products: Record<string, unknown>[] = [];
-let error: string | null = null;
-
-try {
-  const backendUrl = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL ?? "http://localhost:9000";
-  const publishableKey = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY ?? "";
-  const res = await fetch(`${backendUrl}/store/products?limit=24`, {
-    headers: { "x-publishable-api-key": publishableKey },
-  });
-  if (res.ok) {
-    const data = (await res.json()) as { products: Record<string, unknown>[] };
-    products = data.products ?? [];
-  }
-} catch {
-  error = "Could not load products. Please try again later.";
+interface ProductSpec {
+  label: string;
+  value: string;
 }
+
+interface Product {
+  id: string;
+  name: string;
+  subtitle: string;
+  price: string;
+  image: string;
+  imageAlt: string;
+  href: string;
+  specs: ProductSpec[];
+}
+
+const products: Product[] = [
+  {
+    id: "ws-01-stealth-shell",
+    name: "WS-01 STEALTH SHELL",
+    subtitle: "Matte Carbon / 3-Layer Performance",
+    price: "$645.00",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAduJI42AxGAa90CHHC917vkMZm6rmcX8SxqcFulA-bnXj9reWIBbwdxWLlKI9LrKzAhbxkaIDkB2JcR0ahWI4WmNPBtOkrYPNO1S5Wp0uePYMkRPf9XrzXtQteKZ2CpZifA4_RaQ19ycGm_8t8Ha5ZJUM_UXtNhNOUs18uMxb8yaa9SLWx-5w77E-sfbaKyj3721IX9qMvBoUEtuu9w-rYLW9gxudF7jCDFGDzKsZbLM4BRaQmXMsNEdahBB07uYWatnrB4HVIbMX0",
+    imageAlt: "A studio portrait of a futuristic technical shell jacket in matte charcoal grey.",
+    href: "/shop/ws-01-stealth-shell",
+    specs: [
+      { label: "Membrane", value: "GORE-TEX 3L" },
+      { label: "Waterproof", value: "28,000mm" },
+      { label: "Breathability", value: "RET < 6" },
+      { label: "Weight", value: "420g" },
+    ],
+  },
+  {
+    id: "altitude-parka",
+    name: "ALTITUDE PARKA",
+    subtitle: "Deep Navy / Extreme Cold",
+    price: "$890.00",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6o8eGNrsnN_Cw93q55oLygXOH8w1eidswoGyRCQBEl5GHo3ZEW7uKaSNy_2gsWNaR5ujpA2_jioVBpNjmEin6uQndXi0TinPTsbDXAz0kPYV-aVOLgv91JGCvZNzZiqwaaALW8mai_5-pgdeya82DJs4kfnlsSFSyTs3BGGCY-HlmLihMCyWtKu1k03iU51LV0hexj4nx6oz3SOCXS9uEj3BBEtwrs_yWse0RFen87QoS_uRObyMYqnAKnxy2ov8gbRPWygb8OwGL",
+    imageAlt: "A full-length studio shot of a sleek, slim-fit insulated parka in deep navy blue.",
+    href: "/shop/altitude-parka",
+    specs: [
+      { label: "Insulation", value: "800 Fill Power" },
+      { label: "Outer Shell", value: "Ripstop Nylon" },
+      { label: "Temp Rating", value: "-15°C / 5°F" },
+      { label: "Fit", value: "Athletic Taper" },
+    ],
+  },
+  {
+    id: "vitesse-windbreaker",
+    name: "VITESSE WINDBREAKER",
+    subtitle: "Optic White / High Activity",
+    price: "$325.00",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCQmPjJDsh4hWrghd_l1n1GCqNdmGclllyDEayeX-HyL71xQqyZ7gsOvp4EtUbeqq0RlRQHG3xBhTyXCiARRpKDzsDQFVK0Gkji7uN8sJFkkFCPG2P_0XkMtF8bs1E80AgnLUu6QlPdd0AACZYJbL9M6sK0Kl9C3Faw2ru2Ghkn6O1-vrb9TxEQ20AU6GYENsCEuSoQUjYB85zIr8kdjD8C9gK6M2SS_KzQJYPF6gcwAENY7oGJYs2kgiITlTP2J8vQQllrAQ5ozqqD",
+    imageAlt: "A close-up of a lightweight technical windbreaker in optic white with reflective piping.",
+    href: "/shop/vitesse-windbreaker",
+    specs: [
+      { label: "Fabric", value: "Pertex Quantum" },
+      { label: "Features", value: "DWR Finish" },
+      { label: "Packability", value: "Internal Pocket" },
+      { label: "Visibility", value: "3M Reflective" },
+    ],
+  },
+  {
+    id: "field-operative-jacket",
+    name: "FIELD OPERATIVE JACKET",
+    subtitle: "Tactical Olive / Modular Utility",
+    price: "$580.00",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD6WTv34VitQexJJiT16v3SRk4xSCov8gxQeKuWZie-PLPsI9Tu64Nkdi7iEMqfDzKkhxs7vzhHFhW-wYyyAWfTMEBjzaJoneGu4B23eNKXbsOElwykRDijdKkaurib1Z0XkvpTYG2_3EnlTRS2g0M3qQkVPvhlGLr4bIS1CHnF6uGb0f3GlD8qU71JXyAlLlIZt9B0qTb_VSDQ9gSgXYKCnvOPA5EizjNVKun6f5NROmNmyJTNbPqpoBmnCx6OXSAji-vXYeD7iQsi",
+    imageAlt: "A military-inspired tactical field jacket in olive drab redesigned for urban luxury context.",
+    href: "/shop/field-operative-jacket",
+    specs: [
+      { label: "Material", value: "Dyname-Nylon" },
+      { label: "Closure", value: "Fidlock Magnets" },
+      { label: "Pockets", value: "8 Modular" },
+      { label: "Origin", value: "Italy" },
+    ],
+  },
+  {
+    id: "aero-hybrid-vest",
+    name: "AERO HYBRID VEST",
+    subtitle: "Jet Black / High Versatility",
+    price: "$275.00",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEBLQdp0-1kvBJRQWQVsotyAdr4P1zLrLAVKcsx-BIevAhnAdUerqyhrHJEVOR3IW1QP2dJz8slM3XieNHLnPAoUe51ZIsYmmFZJQP688RNtK9vDwoN1N3GAvnnD5nYbzw23y8q86DXbbNGskNIiqfTEPBF8XXrraJA5vGKX3GQpm2SXP9MxsxzcQHMCUPwKbwhPBFvh6LytQFapNXZP4dwhhvz1uHoZF5gwtlqeG2eLuNi_YK9ax-jOpJVehlejDYroY3GcCKMWBE",
+    imageAlt: "A sleek black performance vest with hybrid quilted down panels and stretch softshell.",
+    href: "/shop/aero-hybrid-vest",
+    specs: [
+      { label: "Hybrid Tech", value: "Quilt+Softshell" },
+      { label: "Fill", value: "Primaloft Gold" },
+      { label: "Stretch", value: "4-Way Power" },
+      { label: "Activity", value: "Layering" },
+    ],
+  },
+  {
+    id: "vapor-trench",
+    name: "VAPOR TRENCH",
+    subtitle: "Smoke Grey / Translucent Shield",
+    price: "$1,150.00",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD5j6wILASNWIJgj1ANFebyww1VgywHS8WLxTA4QIG3Psj4N-BPZkozhZRL9aIUfNNpeKB_4jkE43hFkyARpZWvODhEPGUgkq7xbC7WFd3FwKMp_MB3LHb8_oRUAI5Tjhdqeaot2F0uN_lrZwiQZGlEOAX0xjPAYenKCjf5MHO6aMa2hszyFRiYRJlqzNUpyHSiU7UbeNf_r8GdkMeXoioBgHfRd4F9xuof-Xmm9XfUY5Fd-_rTqLwKxInV667-SIJGoxKpGNdYkuBb",
+    imageAlt: "A long, high-fashion technical trench coat in translucent smoke-grey performance fabric.",
+    href: "/shop/vapor-trench",
+    specs: [
+      { label: "Material", value: "T-Poly 1.0" },
+      { label: "Process", value: "Taped Seams" },
+      { label: "Shield", value: "100% Water Repel" },
+      { label: "Limited", value: "Archive 24 Edition" },
+    ],
+  },
+];
+
+const filterSections = [
+  {
+    title: "Technical Performance",
+    id: "perf",
+    options: [
+      { label: "WATERPROOF", checked: false },
+      { label: "WINDPROOF", checked: false },
+      { label: "BREATHABLE", checked: true },
+      { label: "INSULATED", checked: false },
+    ],
+  },
+  {
+    title: "Fabric Technology",
+    id: "fabric",
+    options: [
+      { label: "GORE-TEX PRO", checked: false },
+      { label: "DYNEEMA® BLEND", checked: false },
+      { label: "3L CORDURA®", checked: false },
+    ],
+  },
+];
 ---
 
-<Layout title={title} description={description}>
-  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="mb-10">
-      <h1 class="text-4xl font-bold tracking-tight">
-        All <span class="gradient-text">Products</span>
+<Layout title={siteTitle} description={siteDescription}>
+  <main class="pt-12 pb-24 container-aether">
+    <!-- ── Page Header ───────────────────────────────────────────────────── -->
+    <header class="mb-14">
+      <h1
+        class="font-display text-[var(--primary)] uppercase mb-4"
+        style="font-size: clamp(36px, 5vw, 56px); letter-spacing: -0.03em;"
+      >
+        Outerwear
       </h1>
-      <p class="mt-2 text-muted-foreground">
-        {products.length > 0 ? `${products.length} products` : "Explore our collection"}
-      </p>
-    </div>
-
-    {
-      error && (
-        <div
-          role="alert"
-          class="rounded-xl border border-destructive/30 bg-destructive/10 p-6 mb-8"
-        >
-          <p class="text-sm text-destructive">{error}</p>
+      <div
+        class="flex flex-col md:flex-row md:justify-between md:items-end pb-6 gap-4"
+        style="border-bottom: 1px solid rgba(196,199,199,0.35);"
+      >
+        <p class="font-body-lg text-[var(--on-surface-variant)] max-w-2xl" style="font-size: 16px;">
+          Engineered for extreme performance. Our outerwear collection fuses technical tactical utility with
+          minimalist aesthetic precision.
+        </p>
+        <div class="flex items-center gap-5 shrink-0">
+          <span class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
+            RESULTS [{products.length}]
+          </span>
+          <button
+            id="sort-toggle"
+            class="font-data-label text-[var(--primary)] hover:text-[var(--secondary)] transition-colors"
+            style="font-size: 11px;"
+          >
+            SORT: NEWEST ↕
+          </button>
         </div>
-      )
-    }
+      </div>
+    </header>
 
-    {
-      products.length === 0 && !error && (
-        <div
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-          aria-label="Loading products"
-        >
-          {Array.from({ length: 8 }).map((_) => (
-            <div class="rounded-2xl border overflow-hidden" aria-hidden="true">
-              <div class="aspect-square shimmer" />
-              <div class="p-4 space-y-2">
-                <div class="h-4 w-3/4 rounded shimmer" />
-                <div class="h-3 w-1/2 rounded shimmer" />
+    <!-- ── Layout: Sidebar + Grid ────────────────────────────────────────── -->
+    <div class="flex flex-col md:flex-row gap-12">
+
+      <!-- Sidebar Filter -->
+      <aside class="w-full md:w-60 shrink-0" aria-label="Product filters">
+        <div class="sticky top-28 space-y-10">
+          {filterSections.map((section) => (
+            <section aria-labelledby={`filter-${section.id}`}>
+              <h3
+                id={`filter-${section.id}`}
+                class="font-data-label text-[var(--primary)] mb-5 tracking-widest"
+                style="font-size: 11px;"
+              >
+                {section.title}
+              </h3>
+              <div class="space-y-3">
+                {section.options.map((opt) => (
+                  <label class="flex items-center gap-3 group cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={opt.checked}
+                      class="w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
+                      style="border-radius: 0px !important;"
+                    />
+                    <span
+                      class={`font-data-label transition-colors ${
+                        opt.checked
+                          ? "text-[var(--primary)]"
+                          : "text-[var(--on-surface-variant)] group-hover:text-[var(--primary)]"
+                      }`}
+                      style="font-size: 11px;"
+                    >
+                      {opt.label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </section>
+          ))}
+
+          <!-- Price Range -->
+          <section aria-labelledby="filter-price">
+            <h3
+              id="filter-price"
+              class="font-data-label text-[var(--primary)] mb-5 tracking-widest"
+              style="font-size: 11px;"
+            >
+              Price Range
+            </h3>
+            <input
+              type="range"
+              min="200"
+              max="1200"
+              value="1200"
+              id="price-range"
+              class="w-full h-px cursor-pointer accent-[var(--primary)]"
+              aria-label="Maximum price"
+            />
+            <div class="flex justify-between mt-3">
+              <span class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">$200</span>
+              <span id="price-max-label" class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">$1,200</span>
+            </div>
+          </section>
+        </div>
+      </aside>
+
+      <!-- Product Grid -->
+      <div
+        class="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-14"
+        aria-label="Products"
+        role="list"
+      >
+        {products.map((product) => (
+          <a
+            href={product.href}
+            id={`product-${product.id}`}
+            class="group cursor-pointer no-underline reveal"
+            role="listitem"
+            aria-label={`${product.name} — ${product.price}`}
+          >
+            <!-- Image + specs overlay -->
+            <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)]">
+              <img
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                src={product.image}
+                alt={product.imageAlt}
+                loading="lazy"
+                width="600"
+                height="800"
+              />
+
+              <!-- Hover specs overlay -->
+              <div
+                class="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-95
+                       transition-opacity duration-300 p-8 flex flex-col justify-end"
+                aria-hidden="true"
+              >
+                <div class="space-y-5">
+                  <h4 class="font-data-label text-[var(--on-primary)] tracking-widest" style="font-size: 11px;">
+                    TECHNICAL SPECIFICATIONS
+                  </h4>
+                  <div
+                    class="grid grid-cols-2 gap-4 pt-4"
+                    style="border-top: 1px solid rgba(255,255,255,0.15);"
+                  >
+                    {product.specs.map((spec) => (
+                      <div>
+                        <span class="block font-caption text-[var(--on-primary-container)] uppercase mb-1" style="font-size: 10px;">
+                          {spec.label}
+                        </span>
+                        <span class="font-data-value text-[var(--on-primary)]" style="font-size: 12px;">
+                          {spec.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div
+                    class="w-full py-4 bg-[var(--on-primary)] text-[var(--primary)]
+                           font-data-label text-center hover:bg-[var(--secondary)] hover:text-[var(--on-secondary)]
+                           transition-colors duration-300"
+                    style="font-size: 11px; letter-spacing: 0.1em;"
+                  >
+                    VIEW FULL SPECS
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      )
-    }
 
-    {
-      products.length > 0 && (
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product, i) => (
-            <a
-              id={`product-card-${String(product["id"] ?? i)}`}
-              href={`/products/${String(product["handle"] ?? "")}`}
-              class="group rounded-2xl border overflow-hidden glass hover:border-[hsl(262,78%,53%)] hover:shadow-lg transition-all duration-300 animate-fade-in"
-              style={`animation-delay: ${i * 50}ms`}
-            >
-              <div class="aspect-square bg-muted overflow-hidden">
-                {product["thumbnail"] ? (
-                  <img
-                    src={String(product["thumbnail"])}
-                    alt={String(product["title"] ?? "Product")}
-                    width={400}
-                    height={400}
-                    loading={i < 4 ? "eager" : "lazy"}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                ) : (
-                  <div class="w-full h-full flex items-center justify-center text-muted-foreground">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="40"
-                      height="40"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      aria-hidden="true"
-                    >
-                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                      <circle cx="9" cy="9" r="2" />
-                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-              <div class="p-4">
-                <h2 class="font-medium text-sm line-clamp-2 group-hover:text-[hsl(262,78%,63%)] transition-colors">
-                  {String(product["title"] ?? "Untitled Product")}
+            <!-- Product info -->
+            <div class="flex justify-between items-start gap-4">
+              <div>
+                <h2
+                  class="font-headline-md text-[var(--primary)] mb-1 uppercase"
+                  style="font-size: 16px; font-weight: 700;"
+                >
+                  {product.name}
                 </h2>
+                <p class="font-data-label text-[var(--on-surface-variant)] uppercase" style="font-size: 10px;">
+                  {product.subtitle}
+                </p>
               </div>
-            </a>
-          ))}
-        </div>
-      )
-    }
-  </section>
+              <span class="font-data-value text-[var(--primary)] shrink-0" style="font-size: 15px;">
+                {product.price}
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
 </Layout>
+
+<script>
+  // Price range label sync
+  const range = document.getElementById("price-range") as HTMLInputElement | null;
+  const label = document.getElementById("price-max-label");
+  range?.addEventListener("input", () => {
+    if (label) label.textContent = `$${Number(range.value).toLocaleString()}`;
+  });
+</script>

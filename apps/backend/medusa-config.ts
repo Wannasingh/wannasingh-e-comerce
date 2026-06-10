@@ -16,8 +16,7 @@ if (!MONGODB_URI) {
 }
 
 const DATABASE_URL =
-  process.env.DATABASE_URL ??
-  "postgres://postgres:postgres@localhost:5432/wannasingh_ecommerce";
+  process.env.DATABASE_URL ?? "postgres://postgres:postgres@localhost:5432/wannasingh_ecommerce";
 
 export default defineConfig({
   projectConfig: {
@@ -53,35 +52,22 @@ export default defineConfig({
   modules: [
     // Database is automatically resolved via projectConfig.databaseUrl (PostgreSQL)
 
-    // ── Cache ────────────────────────────────────────────────────────────────
-    {
-      key: "cache",
-      resolve: "@medusajs/cache-inmemory",
-      options: {
-        ttl: 30, // seconds
-      },
-    },
-
-    // ── Event Bus ────────────────────────────────────────────────────────────
-    {
-      key: "event_bus",
-      resolve: "@medusajs/event-bus-local",
-    },
-
-    // ── Workflow Engine ──────────────────────────────────────────────────────
-    {
-      key: "workflow_engine",
-      resolve: "@medusajs/workflow-engine-inmemory",
-    },
-
     // ── File Storage ─────────────────────────────────────────────────────────
     // Swap for @medusajs/file-s3 in production
     {
       key: "file",
-      resolve: "@medusajs/file-local",
+      resolve: "@medusajs/file",
       options: {
-        upload_dir: "uploads",
-        backend_url: `${process.env.MEDUSA_BACKEND_URL ?? "http://localhost:9000"}/uploads`,
+        providers: [
+          {
+            resolve: "@medusajs/file-local",
+            id: "local",
+            options: {
+              upload_dir: "uploads",
+              backend_url: `${process.env.MEDUSA_BACKEND_URL ?? "http://localhost:9000"}/uploads`,
+            },
+          },
+        ],
       },
     },
   ],

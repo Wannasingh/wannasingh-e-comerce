@@ -1,0 +1,268 @@
+---
+// src/pages/auth/index.astro — Login & Register | AETHER Access Protocol
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="AETHER | ACCESS PROTOCOL" description="Authenticate or Request Access to WANNASINGH Performance Systems private network.">
+  <div class="relative min-h-[80vh] flex items-center justify-center py-16 px-4 md:px-16 overflow-hidden reveal">
+    <!-- Background grid decoration -->
+    <div class="absolute inset-0 tech-grid opacity-15 pointer-events-none"></div>
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-[var(--secondary)]/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-[var(--primary)]/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Main Auth Container -->
+    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 border border-[var(--outline-variant)] relative z-10 bg-[var(--surface-container-lowest)]/80 backdrop-blur-md overflow-hidden">
+      <!-- Decorative scanline element -->
+      <div class="scanline"></div>
+
+      <!-- Left Panel: Visual Brand Info -->
+      <div class="lg:col-span-5 p-12 bg-[var(--primary)] flex flex-col justify-between text-[var(--on-primary)] relative overflow-hidden group">
+        <!-- Background Image overlay -->
+        <div class="absolute inset-0 opacity-40 mix-blend-overlay">
+          <img 
+            alt="High-tech server architecture and circuit patterns" 
+            class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105" 
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3uhgR_w4kM0JBTi2DIuzc4E4GdNVkxeJgpy2E7Rc9wH2dAOjO1zSWGItv-eERssiTJwpCNvr8OJMYj_bnCOfpw4JJVUaDY7AxoUq58mWv0JIYPTMdxs4ZsOAfhrgNBdy12aigaBjQaSG2dZIv6MZvLlkZe1khqctRv-FGcb2wUGKtjSRT2QspFd-L0UryggaEsjvpbggyWp82OTAL0NtMuqB9K3WQ1W6xynUVDgYqtTvTmj4lZWVMxIdgYAy6kYVN1vmpZrZcTgQu"
+          />
+        </div>
+        
+        <!-- Top Metadata -->
+        <div class="relative z-10">
+          <div class="inline-flex items-center space-x-2 border border-[var(--on-primary)]/30 px-3 py-1 mb-8">
+            <span class="w-2 h-2 bg-[var(--secondary)] animate-pulse"></span>
+            <span class="font-data-label text-[10px] tracking-widest uppercase">NETWORK STATUS: ACTIVE</span>
+          </div>
+          <h2 class="font-headline-lg text-4xl leading-[1.1] mb-6 tracking-tighter uppercase">WANNASINGH NETWORK</h2>
+          <p class="font-body-md text-sm text-[var(--on-primary)]/70 mb-8 max-w-xs leading-relaxed">
+            Access the next generation of performance systems. Join the private network for early prototype drops and tactical technical specs.
+          </p>
+        </div>
+
+        <!-- Bottom Telemetry -->
+        <div class="relative z-10 pt-12">
+          <div class="border-t border-[var(--on-primary)]/20 pt-6">
+            <div class="flex justify-between items-end">
+              <div>
+                <span class="block font-data-label text-[10px] opacity-50 mb-1">CURRENT REVISION</span>
+                <span class="font-data-value text-[10px]">V2.04 // OPS-SYS</span>
+              </div>
+              <div class="text-right">
+                <span class="block font-data-label text-[10px] opacity-50 mb-1">ESTABLISHED</span>
+                <span class="font-data-value text-[10px]">2024.11.02</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Authenticate / Request Access Forms -->
+      <div class="lg:col-span-7 bg-[var(--surface)] p-8 md:p-16 flex flex-col justify-center min-h-[600px]">
+        <!-- Auth Tabs Navigation -->
+        <div class="flex space-x-8 mb-12 border-b border-[var(--outline-variant)]">
+          <button 
+            id="tab-login" 
+            class="pb-4 font-data-label text-xs tracking-widest text-[var(--primary)] border-b-2 border-[var(--primary)] transition-all cursor-pointer uppercase"
+          >
+            AUTHENTICATE
+          </button>
+          <button 
+            id="tab-register" 
+            class="pb-4 font-data-label text-xs tracking-widest text-[var(--on-surface-variant)] hover:text-[var(--primary)] border-b-2 border-transparent transition-all cursor-pointer uppercase"
+          >
+            REQUEST ACCESS
+          </button>
+        </div>
+
+        <!-- Login Form Panel -->
+        <div id="form-login" class="space-y-8 transition-opacity duration-300">
+          <div>
+            <h3 class="font-headline-md text-2xl uppercase mb-2 tracking-tight">System Login</h3>
+            <p class="font-caption text-xs text-[var(--on-surface-variant)]">Enter your credentials to access the WANNASINGH dashboard.</p>
+          </div>
+          <form class="space-y-6" onsubmit="return false">
+            <div class="space-y-1 relative border-b border-[var(--outline-variant)] py-1">
+              <label class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider block">Identification (Email)</label>
+              <input 
+                required
+                class="w-full bg-transparent border-none font-body-md py-2 px-0 placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:ring-0" 
+                placeholder="USER@WANNASINGH.SYSTEMS" 
+                type="email"
+              />
+            </div>
+            <div class="space-y-1 relative border-b border-[var(--outline-variant)] py-1">
+              <label class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider block">Access Key (Password)</label>
+              <input 
+                required
+                class="w-full bg-transparent border-none font-body-md py-2 px-0 placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:ring-0" 
+                placeholder="••••••••••••" 
+                type="password"
+              />
+            </div>
+            <div class="flex items-center justify-between pt-4">
+              <div class="flex items-center">
+                <input 
+                  class="w-4 h-4 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer" 
+                  id="remember" 
+                  type="checkbox"
+                />
+                <label class="ml-2 font-caption text-[11px] text-[var(--on-surface-variant)] cursor-pointer select-none" for="remember">PERSIST SESSION</label>
+              </div>
+              <a class="font-caption text-[11px] text-[var(--secondary)] hover:underline underline-offset-4 no-underline" href="#">RECOVERY</a>
+            </div>
+            <button 
+              type="submit"
+              class="w-full bg-[var(--primary)] text-[var(--on-primary)] py-5 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex justify-between items-center px-8 group cursor-pointer"
+            >
+              <span>EXECUTE LOGIN</span>
+              <span class="material-symbols-outlined transition-transform group-hover:translate-x-2" style="font-size: 20px;">arrow_forward</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Register Form Panel (Initially Hidden) -->
+        <div id="form-register" class="space-y-8 transition-opacity duration-300 hidden">
+          <div>
+            <h3 class="font-headline-md text-2xl uppercase mb-2 tracking-tight">Request Access</h3>
+            <p class="font-caption text-xs text-[var(--on-surface-variant)]">Initialize credentials to request enrollment in Wannasingh Performance Systems.</p>
+          </div>
+          <form class="space-y-6" onsubmit="return false">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-1 relative border-b border-[var(--outline-variant)] py-1">
+                <label class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider block">Full Name</label>
+                <input 
+                  required
+                  class="w-full bg-transparent border-none font-body-md py-2 px-0 placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:ring-0" 
+                  placeholder="NAME" 
+                  type="text"
+                />
+              </div>
+              <div class="space-y-1 relative border-b border-[var(--outline-variant)] py-1">
+                <label class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider block">Sector/Industry</label>
+                <input 
+                  required
+                  class="w-full bg-transparent border-none font-body-md py-2 px-0 placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:ring-0" 
+                  placeholder="TAC-OPS" 
+                  type="text"
+                />
+              </div>
+            </div>
+            <div class="space-y-1 relative border-b border-[var(--outline-variant)] py-1">
+              <label class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider block">Identification (Email)</label>
+              <input 
+                required
+                class="w-full bg-transparent border-none font-body-md py-2 px-0 placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:ring-0" 
+                placeholder="USER@WANNASINGH.SYSTEMS" 
+                type="email"
+              />
+            </div>
+            <div class="space-y-1 relative border-b border-[var(--outline-variant)] py-1">
+              <label class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider block">New Access Key</label>
+              <input 
+                required
+                class="w-full bg-transparent border-none font-body-md py-2 px-0 placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:ring-0" 
+                placeholder="MIN 12 CHARS" 
+                type="password"
+              />
+            </div>
+            <p class="font-caption text-[10px] leading-relaxed text-[var(--on-surface-variant)]/70">
+              BY REQUESTING ACCESS, YOU AGREE TO THE WANNASINGH PERFORMANCE SYSTEMS NETWORK PROTOCOLS AND TECHNICAL DISCLOSURE AGREEMENTS.
+            </p>
+            <button 
+              type="submit"
+              class="w-full bg-[var(--primary)] text-[var(--on-primary)] py-5 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex justify-between items-center px-8 group cursor-pointer"
+            >
+              <span>INITIALIZE REQUEST</span>
+              <span class="material-symbols-outlined transition-transform group-hover:translate-x-2" style="font-size: 20px;">send</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Technical Grid background pattern */
+    .tech-grid {
+      background-image: radial-gradient(circle, var(--outline-variant) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    
+    /* Technical scanline animation overlay */
+    .scanline {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--secondary), transparent);
+      position: absolute;
+      top: -2px;
+      animation: scan 6s linear infinite;
+      opacity: 0.25;
+      z-index: 15;
+    }
+    
+    @keyframes scan {
+      0% { top: 0%; }
+      100% { top: 100%; }
+    }
+  </style>
+
+  <script>
+    // Tab switching functionality
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    const formLogin = document.getElementById('form-login');
+    const formRegister = document.getElementById('form-register');
+
+    function switchAuth(target: 'login' | 'register') {
+      if (target === 'login') {
+        formLogin?.classList.remove('hidden');
+        formRegister?.classList.add('hidden');
+        
+        tabLogin?.classList.add('border-[var(--primary)]', 'text-[var(--primary)]');
+        tabLogin?.classList.remove('text-[var(--on-surface-variant)]', 'border-transparent');
+        
+        tabRegister?.classList.remove('border-[var(--primary)]', 'text-[var(--primary)]');
+        tabRegister?.classList.add('text-[var(--on-surface-variant)]', 'border-transparent');
+      } else {
+        formLogin?.classList.add('hidden');
+        formRegister?.classList.remove('hidden');
+        
+        tabRegister?.classList.add('border-[var(--primary)]', 'text-[var(--primary)]');
+        tabRegister?.classList.remove('text-[var(--on-surface-variant)]', 'border-transparent');
+        
+        tabLogin?.classList.remove('border-[var(--primary)]', 'text-[var(--primary)]');
+        tabLogin?.classList.add('text-[var(--on-surface-variant)]', 'border-transparent');
+      }
+    }
+
+    tabLogin?.addEventListener('click', () => switchAuth('login'));
+    tabRegister?.addEventListener('click', () => switchAuth('register'));
+
+    // Input highlight effects
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+      const parent = input.closest('.relative');
+      const label = parent?.querySelector('label');
+      
+      input.addEventListener('focus', () => {
+        if (parent) {
+          parent.classList.remove('border-[var(--outline-variant)]');
+          parent.classList.add('border-[var(--secondary)]');
+        }
+        if (label) {
+          (label as HTMLElement).style.color = 'var(--secondary)';
+        }
+      });
+      
+      input.addEventListener('blur', () => {
+        if (parent) {
+          parent.classList.remove('border-[var(--secondary)]');
+          parent.classList.add('border-[var(--outline-variant)]');
+        }
+        if (label) {
+          (label as HTMLElement).style.color = 'var(--outline)';
+        }
+      });
+    });
+  </script>
+</Layout>

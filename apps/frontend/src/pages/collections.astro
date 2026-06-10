@@ -1,0 +1,114 @@
+---
+// src/pages/collections.astro — Collections Archive | AETHER Cyber-Minimalism
+import Layout from "../layouts/Layout.astro";
+
+// Static collections list for Wannasingh archive
+const collections = [
+  {
+    id: "aw24",
+    title: "AW24 // KINETIC SYSTEM",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+    desc: "Engineered for high-stakes urban navigation and extreme environmental adaptability. Features modular shell structures, Primaloft mapping, and GORE-TEX waterproof shielding.",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHFF-Askr-UVEcPxEatG03-NYhria9d1LD89xkSFRsysrpXIb0-XITMLvOob4NG48RStSeUZvnqE-b0SAZ_D2REoczbzNrn_ja6JX8qLfbj5o8EV8uKaT6I89igEyEsDyhTlKc6dWgEOQ1HbTdtwD9xmvaRM-i0Mm5qoW5Zuxpc6OnoQQ0lwxc5O-uaBl4Swcy_WU8x0_ODGNpMMMymEBBqmhJs2NFIfJm2Uhy7s0zGbBqDJxq7es5PhSa0Mv9snsLxe-_XFKGLYYG",
+    itemsCount: "12 UNITS",
+    release: "2024.10"
+  },
+  {
+    id: "ss24",
+    title: "SS24 // LIGHTWEIGHT ARMOR",
+    status: "ARCHIVED STANDBY",
+    statusColor: "var(--outline)",
+    desc: "Ultra-breathable biotic shell structures and packable hybrid layers. Calibrated for temperate zones, high humidity shielding, and weightless athletic agility.",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBL87xX1K0i9R29FHPxTIXjgw1stKC9rJh86b2mHgLXY09NZAtxJsZMfi9mPDXfuna_OWYZMngAf86typMW0QE2iupdv-yOeNjb05ocVQMnhXYLXouCOH2COgVF79WicjVQM4ky1BPqPh8pl8ApYdh32xE5F206KBdmfrlJgQdXCFPiMeDd3NjrdsB3FiGeporoYcr9LerMp3CryMuD0AQr0WCsn9veXed5UjsIOvkqDMhIuZQMXYNXK97tJmr6c3nZ-Odbav9_enPj",
+    itemsCount: "08 UNITS",
+    release: "2024.04"
+  },
+  {
+    id: "aw23",
+    title: "AW23 // STEALTH SHIELD",
+    status: "ARCHIVED STANDBY",
+    statusColor: "var(--outline)",
+    desc: "Deep Carbon series focusing on extreme thermal insulation and windproof performance. Incorporates Dyneema composite reinforcements and high-density ballistic trims.",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAXrJJEBZr1z5HKEIHGZRJhS6P99lFF7sQ3Jw5E3jfkx6g_49h5d8Rl61whMwfLki_FSAjDeoPhrkDVvhUirzEov67awPdLwauSg7IVRliC_1vTCqLmVla8NHT7fYLEWRbQEzy_i8DO1mrFFcKqyJh9HjWwWOOzrXBdwlFSc6Xlsn91dAvndP4A8dTb7kGJaQ866VHA3qeTLq0PQX5N0GSs3ZwL9l76T-Bf4yQ0WWrMbyadC5oIclmahquPXSqZEYen8QPPfukFNY1D",
+    itemsCount: "16 UNITS",
+    release: "2023.10"
+  }
+];
+---
+
+<Layout title="AETHER | COLLECTIONS ARCHIVE" description="Browse seasonal systems, techwear collections, and legacy operational gear from Wannasingh.">
+  <div class="py-12 px-6 md:px-16 max-w-[1440px] mx-auto reveal">
+    
+    <!-- Header -->
+    <header class="relative mb-16 border-b border-[var(--outline-variant)]/30 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+      <div>
+        <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">Active Systems / Collections</p>
+        <h1 class="font-display text-4xl text-[var(--primary)] uppercase leading-none mt-1">Collections</h1>
+      </div>
+      <p class="font-data-value text-xs text-[var(--on-surface-variant)] max-w-xs md:text-right leading-relaxed">
+        DOCUMENTING THE EVOLUTION OF WANNASINGH ATMOSPHERIC SHELLS AND PERFORMANCE MODES.
+      </p>
+    </header>
+
+    <!-- Collections List -->
+    <div class="space-y-16">
+      {collections.map((col, index) => {
+        const isEven = index % 2 === 0;
+        return (
+          <div class={`flex flex-col lg:flex-row gap-12 items-center ${isEven ? '' : 'lg:flex-row-reverse'}`}>
+            <!-- Image Panel -->
+            <div class="w-full lg:w-1/2 aspect-[16/10] bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 overflow-hidden relative group">
+              <img 
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700" 
+                alt={col.title}
+                src={col.image}
+              />
+              <div class="absolute top-4 left-4 bg-[var(--surface)]/90 backdrop-blur-md px-3 py-1.5 border border-[var(--outline-variant)]/20 font-data-label text-[10px] text-[var(--primary)] uppercase">
+                RELEASE: {col.release}
+              </div>
+            </div>
+            
+            <!-- Description Panel -->
+            <div class="w-full lg:w-1/2 space-y-6">
+              <div class="flex items-center gap-3">
+                <span class="w-2 h-2 rounded-none animate-pulse" style={`background-color: ${col.statusColor}`}></span>
+                <span class="font-data-label text-xs tracking-wider" style={`color: ${col.statusColor}`}>{col.status}</span>
+              </div>
+              
+              <h2 class="font-headline-lg text-2xl font-bold uppercase text-[var(--primary)] tracking-tight">
+                {col.title}
+              </h2>
+              
+              <p class="font-body-md text-sm text-[var(--on-surface-variant)] leading-relaxed">
+                {col.desc}
+              </p>
+              
+              <div class="flex items-center gap-8 pt-4 border-t border-[var(--outline-variant)]/20">
+                <div>
+                  <span class="block font-data-label text-[9px] text-[var(--outline)] uppercase">SYSTEM SCALE</span>
+                  <span class="font-data-value text-sm text-[var(--primary)]">{col.itemsCount}</span>
+                </div>
+                <div>
+                  <span class="block font-data-label text-[9px] text-[var(--outline)] uppercase">OPERATIONAL DEPTH</span>
+                  <span class="font-data-value text-sm text-[var(--primary)]">100% SECURE</span>
+                </div>
+              </div>
+              
+              <div class="pt-6">
+                <a 
+                  href="/shop"
+                  class="inline-flex items-center gap-3 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-widest hover:bg-[var(--secondary)] transition-all no-underline uppercase"
+                >
+                  EXPLORE UNITS
+                  <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+    
+  </div>
+</Layout>

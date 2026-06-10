@@ -1,0 +1,240 @@
+---
+// src/pages/cart.astro — Shopping Bag / Cart Page | AETHER Cyber-Minimalism
+import Layout from "../layouts/Layout.astro";
+
+// Static items in cart for demonstration (matching the items in checkout)
+const cartItems = [
+  {
+    id: "apex-shell",
+    name: "Apex Shell Jacket",
+    spec: "SIZE: L / COLOR: CARBON",
+    qty: 1,
+    price: 840.00,
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuByPYHF0BBdLiAgxQp-Pg12NN71mOHtneRyYZeCDeuKuFbtHC-KI-hb3knevfyPAPAAML05BzLdSQ0QuHhsIiWH3LCnYmO_2GGxeAZzeb7NcVKo_IvwxKNdMYRAdjxYmEm2eQ3Qj6fSNKOT5bSVuGFLx07SYWZdhNXLE3o0MiGzq6ebVh5JChjCFlZ6Pdm3s1m0ZnQGpdDQtwgz9g1hEr2ke_XccIzH-O2GkzZ1V1PKy4YZNNXuUgIuY_7cquH8HNxHkXGJMTMOMMVN"
+  },
+  {
+    id: "modular-pouch",
+    name: "Tactical Modular Pouch",
+    spec: "SIZE: OS / COLOR: OBSIDIAN",
+    qty: 1,
+    price: 120.00,
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA9jiJDMQ5Ced4l3JX8Tj6kre4mx1Zs4kpWYOzBXxCRcLnrENVLIFDeUBUzGLYbwuK994V7ei79nV5t_V9X8JP8-2sxELZJdR_C_RpVuT09nBnhNGwVU6nkL1k0wwm_1UgN_HXhT5xMUFLJBPS3LHjh4TKJwWAbCsWHw6ltsIp1Fp8E_EY5efKw8ZWj1jkkumGZQqQpkiI5VmyFKW_zIvArrVaBt9MYztgAnUMMKCS9PQwuJs1jRe1cQxh-1hTwMG50LjoQpux2X63c"
+  }
+];
+
+const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
+const shipping = 0; // FREE
+const total = subtotal + shipping;
+---
+
+<Layout title="AETHER | YOUR BAG" description="Review items in your active bag before deploying to secure checkout.">
+  <div class="py-12 px-6 md:px-16 max-w-[1440px] mx-auto reveal">
+    
+    <!-- Cart Header -->
+    <header class="relative mb-12 border-b border-[var(--outline-variant)]/30 pb-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">Active Inventory / Bag</p>
+          <h1 class="font-display text-4xl text-[var(--primary)] uppercase leading-none mt-1">Your Bag</h1>
+        </div>
+        <span class="font-data-label text-xs tracking-wider text-[var(--on-surface-variant)]" id="cart-item-count">
+          [ {cartItems.length.toString().padStart(2, '0')} ITEMS ]
+        </span>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+      
+      <!-- Left Column: Cart Items List -->
+      <div class="lg:col-span-8 space-y-8">
+        {cartItems.map((item) => (
+          <div class="flex flex-col sm:flex-row gap-6 border-b border-[var(--outline-variant)]/20 pb-8 group" data-item-id={item.id}>
+            <!-- Image -->
+            <div class="w-32 h-40 bg-[var(--surface-container-high)] flex-shrink-0 overflow-hidden border border-[var(--outline-variant)]/20">
+              <img 
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                alt={item.name}
+                src={item.image}
+              />
+            </div>
+            
+            <!-- Details & Actions -->
+            <div class="flex-grow flex flex-col justify-between py-1">
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <h3 class="font-body-md text-lg font-bold uppercase tracking-tight text-[var(--primary)]">
+                    {item.name}
+                  </h3>
+                  <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] mt-1">{item.spec}</p>
+                </div>
+                <span class="font-data-value text-base text-[var(--primary)] font-semibold">${item.price.toFixed(2)}</span>
+              </div>
+              
+              <div class="flex justify-between items-center mt-6">
+                <!-- Quantity selector -->
+                <div class="flex items-center border border-[var(--outline-variant)]">
+                  <button 
+                    type="button" 
+                    class="qty-btn-minus px-3 py-1.5 font-data-label text-xs hover:bg-[var(--surface-container)] transition-colors cursor-pointer select-none"
+                  >
+                    -
+                  </button>
+                  <span class="qty-val px-4 py-1.5 font-data-label text-xs text-[var(--primary)] border-x border-[var(--outline-variant)] bg-[var(--surface)]">
+                    {item.qty}
+                  </span>
+                  <button 
+                    type="button" 
+                    class="qty-btn-plus px-3 py-1.5 font-data-label text-xs hover:bg-[var(--surface-container)] transition-colors cursor-pointer select-none"
+                  >
+                    +
+                  </button>
+                </div>
+                
+                <!-- Remove Button -->
+                <button 
+                  type="button"
+                  class="remove-btn font-data-label text-xs text-[var(--on-surface-variant)] hover:text-[var(--error)] border-b border-transparent hover:border-[var(--error)] pb-0.5 transition-colors cursor-pointer"
+                >
+                  REMOVE
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        {cartItems.length === 0 && (
+          <div class="text-center py-20 border border-dashed border-[var(--outline-variant)]">
+            <span class="material-symbols-outlined text-[var(--outline)]" style="font-size: 48px;">shopping_bag</span>
+            <p class="font-data-label text-xs uppercase tracking-widest text-[var(--on-surface-variant)] mt-4">Your bag is currently empty.</p>
+            <a 
+              href="/shop" 
+              class="inline-block mt-8 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-widest hover:bg-[var(--secondary)] transition-all no-underline"
+            >
+              DEPLOY TO SHOP
+            </a>
+          </div>
+        )}
+      </div>
+
+      <!-- Right Column: Order Summary & Checkout -->
+      <div class="lg:col-span-4 bg-[var(--surface-container-low)] p-8 border border-[var(--outline-variant)]/30">
+        <h2 class="font-data-label text-sm uppercase mb-8 pb-4 border-b border-[var(--outline-variant)] tracking-widest text-[var(--primary)]">
+          Summary
+        </h2>
+        
+        <div class="space-y-4 mb-8">
+          <div class="flex justify-between font-data-label text-xs">
+            <span class="text-[var(--on-surface-variant)]">SUBTOTAL</span>
+            <span class="text-[var(--primary)]" id="summary-subtotal">${subtotal.toFixed(2)}</span>
+          </div>
+          <div class="flex justify-between font-data-label text-xs">
+            <span class="text-[var(--on-surface-variant)]">SHIPPING</span>
+            <span class="text-[var(--secondary)]">FREE</span>
+          </div>
+          <div class="flex justify-between font-headline-md text-lg font-bold pt-4 border-t border-[var(--outline-variant)]/30">
+            <span class="text-[var(--primary)]">TOTAL</span>
+            <span class="text-[var(--primary)]" id="summary-total">${total.toFixed(2)}</span>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <a 
+            href="/checkout"
+            class="block w-full bg-[var(--primary)] text-[var(--on-primary)] py-5 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-colors text-center no-underline uppercase"
+          >
+            PROCEED TO CHECKOUT
+          </a>
+          <a 
+            href="/shop"
+            class="block w-full border border-[var(--outline-variant)] text-[var(--on-surface-variant)] py-4 font-caption text-xs uppercase hover:text-[var(--primary)] hover:border-[var(--primary)] transition-colors text-center no-underline"
+          >
+            CONTINUE SHOPPING
+          </a>
+        </div>
+
+        <div class="mt-8 flex items-start space-x-3 text-[var(--on-surface-variant)]">
+          <span class="material-symbols-outlined text-[18px]" style="font-size: 18px;">lock</span>
+          <p class="font-caption text-[11px] leading-relaxed">
+            Biometric credentials and network secure protocols active. All transactions are encrypted.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Client-side simple interactivity for quantity increments & removal
+    const items = document.querySelectorAll('[data-item-id]');
+    const subtotalEl = document.getElementById('summary-subtotal');
+    const totalEl = document.getElementById('summary-total');
+    const countEl = document.getElementById('cart-item-count');
+
+    // Initial state matching
+    let prices = {
+      'apex-shell': 840.00,
+      'modular-pouch': 120.00
+    };
+    
+    let quantities = {
+      'apex-shell': 1,
+      'modular-pouch': 1
+    };
+
+    function recalculate() {
+      let sum = 0;
+      let itemsCount = 0;
+      
+      Object.keys(quantities).forEach(id => {
+        sum += prices[id] * quantities[id];
+        if (quantities[id] > 0) {
+          itemsCount++;
+        }
+      });
+      
+      if (subtotalEl) subtotalEl.textContent = `$${sum.toFixed(2)}`;
+      if (totalEl) totalEl.textContent = `$${sum.toFixed(2)}`;
+      if (countEl) countEl.textContent = `[ ${itemsCount.toString().padStart(2, '0')} ITEMS ]`;
+    }
+
+    items.forEach(item => {
+      const id = item.getAttribute('data-item-id');
+      if (!id) return;
+      
+      const minusBtn = item.querySelector('.qty-btn-minus');
+      const plusBtn = item.querySelector('.qty-btn-plus');
+      const qtyVal = item.querySelector('.qty-val');
+      const removeBtn = item.querySelector('.remove-btn');
+      
+      minusBtn?.addEventListener('click', () => {
+        if (quantities[id] > 1) {
+          quantities[id]--;
+          if (qtyVal) qtyVal.textContent = quantities[id];
+          recalculate();
+        }
+      });
+      
+      plusBtn?.addEventListener('click', () => {
+        quantities[id]++;
+        if (qtyVal) qtyVal.textContent = quantities[id];
+        recalculate();
+      });
+      
+      removeBtn?.addEventListener('click', () => {
+        quantities[id] = 0;
+        (item as HTMLElement).style.opacity = '0';
+        (item as HTMLElement).style.transform = 'translateY(10px)';
+        setTimeout(() => {
+          (item as HTMLElement).remove();
+          recalculate();
+          
+          // If all removed, show empty state (reload page to reflect template or handle dynamically)
+          const remaining = document.querySelectorAll('[data-item-id]');
+          if (remaining.length === 0) {
+            window.location.reload();
+          }
+        }, 300);
+      });
+    });
+  </script>
+</Layout>

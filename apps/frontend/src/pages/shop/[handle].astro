@@ -1,0 +1,380 @@
+---
+// src/pages/shop/[handle].astro — Product Detail | AETHER Cyber-Minimalist Design
+import Layout from "@layouts/Layout.astro";
+
+// For demonstration we render the Nebula Shell product detail
+// In production this would be a dynamic route fetching from MedusaJS
+export async function getStaticPaths() {
+  return [
+    { params: { handle: "nebula-shell" } },
+    { params: { handle: "x1-storm-parka" } },
+    { params: { handle: "ws-01-stealth-shell" } },
+    { params: { handle: "altitude-parka" } },
+    { params: { handle: "vitesse-windbreaker" } },
+    { params: { handle: "field-operative-jacket" } },
+    { params: { handle: "aero-hybrid-vest" } },
+    { params: { handle: "vapor-trench" } },
+    { params: { handle: "kinetic-insulator" } },
+    { params: { handle: "carrier-vest-v2" } },
+  ];
+}
+
+const { handle } = Astro.params;
+
+const siteTitle = "NEBULA SHELL | WANNASINGH PERFORMANCE SYSTEMS";
+const siteDescription =
+  "Atmospheric protection system. Designed for high-velocity transit and extreme precipitation containment.";
+
+const product = {
+  series: "SYSTEM SERIES 01",
+  name: "NEBULA SHELL",
+  subtitle: "Atmospheric protection system. Designed for high-velocity transit and extreme precipitation containment.",
+  price: "$840.00",
+  sku: "WS-NS-01-BLK",
+  quickSpecs: [
+    { label: "Climate Class", value: "ARCTIC / WET" },
+    { label: "Weight", value: "342G (M)" },
+    { label: "Warranty", value: "LIFETIME" },
+  ],
+  images: {
+    main: "https://lh3.googleusercontent.com/aida-public/AB6AXuDj080BlpX9quuEZyPbBXuZEqJDkjGgGUBCygUBm8ypVpA5Q1_nzyg_8l2797PWXxaDOtZCj_p629ugTX1E9AdKClIvOM0OPz4P3CpWNCBdGXF8hsh8x0OwCLbBcfbCXeiDb3H18laq7N1iduNdarS8TczvXcgQcQXsMSrjg0hGl935Pd_Nv8rjWCEJQMRYd9GC2KqsmojDBfUMMmqLn2QRQkMUmvYvMSLQaWKDj604VVK6WgZID6nRG_Bsllqd42kyWT-dux0wNxk3",
+    detail1: "https://lh3.googleusercontent.com/aida-public/AB6AXuBSSRnEz_NwB3RZpDYyt_TdfYV1ILU7EipOSuqBkF9C-TJHQza9kJED-ueiRyDSqIHyFDuv9EBWYe_ILUICXfXqzoBXvyKVOD-I_uXMzEA_LC6jPPgwLi6DOX3T3OkYjt3htQ5bTNDkg-fcA-8F-KngvFwHPHJ-ihv63wncAIGOKGxLcKfGFBYI2OMakcM5BAjAsaCJ6XJsgis6XZLl8zBqrbTIAyehU-ALyrR1EKz4SiRCPuy-Qb9CRDtYMPzruvbS6c2aSvH6Yl-8",
+    detail2: "https://lh3.googleusercontent.com/aida-public/AB6AXuCV9ei89J4SYqo0yYSwKKKJf0kLo5T_7nmezScqVwjCIAQDZdp7cBG8kk_p-jvdNDjOs-AopLUJnXhIA3X3B_QjxGDKm6rMGhu7qOopoEy1S5XnKPMaVlN7syMVZJjK3L3vem7A4TKuycHjCVS0oi8TZt1C8PUhVEXet3GZi3MRyzrp2pqgtEX9Z2coo6M9s-XZGUSLFOdwtLm_gQhW4_2yK_F4B5qirNA_c17v4jO0VWbFFS53XdQmO7Cm8hcGKQLkFtPv_EOxqFBP",
+    darkSection: "https://lh3.googleusercontent.com/aida-public/AB6AXuDiJAPpXBusPI0mw8qEJrOWOBYSwVd58oiRJ8WkwX0DYKhxkwSs9_YiPPrCzpMrkNkLqhKvh26la1eHczm4abHkuUCWjZhJG5XhrzFWSuDXuDsLQ-J2iJPdJ0BPV6Kz8yk73D4vwLdTWWujevPo5qUFelfZNFswClkC2QjvmMr5GSgmoKAteZlu3He9UUqyqcVCiNAGx5jQkqyK2-sImS_TsDc6Ohz7a7qp60tf3Cq30ksqYngtuTGKQMnNfp2J1tstScCqm01LwGLJ",
+  },
+  features: [
+    {
+      icon: "water_drop",
+      title: "Vapor-Lock Pro",
+      desc: "Proprietary 3-layer membrane system ensuring zero water ingress while maintaining maximum atmospheric permeability.",
+    },
+    {
+      icon: "wind_power",
+      title: "Aero-Dynamic",
+      desc: "Articulated patterns designed to mimic human kinetics, reducing drag and noise in high-wind environments.",
+    },
+    {
+      icon: "shield",
+      title: "Kinetic Shield",
+      desc: "Reinforced panels in high-abrasion zones utilizing recycled polymer composites for unmatched durability.",
+    },
+    {
+      icon: "flare",
+      title: "Stealth Visibility",
+      desc: "Integrated retro-reflective filaments that remain invisible in daylight but activate under direct artificial illumination.",
+    },
+  ],
+  materials: [
+    { label: "Outer Shell", value: "88% Recycled Nylon, 12% Elastane" },
+    { label: "Membrane", value: "Vapor-Lock ePTFE" },
+    { label: "Backer", value: "15D Micro-Grid Scrim" },
+    { label: "Hardware", value: "YKK Aquaguard® / Laser Cut Toggles" },
+  ],
+  sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+};
+---
+
+<Layout title={siteTitle} description={siteDescription}>
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="container-aether pt-6 pb-0">
+    <ol class="flex items-center gap-2 font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">
+      <li><a href="/" class="hover:text-[var(--secondary)] transition-colors no-underline">HOME</a></li>
+      <li class="text-[var(--outline-variant)]">/</li>
+      <li><a href="/shop" class="hover:text-[var(--secondary)] transition-colors no-underline">SHOP</a></li>
+      <li class="text-[var(--outline-variant)]">/</li>
+      <li class="text-[var(--primary)]">{product.name}</li>
+    </ol>
+  </nav>
+
+  <!-- ── Hero Gallery + Product Info ──────────────────────────────────────── -->
+  <section class="container-aether py-12 grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <!-- Gallery col -->
+    <div class="lg:col-span-8 flex flex-col gap-5">
+      <!-- Main image -->
+      <div class="relative overflow-hidden bg-[var(--surface-container)]" style="aspect-ratio: 4/5;">
+        <img
+          class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700"
+          src={product.images.main}
+          alt="Nebula Shell — main product view"
+          width="1000"
+          height="1250"
+          fetchpriority="high"
+        />
+      </div>
+      <!-- Detail images -->
+      <div class="grid grid-cols-2 gap-5">
+        {[product.images.detail1, product.images.detail2].map((img, i) => (
+          <div class="overflow-hidden bg-[var(--surface-container)]" style="aspect-ratio:1;">
+            <img
+              class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
+              src={img}
+              alt={`Nebula Shell detail view ${i + 1}`}
+              loading="lazy"
+              width="500"
+              height="500"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Product Info col (sticky) -->
+    <div class="lg:col-span-4 lg:sticky lg:top-28 h-fit space-y-8">
+      <!-- Series + Name -->
+      <div class="space-y-2">
+        <span class="font-data-label text-[var(--secondary)] tracking-widest uppercase" style="font-size: 11px;">
+          {product.series}
+        </span>
+        <h1
+          class="font-headline-lg text-[var(--primary)]"
+          style="font-size: 28px; font-weight: 700; letter-spacing: -0.03em;"
+        >
+          {product.name}
+        </h1>
+        <p class="font-body-md text-[var(--on-surface-variant)]" style="font-size: 14px;">
+          {product.subtitle}
+        </p>
+      </div>
+
+      <!-- Price -->
+      <div class="font-data-label text-[var(--primary)]" style="font-size: 22px; font-weight: 700;">
+        {product.price}
+      </div>
+
+      <!-- Quick specs -->
+      <div class="space-y-3 py-5" style="border-top: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant);">
+        {product.quickSpecs.map((spec) => (
+          <div class="flex justify-between items-center">
+            <span class="font-data-label text-[var(--on-surface-variant)] uppercase" style="font-size: 11px;">
+              {spec.label}
+            </span>
+            <span class="font-data-value text-[var(--on-surface)]" style="font-size: 13px;">
+              {spec.value}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Size selector -->
+      <div class="space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="font-data-label text-[var(--primary)]" style="font-size: 11px;">SELECT SIZE</span>
+          <button
+            class="font-data-label text-[var(--secondary)] underline hover:no-underline transition-all"
+            style="font-size: 11px;"
+            id="size-guide-btn"
+          >
+            SIZE GUIDE
+          </button>
+        </div>
+        <div class="grid grid-cols-4 gap-2" id="size-grid" role="radiogroup" aria-label="Select size">
+          {product.sizes.map((size) => (
+            <button
+              class={`size-btn py-3 font-data-label transition-colors duration-200
+                ${size === "M"
+                  ? "bg-[var(--primary)] text-[var(--on-primary)] border border-[var(--primary)]"
+                  : "border border-[var(--outline-variant)] text-[var(--on-surface)] hover:border-[var(--primary)]"
+                }`}
+              style="font-size: 12px;"
+              role="radio"
+              aria-checked={size === "M" ? "true" : "false"}
+              data-size={size}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Add to cart -->
+      <button
+        id="add-to-cart"
+        class="group relative w-full bg-[var(--primary)] text-[var(--on-primary)] py-5 px-8
+               flex items-center justify-between overflow-hidden transition-colors duration-300 hover:bg-[var(--secondary)]"
+        aria-label="Add Nebula Shell to cart"
+      >
+        <span class="font-data-label relative z-10" style="font-size: 12px; letter-spacing: 0.15em;">
+          DEPLOY TO CART
+        </span>
+        <span class="material-symbols-outlined relative z-10 transition-transform duration-300 group-hover:translate-x-2" style="font-size: 20px;">
+          arrow_forward
+        </span>
+        <!-- Shine sweep -->
+        <div
+          id="btn-shine"
+          class="absolute top-0 h-full bg-white/10 skew-x-12"
+          style="width: 50%; left: -100%; transition: left 0.8s ease;"
+        ></div>
+      </button>
+
+      <!-- SKU -->
+      <p class="font-data-value text-[var(--outline)]" style="font-size: 11px;">
+        SKU: {product.sku}
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Technical Deep Dive ─────────────────────────────────────────────── -->
+  <section
+    class="bg-[var(--primary)] text-[var(--on-primary)] py-28 relative overflow-hidden"
+    aria-labelledby="tech-heading"
+  >
+    <div class="container-aether grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      <!-- Feature grid -->
+      <div class="space-y-10 relative z-10">
+        <h2
+          id="tech-heading"
+          class="font-display text-[var(--on-primary)]"
+          style="font-size: clamp(36px, 4vw, 56px); letter-spacing: -0.03em; line-height: 1.0;"
+        >
+          ENGINEERED<br />FOR ANOMALY
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {product.features.map((feat) => (
+            <div class="space-y-3 reveal-dark">
+              <span class="material-symbols-outlined text-[var(--secondary)]" style="font-size: 36px;">
+                {feat.icon}
+              </span>
+              <h3 class="font-headline-md text-[var(--on-primary)]" style="font-size: 18px; font-weight: 700;">
+                {feat.title}
+              </h3>
+              <p class="font-body-md text-[var(--on-primary-container)]" style="font-size: 14px;">
+                {feat.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Dark section image -->
+      <div class="relative">
+        <div
+          class="absolute -inset-8 opacity-20"
+          style="background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);"
+          aria-hidden="true"
+        ></div>
+        <img
+          class="w-full object-cover filter grayscale brightness-75 relative z-10"
+          style="aspect-ratio: 4/5;"
+          src={product.images.darkSection}
+          alt="Nebula Shell cross-section technical view"
+          loading="lazy"
+          width="600"
+          height="750"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Material Architecture ──────────────────────────────────────────── -->
+  <section
+    class="container-aether py-28 grid grid-cols-1 md:grid-cols-2 gap-12"
+    style="border-bottom: 1px solid var(--outline-variant);"
+    aria-labelledby="material-heading"
+  >
+    <div class="space-y-5">
+      <h2
+        id="material-heading"
+        class="font-headline-lg text-[var(--primary)]"
+        style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em;"
+      >
+        MATERIAL ARCHITECTURE
+      </h2>
+      <p class="font-body-md text-[var(--on-surface-variant)] max-w-md" style="font-size: 15px;">
+        Our materials are sourced through a closed-loop supply chain, prioritizing regenerative
+        components and technical longevity.
+      </p>
+    </div>
+    <div class="space-y-4 reveal">
+      {product.materials.map((mat) => (
+        <div
+          class="flex justify-between items-baseline pb-4"
+          style="border-bottom: 1px solid rgba(196,199,199,0.3);"
+        >
+          <span class="font-data-label text-[var(--on-surface)]  uppercase" style="font-size: 12px;">
+            {mat.label}
+          </span>
+          <span class="font-data-value text-[var(--on-surface-variant)]" style="font-size: 13px;">
+            {mat.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Circular Permanence / Repair CTA ───────────────────────────────── -->
+  <section class="container-aether py-28 text-center" aria-labelledby="repair-heading">
+    <div class="max-w-2xl mx-auto space-y-6 reveal">
+      <span class="material-symbols-outlined text-[var(--secondary)]" style="font-size: 56px;">handyman</span>
+      <h2
+        id="repair-heading"
+        class="font-headline-lg text-[var(--primary)] uppercase"
+        style="font-size: 26px; font-weight: 700;"
+      >
+        Circular Permanence
+      </h2>
+      <p class="font-body-lg text-[var(--on-surface-variant)]" style="font-size: 16px;">
+        The Nebula Shell is built to outlast your adventures. Through our WANNASINGH Repair Program,
+        we provide free restoration services for the life of the garment. If it fails, we fix it.
+        If it's beyond repair, we recycle it into new components.
+      </p>
+      <div class="pt-6">
+        <a
+          href="/repair"
+          class="inline-block px-12 py-4 font-data-label hover:bg-[var(--primary)] hover:text-[var(--on-primary)]
+                 transition-all duration-300 no-underline text-[var(--primary)]"
+          style="border: 1px solid var(--primary); font-size: 12px; letter-spacing: 0.12em;"
+        >
+          EXPLORE REPAIR PROGRAM
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Size selector toggle
+  const sizeBtns = document.querySelectorAll(".size-btn");
+  sizeBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      sizeBtns.forEach((b) => {
+        b.classList.remove("bg-[var(--primary)]", "text-[var(--on-primary)]", "border-[var(--primary)]");
+        b.setAttribute("aria-checked", "false");
+        b.style.background = "";
+        b.style.color = "";
+        b.style.borderColor = "";
+      });
+      btn.style.background = "var(--primary)";
+      btn.style.color = "var(--on-primary)";
+      btn.style.borderColor = "var(--primary)";
+      btn.setAttribute("aria-checked", "true");
+    });
+  });
+
+  // Add to cart shine + click feedback
+  const cartBtn = document.getElementById("add-to-cart");
+  const shine = document.getElementById("btn-shine");
+
+  cartBtn?.addEventListener("mouseenter", () => {
+    if (shine) shine.style.left = "150%";
+  });
+  cartBtn?.addEventListener("mouseleave", () => {
+    if (shine) {
+      setTimeout(() => {
+        if (shine) shine.style.left = "-100%";
+      }, 800);
+    }
+  });
+  cartBtn?.addEventListener("click", () => {
+    const label = cartBtn.querySelector("span:first-child") as HTMLElement | null;
+    if (label) {
+      const orig = label.textContent;
+      label.textContent = "DEPLOYED ✓";
+      cartBtn.style.background = "var(--secondary)";
+      setTimeout(() => {
+        label.textContent = orig;
+        cartBtn.style.background = "";
+      }, 2500);
+    }
+  });
+</script>

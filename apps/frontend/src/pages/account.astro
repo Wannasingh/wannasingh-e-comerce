@@ -1,0 +1,350 @@
+---
+// src/pages/account.astro — Operative Dashboard | AETHER Cyber-Minimalism
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="AETHER | COMMAND CENTER" description="Operative Identity Matrix and active systems status telemetry control panel.">
+  <div class="relative py-12 px-6 md:px-16 max-w-[1440px] mx-auto reveal">
+    <div class="tech-grid absolute inset-0 pointer-events-none opacity-5"></div>
+    
+    <!-- Dashboard Header -->
+    <header class="relative mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--outline-variant)]/30 pb-8">
+      <div class="space-y-2">
+        <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">System / User / Profile</p>
+        <h1 class="font-display text-4xl md:text-5xl text-[var(--primary)] uppercase leading-none">Identity Matrix</h1>
+      </div>
+      <div class="flex flex-col items-start md:items-end gap-2">
+        <div class="px-4 py-1.5 border border-[var(--primary)] flex items-center gap-3">
+          <span class="w-2 h-2 bg-[var(--secondary)] animate-pulse"></span>
+          <span class="font-data-label text-xs uppercase tracking-wider text-[var(--primary)]">Level 01 Collector</span>
+        </div>
+        <p class="font-data-value text-xs text-[var(--on-surface-variant)]">OPERATIVE ID: AE-9942-X</p>
+      </div>
+    </header>
+
+    <!-- Dashboard Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
+      
+      <!-- Left Column: Identity & Network Configurations -->
+      <div class="lg:col-span-4 space-y-12">
+        
+        <!-- Identity Section -->
+        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 relative overflow-hidden group">
+          <div class="scan-line"></div>
+          <div class="flex justify-between items-start mb-10">
+            <h2 class="font-headline-md text-xl uppercase text-[var(--primary)] font-bold">Identity</h2>
+            <span class="material-symbols-outlined text-[var(--outline)]" style="font-size: 24px;">fingerprint</span>
+          </div>
+          
+          <div class="flex flex-col items-center mb-10">
+            <div class="w-32 h-32 bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 p-1 mb-4">
+              <img 
+                alt="Operative Avatar" 
+                class="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuANyrq4RmJ5SKFvabKt5uPsrCGV-E3dfJ-UmYeDLnaTqPuBGGAB4tATktPxBnKwxxhmGsiNSNt63FPTB2DO3_ktmiIABUk3RC-O97au5whs6jBGjrMHYzx5tszS8I9ybnmrr5XS2-VaPDItG0g1qpXj9bPBaUQ2y8aLyYaYr9KfYvOY9sC8IZ-6UkXJh9kTcePZPg5evqLk4hrdjY_QRIMqLf-dOiK9BlVrE8Qj8voXV7jfyxqbY4_wHylTFcTVVru38j2V6958uEHo"
+              />
+            </div>
+            <p class="font-headline-md text-lg font-bold text-[var(--primary)] uppercase">ELIAS VANCE</p>
+            <p class="font-data-value text-xs text-[var(--outline)] mt-1 lowercase">vance.e@wannasingh.io</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/30 pb-2">
+              <span class="font-data-label text-xs uppercase text-[var(--on-surface-variant)]">Location</span>
+              <span class="font-data-value text-xs text-[var(--primary)]">Sector 07 // NYC</span>
+            </div>
+            <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/30 pb-2">
+              <span class="font-data-label text-xs uppercase text-[var(--on-surface-variant)]">Membership</span>
+              <span class="font-data-value text-xs text-[var(--primary)]">Est. 2022</span>
+            </div>
+            <button 
+              type="button"
+              class="w-full mt-4 py-3 border border-[var(--outline)] text-[var(--primary)] font-data-label text-xs uppercase hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all duration-300 cursor-pointer"
+            >
+              Edit Credentials
+            </button>
+          </div>
+        </section>
+
+        <!-- Network Preferences -->
+        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+          <h2 class="font-headline-md text-xl uppercase mb-8 text-[var(--primary)] font-bold">Network</h2>
+          <div class="space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-data-label text-xs uppercase text-[var(--primary)]">Telemetry Feed</p>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mt-1">Newsletter and technical updates</p>
+              </div>
+              <button 
+                type="button" 
+                class="toggle-switch w-12 h-6 bg-[var(--secondary)] flex items-center px-1 cursor-pointer transition-colors"
+                data-state="on"
+              >
+                <div class="w-4 h-4 bg-white ml-auto transition-all"></div>
+              </button>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-data-label text-xs uppercase text-[var(--primary)]">Two-Factor Encryption</p>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mt-1">Enhanced biometric security</p>
+              </div>
+              <button 
+                type="button" 
+                class="toggle-switch w-12 h-6 bg-[var(--secondary)] flex items-center px-1 cursor-pointer transition-colors"
+                data-state="on"
+              >
+                <div class="w-4 h-4 bg-white ml-auto transition-all"></div>
+              </button>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-data-label text-xs uppercase text-[var(--primary)]">Public Profile</p>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mt-1">Visibility in operative network</p>
+              </div>
+              <button 
+                type="button" 
+                class="toggle-switch w-12 h-6 bg-[var(--outline-variant)] flex items-center px-1 cursor-pointer transition-colors"
+                data-state="off"
+              >
+                <div class="w-4 h-4 bg-white transition-all"></div>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: System History & Gear Status -->
+      <div class="lg:col-span-8 space-y-12">
+        
+        <!-- Gear Status (Active Inventory) -->
+        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+          <div class="flex justify-between items-center mb-8">
+            <h2 class="font-headline-md text-xl uppercase text-[var(--primary)] font-bold">Gear Status</h2>
+            <span class="font-data-label text-xs text-[var(--secondary)] tracking-wider">[ 2 ACTIVE SYSTEMS ]</span>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Active Item 1 -->
+            <div class="border border-[var(--outline-variant)]/30 p-6 group hover:border-[var(--secondary)] transition-all">
+              <div class="flex gap-6">
+                <div class="w-24 h-24 bg-[var(--surface-container-high)] flex-shrink-0 overflow-hidden">
+                  <img 
+                    alt="Gear 01 Carbon Shell" 
+                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcV6l39yhwC4Xpe33gH8870TFhhFskr2LfTdpHVjsRokooLMOP42BqviNxJ8gOLiZTCX4fuKfvGAqTZ-zG-97aZbUg42dl0GPKUCSMH9CeIVPOco8v5fvpNxmBigrw8jbXkyiLpkpGRg-LxXtt9al6sriiD9-JR_BzUPP19EtoyqRWQw6z9TFKeG5V0QJj6UfAs4f7vQY797EicLflKFL0XQSHo4_PgtG-tbqokZ9AAYg1h6FCYqd6G0DCELsMoM1Pzlc-7PpDKr9Z"
+                  />
+                </div>
+                <div class="space-y-1">
+                  <span class="font-data-label text-[10px] text-[var(--secondary)] tracking-widest block uppercase font-semibold">ACTIVE</span>
+                  <h3 class="font-headline-md text-base uppercase text-[var(--primary)]">X-1 Carbon Shell</h3>
+                  <p class="font-data-value text-xs text-[var(--on-surface-variant)] mt-1">Maintenance: 84% Integrity</p>
+                </div>
+              </div>
+              <div class="mt-6 h-1.5 bg-[var(--surface-container-high)] overflow-hidden">
+                <div class="h-full bg-[var(--secondary)] w-4/5"></div>
+              </div>
+            </div>
+
+            <!-- Active Item 2 (In Repair) -->
+            <div class="border border-[var(--outline-variant)]/30 p-6 relative group hover:border-[var(--error)] transition-all">
+              <div class="flex gap-6">
+                <div class="w-24 h-24 bg-[var(--surface-container-high)] flex-shrink-0 opacity-50 overflow-hidden group-hover:opacity-85 transition-all duration-500">
+                  <img 
+                    alt="Gear 02 Apex Hardshell" 
+                    class="w-full h-full object-cover grayscale" 
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfTGfB0ufJfAy6-1opEbY22vOxTZP8vhM5uSA5w2XHLd8XYgSEWT40LNIJlPkBWD1NysxAN9GsI8kciAOiwPCbbP20X2u71DfuT_YPQjnqJ0F1y2aGH3ovAozMFKnCDINo-UHcNhSS4aCT7lRmWVQOfrfpP8R0EQ2qYLYtk6T8-BsQpsfi9QQVA4mRW56BbPx3Qp3Qk6fE49qH1DRPb0ClLbGtBPBKCfLP7E9EylOeq0MfGh7zmcIZTMZCK7nKMBuunybqHLZSZSR3"
+                  />
+                </div>
+                <div class="space-y-1">
+                  <span class="font-data-label text-[10px] text-[var(--error)] tracking-widest block uppercase font-semibold">IN REPAIR</span>
+                  <h3 class="font-headline-md text-base uppercase text-[var(--primary)]">Apex Hardshell</h3>
+                  <p class="font-data-value text-xs text-[var(--on-surface-variant)] mt-1">Est: 48:00:00 Remaining</p>
+                </div>
+              </div>
+              <div class="mt-6 flex justify-between items-center pt-2">
+                <span class="font-data-label text-[9px] text-[var(--outline)] uppercase">Diagnostic Sync...</span>
+                <span class="font-data-label text-[9px] text-[var(--error)] font-bold">CRITICAL</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Acquisition History -->
+        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+          <h2 class="font-headline-md text-xl uppercase mb-8 text-[var(--primary)] font-bold">Acquisition History</h2>
+          <div class="space-y-4">
+            
+            <!-- Order 1 -->
+            <div class="border border-[var(--outline-variant)]/30 p-6 hover:bg-[var(--surface)] transition-all">
+              <div class="flex flex-col sm:flex-row justify-between gap-6 mb-6">
+                <div>
+                  <span class="font-data-label text-[10px] text-[var(--outline)] uppercase mb-2 block tracking-wider">Order #AE-7721-00</span>
+                  <h3 class="font-headline-md text-base text-[var(--primary)] font-bold uppercase tracking-tight">TERRAIN MASTER SERIES</h3>
+                </div>
+                <div class="sm:text-right">
+                  <p class="font-data-value text-base text-[var(--primary)] font-bold">$1,240.00</p>
+                  <p class="font-data-label text-[10px] text-[var(--secondary)] uppercase tracking-wider mt-1">Delivered // 2024.03.12</p>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-[var(--outline-variant)]/20">
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">FABRIC TYPE</p>
+                  <p class="font-data-value text-xs text-[var(--primary)] uppercase font-semibold">Dyn-Grid Kevlar</p>
+                </div>
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">SYSTEM WEIGHT</p>
+                  <p class="font-data-value text-xs text-[var(--primary)]">420g / Ultra</p>
+                </div>
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">LIMITING RANGE</p>
+                  <p class="font-data-value text-xs text-[var(--primary)]">-20C Rating</p>
+                </div>
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">UNIQUE ID</p>
+                  <p class="font-data-value text-xs text-[var(--primary)] uppercase">SN: 9942-01</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order 2 -->
+            <div class="border border-[var(--outline-variant)]/30 p-6 hover:bg-[var(--surface)] transition-all">
+              <div class="flex flex-col sm:flex-row justify-between gap-6 mb-6">
+                <div>
+                  <span class="font-data-label text-[10px] text-[var(--outline)] uppercase mb-2 block tracking-wider">Order #AE-6890-22</span>
+                  <h3 class="font-headline-md text-base text-[var(--primary)] font-bold uppercase tracking-tight">ORBITAL MID-LAYER</h3>
+                </div>
+                <div class="sm:text-right">
+                  <p class="font-data-value text-base text-[var(--primary)] font-bold">$450.00</p>
+                  <p class="font-data-label text-[10px] text-[var(--secondary)] uppercase tracking-wider mt-1">Delivered // 2023.11.05</p>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-[var(--outline-variant)]/20">
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">FABRIC TYPE</p>
+                  <p class="font-data-value text-xs text-[var(--primary)] uppercase font-semibold">Bio-Poly Fleece</p>
+                </div>
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">SYSTEM WEIGHT</p>
+                  <p class="font-data-value text-xs text-[var(--primary)]">180g / Lite</p>
+                </div>
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">LIMITING RANGE</p>
+                  <p class="font-data-value text-xs text-[var(--primary)]">95% Moisture</p>
+                </div>
+                <div>
+                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">UNIQUE ID</p>
+                  <p class="font-data-value text-xs text-[var(--primary)] uppercase">SN: 4410-BC</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          
+          <div class="mt-8 flex justify-center">
+            <button 
+              type="button"
+              class="font-data-label text-xs uppercase border-b border-[var(--secondary)] pb-1 hover:text-[var(--secondary)] transition-colors cursor-pointer select-none"
+            >
+              Load Full Archive
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    /* Technical Grid background pattern */
+    .tech-grid {
+      background-image: radial-gradient(circle, var(--outline) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    
+    /* Sweeping Scan-line overlay animation */
+    .scan-line {
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--secondary), transparent);
+      position: absolute;
+      width: 100%;
+      animation: scan 4s linear infinite;
+      z-index: 10;
+    }
+    
+    @keyframes scan {
+      0% { top: 0; opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { top: 100%; opacity: 0; }
+    }
+  </style>
+
+  <script>
+    // Header hover effects on components
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+      const h2 = section.querySelector('h2');
+      section.addEventListener('mouseenter', () => {
+        if (h2) {
+          h2.classList.add('text-[var(--secondary)]');
+        }
+      });
+      section.addEventListener('mouseleave', () => {
+        if (h2) {
+          h2.classList.remove('text-[var(--secondary)]');
+        }
+      });
+    });
+
+    // Simulating loading telemetry/decryption text decoder iterations
+    const dataValues = document.querySelectorAll('.font-data-value');
+    dataValues.forEach(val => {
+      const el = val as HTMLElement;
+      if (Math.random() > 0.5) {
+        const originalText = el.innerText;
+        el.addEventListener('mouseenter', () => {
+          let iterations = 0;
+          const interval = setInterval(() => {
+            el.innerText = originalText.split("")
+              .map((char, index) => {
+                if (index < iterations) return originalText[index];
+                // Random alphanumeric replacement
+                return String.fromCharCode(65 + Math.floor(Math.random() * 26));
+              }).join("");
+            
+            if (iterations >= originalText.length) {
+              clearInterval(interval);
+              el.innerText = originalText;
+            }
+            iterations += 1/2;
+          }, 30);
+        });
+      }
+    });
+
+    // Interactive Toggle Switch functionality
+    const toggles = document.querySelectorAll('.toggle-switch');
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const state = toggle.getAttribute('data-state');
+        const handle = toggle.querySelector('div');
+        
+        if (state === 'on') {
+          toggle.setAttribute('data-state', 'off');
+          toggle.classList.remove('bg-[var(--secondary)]');
+          toggle.classList.add('bg-[var(--outline-variant)]');
+          if (handle) {
+            handle.classList.remove('ml-auto');
+          }
+        } else {
+          toggle.setAttribute('data-state', 'on');
+          toggle.classList.add('bg-[var(--secondary)]');
+          toggle.classList.remove('bg-[var(--outline-variant)]');
+          if (handle) {
+            handle.classList.add('ml-auto');
+          }
+        }
+      });
+    });
+  </script>
+</Layout>
