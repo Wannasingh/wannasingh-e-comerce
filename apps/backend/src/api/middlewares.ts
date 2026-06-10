@@ -1,4 +1,4 @@
-import { defineMiddlewares } from "@medusajs/medusa";
+import { defineMiddlewares, authenticate } from "@medusajs/medusa";
 import { encryptPayload } from "./api-encryption";
 
 const encryptionKey = process.env.API_ENCRYPTION_KEY || "default_super_secret_encryption_key_32bytes";
@@ -45,6 +45,16 @@ const encryptionMiddleware = (_req: any, res: any, next: any) => {
 
 export default defineMiddlewares({
   routes: [
+    {
+      matcher: "/store/customers/me/avatar",
+      bodyParser: {
+        sizeLimit: "15mb",
+      },
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        encryptionMiddleware,
+      ],
+    },
     {
       matcher: "/store/*",
       middlewares: [encryptionMiddleware],
