@@ -1,0 +1,165 @@
+---
+// src/pages/admin/customers.astro — System Operative Registry (Customers)
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+export const prerender = false;
+
+const hasPendingRequest = Astro.cookies.get("wanna_seller_requested")?.value === "true";
+const pendingEmail = Astro.cookies.get("wanna_seller_requested_email")?.value || "sarankhtn@gmail.com";
+
+const mockCustomers = [
+  { id: "WS-CUS-892", name: "Wannasingh Khansophon", email: "wannasingh.khan@gmail.com", joined: "2026-06-10", totalOrders: 12, tier: "SUPER ADMIN" },
+  { id: "WS-CUS-102", name: "Sarah Connor", email: "s.connor@cyberdyne.net", joined: "2024-03-12", totalOrders: 3, tier: "Level 01 Collector" },
+  { id: "WS-CUS-304", name: "Miles Dyson", email: "mdyson@cyberdyne.net", joined: "2025-01-15", totalOrders: 1, tier: "Level 01 Collector" }
+];
+---
+<AdminLayout title="WANNASINGH COMMAND CORE - CUSTOMER REGISTRY" activeTab="customers">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <div class="w-2 h-2 bg-primary status-pulse"></div>
+                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">Identity Registries</span>
+            </div>
+            <h2 class="font-display text-4xl font-bold">OPERATIVE_REGISTRY</h2>
+        </div>
+        <div class="grid grid-cols-2 md:flex gap-4">
+            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+                <p class="font-mono-label text-[11px] text-on-surface-variant">TOTAL_USERS</p>
+                <p class="font-mono-data text-2xl text-on-surface">4,892</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENDING SELLER REQUESTS PANEL -->
+    <div id="pending-requests-section" class:list={["border border-primary/30 bg-primary/5 p-6 mb-8 space-y-4", !hasPendingRequest && "hidden"]}>
+        <div class="flex items-center gap-2 text-primary">
+            <span class="material-symbols-outlined" style="font-size: 20px;">account_box</span>
+            <h3 class="font-mono-label text-xs uppercase tracking-widest font-bold">Pending Seller Requests (คำขอเป็นผู้ขายที่รอดำเนินการ)</h3>
+        </div>
+        <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-surface-container-low border-b border-outline-variant">
+                    <tr>
+                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">REQUEST_ID</th>
+                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">USER_EMAIL</th>
+                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">REQUEST_DATE</th>
+                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant text-right">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/30">
+                    <tr>
+                        <td class="p-4 font-mono-data text-xs text-on-surface-variant">REQ-SEL-01</td>
+                        <td id="pending-user-email" class="p-4 font-mono-data text-xs text-primary font-bold">{pendingEmail}</td>
+                        <td class="p-4 font-mono-data text-xs text-on-surface-variant">Today (Pending approval)</td>
+                        <td class="p-4 text-right flex justify-end gap-3">
+                            <button id="approve-seller-btn" class="bg-primary text-on-primary font-mono-label text-[10px] font-bold px-4 py-2 hover:bg-white hover:text-black transition-colors cursor-pointer">
+                                APPROVE_SELLER
+                            </button>
+                            <button id="reject-seller-btn" class="border border-error text-error font-mono-label text-[10px] px-4 py-2 hover:bg-error/10 transition-colors cursor-pointer">
+                                REJECT
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Technical Table Grid -->
+    <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-surface-container-low border-b border-outline-variant">
+                    <tr>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">OPERATIVE_ID</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">NAME</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">EMAIL</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">JOIN_DATE</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">ORDERS</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">TIER</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/30" id="customers-table-body">
+                    {mockCustomers.map((cus) => (
+                        <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="alert('User audit trace details: pending backend logs connection.')">
+                            <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.id}</td>
+                            <td class="p-4 font-body-sm text-body-sm font-bold text-on-surface">{cus.name}</td>
+                            <td class="p-4 font-mono-data text-mono-data text-primary">{cus.email}</td>
+                            <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.joined}</td>
+                            <td class="p-4 font-mono-data text-mono-data text-on-surface">{cus.totalOrders}</td>
+                            <td class="p-4">
+                                <span class={`px-2 py-0.5 border text-[9px] font-mono-label ${cus.tier === 'SUPER ADMIN' ? 'border-primary text-primary' : 'border-outline-variant text-on-surface-variant'}`}>
+                                    {cus.tier}
+                                </span>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</AdminLayout>
+
+<script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+        const pendingSection = document.getElementById('pending-requests-section');
+        const approveBtn = document.getElementById('approve-seller-btn');
+        const rejectBtn = document.getElementById('reject-seller-btn');
+        const tableBody = document.getElementById('customers-table-body');
+
+        // Check if there is a pending request in localStorage or cookies
+        const hasPendingRequest = localStorage.getItem('wanna_seller_requested') === 'true' || 
+                                  document.cookie.split('; ').find(row => row.startsWith('wanna_seller_requested='))?.split('=')[1] === 'true';
+        const isAlreadyApproved = localStorage.getItem('wanna_seller_approved') === 'true';
+
+        if (hasPendingRequest && !isAlreadyApproved) {
+            pendingSection?.classList.remove('hidden');
+        }
+
+        // Approve Seller
+        approveBtn?.addEventListener('click', () => {
+            const emailVal = document.getElementById('pending-user-email')?.textContent || 'sarankhtn@gmail.com';
+            
+            localStorage.setItem('wanna_seller_approved', 'true');
+            localStorage.setItem('wanna_seller_requested', 'false');
+            
+            // Set cookies to persist state
+            document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
+            document.cookie = "wanna_seller_approved=true; path=/; max-age=86400";
+            
+            alert(`SUCCESS: User ${emailVal} approved as SELLER.`);
+            
+            // Append approved user to the mock registry table for interactive demo
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-surface-bright/20 transition-colors cursor-pointer';
+            tr.innerHTML = `
+                <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">WS-CUS-701</td>
+                <td class="p-4 font-body-sm text-body-sm font-bold text-on-surface">Saran Khongsib</td>
+                <td class="p-4 font-mono-data text-mono-data text-primary">${emailVal}</td>
+                <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">2026-06-11</td>
+                <td class="p-4 font-mono-data text-mono-data text-on-surface">0</td>
+                <td class="p-4"><span class="px-2 py-0.5 border text-[9px] font-mono-label border-primary text-primary">SELLER</span></td>
+            `;
+            tableBody?.appendChild(tr);
+
+            pendingSection?.classList.add('hidden');
+            
+            // Reload page or remove the badge
+            const badge = document.getElementById('notifications-badge');
+            if (badge) badge.style.display = 'none';
+        });
+
+        // Reject Seller
+        rejectBtn?.addEventListener('click', () => {
+            localStorage.setItem('wanna_seller_requested', 'false');
+            document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
+            
+            alert('Request rejected. System cleared.');
+            pendingSection?.classList.add('hidden');
+            
+            const badge = document.getElementById('notifications-badge');
+            if (badge) badge.style.display = 'none';
+        });
+    });
+</script>

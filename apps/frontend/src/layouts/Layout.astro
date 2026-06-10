@@ -99,7 +99,7 @@ const navLinks = [
             </span>
           </a>
           <a href="/account" class="material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="person">person</a>
-          <button class="md:hidden material-symbols-outlined text-primary cursor-pointer" id="mobile-menu-toggle" data-icon="menu">menu</button>
+          <button class="md:!hidden material-symbols-outlined text-primary cursor-pointer" id="mobile-menu-toggle" data-icon="menu">menu</button>
         </div>
       </div>
 
@@ -166,8 +166,7 @@ const navLinks = [
         const isOpen = mobileMenu?.classList.contains("hidden") === false;
         mobileMenu?.classList.toggle("hidden");
         toggle.setAttribute("aria-expanded", String(!isOpen));
-        const icon = toggle.querySelector(".material-symbols-outlined");
-        if (icon) icon.textContent = isOpen ? "menu" : "close";
+        toggle.textContent = isOpen ? "menu" : "close";
       });
 
       // Scroll-reveal — observe all .reveal elements

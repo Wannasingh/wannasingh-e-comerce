@@ -1,0 +1,422 @@
+---
+// src/layouts/AdminLayout.astro — Reusable layout for all Admin Pages
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  activeTab: string;
+}
+
+const { title, activeTab } = Astro.props;
+---
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <style is:global>
+        :root {
+            --background: #131313;
+            --surface: #131313;
+            --surface-container-low: #1b1c1c;
+            --surface-container-lowest: #0e0e0e;
+            --surface-container: #1f2020;
+            --surface-container-high: #2a2a2a;
+            --surface-container-highest: #353535;
+            --surface-bright: #393939;
+            --on-surface: #e4e2e1;
+            --on-surface-variant: #cbc3d7;
+            --primary: #d0bcff;
+            --on-primary: #3c0091;
+            --secondary: #c6c6c6;
+            --on-secondary: #2f3131;
+            --outline-variant: #494454;
+            --outline: #958ea0;
+            --error: #ffb4ab;
+            --error-container: #93000a;
+        }
+
+        body {
+            background-color: #131313;
+            color: #e4e2e1;
+            font-family: 'Hanken Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-display {
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .font-mono-data, .font-mono-label {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #494454;
+        }
+        .glow-violet:focus-within {
+            box-shadow: 0 0 12px rgba(208, 188, 255, 0.2);
+        }
+        .status-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+        }
+        .panel-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .overlay-blur {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex h-screen overflow-hidden">
+
+<!-- Sidebar Overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 hidden cursor-pointer"></div>
+
+<!-- SideNavBar -->
+<aside id="sidebar-menu" class="fixed inset-y-0 left-0 z-50 w-64 bg-surface-container-low border-r border-outline-variant flex flex-col h-full transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static shrink-0">
+    <div class="p-gutter border-b border-outline-variant">
+        <h1 class="font-sans text-primary text-2xl font-bold tracking-tight">MEDUSA_V2</h1>
+        <p class="font-mono-label text-[11px] text-on-surface-variant opacity-70">KERNEL_STABLE</p>
+    </div>
+    <nav class="flex-1 py-4 overflow-y-auto custom-scrollbar">
+        <div class="px-4 mb-6" data-role="admin-only">
+            <button class="w-full py-3 bg-primary text-on-primary font-mono-label text-[11px] font-bold flex items-center justify-center gap-2 transition-all duration-150 ease-in-out active:opacity-80 cursor-pointer" id="execute-new-btn">
+                <span class="material-symbols-outlined text-[18px]">add</span> EXECUTE_NEW
+            </button>
+        </div>
+        <div class="space-y-6">
+            <div class="space-y-1">
+                <div class="px-6 py-2">
+                    <p class="font-mono-label text-[10px] text-on-surface-variant opacity-50 tracking-widest uppercase">Operations</p>
+                </div>
+                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'overview' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin">
+                    <span class="material-symbols-outlined mr-3">dashboard</span> SYSTEM OVERVIEW
+                </a>
+                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'products' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/products">
+                    <span class="material-symbols-outlined mr-3">inventory_2</span> PRODUCTS
+                </a>
+                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'orders' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/orders">
+                    <span class="material-symbols-outlined mr-3">shopping_cart</span> ORDERS
+                </a>
+                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'customers' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} data-role="admin-only" href="/admin/customers">
+                    <span class="material-symbols-outlined mr-3">group</span> CUSTOMERS
+                </a>
+            </div>
+            <div class="space-y-1" data-role="admin-only">
+                <div class="px-6 py-2">
+                    <p class="font-mono-label text-[10px] text-on-surface-variant opacity-50 tracking-widest uppercase">System</p>
+                </div>
+                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'logs' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/logs">
+                    <span class="material-symbols-outlined mr-3">terminal</span> KERNEL LOGS
+                </a>
+                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'api-status' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/api-status">
+                    <span class="material-symbols-outlined mr-3">sensors</span> API STATUS
+                </a>
+                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'config' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/config">
+                    <span class="material-symbols-outlined mr-3">settings_input_component</span> ENVIRONMENT CONFIG
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="mt-auto border-t border-outline-variant py-4" data-role="admin-only">
+        <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'settings' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/settings">
+            <span class="material-symbols-outlined mr-3">settings</span> SETTINGS
+        </a>
+        <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'reboot' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/reboot">
+            <span class="material-symbols-outlined mr-3">restart_alt</span> REBOOT
+        </a>
+    </div>
+</aside>
+
+<div class="flex-1 flex flex-col min-w-0 relative">
+    <!-- TopAppBar -->
+    <header class="flex justify-between items-center w-full px-6 h-16 bg-surface border-b border-outline-variant shrink-0 relative">
+        <div class="flex items-center gap-4">
+            <span class="md:hidden material-symbols-outlined text-primary cursor-pointer" id="menu-toggle-mobile">menu</span>
+            <span class="font-sans text-lg font-bold tracking-tighter text-primary">WANNASINGH COMMAND CORE</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <!-- Search bar activator -->
+            <div class="relative hidden lg:flex items-center cursor-pointer" id="search-trigger">
+                <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span>
+                <input class="bg-surface-container-high border-b border-outline-variant px-10 py-1 text-[13px] font-mono-data text-on-surface focus:outline-none w-80 cursor-pointer pointer-events-none" placeholder="QUERY_DB [CMD + K]..." type="text" readonly>
+            </div>
+            <div class="flex items-center gap-4 relative">
+                <span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-bright transition-colors p-2 cursor-pointer">sensors</span>
+                
+                <!-- Notification Bell -->
+                <div class="relative" id="notifications-trigger">
+                    <span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-bright transition-colors p-2 cursor-pointer">notifications</span>
+                    <div id="notifications-badge" class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></div>
+                </div>
+
+                <!-- Notifications Dropdown -->
+                <div id="notifications-dropdown" class="hidden absolute right-0 top-12 w-80 bg-surface-container border border-outline-variant z-50 shadow-2xl p-4 space-y-3 font-sans text-xs">
+                    <div class="flex justify-between items-center border-b border-outline-variant/30 pb-2">
+                        <span class="font-mono-label font-bold text-[10px] tracking-widest text-primary uppercase">ACTIVE ALERTS</span>
+                        <button id="clear-notifications" class="text-[9px] font-mono-label text-on-surface-variant hover:text-white uppercase cursor-pointer">Dismiss All</button>
+                    </div>
+                    <div id="notifications-list" class="space-y-3 divide-y divide-outline-variant/20 max-h-60 overflow-y-auto custom-scrollbar">
+                        <!-- Alert Item -->
+                        <div class="pt-2 flex gap-3">
+                            <span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">warning</span>
+                            <div>
+                                <p class="text-on-surface font-bold">SECURITY BREACH ATTEMPT</p>
+                                <p class="text-[10px] text-on-surface-variant">Multiple failed login attempts from unrecognized IP 192.168.x.x</p>
+                            </div>
+                        </div>
+                        <!-- Alert Item -->
+                        <div class="pt-2 flex gap-3">
+                            <span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">sensors</span>
+                            <div>
+                                <p class="text-on-surface font-bold">LATENCY SPIKE DETECTED</p>
+                                <p class="text-[10px] text-on-surface-variant">API endpoint /v1/orders responding with 1500ms delay.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-8 w-[1px] bg-outline-variant"></div>
+            <div class="flex items-center gap-3">
+                <span class="font-mono-data text-[13px] text-primary" id="admin-user-display">ADMIN_01</span>
+                <img alt="Administrator Profile" class="w-8 h-8 rounded-full border border-outline" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCedjWuqZGVwLfDYWbkvy9yuENxCjS--MebH7a_0oOep95Cr6H9qFpwOTI7mFPOXyI_dtFwROyCbZ-thVQwvbLK9g80sVzpa0pSyR-vMXO2BTbDcQKJOs2-fxNFS2_-rIvK0hdeWb010R86v9hHstswU_eMG_Mx5GuGJ6Bz1VXhAIH69InlIB_5jzx1317AOBWUatmLTvyp7yitUib2jnFlRb954I4JVANMENL8CyK3Gk20LXQQC2bwUynrxVpk5yayva8QtNCUjnJd">
+            </div>
+        </div>
+    </header>
+
+    <!-- Command Palette (Search Modal) -->
+    <div id="search-modal" class="hidden fixed inset-0 z-[100] flex items-start justify-center pt-24 px-4 bg-background/70 backdrop-blur-md">
+        <div class="w-full max-w-2xl bg-surface-container border border-outline-variant shadow-2xl overflow-hidden animate-panel-in">
+            <div class="flex items-center border-b border-outline-variant p-4">
+                <span class="material-symbols-outlined text-primary mr-3">search</span>
+                <input id="search-input" class="w-full bg-transparent border-none text-on-surface placeholder:text-outline/40 font-mono-data text-sm focus:outline-none" placeholder="SEARCH DATABASE [PRODUCTS, ORDERS, USERS, LOGS]..." type="text">
+                <button id="close-search-btn" class="font-mono-label text-[10px] border border-outline-variant px-2 py-1 hover:bg-surface-bright text-on-surface-variant uppercase cursor-pointer">ESC</button>
+            </div>
+            <div class="p-4 max-h-[360px] overflow-y-auto custom-scrollbar space-y-4" id="search-results">
+                <!-- Search help/info -->
+                <div class="text-center py-6 text-on-surface-variant" id="search-placeholder">
+                    <p class="font-mono-label text-xs uppercase tracking-widest mb-1">Database Queries</p>
+                    <p class="text-[11px]">Type to scan system tables, configuration variables, and application databases.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+        <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="flex justify-between items-center px-6 py-2 w-full bg-surface-container-lowest border-t border-outline-variant shrink-0 z-10 relative">
+        <div class="font-mono-data text-[13px] text-secondary">
+            CORE_OS_v2.4.1 // API: ONLINE // LATENCY: 12ms // MEDUSA_SYNC: OK
+        </div>
+        <div class="flex gap-6">
+            <a class="font-mono-data text-[13px] text-on-tertiary-fixed-variant hover:text-primary underline cursor-pointer uppercase" href="/admin/docs">Documentation</a>
+            <a class="font-mono-data text-[13px] text-on-tertiary-fixed-variant hover:text-primary underline cursor-pointer uppercase" href="/admin/logs">Logs</a>
+        </div>
+    </footer>
+</div>
+
+<script is:inline>
+    // Sidebar toggle logic for mobile
+    const sidebarMenu = document.getElementById('sidebar-menu');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const menuToggleMobile = document.getElementById('menu-toggle-mobile');
+
+    function toggleSidebar(show) {
+        if (show) {
+            sidebarMenu?.classList.remove('-translate-x-full');
+            sidebarOverlay?.classList.remove('hidden');
+        } else {
+            sidebarMenu?.classList.add('-translate-x-full');
+            sidebarOverlay?.classList.add('hidden');
+        }
+    }
+
+    menuToggleMobile?.addEventListener('click', () => toggleSidebar(true));
+    sidebarOverlay?.addEventListener('click', () => toggleSidebar(false));
+
+    // Handle EXECUTE_NEW click simulator
+    document.getElementById('execute-new-btn')?.addEventListener('click', () => {
+        alert('Initializing new core thread execution matrix...');
+    });
+
+    // Enforce role-based menu visibility
+    (function enforceRoleLimits() {
+        const userRole = localStorage.getItem('wanna_auth_role') || 'seller';
+        const userDisplay = document.getElementById('admin-user-display');
+        
+        if (userRole === 'admin') {
+            if (userDisplay) userDisplay.textContent = 'SUPER_ADMIN';
+        } else {
+            if (userDisplay) userDisplay.textContent = 'SELLER_01';
+            
+            document.querySelectorAll('[data-role="admin-only"]').forEach(el => {
+                el.classList.add('hidden');
+                el.style.display = 'none';
+            });
+
+            // Redirect if trying to access system routes directly
+            const path = window.location.pathname;
+            const adminOnlyPaths = ['/admin/logs', '/admin/api-status', '/admin/config', '/admin/settings', '/admin/reboot', '/admin/customers'];
+            if (adminOnlyPaths.includes(path)) {
+                window.location.href = '/admin';
+            }
+        }
+    })();
+
+    // ── INTERACTIVE NOTIFICATION BELL ──
+    const notifTrigger = document.getElementById('notifications-trigger');
+    const notifDropdown = document.getElementById('notifications-dropdown');
+    const notifBadge = document.getElementById('notifications-badge');
+    const notifList = document.getElementById('notifications-list');
+    const clearNotifBtn = document.getElementById('clear-notifications');
+
+    // Dynamically insert seller request alert if cookie/request exists
+    const hasRequestedSeller = document.cookie.split('; ').find(row => row.startsWith('wanna_seller_requested='))?.split('=')[1] === 'true';
+    if (hasRequestedSeller) {
+        const emailVal = decodeURIComponent(document.cookie.split('; ').find(row => row.startsWith('wanna_seller_requested_email='))?.split('=')[1] || 'sarankhtn@gmail.com');
+        const alertItem = document.createElement('div');
+        alertItem.className = 'pt-2 flex gap-3';
+        alertItem.innerHTML = `
+            <span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">account_box</span>
+            <div>
+                <p class="text-on-surface font-bold">NEW SELLER REQUEST</p>
+                <p class="text-[10px] text-on-surface-variant">User ${emailVal} submitted a seller credential request.</p>
+                <a href="/admin/customers" class="inline-block mt-1 font-mono-label text-[9px] text-primary underline">Manage Request</a>
+            </div>
+        `;
+        notifList?.prepend(alertItem);
+    } else {
+        // If no alerts, hide badge if empty (here we have 2 static alerts, so we keep it)
+    }
+
+    notifTrigger?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notifDropdown?.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => {
+        notifDropdown?.classList.add('hidden');
+    });
+
+    clearNotifBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (notifList) notifList.innerHTML = `<p class="text-center text-on-surface-variant py-4 font-mono-label text-[10px]">NO ACTIVE ALERTS</p>`;
+        if (notifBadge) notifBadge.style.display = 'none';
+    });
+
+    // ── INTERACTIVE SEARCH COMMAND PALETTE (CMD + K) ──
+    const searchTrigger = document.getElementById('search-trigger');
+    const searchModal = document.getElementById('search-modal');
+    const searchInput = document.getElementById('search-input');
+    const closeSearchBtn = document.getElementById('close-search-btn');
+    const searchResults = document.getElementById('search-results');
+    const searchPlaceholder = document.getElementById('search-placeholder');
+
+    function openSearch() {
+        searchModal?.classList.remove('hidden');
+        searchInput?.focus();
+    }
+
+    function closeSearch() {
+        searchModal?.classList.add('hidden');
+        if (searchInput) searchInput.value = '';
+        showSearchHelp();
+    }
+
+    searchTrigger?.addEventListener('click', openSearch);
+    closeSearchBtn?.addEventListener('click', closeSearch);
+
+    window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            openSearch();
+        }
+        if (e.key === 'Escape') {
+            closeSearch();
+        }
+    });
+
+    searchModal?.addEventListener('click', (e) => {
+        if (e.target === searchModal) closeSearch();
+    });
+
+    const mockDb = [
+        { category: "PRODUCTS", name: "AETHER Cyberjacket", desc: "Carbonweave shells with dynamic thermoregulation.", url: "/admin/products" },
+        { category: "PRODUCTS", name: "NEBULA Leggings", desc: "Reflective compression apparel with bio-monitoring.", url: "/admin/products" },
+        { category: "ORDERS", name: "Order #8892", desc: "Status: processing, customer: sarankhtn@gmail.com", url: "/admin/orders" },
+        { category: "CUSTOMERS", name: "Wannasingh Khansophon", desc: "email: wannasingh.khan@gmail.com, Tier: SUPER ADMIN", url: "/admin/customers" },
+        { category: "CUSTOMERS", name: "Saran Khongsib", desc: "email: sarankhtn@gmail.com, Tier: Level 01 Collector", url: "/admin/customers" },
+        { category: "LOGS", name: "DB Pool Connection Alert", desc: "Warning: Pool active connections exceeding 75% capacity.", url: "/admin/logs" }
+    ];
+
+    function showSearchHelp() {
+        if (searchResults && searchPlaceholder) {
+            searchResults.innerHTML = '';
+            searchResults.appendChild(searchPlaceholder);
+        }
+    }
+
+    searchInput?.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase().trim();
+        if (!query) {
+            showSearchHelp();
+            return;
+        }
+
+        const matches = mockDb.filter(item => 
+            item.name.toLowerCase().includes(query) || 
+            item.desc.toLowerCase().includes(query) || 
+            item.category.toLowerCase().includes(query)
+        );
+
+        if (searchResults) {
+            searchResults.innerHTML = '';
+            if (matches.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="text-center py-6 text-on-surface-variant">
+                        <p class="font-mono-label text-xs uppercase tracking-widest mb-1">NO MATCHES FOUND</p>
+                        <p class="text-[11px]">No database query matches for "${query}".</p>
+                    </div>
+                `;
+            } else {
+                matches.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'p-3 hover:bg-surface-bright/20 border border-outline-variant/30 transition-colors cursor-pointer flex justify-between items-center';
+                    div.innerHTML = `
+                        <div>
+                            <span class="inline-block font-mono-label text-[9px] text-primary border border-primary/30 px-2 py-0.5 mb-1 uppercase">${item.category}</span>
+                            <h4 class="font-bold text-on-surface text-sm">${item.name}</h4>
+                            <p class="text-xs text-on-surface-variant">${item.desc}</p>
+                        </div>
+                        <span class="material-symbols-outlined text-primary text-[18px]">chevron_right</span>
+                    `;
+                    div.addEventListener('click', () => {
+                        window.location.href = item.url;
+                    });
+                    searchResults.appendChild(div);
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>
