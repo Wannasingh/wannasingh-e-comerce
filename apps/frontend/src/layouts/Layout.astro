@@ -1,0 +1,197 @@
+---
+// Layout.astro — Base layout for all pages | AETHER Cyber-Minimalist Design
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "WANNASINGH — Precision Gear for the Modern Nomad. Advanced performance systems engineered for the global explorer.",
+  ogImage = "/og-default.jpg",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: "/shop", label: "SHOP", id: "nav-shop" },
+  { href: "/collections", label: "COLLECTIONS", id: "nav-collections" },
+  { href: "/specs", label: "SPECS ARCHIVE", id: "nav-specs" },
+];
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#f7f9fd" />
+  </head>
+
+  <body>
+    <!-- Skip navigation -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]
+             focus:bg-[var(--primary)] focus:text-[var(--on-primary)]
+             focus:px-4 focus:py-2 font-data-label"
+    >
+      SKIP TO MAIN CONTENT
+    </a>
+
+    <!-- ── Navigation ─────────────────────────────────────────────────────── -->
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30">
+      <div class="flex justify-between items-center px-margin-desktop h-20 w-full max-w-container-max mx-auto">
+        <!-- Logo -->
+        <a class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary no-underline" href="/">WANNASINGH</a>
+        
+        <!-- Desktop nav links -->
+        <div class="hidden md:flex items-center gap-10">
+          <a class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
+            ${currentPath === "/shop" || currentPath.startsWith("/shop/")
+              ? "text-secondary font-bold border-b border-secondary"
+              : "text-on-surface-variant hover:text-secondary"
+            }`} href="/shop">SHOP</a>
+          <a class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
+            ${currentPath === "/collections"
+              ? "text-secondary font-bold border-b border-secondary"
+              : "text-on-surface-variant hover:text-secondary"
+            }`} href="/collections">COLLECTIONS</a>
+          <a class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
+            ${currentPath === "/specs"
+              ? "text-secondary font-bold border-b border-secondary"
+              : "text-on-surface-variant hover:text-secondary"
+            }`} href="/specs">SPECS ARCHIVE</a>
+        </div>
+
+        <!-- Right side actions -->
+        <div class="flex items-center gap-6">
+          <a href="/cart" class="material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="shopping_bag">shopping_bag</a>
+          <a href="/account" class="material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="person">person</a>
+          <button class="md:hidden material-symbols-outlined text-primary cursor-pointer" id="mobile-menu-toggle" data-icon="menu">menu</button>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden border-b border-outline-variant/30 bg-surface/95 backdrop-blur-xl"
+        role="navigation"
+        aria-label="Mobile navigation"
+      >
+        <div class="flex flex-col gap-4 px-margin-desktop py-6">
+          <a class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline" href="/shop">SHOP</a>
+          <a class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline" href="/collections">COLLECTIONS</a>
+          <a class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline" href="/specs">SPECS ARCHIVE</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── Main Content ────────────────────────────────────────────────────── -->
+    <main id="main-content" class="pt-20">
+      <slot />
+    </main>
+
+    <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+    <footer class="bg-surface-container-lowest border-t border-outline-variant w-full py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+        <div class="space-y-8">
+          <div class="font-headline-md text-headline-md font-bold text-primary">WANNASINGH</div>
+          <p class="font-data-label text-data-label text-on-surface-variant">WANNASINGH PERFORMANCE SYSTEMS FOR THE NEO-CITIZEN.</p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <h4 class="font-data-label text-data-label font-bold text-primary uppercase">Explore</h4>
+          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/environment">Environmental Impact</a>
+          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/specs">Technical Specs</a>
+        </div>
+        <div class="flex flex-col gap-4">
+          <h4 class="font-data-label text-data-label font-bold text-primary uppercase">Support</h4>
+          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/repair">Repair Program</a>
+          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/terms">Terms</a>
+        </div>
+        <div class="flex flex-col gap-4">
+          <h4 class="font-data-label text-data-label font-bold text-primary uppercase">Newsletter</h4>
+          <div class="relative">
+            <input class="w-full bg-transparent border-b border-primary py-2 font-data-label text-data-label focus:outline-none focus:border-secondary placeholder:text-outline-variant" placeholder="ENLIST EMAIL" type="email">
+            <button class="absolute right-0 bottom-2 material-symbols-outlined cursor-pointer" data-icon="north_east">north_east</button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-20 px-margin-desktop max-w-container-max mx-auto flex justify-between items-center border-t border-outline-variant/30 pt-8">
+        <span class="font-data-label text-[10px] text-on-surface-variant">© 2024 WANNASINGH PERFORMANCE SYSTEMS. ALL RIGHTS RESERVED.</span>
+        <div class="flex gap-6">
+          <span class="font-data-label text-[10px] text-on-surface-variant">© 2024 WANNASINGH PERFORMANCE SYSTEMS. ALL RIGHTS RESERVED.</span>
+          <span class="font-data-label text-[10px] text-on-surface-variant uppercase">DESIGNED IN TOKYO</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ── Scripts ─────────────────────────────────────────────────────────── -->
+    <script>
+      // Mobile menu toggle
+      const toggle = document.getElementById("mobile-menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      toggle?.addEventListener("click", () => {
+        const isOpen = mobileMenu?.classList.contains("hidden") === false;
+        mobileMenu?.classList.toggle("hidden");
+        toggle.setAttribute("aria-expanded", String(!isOpen));
+        const icon = toggle.querySelector(".material-symbols-outlined");
+        if (icon) icon.textContent = isOpen ? "menu" : "close";
+      });
+
+      // Scroll-reveal — observe all .reveal elements
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+      // Global cart badge sync — reads wanna_cart from localStorage on every page
+      (function syncCartBadge() {
+        const badge = document.getElementById("cart-count");
+        if (!badge) return;
+        try {
+          const cart: Array<{qty: number}> = JSON.parse(localStorage.getItem("wanna_cart") || "[]");
+          const total = cart.reduce((s, i) => s + i.qty, 0);
+          badge.textContent = String(total);
+          badge.classList.toggle("hidden", total === 0);
+        } catch {
+          badge.classList.add("hidden");
+        }
+      })();
+    </script>
+  </body>
+</html>

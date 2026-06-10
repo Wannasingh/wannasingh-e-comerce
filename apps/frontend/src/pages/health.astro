@@ -1,0 +1,25 @@
+---
+// src/pages/health.astro — Frontend health check endpoint
+// Used by Docker HEALTHCHECK and load balancer probes
+export const prerender = false;
+
+return new Response(
+  JSON.stringify(
+    {
+      status: "ok",
+      service: "wannasingh-frontend",
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+    },
+    null,
+    2,
+  ),
+  {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+    },
+  },
+);
+---

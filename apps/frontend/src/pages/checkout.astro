@@ -1,0 +1,415 @@
+---
+// src/pages/checkout.astro — Secure Checkout | Stripe Payment Element
+import Layout from "../layouts/Layout.astro";
+
+const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "";
+---
+
+<Layout title="SECURE CHECKOUT | WANNASINGH PERFORMANCE SYSTEMS" description="Secure checkout powered by Stripe. Apple Pay, Google Pay, Link, and card payments supported.">
+  
+  <!-- Stripe.js loaded early -->
+  <script src="https://js.stripe.com/v3/" is:inline></script>
+
+  <div class="min-h-screen py-16 px-6 md:px-12 max-w-[1440px] mx-auto">
+
+    <!-- Page Header -->
+    <header class="mb-12 pb-6 border-b border-outline-variant/30">
+      <p class="font-data-label text-xs text-secondary uppercase tracking-[0.2em] mb-1">Secure System</p>
+      <h1 class="font-display text-4xl text-primary uppercase leading-none">Checkout</h1>
+    </header>
+
+    <!-- Stripe not configured warning -->
+    <div id="stripe-config-warning" class="hidden mb-8 p-5 border border-error/40 bg-error/5">
+      <div class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-error" style="font-size:20px;">warning</span>
+        <div>
+          <p class="font-data-label text-xs text-error uppercase mb-1">Stripe Not Configured</p>
+          <p class="font-caption text-xs text-on-surface-variant">
+            Add your Stripe keys to <code class="bg-surface-container px-1">.env</code>:
+            <code class="block mt-1 bg-surface-container px-2 py-1">PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...</code>
+            <code class="block mt-1 bg-surface-container px-2 py-1">STRIPE_SECRET_KEY=sk_test_...</code>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+
+      <!-- ── Left: Payment Form ─────────────────────────────────────────── -->
+      <div class="lg:col-span-7 space-y-10">
+
+        <!-- Shipping Information -->
+        <section>
+          <h2 class="font-data-label text-xs uppercase tracking-widest text-primary mb-6 pb-3 border-b border-outline-variant/30">
+            Shipping Information
+          </h2>
+          <div class="grid grid-cols-2 gap-5">
+            <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
+              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">First Name</label>
+              <input id="field-first-name" type="text" placeholder="ERIK" autocomplete="given-name"
+                class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
+            </div>
+            <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
+              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Last Name</label>
+              <input id="field-last-name" type="text" placeholder="VON S." autocomplete="family-name"
+                class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
+            </div>
+            <div class="col-span-2 flex flex-col gap-1">
+              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Email</label>
+              <input id="field-email" type="email" placeholder="OPERATOR@DOMAIN.COM" autocomplete="email"
+                class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
+            </div>
+            <div class="col-span-2 flex flex-col gap-1">
+              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Address</label>
+              <input id="field-address" type="text" placeholder="TECHNICAL DISTRICT, 407" autocomplete="street-address"
+                class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
+            </div>
+            <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
+              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">City</label>
+              <input id="field-city" type="text" placeholder="REYKJAVIK" autocomplete="address-level2"
+                class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
+            </div>
+            <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
+              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Postal Code</label>
+              <input id="field-postal" type="text" placeholder="101" autocomplete="postal-code"
+                class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Stripe Payment Element -->
+        <section>
+          <h2 class="font-data-label text-xs uppercase tracking-widest text-primary mb-6 pb-3 border-b border-outline-variant/30">
+            Secure Payment
+          </h2>
+
+          <!-- Loading state -->
+          <div id="payment-loading" class="flex items-center gap-3 py-8">
+            <div class="w-4 h-4 border-2 border-secondary border-t-transparent animate-spin"></div>
+            <span class="font-data-label text-xs text-on-surface-variant">INITIALIZING SECURE PAYMENT...</span>
+          </div>
+
+          <!-- Stripe Payment Element mounts here -->
+          <div id="payment-element" class="hidden"></div>
+
+          <!-- Payment error -->
+          <div id="payment-error" class="hidden mt-4 p-4 border border-error/40 bg-error/5">
+            <p class="font-data-label text-xs text-error" id="payment-error-msg"></p>
+          </div>
+        </section>
+
+        <!-- Submit -->
+        <button
+          id="submit-btn"
+          type="button"
+          disabled
+          class="w-full bg-primary text-on-primary py-5 px-8 flex items-center justify-between font-data-label text-xs uppercase tracking-[0.2em] transition-all duration-500 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed hover:bg-secondary group relative overflow-hidden"
+        >
+          <span id="submit-label">CONFIRM PURCHASE</span>
+          <span class="material-symbols-outlined transition-transform duration-500 group-hover:translate-x-2">arrow_forward</span>
+          <div class="absolute top-0 -left-full w-1/2 h-full bg-white/10 skew-x-12 transition-all duration-1000" id="btn-shine"></div>
+        </button>
+
+        <!-- Security badges -->
+        <div class="flex items-center gap-3 text-on-surface-variant">
+          <span class="material-symbols-outlined" style="font-size:16px;">lock</span>
+          <p class="font-caption text-[11px]">Payment data is encrypted and transmitted via secure protocols. AES-256 system active.</p>
+        </div>
+
+      </div>
+
+      <!-- ── Right: Order Summary ────────────────────────────────────────── -->
+      <div class="lg:col-span-5 bg-surface-container-low border border-outline-variant/30 p-8 sticky top-28">
+        <h2 class="font-data-label text-xs uppercase tracking-widest text-primary mb-8 pb-4 border-b border-outline-variant">
+          Order Summary
+        </h2>
+
+        <!-- Items from localStorage (filled by JS) -->
+        <div id="order-items" class="space-y-6 mb-8">
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-4 border-2 border-outline-variant border-t-secondary animate-spin"></div>
+            <span class="font-data-label text-[10px] text-on-surface-variant">LOADING ITEMS...</span>
+          </div>
+        </div>
+
+        <!-- Totals -->
+        <div class="space-y-3 pt-6 border-t border-outline-variant/30">
+          <div class="flex justify-between font-data-label text-xs">
+            <span class="text-on-surface-variant">SUBTOTAL</span>
+            <span class="text-primary" id="order-subtotal">—</span>
+          </div>
+          <div class="flex justify-between font-data-label text-xs">
+            <span class="text-on-surface-variant">SHIPPING</span>
+            <span class="text-secondary">FREE</span>
+          </div>
+          <div class="flex justify-between font-headline-md text-base font-bold pt-3 border-t border-outline-variant/30">
+            <span class="text-primary">TOTAL</span>
+            <span class="text-primary" id="order-total">—</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Success modal -->
+  <div id="success-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-primary/90 backdrop-blur-xl">
+    <div class="bg-surface max-w-md w-full mx-6 p-12 text-center space-y-6 border border-outline-variant/30">
+      <span class="material-symbols-outlined text-secondary" style="font-size: 64px; font-variation-settings: 'FILL' 1;">check_circle</span>
+      <div class="space-y-2">
+        <p class="font-data-label text-xs uppercase tracking-widest text-secondary">Transaction Confirmed</p>
+        <h2 class="font-headline-lg text-headline-lg font-bold uppercase text-primary">Order Deployed</h2>
+        <p class="font-body-md text-sm text-on-surface-variant leading-relaxed" id="success-ref">Processing payment confirmation...</p>
+      </div>
+      <a href="/shop" class="inline-block bg-primary text-on-primary px-10 py-4 font-data-label text-xs uppercase tracking-widest hover:bg-secondary transition-all no-underline">
+        CONTINUE SHOPPING
+      </a>
+    </div>
+  </div>
+
+  <script define:vars={{ stripePublishableKey }}>
+    // ── Types & Helpers ───────────────────────────────────────────────────
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem("wanna_cart") || "[]"); }
+      catch { return []; }
+    }
+
+    function parsePrice(p) {
+      return parseFloat(p.replace(/[^0-9.]/g, "")) || 0;
+    }
+
+    function formatPrice(n) {
+      return "$" + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // ── Render order summary ──────────────────────────────────────────────
+    const orderItems    = document.getElementById("order-items");
+    const orderSubtotal = document.getElementById("order-subtotal");
+    const orderTotal    = document.getElementById("order-total");
+
+    const cart = getCart();
+    let subtotalCents = 0;
+
+    if (cart.length === 0) {
+      orderItems.innerHTML = `
+        <p class="font-data-label text-xs text-on-surface-variant">No items in cart. <a href="/shop" class="text-secondary underline">Shop now</a>.</p>
+      `;
+    } else {
+      orderItems.innerHTML = cart.map(item => {
+        const unit = parsePrice(item.price);
+        subtotalCents += Math.round(unit * item.qty * 100);
+        return `
+          <div class="flex gap-4 items-start">
+            <div class="w-16 h-20 bg-surface-container-highest flex-shrink-0 overflow-hidden border border-outline-variant/20">
+              ${item.image
+                ? `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover grayscale" />`
+                : `<div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-outline-variant" style="font-size:24px;">checkroom</span></div>`
+              }
+            </div>
+            <div class="flex-grow">
+              <p class="font-data-label text-xs uppercase text-primary font-bold">${item.name}</p>
+              <p class="font-data-label text-[10px] text-on-surface-variant mt-0.5">SIZE: ${item.size} / QTY: ${String(item.qty).padStart(2,"0")}</p>
+              <p class="font-data-value text-xs text-secondary mt-2">${formatPrice(unit * item.qty)}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    orderSubtotal.textContent = formatPrice(subtotalCents / 100);
+    orderTotal.textContent    = formatPrice(subtotalCents / 100);
+
+    // ── Stripe Init ───────────────────────────────────────────────────────
+    const publishableKey    = stripePublishableKey;
+    const loadingEl         = document.getElementById("payment-loading");
+    const paymentEl         = document.getElementById("payment-element");
+    const submitBtn         = document.getElementById("submit-btn");
+    const submitLabel       = document.getElementById("submit-label");
+    const paymentError      = document.getElementById("payment-error");
+    const paymentErrorMsg   = document.getElementById("payment-error-msg");
+    const configWarning     = document.getElementById("stripe-config-warning");
+    const successModal      = document.getElementById("success-modal");
+    const successRef        = document.getElementById("success-ref");
+
+    // Shine on button hover
+    const shine = document.getElementById("btn-shine");
+    submitBtn.addEventListener("mouseenter", () => { if (shine) shine.style.left = "150%"; });
+    submitBtn.addEventListener("mouseleave", () => {
+      if (shine) {
+        shine.style.left = "-100%";
+        setTimeout(() => {
+          shine.style.transition = "none"; shine.style.left = "-100%";
+          setTimeout(() => { shine.style.transition = "all 1000ms"; }, 10);
+        }, 1000);
+      }
+    });
+
+    // Check if key is configured
+    if (!publishableKey || publishableKey.includes("REPLACE_WITH")) {
+      configWarning.classList.remove("hidden");
+      loadingEl.innerHTML = `<p class="font-data-label text-xs text-error">Stripe key not configured. See warning above.</p>`;
+      return;
+    }
+
+    if (subtotalCents < 50) {
+      loadingEl.innerHTML = `<p class="font-data-label text-xs text-on-surface-variant">Add items to your cart first. <a href="/shop" class="text-secondary underline">Go to shop</a>.</p>`;
+      return;
+    }
+
+    // Create payment intent
+    async function initStripe() {
+      try {
+        const res = await fetch("/api/create-payment-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: subtotalCents,
+            currency: "usd",
+            metadata: { items: cart.length.toString() },
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          throw new Error(data.error || "Failed to create payment intent");
+        }
+
+        const stripe = Stripe(publishableKey);
+
+        const appearance = {
+          theme: "flat",
+          variables: {
+            colorPrimary: "#000000",
+            colorBackground: "#f7f9fd",
+            colorText: "#191c1f",
+            colorDanger: "#ba1a1a",
+            colorSuccess: "#1b5e20",
+            fontFamily: '"JetBrains Mono", monospace',
+            fontSizeBase: "13px",
+            borderRadius: "0px",
+            spacingUnit: "4px",
+          },
+          rules: {
+            ".Input": {
+              border: "none",
+              borderBottom: "1px solid #c4c7c7",
+              backgroundColor: "transparent",
+              boxShadow: "none",
+              padding: "10px 0",
+            },
+            ".Input:focus": {
+              borderBottomColor: "#6b38d4",
+              boxShadow: "none",
+              outline: "none",
+            },
+            ".Label": {
+              color: "#444748",
+              fontSize: "10px",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              fontWeight: "500",
+            },
+            ".Tab": {
+              border: "1px solid #c4c7c7",
+              borderRadius: "0px",
+              boxShadow: "none",
+            },
+            ".Tab--selected": {
+              borderColor: "#000000",
+              backgroundColor: "#000000",
+              color: "#ffffff",
+            },
+            ".Tab:hover": {
+              borderColor: "#6b38d4",
+              color: "#6b38d4",
+            },
+          },
+        };
+
+        const elements = stripe.elements({
+          clientSecret: data.clientSecret,
+          appearance,
+        });
+
+        // Payment Element — auto-shows Apple Pay, Google Pay, Link, Card
+        const paymentElement = elements.create("payment", {
+          layout: {
+            type: "tabs",
+            defaultCollapsed: false,
+          },
+          wallets: {
+            applePay: "auto",   // shows if on Safari + HTTPS + domain verified
+            googlePay: "auto",  // shows in Chrome if available
+          },
+        });
+
+        loadingEl.classList.add("hidden");
+        paymentEl.classList.remove("hidden");
+        paymentElement.mount("#payment-element");
+
+        // Enable submit after element is ready
+        paymentElement.on("ready", () => {
+          submitBtn.disabled = false;
+        });
+
+        // Handle submit
+        submitBtn.addEventListener("click", async () => {
+          submitBtn.disabled = true;
+          submitLabel.textContent = "PROCESSING...";
+          paymentError.classList.add("hidden");
+
+          const email = document.getElementById("field-email").value;
+          const firstName = document.getElementById("field-first-name").value;
+          const lastName  = document.getElementById("field-last-name").value;
+
+          const { error, paymentIntent } = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+              return_url: `${window.location.origin}/checkout?success=true`,
+              payment_method_data: {
+                billing_details: {
+                  name: `${firstName} ${lastName}`.trim() || undefined,
+                  email: email || undefined,
+                },
+              },
+            },
+            redirect: "if_required", // only redirect for redirect-based methods (e.g. bank)
+          });
+
+          if (error) {
+            paymentErrorMsg.textContent = error.message || "Payment failed. Please try again.";
+            paymentError.classList.remove("hidden");
+            submitBtn.disabled = false;
+            submitLabel.textContent = "CONFIRM PURCHASE";
+          } else if (paymentIntent && paymentIntent.status === "succeeded") {
+            // Payment succeeded — clear cart and show success
+            localStorage.removeItem("wanna_cart");
+            const badge = document.getElementById("cart-count");
+            if (badge) badge.classList.add("hidden");
+
+            if (successRef) successRef.textContent = `Transaction ID: ${paymentIntent.id}`;
+            if (successModal) {
+              successModal.classList.remove("hidden");
+              successModal.classList.add("flex");
+            }
+          }
+        });
+
+      } catch (err) {
+        loadingEl.innerHTML = `<p class="font-data-label text-xs text-error">${err.message}</p>`;
+      }
+    }
+
+    // Check if coming back from redirect (3DS etc.)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("success") === "true") {
+      localStorage.removeItem("wanna_cart");
+      successRef.textContent = "Payment verified via redirect.";
+      successModal.classList.remove("hidden");
+      successModal.classList.add("flex");
+    } else {
+      initStripe();
+    }
+  </script>
+</Layout>

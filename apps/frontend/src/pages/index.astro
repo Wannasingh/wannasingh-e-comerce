@@ -1,0 +1,381 @@
+---
+// src/pages/index.astro — Homepage | AETHER Cyber-Minimalist Design
+import Layout from "@layouts/Layout.astro";
+
+const siteTitle = "WANNASINGH | PRECISION GEAR FOR THE MODERN NOMAD";
+const siteDescription =
+  "Engineered to transcend environmental boundaries. Technical performance meets minimalist architecture in our AW24 collection.";
+
+const featuredProducts = [
+  {
+    id: "x1-storm-parka",
+    sku: "MOD-01 // SHELL",
+    name: "X-1 STORM PARKA",
+    price: "$850.00",
+    badge: "NEW RELEASE",
+    tags: ["GORE-TEX PRO", "MODULAR HOOD"],
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCHFF-Askr-UVEcPxEatG03-NYhria9d1LD89xkSFRsysrpXIb0-XITMLvOob4NG48RStSeUZvnqE-b0SAZ_D2REoczbzNrn_ja6JX8qLfbj5o8EV8uKaT6I89igEyEsDyhTlKc6dWgEOQ1HbTdtwD9xmvaRM-i0Mm5qoW5Zuxpc6OnoQQ0lwxc5O-uaBl4Swcy_WU8x0_ODGNpMMMymEBBqmhJs2NFIfJm2Uhy7s0zGbBqDJxq7es5PhSa0Mv9snsLxe-_XFKGLYYG",
+    imageAlt: "A minimalist product shot of a technical storm parka in matte charcoal grey.",
+    href: "/shop/x1-storm-parka",
+  },
+  {
+    id: "kinetic-insulator",
+    sku: "LYR-04 // INSULATION",
+    name: "KINETIC INSULATOR",
+    price: "$420.00",
+    badge: null,
+    tags: ["PRIMALOFT", "PACKABLE"],
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBL87xX1K0i9R29FHPxTIXjgw1stKC9rJh86b2mHgLXY09NZAtxJsZMfi9mPDXfuna_OWYZMngAf86typMW0QE2iupdv-yOeNjb05ocVQMnhXYLXouCOH2COgVF79WicjVQM4ky1BPqPh8pl8ApYdh32xE5F206KBdmfrlJgQdXCFPiMeDd3NjrdsB3FiGeporoYcr9LerMp3CryMuD0AQr0WCsn9veXed5UjsIOvkqDMhIuZQMXYNXK97tJmr6c3nZ-Odbav9_enPj",
+    imageAlt: "A sleek, slim-fit technical mid-layer jacket in olive drab with hidden seams.",
+    href: "/shop/kinetic-insulator",
+  },
+  {
+    id: "carrier-vest-v2",
+    sku: "ACC-12 // UTILITY",
+    name: "CARRIER VEST v2",
+    price: "$310.00",
+    badge: null,
+    tags: ["CORDURA NYLON", "RFID SHIELD"],
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuC9vRnGsEkP8rbSOnbE50SpzUqp71z8ETYw6Oo0YIoc4JxFgpsscWEe3O54lTJu14fEUneOa-KK9cvWxnIMzuchbz-tTyUU7Og93OAbuaUIDsYGtRRSwqIk_VZ1RAXG4u9dYLbP0hFF8f806qffWjzsvOj1VcnEdhWpLXFVidEBj9D6rO4_s8T-VXLKLdEE4Q82x8llpIBOlGl-CBO4Jpsmdofzd-uHxB8mSXSZvw04W0WCF_cLf8nX7v4-ngohPvOrhIKCY3looHKu",
+    imageAlt: "A black technical vest with numerous tactical pockets and webbing details.",
+    href: "/shop/carrier-vest-v2",
+  },
+];
+
+const materialSpecs = [
+  { label: "WATERPROOF RATING", value: "28,000mm" },
+  { label: "BREATHABILITY", value: "RET < 6" },
+  { label: "SYSTEM WEIGHT", value: "450g (SIZE M)" },
+  { label: "SEAM TECHNOLOGY", value: "TAPED / CRITICAL" },
+  { label: "TEMPERATURE RANGE", value: "-30°C TO +5°C" },
+];
+---
+
+<Layout title={siteTitle} description={siteDescription}>
+  <!-- ── Hero Section ──────────────────────────────────────────────────────── -->
+  <section
+    id="hero"
+    class="relative min-h-[92vh] overflow-hidden scanline-effect flex items-center"
+    aria-label="Hero"
+  >
+    <!-- Full-bleed hero image -->
+    <div class="absolute inset-0 z-0">
+      <img
+        class="w-full h-full object-cover object-center scale-[1.03] filter brightness-[0.88]"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMCBFnn0AzQ_z1dr9DzK91BCsw4XiffOcpvz8l9-FJFTyfeLYf-J55GRwgiLqWc_4s-ttP_3HjibuM8kdzHXgyQ-mqeqtfDSD6TpxbkYboPIKrOWSU2H8iPdhnNhZA2nXFMHQ7s0vlCw0p1kF5UoJCGQ7vZPTIUCl8-jO5BxVM86s-nzq0fyIkM5IBmXaIhXLi9oC5ZiTX18SLfQOqBmhzC2eqkwVE2nnwQpaHAjbWiEfzqMNbbF5sakLEo49nmmWdI7HFggLxVN7e"
+        alt="A high-fashion minimalist photography of a figure wearing a structured, avant-garde technical shell jacket. The setting is a cold, stark concrete architectural space with sharp shadows and high-contrast dramatic lighting."
+        width="2560"
+        height="1440"
+        fetchpriority="high"
+      />
+      <!-- Gradient overlay: left-to-right reveal -->
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(90deg, var(--surface) 0%, rgba(247,249,253,0.45) 55%, transparent 100%);"
+      ></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 container-aether w-full">
+      <div class="max-w-2xl">
+        <!-- Status badge -->
+        <div
+          class="inline-flex items-center gap-2 mb-7 px-3 py-1.5 tech-border bg-[rgba(247,249,253,0.5)]"
+          style="backdrop-filter: blur(8px);"
+        >
+          <span
+            class="w-2 h-2"
+            style="background: var(--secondary); animation: ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;"
+          ></span>
+          <span class="font-data-label text-[var(--secondary)]" style="font-size: 11px; letter-spacing: 0.1em;">
+            SYSTEM STATUS: ACTIVE
+          </span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="font-display text-[var(--primary)] mb-8" style="line-height: 1.0;">
+          PRECISION GEAR <br />
+          FOR THE MODERN NOMAD
+        </h1>
+
+        <!-- Sub-headline -->
+        <p class="font-body-lg text-[var(--on-surface-variant)] max-w-lg mb-10">
+          Engineered to transcend environmental boundaries. Technical performance meets minimalist
+          architecture in our AW24 collection.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="/shop"
+            id="hero-cta-shop"
+            class="bg-[var(--primary)] text-[var(--on-primary)] px-10 py-5 font-data-label
+                   hover:bg-[var(--secondary)] transition-colors duration-300 no-underline"
+            style="font-size: 12px; letter-spacing: 0.15em;"
+          >
+            EXPLORE COLLECTION
+          </a>
+          <a
+            href="/specs"
+            id="hero-cta-specs"
+            class="bg-transparent text-[var(--primary)] px-10 py-5 font-data-label
+                   tech-border hover:border-[var(--secondary)] hover:text-[var(--secondary)]
+                   transition-colors duration-300 no-underline"
+            style="font-size: 12px; letter-spacing: 0.15em;"
+          >
+            TECHNICAL SPECS
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Geo data overlay (bottom-right) -->
+    <div class="absolute right-[var(--margin-desktop)] bottom-10 hidden lg:block text-right z-10">
+      <div class="font-data-value text-[var(--outline-variant)] mb-1" style="font-size: 11px;">
+        LAT: 51.5074° N | LONG: 0.1278° W
+      </div>
+      <div class="font-data-value text-[var(--outline-variant)]" style="font-size: 11px;">
+        ELEVATION: 245M MSL
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Material Analysis / Bento Grid ─────────────────────────────────────── -->
+  <section
+    id="material-analysis"
+    class="py-24 container-aether reveal"
+    aria-labelledby="material-heading"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <!-- Main spec block -->
+      <div
+        class="md:col-span-8 group relative overflow-hidden bg-[var(--surface-container-lowest)] tech-border p-12"
+        style="min-height: 380px;"
+      >
+        <!-- Faint background texture image -->
+        <div
+          class="absolute right-0 bottom-0 w-1/2 h-full opacity-8 group-hover:opacity-15 transition-opacity duration-500"
+          aria-hidden="true"
+        >
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzonl-HvJv8tvOaAfbht3d1pynqG8dwRacRAzgvnCDFDg1aLiUrVHhPbZpEqZw2Dwbki7R_DwbHNv7w1yGfjnsllkI2BcyNqsUdA4O2mzHWRjc6RfS-k5mRIP0CCuc-sj1sgTLsTHIgMzVHpoomtxWMRkFNO4uko_edGBt4IxZIUV9YVm-jYESz6NHyJN9W0canPahgfQT1-YpKHGbcCWSeea8gVLGgUOZ5C41RJCter2qGPijEwue0B4FUKDGUszAPt6HMp7SnrVp"
+            alt=""
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <div class="relative z-10">
+          <span class="font-data-label text-[var(--outline)] block mb-4" style="font-size: 12px;">
+            MATERIAL ANALYSIS // MODULE-GORE
+          </span>
+          <h2
+            id="material-heading"
+            class="font-headline-lg text-[var(--primary)] mb-8"
+            style="font-size: 28px;"
+          >
+            GORE-TEX PRO <br /> 3-LAYER SHIELD
+          </h2>
+
+          <!-- Key-value spec list -->
+          <ul class="space-y-4 max-w-md" role="list">
+            {materialSpecs.map((spec) => (
+              <li class="flex justify-between items-center pb-3" style="border-bottom: 1px solid rgba(196,199,199,0.35);">
+                <span class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 12px;">
+                  {spec.label}
+                </span>
+                <span class="font-data-value text-[var(--on-surface)]" style="font-size: 13px;">
+                  {spec.value}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Accent block -->
+      <div
+        class="md:col-span-4 bg-[var(--primary)] text-[var(--on-primary)] p-12 flex flex-col justify-between"
+        style="min-height: 380px;"
+      >
+        <div>
+          <span
+            class="material-symbols-outlined mb-8 block text-[var(--on-primary)]"
+            style="font-size: 40px;"
+          >
+            architecture
+          </span>
+          <h3 class="font-headline-md text-[var(--on-primary)] mb-4" style="font-size: 22px;">
+            ERGONOMIC <br /> KINETIC CUT
+          </h3>
+        </div>
+        <p class="font-body-md" style="color: var(--on-primary-container); font-size: 15px; line-height: 1.65;">
+          Designed for unrestricted mobility. Every seam is anatomically mapped to the human form in motion.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Featured Collection ─────────────────────────────────────────────────── -->
+  <section
+    id="featured-collection"
+    class="py-24 bg-[var(--surface-container-low)]"
+    style="border-top: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant);"
+    aria-labelledby="collection-heading"
+  >
+    <div class="container-aether reveal">
+      <!-- Section header -->
+      <div class="flex justify-between items-end mb-14">
+        <div>
+          <h2 id="collection-heading" class="font-headline-lg text-[var(--primary)] mb-2" style="font-size: 28px;">
+            AW24 OUTERWEAR
+          </h2>
+          <p class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px; letter-spacing: 0.15em;">
+            SELECTED PERFORMANCE ARTIFACTS
+          </p>
+        </div>
+        <a
+          href="/shop"
+          class="hidden md:flex items-center gap-2 font-data-label text-[var(--secondary)]
+                 hover:translate-x-1 transition-transform no-underline"
+          style="font-size: 12px;"
+        >
+          VIEW ALL ARCHIVE
+          <span class="material-symbols-outlined" style="font-size: 18px;">arrow_right_alt</span>
+        </a>
+      </div>
+
+      <!-- Products grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-14">
+        {featuredProducts.map((product) => (
+          <a
+            href={product.href}
+            id={`product-${product.id}`}
+            class="group cursor-pointer no-underline"
+            aria-label={`View ${product.name}`}
+          >
+            <!-- Image container -->
+            <div class="aspect-[3/4] overflow-hidden bg-white mb-6 relative">
+              <img
+                class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700"
+                src={product.image}
+                alt={product.imageAlt}
+                loading="lazy"
+                width="600"
+                height="800"
+              />
+              {product.badge && (
+                <div
+                  class="absolute top-4 left-4 bg-[var(--primary)] text-[var(--on-primary)]
+                         px-3 py-1 font-data-value"
+                  style="font-size: 10px; letter-spacing: 0.08em;"
+                >
+                  {product.badge}
+                </div>
+              )}
+            </div>
+
+            <!-- Product info -->
+            <div class="flex flex-col gap-1">
+              <span class="font-data-label text-[var(--outline-variant)]" style="font-size: 11px;">
+                {product.sku}
+              </span>
+              <div class="flex justify-between items-baseline">
+                <h3 class="font-headline-md text-[var(--primary)]" style="font-size: 18px; font-weight: 700;">
+                  {product.name}
+                </h3>
+                <span class="font-data-value text-[var(--primary)]" style="font-size: 14px;">
+                  {product.price}
+                </span>
+              </div>
+              <!-- Material tags -->
+              <div class="mt-3 flex gap-2 flex-wrap">
+                {product.tags.map((tag) => (
+                  <span class="tech-tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Newsletter ──────────────────────────────────────────────────────────── -->
+  <section
+    id="newsletter"
+    class="py-28 container-aether text-center reveal"
+    aria-labelledby="newsletter-heading"
+  >
+    <div class="max-w-xl mx-auto">
+      <span
+        class="font-data-label text-[var(--secondary)] block mb-6"
+        style="font-size: 11px; letter-spacing: 0.2em;"
+      >
+        JOIN THE NETWORK
+      </span>
+      <h2
+        id="newsletter-heading"
+        class="font-headline-lg text-[var(--primary)] mb-8"
+        style="font-size: 28px;"
+      >
+        RECEIVE INTELLIGENCE UPDATES
+      </h2>
+
+      <!-- Email form -->
+      <form
+        id="newsletter-form"
+        class="flex flex-col md:flex-row gap-0 tech-border overflow-hidden"
+        aria-label="Newsletter sign-up"
+        onsubmit="event.preventDefault();"
+      >
+        <input
+          id="newsletter-email"
+          type="email"
+          name="email"
+          required
+          placeholder="YOUR_EMAIL_ADDRESS"
+          class="flex-grow bg-[var(--surface-container-lowest)] px-6 py-4 font-data-value
+                 text-[var(--on-surface)] placeholder:text-[var(--outline-variant)]
+                 border-none outline-none focus:ring-2 focus:ring-[var(--secondary)]"
+          style="font-size: 12px;"
+          aria-label="Your email address"
+        />
+        <button
+          type="submit"
+          class="bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label
+                 hover:bg-[var(--secondary)] transition-colors duration-300 whitespace-nowrap"
+          style="font-size: 12px; letter-spacing: 0.12em;"
+        >
+          SUBSCRIBE
+        </button>
+      </form>
+
+      <p class="mt-5 font-caption text-[var(--outline)]" style="font-size: 11px;">
+        By subscribing, you agree to our data protocol and privacy policy.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Animate status dot (micro ping animation via JS for compatibility)
+  const statusDot = document.querySelector("#hero .scanline-effect .w-2");
+  // Newsletter form toast
+  const form = document.getElementById("newsletter-form") as HTMLFormElement | null;
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const btn = form.querySelector("button[type='submit']") as HTMLButtonElement;
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = "CONFIRMED ✓";
+      btn.style.background = "var(--secondary)";
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = "";
+      }, 3000);
+    }
+  });
+</script>

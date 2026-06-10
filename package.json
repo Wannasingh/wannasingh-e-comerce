@@ -1,0 +1,40 @@
+{
+  "name": "wannasingh-e-commerce",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Speed Demon — High-Performance Headless E-Commerce Monorepo",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @wannasingh/frontend dev",
+    "dev:frontend": "pnpm --filter @wannasingh/frontend dev",
+    "dev:backend": "pnpm --filter @wannasingh/backend dev",
+    "dev:all": "pnpm --parallel --filter './apps/*' dev",
+    "build": "pnpm --filter './apps/*' build",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,mts,mjs,js,cjs,astro,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mts,mjs,js,cjs,astro,json,css,md}\"",
+    "type-check": "pnpm --filter './apps/*' type-check",
+    "clean": "pnpm --filter './apps/*' exec rm -rf dist .next .astro node_modules/.cache"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-astro": "^1.0.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "prettier": "^3.4.0",
+    "prettier-plugin-astro": "^0.14.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "@wannasingh/backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "TSCONFIG_PATHS_DISABLE=1 medusa develop",
+    "build": "medusa build",
+    "start": "node .medusa/server/index.js",
+    "seed": "medusa exec ./src/scripts/seed.ts",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --max-warnings 0"
+  },
+  "dependencies": {
+    "@medusajs/admin-sdk": "^2.15.5",
+    "@medusajs/cli": "^2.6.0",
+    "@medusajs/dashboard": "^2.15.5",
+    "@medusajs/file": "^2.15.5",
+    "@medusajs/file-local": "^2.15.5",
+    "@medusajs/framework": "^2.6.0",
+    "@medusajs/medusa": "^2.6.0",
+    "dotenv": "^16.4.0",
+    "mongoose": "^8.9.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

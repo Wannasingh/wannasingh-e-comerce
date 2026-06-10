@@ -1,0 +1,50 @@
+# Dependency directories (installed inside container)
+**/node_modules
+**/.pnpm-store
+
+# Build artifacts (rebuilt inside container)
+**/dist
+**/.astro
+**/.medusa
+**/build
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+**/*.log
+**/logs
+
+# Coverage & QA reports
+**/coverage
+**/.nyc_output
+**/sonar-reports
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+Jenkinsfile
+.github/
+.sonarqube/
+
+# Documentation
+*.md
+docs/
+
+# IDE
+.vscode
+.idea
+**/*.swp
+**/*.swo
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# TypeScript source info (not needed at runtime)
+**/*.tsbuildinfo
