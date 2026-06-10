@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // MedusaJS v2 uses Node ESM
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "verbatimModuleSyntax": false,
+    // Emit JS for server execution
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": ".",
+    // Decorators (used by MedusaJS internals)
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    // Path aliases
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@api/*": ["./src/api/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "medusa-config.ts"],
+  "exclude": ["node_modules", "dist", ".medusa"]
+}

@@ -1,0 +1,49 @@
+---
+// src/pages/404.astro — Custom 404 error page
+import Layout from "@layouts/Layout.astro";
+
+const title = "404 — Page Not Found | Wannasingh";
+---
+
+<Layout title={title} description="The page you're looking for doesn't exist.">
+  <section
+    class="min-h-[80vh] flex flex-col items-center justify-center px-4 text-center"
+    aria-label="404 error"
+  >
+    <!-- Decorative gradient orb -->
+    <div
+      class="absolute w-[400px] h-[400px] rounded-full
+             bg-[hsl(262,78%,53%)] opacity-10 blur-[100px] -z-10"
+      aria-hidden="true"
+    >
+    </div>
+
+    <p class="text-8xl font-bold gradient-text mb-4 select-none" aria-hidden="true">404</p>
+
+    <h1 class="text-2xl sm:text-3xl font-bold mb-4">Page Not Found</h1>
+
+    <p class="text-muted-foreground max-w-md mb-8">
+      The page you're looking for has gone on an adventure. Let's get you back on track.
+    </p>
+
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a
+        href="/"
+        id="404-home-link"
+        class="inline-flex items-center gap-2 rounded-full bg-[hsl(262,78%,53%)]
+               px-6 py-3 text-sm font-semibold text-white
+               hover:bg-[hsl(262,78%,45%)] hover:scale-105 transition-all duration-200"
+      >
+        ← Back to Home
+      </a>
+      <a
+        href="/shop"
+        id="404-shop-link"
+        class="inline-flex items-center gap-2 rounded-full border px-6 py-3
+               text-sm font-semibold glass hover:scale-105 transition-all duration-200"
+      >
+        Browse Shop
+      </a>
+    </div>
+  </section>
+</Layout>

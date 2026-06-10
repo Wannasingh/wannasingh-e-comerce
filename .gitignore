@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+.astro/
+.medusa/
+build/
+out/
+
+# pnpm
+.pnpm-store/
+pnpm-lock.yaml.bak
+
+# Environment variables (NEVER commit real .env)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Coverage & Reports
+coverage/
+.nyc_output/
+sonar-reports/
+.sonarqube/
+
+# Docker
+.dockerenv
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary
+tmp/
+temp/
+.cache/

@@ -1,0 +1,299 @@
+---
+// src/pages/index.astro — Homepage
+import Layout from "@layouts/Layout.astro";
+
+const siteTitle = "Wannasingh — Premium Headless E-Commerce";
+const siteDescription =
+  "Discover the Speed Demon E-Commerce experience. Powered by Astro, MedusaJS, and MongoDB Atlas.";
+---
+
+<Layout title={siteTitle} description={siteDescription}>
+  <!-- ── Hero Section ────────────────────────────────────────────────────── -->
+  <section
+    id="hero"
+    class="relative overflow-hidden min-h-[92vh] flex items-center"
+    aria-label="Hero"
+  >
+    <!-- Gradient mesh background -->
+    <div class="absolute inset-0 -z-10">
+      <div
+        class="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full
+               bg-[hsl(262,78%,53%)] opacity-20 blur-[120px]"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full
+               bg-[hsl(316,72%,53%)] opacity-15 blur-[100px]"
+        aria-hidden="true"
+      >
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <!-- Badge -->
+      <div
+        class="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs
+               font-medium glass mb-8 animate-fade-in"
+      >
+        <span class="relative flex h-2 w-2">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full
+                       bg-[hsl(262,78%,63%)] opacity-75"
+          ></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[hsl(262,78%,63%)]"></span>
+        </span>
+        Speed Demon Stack — Astro · MedusaJS · MongoDB Atlas
+      </div>
+
+      <!-- Headline -->
+      <h1
+        class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05]
+               animate-fade-in [animation-delay:100ms]"
+      >
+        Commerce at the
+        <br />
+        <span class="gradient-text">Speed of Light</span>
+      </h1>
+
+      <!-- Sub-headline -->
+      <p
+        class="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-muted-foreground
+               animate-fade-in [animation-delay:200ms]"
+      >
+        A premium headless e-commerce monorepo architected for performance, scalability, and
+        developer joy. Built with the world's fastest frontend framework and a battle-tested
+        commerce engine.
+      </p>
+
+      <!-- CTA buttons -->
+      <div
+        class="mt-10 flex flex-wrap items-center justify-center gap-4
+               animate-fade-in [animation-delay:300ms]"
+      >
+        <a
+          href="/shop"
+          id="hero-cta-shop"
+          class="inline-flex items-center gap-2 rounded-full bg-[hsl(262,78%,53%)]
+                 px-8 py-3.5 text-sm font-semibold text-white shadow-lg
+                 hover:bg-[hsl(262,78%,45%)] hover:scale-105
+                 transition-all duration-200 focus-visible:outline-none
+                 focus-visible:ring-2 focus-visible:ring-[hsl(262,78%,53%)] focus-visible:ring-offset-2"
+        >
+          Shop Now
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </a>
+        <a
+          href="#features"
+          id="hero-cta-features"
+          class="inline-flex items-center gap-2 rounded-full border px-8 py-3.5
+                 text-sm font-semibold glass hover:bg-accent hover:scale-105
+                 transition-all duration-200"
+        >
+          Explore Stack
+        </a>
+      </div>
+
+      <!-- Social proof -->
+      <div
+        class="mt-16 flex flex-wrap items-center justify-center gap-8 text-xs text-muted-foreground"
+      >
+        <div class="flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-green-500"
+            aria-hidden="true"
+          >
+            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
+            ></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+          99 Lighthouse Score
+        </div>
+        <div class="flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-blue-500"
+            aria-hidden="true"
+          >
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+          </svg>
+          &lt; 50ms TTFB
+        </div>
+        <div class="flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-purple-500"
+            aria-hidden="true"
+          >
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+          Zero-JS by default
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features Section ──────────────────────────────────────────────────── -->
+  <section id="features" class="py-24 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">
+          The <span class="gradient-text">Speed Demon</span> Stack
+        </h2>
+        <p class="mt-4 text-muted-foreground max-w-xl mx-auto">
+          Every technology in this monorepo was chosen for a reason.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          [
+            {
+              id: "feature-astro",
+              icon: "🚀",
+              name: "Astro 5",
+              desc: "Islands architecture delivers zero-JS by default with selective React hydration only where interactivity is needed.",
+              tag: "Frontend",
+            },
+            {
+              id: "feature-medusa",
+              icon: "🛒",
+              name: "MedusaJS v2",
+              desc: "Open-source headless commerce engine with modular architecture, workflows, and a powerful Admin dashboard.",
+              tag: "Commerce",
+            },
+            {
+              id: "feature-mongo",
+              icon: "🍃",
+              name: "MongoDB Atlas",
+              desc: "Globally distributed document database with Atlas Search, Vector Search, and auto-scaling built in.",
+              tag: "Database",
+            },
+            {
+              id: "feature-tailwind",
+              icon: "🎨",
+              name: "Tailwind v4 + shadcn",
+              desc: "Utility-first CSS with a premium component library built on Radix UI primitives for accessible UIs.",
+              tag: "Styling",
+            },
+            {
+              id: "feature-docker",
+              icon: "🐳",
+              name: "Docker Multi-stage",
+              desc: "Optimized multi-stage builds produce minimal production images with layer caching for fast CI builds.",
+              tag: "DevOps",
+            },
+            {
+              id: "feature-sonar",
+              icon: "🔬",
+              name: "SonarQube + Jenkins",
+              desc: "Automated code quality gates, security hotspot detection, and a declarative CI/CD pipeline.",
+              tag: "CI/CD",
+            },
+          ].map((feature) => (
+            <div
+              id={feature.id}
+              class="group rounded-2xl border p-6 glass hover:border-[hsl(262,78%,53%)]
+                   hover:shadow-[0_0_30px_hsl(262,78%,53%,0.15)]
+                   transition-all duration-300 cursor-default"
+            >
+              <div class="flex items-start justify-between mb-4">
+                <span class="text-3xl" role="img" aria-label={feature.name}>
+                  {feature.icon}
+                </span>
+                <span
+                  class="text-xs font-medium px-2.5 py-1 rounded-full bg-[hsl(262,78%,53%,0.15)]
+                           text-[hsl(262,78%,63%)]"
+                >
+                  {feature.tag}
+                </span>
+              </div>
+              <h3
+                class="font-semibold text-lg mb-2 group-hover:text-[hsl(262,78%,63%)]
+                       transition-colors"
+              >
+                {feature.name}
+              </h3>
+              <p class="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Architecture Section ─────────────────────────────────────────────── -->
+  <section id="architecture" class="py-24 px-4 sm:px-6 lg:px-8 border-t">
+    <div class="mx-auto max-w-4xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight mb-4">Monorepo Architecture</h2>
+      <p class="text-muted-foreground mb-12">
+        Two apps, one repo, zero compromise on developer experience.
+      </p>
+
+      <div
+        class="rounded-2xl border glass p-8 text-left font-mono text-sm leading-7
+                  text-muted-foreground overflow-x-auto"
+      >
+        <pre>
+<span class="text-foreground font-semibold">wannasingh-e-commerce/</span>
+├── <span class="text-[hsl(262,78%,63%)]">apps/</span>
+│   ├── <span class="text-blue-400">frontend/</span>          <span class="text-muted-foreground/50"># Astro 5 + Tailwind + shadcn/ui</span>
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── layouts/
+│   │   │   └── pages/
+│   │   └── <span class="text-yellow-400">Dockerfile</span>    <span class="text-muted-foreground/50"># Multi-stage build</span>
+│   └── <span class="text-green-400">backend/</span>           <span class="text-muted-foreground/50"># MedusaJS v2 + MongoDB</span>
+│       ├── src/
+│       │   ├── api/
+│       │   └── modules/
+│       └── <span class="text-yellow-400">Dockerfile</span>    <span class="text-muted-foreground/50"># Multi-stage build</span>
+├── <span class="text-orange-400">eslint.config.mjs</span>      <span class="text-muted-foreground/50"># ESLint 9 flat config</span>
+├── <span class="text-orange-400">.prettierrc</span>           <span class="text-muted-foreground/50"># Prettier 3</span>
+├── <span class="text-orange-400">sonar-project.properties</span>
+├── <span class="text-yellow-400">Jenkinsfile</span>           <span class="text-muted-foreground/50"># 5-stage CI/CD pipeline</span>
+└── <span class="text-yellow-400">docker-compose.yml</span>    <span class="text-muted-foreground/50"># Local dev with MongoDB RS</span>
+        </pre>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,163 @@
+---
+// Layout.astro — Base layout for all pages
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "Wannasingh — Premium E-Commerce Experience",
+  ogImage = "/og-default.jpg",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Performance: preconnect to CDN/fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#7c3aed" />
+  </head>
+  <body class="min-h-screen">
+    <!-- Skip navigation for accessibility -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50
+             focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Navigation -->
+    <header class="sticky top-0 z-40 glass border-b">
+      <nav
+        class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+        aria-label="Main navigation"
+      >
+        <a href="/" class="flex items-center gap-2 font-semibold text-lg" id="nav-logo">
+          <span class="gradient-text text-xl font-bold tracking-tight">WANNASINGH</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="/shop" class="hover:text-primary transition-colors" id="nav-shop">Shop</a>
+          <a href="/collections" class="hover:text-primary transition-colors" id="nav-collections"
+            >Collections</a
+          >
+          <a href="/about" class="hover:text-primary transition-colors" id="nav-about">About</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <a
+            href="/cart"
+            id="nav-cart"
+            class="relative rounded-full p-2 hover:bg-accent transition-colors"
+            aria-label="Shopping cart"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle>
+              <path
+                d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main content -->
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+          <div>
+            <span class="gradient-text font-bold text-lg">WANNASINGH</span>
+            <p class="mt-2 text-muted-foreground text-xs leading-relaxed">
+              Premium headless e-commerce powered by the Speed Demon stack.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">Shop</h3>
+            <ul class="space-y-2 text-muted-foreground">
+              <li>
+                <a href="/shop" class="hover:text-foreground transition-colors">All Products</a>
+              </li>
+              <li>
+                <a href="/collections" class="hover:text-foreground transition-colors"
+                  >Collections</a
+                >
+              </li>
+              <li><a href="/sale" class="hover:text-foreground transition-colors">Sale</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">Company</h3>
+            <ul class="space-y-2 text-muted-foreground">
+              <li><a href="/about" class="hover:text-foreground transition-colors">About</a></li>
+              <li><a href="/blog" class="hover:text-foreground transition-colors">Blog</a></li>
+              <li>
+                <a href="/contact" class="hover:text-foreground transition-colors">Contact</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">Legal</h3>
+            <ul class="space-y-2 text-muted-foreground">
+              <li>
+                <a href="/privacy" class="hover:text-foreground transition-colors">Privacy</a>
+              </li>
+              <li><a href="/terms" class="hover:text-foreground transition-colors">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="mt-8 text-center text-xs text-muted-foreground">
+          &copy; {new Date().getFullYear()} Wannasingh. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
