@@ -1416,10 +1416,11 @@ import Layout from "../layouts/Layout.astro";
     async function loadOrders() {
       if (ordersLoaded) return;
       try {
-        const data = await apiRequest('/store/orders?fields=*,items,shipping_address');
-        allOrders = data.orders || demoOrders;
-      } catch {
-        allOrders = demoOrders;
+        const data = await apiRequest('/store/orders?fields=id,status,fulfillment_status,display_id,total,currency_code,created_at,items.*,shipping_address.*');
+        allOrders = data.orders || [];
+      } catch (err) {
+        console.error('Failed to load orders from API:', err);
+        allOrders = [];
       }
       ordersLoaded = true;
       renderOrders();
