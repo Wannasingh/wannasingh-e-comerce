@@ -1416,7 +1416,7 @@ import Layout from "../layouts/Layout.astro";
     async function loadOrders() {
       if (ordersLoaded) return;
       try {
-        const data = await apiRequest('/store/customers/me/orders');
+        const data = await apiRequest('/store/orders?fields=*,items,shipping_address');
         allOrders = data.orders || demoOrders;
       } catch {
         allOrders = demoOrders;
