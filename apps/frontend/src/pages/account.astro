@@ -25,6 +25,10 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </div>
 
+  <!-- Leaflet assets -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
   <div class="relative py-12 max-w-[1440px] mx-auto px-4 md:px-16">
     <div class="tech-grid absolute inset-0 pointer-events-none opacity-[0.04]"></div>
 
@@ -109,17 +113,17 @@ import Layout from "../layouts/Layout.astro";
 
             <!-- Quick stats -->
             <div class="space-y-3">
-              <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/20 pb-2">
-                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Location</span>
-                <span id="user-location" class="font-data-value text-xs">—</span>
+              <div class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2">
+                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5">Location</span>
+                <span id="user-location" class="font-data-value text-xs text-right break-words max-w-[70%]">—</span>
               </div>
-              <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/20 pb-2">
-                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Phone</span>
-                <span id="user-phone" class="font-data-value text-xs">—</span>
+              <div class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2">
+                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5">Phone</span>
+                <span id="user-phone" class="font-data-value text-xs text-right break-words max-w-[70%]">—</span>
               </div>
-              <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/20 pb-2">
-                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Member Since</span>
-                <span id="user-since" class="font-data-value text-xs">—</span>
+              <div class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2">
+                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5">Member Since</span>
+                <span id="user-since" class="font-data-value text-xs text-right break-words max-w-[70%]">—</span>
               </div>
             </div>
           </div>
@@ -239,87 +243,119 @@ import Layout from "../layouts/Layout.astro";
       <!-- Address form modal -->
       <div id="address-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
         <div class="absolute inset-0 bg-[var(--primary)]/50 backdrop-blur-sm" id="address-modal-backdrop"></div>
-        <div class="relative bg-[var(--surface)] border border-[var(--outline-variant)] p-8 md:p-12 w-full max-w-lg mx-4 z-10">
-          <div class="flex justify-between items-center mb-8">
-            <h3 id="address-modal-title" class="font-headline-md text-base uppercase font-bold">New Address</h3>
-            <button id="address-modal-close" class="material-symbols-outlined text-[var(--outline)] hover:text-[var(--primary)] cursor-pointer" style="font-size:20px;">close</button>
+        <div class="relative bg-[var(--surface)] border border-[var(--outline-variant)] p-6 md:p-8 w-full max-w-4xl mx-4 z-10 flex flex-col md:flex-row gap-8 max-h-[95vh] overflow-y-auto md:overflow-visible">
+          <!-- Close button -->
+          <button id="address-modal-close" class="absolute top-4 right-4 material-symbols-outlined text-[var(--outline)] hover:text-[var(--primary)] cursor-pointer z-20" style="font-size:20px;">close</button>
+          
+          <!-- Left Column: Form -->
+          <div class="flex-1 min-w-0">
+            <h3 id="address-modal-title" class="font-headline-md text-base uppercase font-bold mb-6">New Address</h3>
+            <form id="address-form" class="space-y-4" novalidate>
+              <input type="hidden" name="address_id" id="addr-id" />
+              <div class="grid grid-cols-2 gap-4">
+                <div class="field-group">
+                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
+                  <div class="border-b border-[var(--outline-variant)] pb-1">
+                    <input name="first_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="First Name" />
+                  </div>
+                  <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+                </div>
+                <div class="field-group">
+                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
+                  <div class="border-b border-[var(--outline-variant)] pb-1">
+                    <input name="last_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Last Name" />
+                  </div>
+                  <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 1</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="address_1" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Street address" />
+                </div>
+                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+              </div>
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 2 (Optional)</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="address_2" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Apartment, suite, unit, etc." />
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="field-group">
+                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">City</label>
+                  <div class="border-b border-[var(--outline-variant)] pb-1">
+                    <input name="city" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="City" />
+                  </div>
+                  <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+                </div>
+                <div class="field-group">
+                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">State / Province</label>
+                  <div class="border-b border-[var(--outline-variant)] pb-1">
+                    <input name="province" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="State / Province" />
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="field-group">
+                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Postal Code</label>
+                  <div class="border-b border-[var(--outline-variant)] pb-1">
+                    <input name="postal_code" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Postal / Zip Code" />
+                  </div>
+                  <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+                </div>
+                <div class="field-group">
+                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Country Code</label>
+                  <div class="border-b border-[var(--outline-variant)] pb-1">
+                    <input name="country_code" type="text" required maxlength="2" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Country code (e.g. US)" />
+                  </div>
+                  <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+                </div>
+              </div>
+              <label class="flex items-center gap-3 cursor-pointer select-none">
+                <input type="checkbox" name="is_default" class="w-3.5 h-3.5 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer" />
+                <span class="font-caption text-xs uppercase tracking-wider text-[var(--on-surface-variant)]">Set as Default Address</span>
+              </label>
+              <div class="flex gap-4 pt-2">
+                <button type="submit" class="flex-1 bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all cursor-pointer">
+                  SAVE ADDRESS
+                </button>
+                <button type="button" id="addr-cancel" class="py-4 px-6 border border-[var(--outline)] font-data-label text-xs tracking-widest hover:border-[var(--primary)] transition-all cursor-pointer">
+                  CANCEL
+                </button>
+              </div>
+              <p class="addr-form-error font-caption text-xs text-[var(--error)] hidden"></p>
+            </form>
           </div>
-          <form id="address-form" class="space-y-5" novalidate>
-            <input type="hidden" name="address_id" id="addr-id" />
-            <div class="grid grid-cols-2 gap-4">
-              <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
-                <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="first_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="First Name" />
-                </div>
-                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+          
+          <!-- Right Column: Map Helper -->
+          <div class="flex-1 min-w-0 flex flex-col border-t md:border-t-0 md:border-l border-[var(--outline-variant)]/30 pt-6 md:pt-0 md:pl-8">
+            <h4 class="font-data-label text-xs text-[var(--outline)] uppercase tracking-wider mb-2">Location Map Helper</h4>
+            <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-4">Click/Tap on the map or search to auto-fill the address details.</p>
+            
+            <!-- Map Search Box -->
+            <div class="flex gap-2 mb-3">
+              <div class="flex-1 border-b border-[var(--outline-variant)] pb-1">
+                <input id="map-search-input" type="text" class="w-full bg-transparent border-none font-body-md text-xs py-1.5 focus:outline-none text-[var(--on-surface)]" placeholder="Search address/landmark..." />
               </div>
-              <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
-                <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="last_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Last Name" />
-                </div>
-                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+              <button type="button" id="map-search-btn" class="bg-[var(--primary)] text-[var(--on-primary)] px-3 py-1 font-data-label text-[10px] tracking-wider hover:bg-[var(--secondary)] transition-all cursor-pointer">SEARCH</button>
+            </div>
+            
+            <!-- Map container -->
+            <div id="address-map" class="w-full bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/30 relative min-h-[220px] md:min-h-[260px] h-[220px] md:h-[260px]">
+              <div id="map-loading-overlay" class="absolute inset-0 bg-[var(--surface)]/80 flex items-center justify-center z-[1000] hidden">
+                <p class="font-data-label text-[10px] text-[var(--secondary)] tracking-widest uppercase animate-pulse">Reverse Geocoding...</p>
               </div>
             </div>
-            <div class="field-group">
-              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 1</label>
-              <div class="border-b border-[var(--outline-variant)] pb-1">
-                <input name="address_1" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Street address" />
-              </div>
-              <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
-            </div>
-            <div class="field-group">
-              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 2 (Optional)</label>
-              <div class="border-b border-[var(--outline-variant)] pb-1">
-                <input name="address_2" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Apartment, suite, unit, etc." />
+
+            <!-- Nearby Suggestions Section -->
+            <div class="mt-4 flex-1 flex flex-col min-h-0">
+              <h5 class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider mb-2">Nearby Places / Address Variations</h5>
+              <div id="map-suggestions" class="grid grid-cols-1 gap-1.5 max-h-[120px] overflow-y-auto pr-1">
+                <p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic">Click/search on the map to see suggestions...</p>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">City</label>
-                <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="city" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="City" />
-                </div>
-                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
-              </div>
-              <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">State / Province</label>
-                <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="province" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="State / Province" />
-                </div>
-              </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Postal Code</label>
-                <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="postal_code" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Postal / Zip Code" />
-                </div>
-                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
-              </div>
-              <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Country Code</label>
-                <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="country_code" type="text" required maxlength="2" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Country code (e.g. US)" />
-                </div>
-                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
-              </div>
-            </div>
-            <label class="flex items-center gap-3 cursor-pointer select-none">
-              <input type="checkbox" name="is_default" class="w-3.5 h-3.5 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer" />
-              <span class="font-caption text-xs uppercase tracking-wider text-[var(--on-surface-variant)]">Set as Default Address</span>
-            </label>
-            <div class="flex gap-4 pt-2">
-              <button type="submit" class="flex-1 bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all cursor-pointer">
-                SAVE ADDRESS
-              </button>
-              <button type="button" id="addr-cancel" class="py-4 px-6 border border-[var(--outline)] font-data-label text-xs tracking-widest hover:border-[var(--primary)] transition-all cursor-pointer">
-                CANCEL
-              </button>
-            </div>
-            <p class="addr-form-error font-caption text-xs text-[var(--error)] hidden"></p>
-          </form>
+          </div>
         </div>
       </div>
     </section>
@@ -539,6 +575,32 @@ import Layout from "../layouts/Layout.astro";
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* Leaflet monochrome/AETHER styling */
+    #address-map .leaflet-tile-container {
+      filter: grayscale(1) invert(0.05) contrast(1.1);
+    }
+    .leaflet-bar {
+      border: 1px solid var(--outline-variant) !important;
+      border-radius: 0px !important;
+      box-shadow: none !important;
+    }
+    .leaflet-bar a {
+      background-color: var(--surface) !important;
+      color: var(--primary) !important;
+      border-bottom: 1px solid var(--outline-variant) !important;
+      border-radius: 0px !important;
+    }
+    .leaflet-bar a:hover {
+      background-color: var(--surface-container-low) !important;
+      color: var(--secondary) !important;
+    }
+    .leaflet-container {
+      font-family: inherit !important;
+    }
+    .leaflet-marker-shadow {
+      display: none !important;
+    }
   </style>
 
   <script>
@@ -733,6 +795,12 @@ import Layout from "../layouts/Layout.astro";
       (document.getElementById('user-location') as HTMLElement).textContent = c.addresses?.[0]?.city ? `${c.addresses[0].city}, ${c.addresses[0].country_code?.toUpperCase()}` : '—';
       (document.getElementById('user-since') as HTMLElement).textContent = c.created_at ? new Date(c.created_at).getFullYear().toString() : '—';
 
+      // Set Avatar URL if present in metadata
+      const avatarPreview = document.getElementById('avatar-preview') as HTMLImageElement;
+      if (avatarPreview) {
+        avatarPreview.src = c.metadata?.avatar_url || "https://lh3.googleusercontent.com/aida-public/AB6AXuANyrq4RmJ5SKFvabKt5uPsrCGV-E3dfJ-UmYeDLnaTqPuBGGAB4tATktPxBnKwxxhmGsiNSNt63FPTB2DO3_ktmiIABUk3RC-O97au5whs6jBGjrMHYzx5tszS8I9ybnmrr5XS2-VaPDItG0g1qpXj9bPBaUQ2y8aLyYaYr9KfYvOY9sC8IZ-6UkXJh9kTcePZPg5evqLk4hrdjY_QRIMqLf-dOiK9BlVrE8Qj8voXV7jfyxqbY4_wHylTFcTVVru38j2V6958uEHo";
+      }
+
       // Fill profile form
       const f = document.getElementById('profile-form') as HTMLFormElement;
       (f.querySelector('[name=first_name]') as HTMLInputElement).value  = c.first_name || '';
@@ -811,13 +879,39 @@ import Layout from "../layouts/Layout.astro";
     document.getElementById('avatar-input')?.addEventListener('change', (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;
+
       const reader = new FileReader();
-      reader.onload = (ev) => {
-        const preview = document.getElementById('avatar-preview') as HTMLImageElement;
-        preview.src = ev.target?.result as string;
+      reader.onload = async (ev) => {
+        const base64Data = ev.target?.result as string;
+        
+        try {
+          // Set preview locally first for visual responsiveness
+          const preview = document.getElementById('avatar-preview') as HTMLImageElement;
+          if (preview) preview.src = base64Data;
+          
+          showToast('Uploading avatar...', 'info');
+
+          // POST to backend API
+          const response = await apiRequest('/store/customers/me/avatar', {
+            method: 'POST',
+            body: JSON.stringify({ avatar: base64Data })
+          });
+
+          if (response?.customer) {
+            customerData = response.customer;
+            fillProfile(customerData);
+            showToast('Avatar uploaded successfully', 'success');
+          } else {
+            throw new Error("Invalid response payload");
+          }
+        } catch (err: any) {
+          console.error("Failed to upload avatar:", err);
+          showToast(err.message || 'Avatar upload failed', 'error');
+          // Reset avatar preview to original value
+          if (customerData) fillProfile(customerData);
+        }
       };
       reader.readAsDataURL(file);
-      showToast('Avatar updated locally', 'info');
     });
 
     /* ── Addresses ───────────────────────────────────────────────────────────── */
@@ -841,7 +935,7 @@ import Layout from "../layouts/Layout.astro";
           <div class="flex justify-between items-start mb-4">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:18px;">location_on</span>
-              <span class="font-caption text-xs uppercase tracking-widest text-[var(--primary)]">${addr.is_default_billing ? 'DEFAULT ADDRESS' : 'SAVED ADDRESS'}</span>
+              <span class="font-caption text-xs uppercase tracking-widest text-[var(--primary)]">${(addr.is_default_billing || addr.metadata?.is_default) ? 'DEFAULT ADDRESS' : 'SAVED ADDRESS'}</span>
             </div>
             <div class="flex gap-2">
               <button class="addr-edit-btn material-symbols-outlined text-[var(--outline)] hover:text-[var(--secondary)] cursor-pointer transition-colors" style="font-size:16px;" data-id="${addr.id}">edit</button>
@@ -880,6 +974,255 @@ import Layout from "../layouts/Layout.astro";
       });
     }
 
+    /* ── Map Helper ──────────────────────────────────────────────────────────── */
+    let map: any = null;
+    let marker: any = null;
+    let customPin: any = null;
+
+    function initMap() {
+      if (map) return;
+
+      const mapContainer = document.getElementById('address-map');
+      if (!mapContainer) return;
+
+      // Default to Bangkok center
+      const defaultLatLng = [13.7563, 100.5018];
+
+      // @ts-ignore
+      if (typeof L === 'undefined') {
+        console.error("Leaflet is not loaded yet.");
+        return;
+      }
+
+      // @ts-ignore
+      map = L.map('address-map', {
+        zoomControl: true,
+        attributionControl: false
+      }).setView(defaultLatLng, 13);
+
+      // @ts-ignore
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+      }).addTo(map);
+
+      // Custom pin design (Electric Violet themed, sharp diamond style)
+      // @ts-ignore
+      customPin = L.divIcon({
+        className: 'custom-map-pin',
+        html: `<div style="
+          width: 16px; 
+          height: 16px; 
+          border: 2.5px solid var(--secondary); 
+          background: var(--surface); 
+          transform: rotate(45deg);
+          display: flex; 
+          align-items: center; 
+          justify-content: center;
+          box-shadow: 0 0 10px rgba(107, 56, 212, 0.6);
+        ">
+          <div style="width: 5px; height: 5px; background: var(--secondary);"></div>
+        </div>`,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+
+      // Click on map to place pin and reverse-geocode
+      map.on('click', async (e: any) => {
+        const { lat, lng } = e.latlng;
+        placeMarker(lat, lng);
+        await reverseGeocode(lat, lng);
+      });
+
+      // Search button click handler
+      const searchInput = document.getElementById('map-search-input') as HTMLInputElement;
+      const searchBtn = document.getElementById('map-search-btn');
+
+      const performSearch = async () => {
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+          const results = await res.json();
+          if (results && results.length > 0) {
+            const { lat, lon } = results[0];
+            const latFloat = parseFloat(lat);
+            const lngFloat = parseFloat(lon);
+
+            map.setView([latFloat, lngFloat], 16);
+            placeMarker(latFloat, lngFloat);
+            await reverseGeocode(latFloat, lngFloat);
+          } else {
+            showToast("Location not found", "info");
+          }
+        } catch (err) {
+          console.error("Geocoding search failed:", err);
+        }
+      };
+
+      searchBtn?.addEventListener('click', performSearch);
+      searchInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          performSearch();
+        }
+      });
+
+      // Try geolocating user's position initially
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          const { latitude, longitude } = pos.coords;
+          map.setView([latitude, longitude], 15);
+          if (!marker) {
+            placeMarker(latitude, longitude);
+            reverseGeocode(latitude, longitude);
+          }
+        }, () => {
+          // ignore, stay at default
+        });
+      }
+    }
+
+    function placeMarker(lat: number, lng: number) {
+      if (!map) return;
+      if (marker) {
+        marker.setLatLng([lat, lng]);
+      } else {
+        // @ts-ignore
+        marker = L.marker([lat, lng], { icon: customPin, draggable: true }).addTo(map);
+        
+        // Handle dragging behavior
+        marker.on('dragend', async (event: any) => {
+          const position = event.target.getLatLng();
+          await reverseGeocode(position.lat, position.lng);
+        });
+      }
+    }
+
+    function getShortAddressName(item: any): string {
+      const addr = item.address || {};
+      if (item.name) return item.name;
+      
+      const parts = [
+        addr.house_number,
+        addr.road || addr.pedestrian || addr.suburb || addr.neighbourhood
+      ].filter(Boolean);
+      
+      if (parts.length > 0) return parts.join(' ');
+      return item.display_name.split(',')[0] || 'Unknown Place';
+    }
+
+    function autofillFormFromAddress(addr: any, displayName?: string) {
+      if (!addr) return;
+      const form = document.getElementById('address-form') as HTMLFormElement;
+      if (!form) return;
+
+      const road = addr.road || addr.suburb || addr.neighbourhood || '';
+      const houseNumber = addr.house_number || '';
+      const address1 = [houseNumber, road].filter(Boolean).join(' ') || displayName || '';
+
+      const city = addr.city || addr.town || addr.municipality || addr.state_district || '';
+      const province = addr.state || addr.province || addr.region || '';
+      const postalCode = addr.postcode || '';
+      const countryCode = (addr.country_code || '').toUpperCase();
+
+      // Fill inputs
+      (form.querySelector('[name=address_1]') as HTMLInputElement).value = address1;
+      (form.querySelector('[name=city]') as HTMLInputElement).value = city;
+      (form.querySelector('[name=province]') as HTMLInputElement).value = province;
+      (form.querySelector('[name=postal_code]') as HTMLInputElement).value = postalCode;
+      (form.querySelector('[name=country_code]') as HTMLInputElement).value = countryCode;
+    }
+
+    async function fetchNearbySuggestions(lat: number, lng: number) {
+      const suggestionsContainer = document.getElementById('map-suggestions');
+      if (!suggestionsContainer) return;
+
+      suggestionsContainer.innerHTML = '<p class="font-data-label text-[10px] text-[var(--outline)] tracking-widest uppercase animate-pulse py-1">Searching nearby...</p>';
+
+      try {
+        const delta = 0.003;
+        const minLat = lat - delta;
+        const maxLat = lat + delta;
+        const minLng = lng - delta;
+        const maxLng = lng + delta;
+
+        const queryUrl = `https://nominatim.openstreetmap.org/search?format=json&q=shop,cafe,restaurant,building,highway,tourism&viewbox=${minLng},${maxLat},${maxLng},${minLat}&bounded=1&limit=6&addressdetails=1`;
+        const res = await fetch(queryUrl);
+        const results = await res.json();
+
+        if (results && results.length > 0) {
+          suggestionsContainer.innerHTML = '';
+          
+          const seen = new Set();
+          const uniqueResults = results.filter((item: any) => {
+            const shortName = getShortAddressName(item);
+            if (!shortName || seen.has(shortName)) return false;
+            seen.add(shortName);
+            return true;
+          }).slice(0, 5);
+
+          if (uniqueResults.length === 0) {
+            suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic py-1">No local suggestions found.</p>';
+            return;
+          }
+
+          uniqueResults.forEach((item: any) => {
+            const shortName = getShortAddressName(item);
+            const fullAddress = item.display_name;
+            const itemLat = parseFloat(item.lat);
+            const itemLng = parseFloat(item.lon);
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'w-full text-left p-2 border border-[var(--outline-variant)]/20 hover:border-[var(--secondary)] hover:bg-[var(--secondary)]/5 transition-all text-xs flex flex-col gap-0.5 group cursor-pointer';
+            btn.style.borderRadius = '0px';
+            btn.innerHTML = `
+              <span class="font-body-md text-xs font-semibold text-[var(--primary)] group-hover:text-[var(--secondary)] transition-colors">${shortName}</span>
+              <span class="font-caption text-[10px] text-[var(--on-surface-variant)] truncate w-full">${fullAddress}</span>
+            `;
+
+            btn.addEventListener('click', () => {
+              if (map) {
+                map.setView([itemLat, itemLng], 17);
+              }
+              placeMarker(itemLat, itemLng);
+              autofillFormFromAddress(item.address, item.name || shortName);
+              showToast("Suggestion selected", "success");
+            });
+
+            suggestionsContainer.appendChild(btn);
+          });
+        } else {
+          suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic py-1">No local suggestions found.</p>';
+        }
+      } catch (err) {
+        console.error("Failed to fetch suggestions:", err);
+        suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--error)] italic py-1">Failed to load suggestions.</p>';
+      }
+    }
+
+    async function reverseGeocode(lat: number, lng: number) {
+      const loader = document.getElementById('map-loading-overlay');
+      loader?.classList.remove('hidden');
+
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+        const data = await res.json();
+
+        if (data && data.address) {
+          autofillFormFromAddress(data.address, data.name || '');
+          showToast("Address loaded from map", "success");
+        }
+        
+        await fetchNearbySuggestions(lat, lng);
+      } catch (err) {
+        console.error("Reverse geocoding request failed:", err);
+      } finally {
+        loader?.classList.add('hidden');
+      }
+    }
+
     function openAddressModal(addr?: any) {
       const modal  = document.getElementById('address-modal')!;
       const title  = document.getElementById('address-modal-title')!;
@@ -888,16 +1231,56 @@ import Layout from "../layouts/Layout.astro";
       title.textContent = addr ? 'Edit Address' : 'New Address';
       form.reset();
 
+      // Reset search input
+      const searchInput = document.getElementById('map-search-input') as HTMLInputElement;
+      if (searchInput) searchInput.value = '';
+
       if (addr) {
         ['first_name','last_name','address_1','address_2','city','province','postal_code','country_code'].forEach(field => {
           const input = form.querySelector<HTMLInputElement>(`[name=${field}]`);
           if (input) input.value = addr[field] || '';
         });
-        (form.querySelector('[name=is_default]') as HTMLInputElement).checked = !!addr.is_default_billing;
+        (form.querySelector('[name=is_default]') as HTMLInputElement).checked = !!(addr.is_default_billing || addr.metadata?.is_default);
         (form.querySelector('[name=address_id]') as HTMLInputElement).value = addr.id;
       }
 
       modal.classList.remove('hidden');
+
+      // Initialize map & size correction
+      initMap();
+      setTimeout(() => {
+        if (map) {
+          map.invalidateSize();
+          
+          // Geocode existing address if editing
+          if (addr && addr.address_1 && addr.city) {
+            const query = `${addr.address_1}, ${addr.city}, ${addr.province || ''}, ${addr.country_code || ''}`;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
+              .then(res => res.json())
+              .then(results => {
+                if (results && results.length > 0 && map) {
+                  const { lat, lon } = results[0];
+                  const latFloat = parseFloat(lat);
+                  const lngFloat = parseFloat(lon);
+                  map.setView([latFloat, lngFloat], 16);
+                  placeMarker(latFloat, lngFloat);
+                  fetchNearbySuggestions(latFloat, lngFloat);
+                }
+              }).catch(err => console.error("Initial address geocoding failed:", err));
+          } else {
+            // Clear previous marker for new address
+            if (marker) {
+              map.removeLayer(marker);
+              marker = null;
+            }
+            // Clear suggestions list
+            const suggestionsContainer = document.getElementById('map-suggestions');
+            if (suggestionsContainer) {
+              suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic">Click/search on the map to see suggestions...</p>';
+            }
+          }
+        }
+      }, 200);
     }
 
     document.getElementById('add-address-btn')?.addEventListener('click', () => openAddressModal());
@@ -930,16 +1313,51 @@ import Layout from "../layouts/Layout.astro";
 
       const payload: Record<string,any> = {};
       fd.forEach((v, k) => {
-        if (k === 'address_id') return;
-        payload[k] = k === 'is_default' ? true : v;
+        if (k === 'address_id' || k === 'is_default') return;
+        payload[k] = v;
       });
 
+      const isDefaultCheckbox = form.querySelector('[name=is_default]') as HTMLInputElement;
+      const isDefault = !!isDefaultCheckbox?.checked;
+      payload.metadata = {
+        is_default: isDefault
+      };
+
       try {
+        let newId = id;
         if (id) {
           await apiRequest(`/store/customers/me/addresses/${id}`, { method: 'POST', body: JSON.stringify(payload) });
         } else {
-          await apiRequest('/store/customers/me/addresses', { method: 'POST', body: JSON.stringify(payload) });
+          const res = await apiRequest('/store/customers/me/addresses', { method: 'POST', body: JSON.stringify(payload) });
+          newId = res.address?.id || res.id;
         }
+
+        // If this address is set to default, unset all other addresses' defaults
+        if (isDefault && customerData?.addresses) {
+          for (const otherAddr of customerData.addresses) {
+            if (otherAddr.id === newId) continue;
+            if (otherAddr.metadata?.is_default) {
+              const cleanPayload = {
+                first_name: otherAddr.first_name,
+                last_name: otherAddr.last_name,
+                address_1: otherAddr.address_1,
+                address_2: otherAddr.address_2,
+                city: otherAddr.city,
+                province: otherAddr.province,
+                postal_code: otherAddr.postal_code,
+                country_code: otherAddr.country_code,
+                metadata: {
+                  ...otherAddr.metadata,
+                  is_default: false
+                }
+              };
+              await apiRequest(`/store/customers/me/addresses/${otherAddr.id}`, { method: 'POST', body: JSON.stringify(cleanPayload) }).catch(err => {
+                console.error("Failed to unset default on other address:", otherAddr.id, err);
+              });
+            }
+          }
+        }
+
         await loadCustomer();
         document.getElementById('address-modal')!.classList.add('hidden');
         showToast(id ? 'Address updated' : 'Address added', 'success');
