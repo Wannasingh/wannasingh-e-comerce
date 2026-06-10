@@ -92,7 +92,12 @@ const navLinks = [
 
         <!-- Right side actions -->
         <div class="flex items-center gap-6">
-          <a href="/cart" class="material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="shopping_bag">shopping_bag</a>
+          <a href="/cart" class="relative material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="shopping_bag">
+            shopping_bag
+            <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-[var(--secondary)] text-[var(--on-secondary)] font-bold text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center hidden" style="border: 1px solid var(--surface);">
+              0
+            </span>
+          </a>
           <a href="/account" class="material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="person">person</a>
           <button class="md:hidden material-symbols-outlined text-primary cursor-pointer" id="mobile-menu-toggle" data-icon="menu">menu</button>
         </div>
