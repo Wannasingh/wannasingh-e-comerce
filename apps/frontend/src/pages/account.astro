@@ -542,6 +542,8 @@ import Layout from "../layouts/Layout.astro";
   </style>
 
   <script>
+    import { decryptPayload } from '../lib/crypto';
+
     /* ── Constants ──────────────────────────────────────────────────────────── */
     const API = (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string) || 'http://localhost:9000';
     const PK  = (import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY as string) || '';
@@ -559,11 +561,14 @@ import Layout from "../layouts/Layout.astro";
         ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       };
       const res = await fetch(`${API}${path}`, { ...options, headers: { ...headers, ...(options.headers as Record<string,string> || {}) }, credentials: 'include' });
+      
+      const encryptedData = await res.json().catch(() => ({}));
+      const body = await decryptPayload(encryptedData);
+
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
         throw new Error(body.message || `Request failed: ${res.status}`);
       }
-      return res.json();
+      return body;
     }
 
     function showToast(msg: string, type: 'success' | 'error' | 'info' = 'success') {

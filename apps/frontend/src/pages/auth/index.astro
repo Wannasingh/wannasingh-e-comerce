@@ -448,6 +448,8 @@ const defaultTab = tabParam === "register" ? "register" : "login";
   </style>
 
   <script>
+    import { decryptPayload } from '../../lib/crypto';
+
     /* ── DOM refs ──────────────────────────────────────────────────────────── */
     const tabLogin    = document.getElementById('tab-login')!;
     const tabRegister = document.getElementById('tab-register')!;
@@ -601,12 +603,13 @@ const defaultTab = tabParam === "register" ? "register" : "login";
           credentials: 'include',
         });
 
+        const encryptedData = await res.json().catch(() => ({}));
+        const data = await decryptPayload(encryptedData);
+
         if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
           throw new Error(data.message || 'Invalid credentials. Please try again.');
         }
 
-        const data = await res.json();
         if (data.token) localStorage.setItem('wanna_auth_token', data.token);
 
         // Show success then redirect
@@ -675,12 +678,13 @@ const defaultTab = tabParam === "register" ? "register" : "login";
           credentials: 'include',
         });
 
+        const encryptedReg = await regRes.json().catch(() => ({}));
+        const regData = await decryptPayload(encryptedReg);
+
         if (!regRes.ok) {
-          const data = await regRes.json().catch(() => ({}));
-          throw new Error(data.message || 'Registration failed. Please try again.');
+          throw new Error(regData.message || 'Registration failed. Please try again.');
         }
 
-        const regData = await regRes.json();
         const token = regData.token;
 
         // Step 2: Create customer record linked to auth identity
@@ -699,9 +703,11 @@ const defaultTab = tabParam === "register" ? "register" : "login";
           credentials: 'include',
         });
 
+        const encryptedCust = await custRes.json().catch(() => ({}));
+        const custData = await decryptPayload(encryptedCust);
+
         if (!custRes.ok) {
-          const data = await custRes.json().catch(() => ({}));
-          throw new Error(data.message || 'Customer profile linking failed. Please try again.');
+          throw new Error(custData.message || 'Customer profile linking failed. Please try again.');
         }
 
         successEl.classList.remove('hidden');
