@@ -1,49 +1,60 @@
 ---
 // src/pages/index.astro — Homepage | AETHER Cyber-Minimalist Design
 import Layout from "@layouts/Layout.astro";
+import crypto from "node:crypto";
 
 const siteTitle = "WANNASINGH | PRECISION GEAR FOR THE MODERN NOMAD";
 const siteDescription =
   "Engineered to transcend environmental boundaries. Technical performance meets minimalist architecture in our AW24 collection.";
 
-const featuredProducts = [
-  {
-    id: "x1-storm-parka",
-    sku: "MOD-01 // SHELL",
-    name: "X-1 STORM PARKA",
-    price: "$850.00",
-    badge: "NEW RELEASE",
-    tags: ["GORE-TEX PRO", "MODULAR HOOD"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCHFF-Askr-UVEcPxEatG03-NYhria9d1LD89xkSFRsysrpXIb0-XITMLvOob4NG48RStSeUZvnqE-b0SAZ_D2REoczbzNrn_ja6JX8qLfbj5o8EV8uKaT6I89igEyEsDyhTlKc6dWgEOQ1HbTdtwD9xmvaRM-i0Mm5qoW5Zuxpc6OnoQQ0lwxc5O-uaBl4Swcy_WU8x0_ODGNpMMMymEBBqmhJs2NFIfJm2Uhy7s0zGbBqDJxq7es5PhSa0Mv9snsLxe-_XFKGLYYG",
-    imageAlt: "A minimalist product shot of a technical storm parka in matte charcoal grey.",
-    href: "/shop/x1-storm-parka",
-  },
-  {
-    id: "kinetic-insulator",
-    sku: "LYR-04 // INSULATION",
-    name: "KINETIC INSULATOR",
-    price: "$420.00",
-    badge: null,
-    tags: ["PRIMALOFT", "PACKABLE"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBL87xX1K0i9R29FHPxTIXjgw1stKC9rJh86b2mHgLXY09NZAtxJsZMfi9mPDXfuna_OWYZMngAf86typMW0QE2iupdv-yOeNjb05ocVQMnhXYLXouCOH2COgVF79WicjVQM4ky1BPqPh8pl8ApYdh32xE5F206KBdmfrlJgQdXCFPiMeDd3NjrdsB3FiGeporoYcr9LerMp3CryMuD0AQr0WCsn9veXed5UjsIOvkqDMhIuZQMXYNXK97tJmr6c3nZ-Odbav9_enPj",
-    imageAlt: "A sleek, slim-fit technical mid-layer jacket in olive drab with hidden seams.",
-    href: "/shop/kinetic-insulator",
-  },
-  {
-    id: "carrier-vest-v2",
-    sku: "ACC-12 // UTILITY",
-    name: "CARRIER VEST v2",
-    price: "$310.00",
-    badge: null,
-    tags: ["CORDURA NYLON", "RFID SHIELD"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC9vRnGsEkP8rbSOnbE50SpzUqp71z8ETYw6Oo0YIoc4JxFgpsscWEe3O54lTJu14fEUneOa-KK9cvWxnIMzuchbz-tTyUU7Og93OAbuaUIDsYGtRRSwqIk_VZ1RAXG4u9dYLbP0hFF8f806qffWjzsvOj1VcnEdhWpLXFVidEBj9D6rO4_s8T-VXLKLdEE4Q82x8llpIBOlGl-CBO4Jpsmdofzd-uHxB8mSXSZvw04W0WCF_cLf8nX7v4-ngohPvOrhIKCY3looHKu",
-    imageAlt: "A black technical vest with numerous tactical pockets and webbing details.",
-    href: "/shop/carrier-vest-v2",
-  },
-];
+// ── Fetch featured products from Medusa API ───────────────────────────
+const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
+const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
+
+function decryptPayload(enc: { iv: string; data: string } | any): any {
+  if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
+  const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
+  const iv = Buffer.from(enc.iv, "hex");
+  const data = Buffer.from(enc.data, "hex");
+  const decipher = crypto.createDecipheriv("aes-256-cbc", keyHash, iv);
+  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
+}
+
+let featuredProducts: any[] = [];
+
+try {
+  const res = await fetch(
+    `${MEDUSA_URL}/store/products?limit=3&fields=id,title,handle,subtitle,status,metadata,variants.prices.amount,variants.prices.currency_code`,
+    { headers: { "x-publishable-api-key": PK, "Content-Type": "application/json" } }
+  );
+  if (res.ok) {
+    const raw = await res.json();
+    const data = decryptPayload(raw);
+    featuredProducts = (data.products || []).filter((p: any) => p.status === "published").slice(0, 3).map((p: any, i: number) => {
+      const meta = p.metadata || {};
+      const firstVariant = p.variants?.[0];
+      let price = meta.price || "$0.00";
+      if (firstVariant?.prices?.[0]) {
+        price = `$${(firstVariant.prices[0].amount / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+      }
+      const skuLabels = ["MOD-01 // SHELL", "LYR-04 // INSULATION", "ACC-12 // UTILITY"];
+      return {
+        id: p.handle,
+        sku: skuLabels[i % 3],
+        name: p.title,
+        price,
+        badge: i === 0 ? "NEW RELEASE" : null,
+        tags: meta.specs?.slice(0, 2)?.map((s: any) => s.value) || [meta.category?.toUpperCase() || "PERFORMANCE"],
+        image: meta.images?.main || "",
+        imageAlt: `${p.title} — WANNASINGH Performance Systems`,
+        href: `/shop/${p.handle}`,
+      };
+    });
+  }
+} catch (err) {
+  console.error("Failed to fetch featured products:", err);
+}
 
 const materialSpecs = [
   { label: "WATERPROOF RATING", value: "28,000mm" },
