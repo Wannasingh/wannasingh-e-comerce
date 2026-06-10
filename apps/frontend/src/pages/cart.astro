@@ -1,159 +1,84 @@
 ---
-// src/pages/cart.astro — Shopping Bag / Cart Page | AETHER Cyber-Minimalism
+// src/pages/cart.astro — Shopping Bag | AETHER Cyber-Minimalist Design
 import Layout from "../layouts/Layout.astro";
-
-// Static items in cart for demonstration (matching the items in checkout)
-const cartItems = [
-  {
-    id: "apex-shell",
-    name: "Apex Shell Jacket",
-    spec: "SIZE: L / COLOR: CARBON",
-    qty: 1,
-    price: 840.00,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuByPYHF0BBdLiAgxQp-Pg12NN71mOHtneRyYZeCDeuKuFbtHC-KI-hb3knevfyPAPAAML05BzLdSQ0QuHhsIiWH3LCnYmO_2GGxeAZzeb7NcVKo_IvwxKNdMYRAdjxYmEm2eQ3Qj6fSNKOT5bSVuGFLx07SYWZdhNXLE3o0MiGzq6ebVh5JChjCFlZ6Pdm3s1m0ZnQGpdDQtwgz9g1hEr2ke_XccIzH-O2GkzZ1V1PKy4YZNNXuUgIuY_7cquH8HNxHkXGJMTMOMMVN"
-  },
-  {
-    id: "modular-pouch",
-    name: "Tactical Modular Pouch",
-    spec: "SIZE: OS / COLOR: OBSIDIAN",
-    qty: 1,
-    price: 120.00,
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA9jiJDMQ5Ced4l3JX8Tj6kre4mx1Zs4kpWYOzBXxCRcLnrENVLIFDeUBUzGLYbwuK994V7ei79nV5t_V9X8JP8-2sxELZJdR_C_RpVuT09nBnhNGwVU6nkL1k0wwm_1UgN_HXhT5xMUFLJBPS3LHjh4TKJwWAbCsWHw6ltsIp1Fp8E_EY5efKw8ZWj1jkkumGZQqQpkiI5VmyFKW_zIvArrVaBt9MYztgAnUMMKCS9PQwuJs1jRe1cQxh-1hTwMG50LjoQpux2X63c"
-  }
-];
-
-const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
-const shipping = 0; // FREE
-const total = subtotal + shipping;
 ---
 
-<Layout title="AETHER | YOUR BAG" description="Review items in your active bag before deploying to secure checkout.">
-  <div class="py-12 px-6 md:px-16 max-w-[1440px] mx-auto reveal">
-    
+<Layout title="YOUR BAG | WANNASINGH PERFORMANCE SYSTEMS" description="Review items in your active bag before deploying to secure checkout.">
+  <div class="py-12 px-6 md:px-16 max-w-[1440px] mx-auto">
+
     <!-- Cart Header -->
-    <header class="relative mb-12 border-b border-[var(--outline-variant)]/30 pb-6">
+    <header class="relative mb-12 border-b border-outline-variant/30 pb-6">
       <div class="flex items-center justify-between">
         <div>
-          <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">Active Inventory / Bag</p>
-          <h1 class="font-display text-4xl text-[var(--primary)] uppercase leading-none mt-1">Your Bag</h1>
+          <p class="font-data-label text-xs text-secondary uppercase tracking-[0.2em]">Active Inventory / Bag</p>
+          <h1 class="font-display text-4xl text-primary uppercase leading-none mt-1">Your Bag</h1>
         </div>
-        <span class="font-data-label text-xs tracking-wider text-[var(--on-surface-variant)]" id="cart-item-count">
-          [ {cartItems.length.toString().padStart(2, '0')} ITEMS ]
+        <span class="font-data-label text-xs tracking-wider text-on-surface-variant" id="cart-item-count">
+          [ 00 ITEMS ]
         </span>
       </div>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-      
-      <!-- Left Column: Cart Items List -->
-      <div class="lg:col-span-8 space-y-8">
-        {cartItems.map((item) => (
-          <div class="flex flex-col sm:flex-row gap-6 border-b border-[var(--outline-variant)]/20 pb-8 group" data-item-id={item.id}>
-            <!-- Image -->
-            <div class="w-32 h-40 bg-[var(--surface-container-high)] flex-shrink-0 overflow-hidden border border-[var(--outline-variant)]/20">
-              <img 
-                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
-                alt={item.name}
-                src={item.image}
-              />
-            </div>
-            
-            <!-- Details & Actions -->
-            <div class="flex-grow flex flex-col justify-between py-1">
-              <div class="flex justify-between items-start gap-4">
-                <div>
-                  <h3 class="font-body-md text-lg font-bold uppercase tracking-tight text-[var(--primary)]">
-                    {item.name}
-                  </h3>
-                  <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] mt-1">{item.spec}</p>
-                </div>
-                <span class="font-data-value text-base text-[var(--primary)] font-semibold">${item.price.toFixed(2)}</span>
-              </div>
-              
-              <div class="flex justify-between items-center mt-6">
-                <!-- Quantity selector -->
-                <div class="flex items-center border border-[var(--outline-variant)]">
-                  <button 
-                    type="button" 
-                    class="qty-btn-minus px-3 py-1.5 font-data-label text-xs hover:bg-[var(--surface-container)] transition-colors cursor-pointer select-none"
-                  >
-                    -
-                  </button>
-                  <span class="qty-val px-4 py-1.5 font-data-label text-xs text-[var(--primary)] border-x border-[var(--outline-variant)] bg-[var(--surface)]">
-                    {item.qty}
-                  </span>
-                  <button 
-                    type="button" 
-                    class="qty-btn-plus px-3 py-1.5 font-data-label text-xs hover:bg-[var(--surface-container)] transition-colors cursor-pointer select-none"
-                  >
-                    +
-                  </button>
-                </div>
-                
-                <!-- Remove Button -->
-                <button 
-                  type="button"
-                  class="remove-btn font-data-label text-xs text-[var(--on-surface-variant)] hover:text-[var(--error)] border-b border-transparent hover:border-[var(--error)] pb-0.5 transition-colors cursor-pointer"
-                >
-                  REMOVE
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-        
-        {cartItems.length === 0 && (
-          <div class="text-center py-20 border border-dashed border-[var(--outline-variant)]">
-            <span class="material-symbols-outlined text-[var(--outline)]" style="font-size: 48px;">shopping_bag</span>
-            <p class="font-data-label text-xs uppercase tracking-widest text-[var(--on-surface-variant)] mt-4">Your bag is currently empty.</p>
-            <a 
-              href="/shop" 
-              class="inline-block mt-8 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-widest hover:bg-[var(--secondary)] transition-all no-underline"
-            >
-              DEPLOY TO SHOP
-            </a>
-          </div>
-        )}
+
+      <!-- Left Column: Cart Items (rendered by JS) -->
+      <div class="lg:col-span-8">
+
+        <!-- Empty state -->
+        <div id="empty-state" class="hidden text-center py-20 border border-dashed border-outline-variant">
+          <span class="material-symbols-outlined text-outline" style="font-size: 48px;">shopping_bag</span>
+          <p class="font-data-label text-xs uppercase tracking-widest text-on-surface-variant mt-4">Your bag is currently empty.</p>
+          <a
+            href="/shop"
+            class="inline-block mt-8 bg-primary text-on-primary px-8 py-4 font-data-label text-xs tracking-widest hover:bg-secondary transition-all no-underline"
+          >
+            BROWSE COLLECTION
+          </a>
+        </div>
+
+        <!-- Items list -->
+        <div id="items-list" class="space-y-8"></div>
+
       </div>
 
-      <!-- Right Column: Order Summary & Checkout -->
-      <div class="lg:col-span-4 bg-[var(--surface-container-low)] p-8 border border-[var(--outline-variant)]/30">
-        <h2 class="font-data-label text-sm uppercase mb-8 pb-4 border-b border-[var(--outline-variant)] tracking-widest text-[var(--primary)]">
+      <!-- Right Column: Order Summary -->
+      <div class="lg:col-span-4 bg-surface-container-low p-8 border border-outline-variant/30 sticky top-28">
+        <h2 class="font-data-label text-sm uppercase mb-8 pb-4 border-b border-outline-variant tracking-widest text-primary">
           Summary
         </h2>
-        
+
         <div class="space-y-4 mb-8">
           <div class="flex justify-between font-data-label text-xs">
-            <span class="text-[var(--on-surface-variant)]">SUBTOTAL</span>
-            <span class="text-[var(--primary)]" id="summary-subtotal">${subtotal.toFixed(2)}</span>
+            <span class="text-on-surface-variant">SUBTOTAL</span>
+            <span class="text-primary" id="summary-subtotal">$0.00</span>
           </div>
           <div class="flex justify-between font-data-label text-xs">
-            <span class="text-[var(--on-surface-variant)]">SHIPPING</span>
-            <span class="text-[var(--secondary)]">FREE</span>
+            <span class="text-on-surface-variant">SHIPPING</span>
+            <span class="text-secondary">FREE</span>
           </div>
-          <div class="flex justify-between font-headline-md text-lg font-bold pt-4 border-t border-[var(--outline-variant)]/30">
-            <span class="text-[var(--primary)]">TOTAL</span>
-            <span class="text-[var(--primary)]" id="summary-total">${total.toFixed(2)}</span>
+          <div class="flex justify-between font-headline-md text-lg font-bold pt-4 border-t border-outline-variant/30">
+            <span class="text-primary">TOTAL</span>
+            <span class="text-primary" id="summary-total">$0.00</span>
           </div>
         </div>
 
         <div class="space-y-3">
-          <a 
+          <a
             href="/checkout"
-            class="block w-full bg-[var(--primary)] text-[var(--on-primary)] py-5 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-colors text-center no-underline uppercase"
+            class="block w-full bg-primary text-on-primary py-5 font-data-label text-xs tracking-[0.2em] hover:bg-secondary transition-colors text-center no-underline uppercase"
           >
             PROCEED TO CHECKOUT
           </a>
-          <a 
+          <a
             href="/shop"
-            class="block w-full border border-[var(--outline-variant)] text-[var(--on-surface-variant)] py-4 font-caption text-xs uppercase hover:text-[var(--primary)] hover:border-[var(--primary)] transition-colors text-center no-underline"
+            class="block w-full border border-outline-variant text-on-surface-variant py-4 font-caption text-xs uppercase hover:text-primary hover:border-primary transition-colors text-center no-underline"
           >
             CONTINUE SHOPPING
           </a>
         </div>
 
-        <div class="mt-8 flex items-start space-x-3 text-[var(--on-surface-variant)]">
-          <span class="material-symbols-outlined text-[18px]" style="font-size: 18px;">lock</span>
+        <div class="mt-8 flex items-start space-x-3 text-on-surface-variant">
+          <span class="material-symbols-outlined" style="font-size: 18px;">lock</span>
           <p class="font-caption text-[11px] leading-relaxed">
             Biometric credentials and network secure protocols active. All transactions are encrypted.
           </p>
@@ -164,77 +89,152 @@ const total = subtotal + shipping;
   </div>
 
   <script>
-    // Client-side simple interactivity for quantity increments & removal
-    const items = document.querySelectorAll('[data-item-id]');
-    const subtotalEl = document.getElementById('summary-subtotal');
-    const totalEl = document.getElementById('summary-total');
-    const countEl = document.getElementById('cart-item-count');
-
-    // Initial state matching
-    let prices = {
-      'apex-shell': 840.00,
-      'modular-pouch': 120.00
-    };
-    
-    let quantities = {
-      'apex-shell': 1,
-      'modular-pouch': 1
-    };
-
-    function recalculate() {
-      let sum = 0;
-      let itemsCount = 0;
-      
-      Object.keys(quantities).forEach(id => {
-        sum += prices[id] * quantities[id];
-        if (quantities[id] > 0) {
-          itemsCount++;
-        }
-      });
-      
-      if (subtotalEl) subtotalEl.textContent = `$${sum.toFixed(2)}`;
-      if (totalEl) totalEl.textContent = `$${sum.toFixed(2)}`;
-      if (countEl) countEl.textContent = `[ ${itemsCount.toString().padStart(2, '0')} ITEMS ]`;
+    // ── Type ────────────────────────────────────────────────────────────────
+    interface CartItem {
+      id: string;
+      name: string;
+      price: string;
+      size: string;
+      qty: number;
+      image?: string;
     }
 
-    items.forEach(item => {
-      const id = item.getAttribute('data-item-id');
-      if (!id) return;
-      
-      const minusBtn = item.querySelector('.qty-btn-minus');
-      const plusBtn = item.querySelector('.qty-btn-plus');
-      const qtyVal = item.querySelector('.qty-val');
-      const removeBtn = item.querySelector('.remove-btn');
-      
-      minusBtn?.addEventListener('click', () => {
-        if (quantities[id] > 1) {
-          quantities[id]--;
-          if (qtyVal) qtyVal.textContent = quantities[id];
-          recalculate();
-        }
+    // ── DOM refs ─────────────────────────────────────────────────────────────
+    const itemsList        = document.getElementById("items-list")       as HTMLElement;
+    const emptyState       = document.getElementById("empty-state")      as HTMLElement;
+    const cartItemCount    = document.getElementById("cart-item-count")  as HTMLElement;
+    const summarySubtotal  = document.getElementById("summary-subtotal") as HTMLElement;
+    const summaryTotal     = document.getElementById("summary-total")    as HTMLElement;
+    const navBadge         = document.getElementById("cart-count")       as HTMLElement | null;
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function getCart(): CartItem[] {
+      try { return JSON.parse(localStorage.getItem("wanna_cart") || "[]"); }
+      catch { return []; }
+    }
+
+    function saveCart(cart: CartItem[]) {
+      localStorage.setItem("wanna_cart", JSON.stringify(cart));
+    }
+
+    function parsePrice(p: string): number {
+      return parseFloat(p.replace(/[^0-9.]/g, "")) || 0;
+    }
+
+    function formatPrice(n: number): string {
+      return "$" + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function syncNavBadge(total: number) {
+      if (!navBadge) return;
+      navBadge.textContent = String(total);
+      navBadge.classList.toggle("hidden", total === 0);
+    }
+
+    // ── Render ───────────────────────────────────────────────────────────────
+    function render() {
+      const cart = getCart();
+      itemsList.innerHTML = "";
+
+      if (cart.length === 0) {
+        emptyState.classList.remove("hidden");
+        cartItemCount.textContent      = "[ 00 ITEMS ]";
+        summarySubtotal.textContent    = "$0.00";
+        summaryTotal.textContent       = "$0.00";
+        syncNavBadge(0);
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+
+      let subtotal = 0;
+      let totalQty = 0;
+
+      cart.forEach((item, idx) => {
+        const unitPrice = parsePrice(item.price);
+        subtotal += unitPrice * item.qty;
+        totalQty += item.qty;
+
+        const el = document.createElement("div");
+        el.className = "flex flex-col sm:flex-row gap-6 border-b border-outline-variant/20 pb-8 group transition-all duration-300";
+        el.dataset.idx = String(idx);
+
+        // Image — use real product image if available, otherwise show placeholder icon
+        const imgHtml = item.image
+          ? `<img
+               src="${item.image}"
+               alt="${item.name}"
+               class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+             />`
+          : `<div class="w-full h-full flex items-center justify-center bg-surface-container-highest">
+               <span class="material-symbols-outlined text-outline-variant" style="font-size:40px;">checkroom</span>
+             </div>`;
+
+        el.innerHTML = `
+          <div class="w-32 h-40 bg-surface-container-high flex-shrink-0 overflow-hidden border border-outline-variant/20">
+            ${imgHtml}
+          </div>
+
+          <div class="flex-grow flex flex-col justify-between py-1">
+            <div class="flex justify-between items-start gap-4">
+              <div>
+                <h3 class="font-body-md text-lg font-bold uppercase tracking-tight text-primary">${item.name}</h3>
+                <p class="font-data-label text-[10px] text-on-surface-variant mt-1">SIZE: ${item.size}</p>
+              </div>
+              <span class="font-data-value text-base text-primary font-semibold">${formatPrice(unitPrice)}</span>
+            </div>
+
+            <div class="flex justify-between items-center mt-6">
+              <div class="flex items-center border border-outline-variant">
+                <button type="button" class="btn-minus px-3 py-1.5 font-data-label text-xs hover:bg-surface-container transition-colors cursor-pointer select-none">−</button>
+                <span class="qty-display px-4 py-1.5 font-data-label text-xs text-primary border-x border-outline-variant bg-surface min-w-[40px] text-center">${item.qty}</span>
+                <button type="button" class="btn-plus px-3 py-1.5 font-data-label text-xs hover:bg-surface-container transition-colors cursor-pointer select-none">+</button>
+              </div>
+
+              <span class="font-data-label text-xs text-secondary">${formatPrice(unitPrice * item.qty)}</span>
+
+              <button type="button" class="btn-remove font-data-label text-xs text-on-surface-variant hover:text-error border-b border-transparent hover:border-error pb-0.5 transition-colors cursor-pointer">
+                REMOVE
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Qty −
+        el.querySelector(".btn-minus")!.addEventListener("click", () => {
+          const c = getCart();
+          if (c[idx] && c[idx].qty > 1) { c[idx].qty--; saveCart(c); render(); }
+        });
+
+        // Qty +
+        el.querySelector(".btn-plus")!.addEventListener("click", () => {
+          const c = getCart();
+          if (c[idx]) { c[idx].qty++; saveCart(c); render(); }
+        });
+
+        // Remove
+        el.querySelector(".btn-remove")!.addEventListener("click", () => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(10px)";
+          setTimeout(() => {
+            const c = getCart();
+            c.splice(idx, 1);
+            saveCart(c);
+            render();
+          }, 280);
+        });
+
+        itemsList.appendChild(el);
       });
-      
-      plusBtn?.addEventListener('click', () => {
-        quantities[id]++;
-        if (qtyVal) qtyVal.textContent = quantities[id];
-        recalculate();
-      });
-      
-      removeBtn?.addEventListener('click', () => {
-        quantities[id] = 0;
-        (item as HTMLElement).style.opacity = '0';
-        (item as HTMLElement).style.transform = 'translateY(10px)';
-        setTimeout(() => {
-          (item as HTMLElement).remove();
-          recalculate();
-          
-          // If all removed, show empty state (reload page to reflect template or handle dynamically)
-          const remaining = document.querySelectorAll('[data-item-id]');
-          if (remaining.length === 0) {
-            window.location.reload();
-          }
-        }, 300);
-      });
-    });
+
+      // Update totals + header count
+      cartItemCount.textContent   = `[ ${String(totalQty).padStart(2, "0")} ITEMS ]`;
+      summarySubtotal.textContent = formatPrice(subtotal);
+      summaryTotal.textContent    = formatPrice(subtotal);
+      syncNavBadge(totalQty);
+    }
+
+    // Boot
+    render();
   </script>
 </Layout>

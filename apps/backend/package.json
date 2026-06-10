@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "medusa develop",
+    "dev": "TSCONFIG_PATHS_DISABLE=1 medusa develop",
     "build": "medusa build",
     "start": "node .medusa/server/index.js",
     "seed": "medusa exec ./src/scripts/seed.ts",

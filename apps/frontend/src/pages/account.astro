@@ -1,350 +1,1178 @@
 ---
-// src/pages/account.astro — Operative Dashboard | AETHER Cyber-Minimalism
+// src/pages/account.astro — Personal Data Management | AETHER Command Center v2
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="AETHER | COMMAND CENTER" description="Operative Identity Matrix and active systems status telemetry control panel.">
-  <div class="relative py-12 px-6 md:px-16 max-w-[1440px] mx-auto reveal">
-    <div class="tech-grid absolute inset-0 pointer-events-none opacity-5"></div>
-    
-    <!-- Dashboard Header -->
-    <header class="relative mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--outline-variant)]/30 pb-8">
+<Layout
+  title="WANNASINGH | My Account"
+  description="Manage your WANNASINGH account — personal data, addresses, order history and security settings."
+>
+  <!-- Auth guard overlay (shown if not logged in) -->
+  <div
+    id="auth-guard"
+    class="fixed inset-0 z-[999] bg-[var(--background)] flex flex-col items-center justify-center gap-6 hidden"
+  >
+    <div class="w-16 h-16 border-2 border-[var(--secondary)] flex items-center justify-center">
+      <span class="material-symbols-outlined text-[var(--secondary)]" style="font-size: 32px;">lock</span>
+    </div>
+    <div class="text-center">
+      <p class="font-data-label text-xs text-[var(--secondary)] tracking-widest uppercase mb-2">Access Denied</p>
+      <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-6">Authentication required to access your account.</p>
+      <a href="/auth" class="inline-flex items-center gap-3 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all no-underline">
+        <span>SIGN IN</span>
+        <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="relative py-12 max-w-[1440px] mx-auto px-4 md:px-16">
+    <div class="tech-grid absolute inset-0 pointer-events-none opacity-[0.04]"></div>
+
+    <!-- ── Dashboard Header ──────────────────────────────────────────────── -->
+    <header class="relative mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--outline-variant)]/30 pb-8 reveal">
       <div class="space-y-2">
-        <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">System / User / Profile</p>
-        <h1 class="font-display text-4xl md:text-5xl text-[var(--primary)] uppercase leading-none">Identity Matrix</h1>
+        <p class="font-caption text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">Account / Profile</p>
+        <h1 class="font-display text-4xl md:text-5xl text-[var(--primary)] uppercase leading-none">My Account</h1>
       </div>
       <div class="flex flex-col items-start md:items-end gap-2">
         <div class="px-4 py-1.5 border border-[var(--primary)] flex items-center gap-3">
           <span class="w-2 h-2 bg-[var(--secondary)] animate-pulse"></span>
-          <span class="font-data-label text-xs uppercase tracking-wider text-[var(--primary)]">Level 01 Collector</span>
+          <span id="user-tier" class="font-data-label text-xs uppercase tracking-wider text-[var(--primary)]">Level 01 Collector</span>
         </div>
-        <p class="font-data-value text-xs text-[var(--on-surface-variant)]">OPERATIVE ID: AE-9942-X</p>
+        <p id="user-operative-id" class="font-data-value text-xs text-[var(--on-surface-variant)]">Member ID: —</p>
       </div>
     </header>
 
-    <!-- Dashboard Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
-      
-      <!-- Left Column: Identity & Network Configurations -->
-      <div class="lg:col-span-4 space-y-12">
-        
-        <!-- Identity Section -->
-        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 relative overflow-hidden group">
-          <div class="scan-line"></div>
-          <div class="flex justify-between items-start mb-10">
-            <h2 class="font-headline-md text-xl uppercase text-[var(--primary)] font-bold">Identity</h2>
-            <span class="material-symbols-outlined text-[var(--outline)]" style="font-size: 24px;">fingerprint</span>
-          </div>
-          
-          <div class="flex flex-col items-center mb-10">
-            <div class="w-32 h-32 bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 p-1 mb-4">
-              <img 
-                alt="Operative Avatar" 
-                class="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuANyrq4RmJ5SKFvabKt5uPsrCGV-E3dfJ-UmYeDLnaTqPuBGGAB4tATktPxBnKwxxhmGsiNSNt63FPTB2DO3_ktmiIABUk3RC-O97au5whs6jBGjrMHYzx5tszS8I9ybnmrr5XS2-VaPDItG0g1qpXj9bPBaUQ2y8aLyYaYr9KfYvOY9sC8IZ-6UkXJh9kTcePZPg5evqLk4hrdjY_QRIMqLf-dOiK9BlVrE8Qj8voXV7jfyxqbY4_wHylTFcTVVru38j2V6958uEHo"
-              />
-            </div>
-            <p class="font-headline-md text-lg font-bold text-[var(--primary)] uppercase">ELIAS VANCE</p>
-            <p class="font-data-value text-xs text-[var(--outline)] mt-1 lowercase">vance.e@wannasingh.io</p>
-          </div>
-          
-          <div class="space-y-4">
-            <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/30 pb-2">
-              <span class="font-data-label text-xs uppercase text-[var(--on-surface-variant)]">Location</span>
-              <span class="font-data-value text-xs text-[var(--primary)]">Sector 07 // NYC</span>
-            </div>
-            <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/30 pb-2">
-              <span class="font-data-label text-xs uppercase text-[var(--on-surface-variant)]">Membership</span>
-              <span class="font-data-value text-xs text-[var(--primary)]">Est. 2022</span>
-            </div>
-            <button 
-              type="button"
-              class="w-full mt-4 py-3 border border-[var(--outline)] text-[var(--primary)] font-data-label text-xs uppercase hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-all duration-300 cursor-pointer"
-            >
-              Edit Credentials
-            </button>
-          </div>
-        </section>
+    <!-- ── Tab Nav ────────────────────────────────────────────────────────── -->
+    <nav class="flex gap-0 mb-10 border-b border-[var(--outline-variant)] overflow-x-auto reveal" aria-label="Account sections">
+      {[
+        { id: "identity",  icon: "fingerprint", label: "PROFILE" },
+        { id: "addresses", icon: "location_on", label: "ADDRESSES" },
+        { id: "orders",    icon: "inventory_2", label: "ORDERS" },
+        { id: "security",  icon: "lock",        label: "SECURITY" },
+      ].map((t, i) => (
+        <button
+          data-tab={t.id}
+          class={`account-tab flex items-center gap-2 px-6 py-4 font-data-label text-[11px] uppercase tracking-widest transition-all cursor-pointer border-b-2 whitespace-nowrap ${i === 0 ? "text-[var(--primary)] border-[var(--primary)]" : "text-[var(--on-surface-variant)] border-transparent hover:text-[var(--primary)]"}`}
+        >
+          <span class="material-symbols-outlined" style="font-size: 16px;">{t.icon}</span>
+          {t.label}
+        </button>
+      ))}
+      <div class="ml-auto flex items-center px-6 pb-3">
+        <button
+          id="logout-btn"
+          class="flex items-center gap-2 font-data-label text-[11px] uppercase tracking-widest text-[var(--outline)] hover:text-[var(--error)] transition-colors cursor-pointer border-none bg-transparent"
+        >
+          <span class="material-symbols-outlined" style="font-size: 16px;">logout</span>
+          <span class="hidden md:inline">SIGN OUT</span>
+        </button>
+      </div>
+    </nav>
 
-        <!-- Network Preferences -->
-        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
-          <h2 class="font-headline-md text-xl uppercase mb-8 text-[var(--primary)] font-bold">Network</h2>
-          <div class="space-y-6">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="font-data-label text-xs uppercase text-[var(--primary)]">Telemetry Feed</p>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mt-1">Newsletter and technical updates</p>
-              </div>
-              <button 
-                type="button" 
-                class="toggle-switch w-12 h-6 bg-[var(--secondary)] flex items-center px-1 cursor-pointer transition-colors"
-                data-state="on"
-              >
-                <div class="w-4 h-4 bg-white ml-auto transition-all"></div>
-              </button>
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION: IDENTITY ────────────────────────────────────────────────── -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <section id="section-identity" class="account-section reveal">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Avatar + Quick Info -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 relative overflow-hidden scanline-effect">
+            <div class="flex justify-between items-start mb-8">
+              <h2 class="font-headline-md text-lg uppercase font-bold">Profile</h2>
+              <span class="material-symbols-outlined text-[var(--outline)]" style="font-size: 22px;">fingerprint</span>
             </div>
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="font-data-label text-xs uppercase text-[var(--primary)]">Two-Factor Encryption</p>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mt-1">Enhanced biometric security</p>
+
+            <!-- Avatar upload -->
+            <div class="flex flex-col items-center mb-8">
+              <div class="relative group mb-4">
+                <div class="w-28 h-28 bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 overflow-hidden">
+                  <img
+                    id="avatar-preview"
+                    alt="Profile Avatar"
+                    class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuANyrq4RmJ5SKFvabKt5uPsrCGV-E3dfJ-UmYeDLnaTqPuBGGAB4tATktPxBnKwxxhmGsiNSNt63FPTB2DO3_ktmiIABUk3RC-O97au5whs6jBGjrMHYzx5tszS8I9ybnmrr5XS2-VaPDItG0g1qpXj9bPBaUQ2y8aLyYaYr9KfYvOY9sC8IZ-6UkXJh9kTcePZPg5evqLk4hrdjY_QRIMqLf-dOiK9BlVrE8Qj8voXV7jfyxqbY4_wHylTFcTVVru38j2V6958uEHo"
+                  />
+                </div>
+                <label
+                  for="avatar-input"
+                  class="absolute inset-0 flex items-center justify-center bg-[var(--primary)]/60 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                >
+                  <span class="material-symbols-outlined text-white" style="font-size: 22px;">photo_camera</span>
+                </label>
+                <input id="avatar-input" type="file" accept="image/*" class="hidden" />
               </div>
-              <button 
-                type="button" 
-                class="toggle-switch w-12 h-6 bg-[var(--secondary)] flex items-center px-1 cursor-pointer transition-colors"
-                data-state="on"
-              >
-                <div class="w-4 h-4 bg-white ml-auto transition-all"></div>
-              </button>
+              <p id="user-display-name" class="font-headline-md text-base font-bold text-[var(--primary)] uppercase text-center">—</p>
+              <p id="user-display-email" class="font-data-value text-xs text-[var(--outline)] mt-1">—</p>
             </div>
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="font-data-label text-xs uppercase text-[var(--primary)]">Public Profile</p>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mt-1">Visibility in operative network</p>
+
+            <!-- Quick stats -->
+            <div class="space-y-3">
+              <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/20 pb-2">
+                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Location</span>
+                <span id="user-location" class="font-data-value text-xs">—</span>
               </div>
-              <button 
-                type="button" 
-                class="toggle-switch w-12 h-6 bg-[var(--outline-variant)] flex items-center px-1 cursor-pointer transition-colors"
-                data-state="off"
-              >
-                <div class="w-4 h-4 bg-white transition-all"></div>
-              </button>
+              <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/20 pb-2">
+                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Phone</span>
+                <span id="user-phone" class="font-data-value text-xs">—</span>
+              </div>
+              <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/20 pb-2">
+                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Member Since</span>
+                <span id="user-since" class="font-data-value text-xs">—</span>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+
+        <!-- Edit Profile Form -->
+        <div class="lg:col-span-8">
+          <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+            <div class="flex justify-between items-center mb-8">
+              <h2 class="font-headline-md text-lg uppercase font-bold">Personal Info</h2>
+              <span class="font-caption text-xs text-[var(--secondary)] tracking-widest" id="profile-save-status"></span>
+            </div>
+
+            <form id="profile-form" class="space-y-6" novalidate>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="field-group">
+                  <label for="prof-firstname" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
+                  <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                    <input id="prof-firstname" name="first_name" type="text" autocomplete="given-name"
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="First Name" />
+                  </div>
+                  <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+                </div>
+                <div class="field-group">
+                  <label for="prof-lastname" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
+                  <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                    <input id="prof-lastname" name="last_name" type="text" autocomplete="family-name"
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="Last Name" />
+                  </div>
+                  <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="prof-email" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Email Address</label>
+                <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                  <input id="prof-email" name="email" type="email" autocomplete="email"
+                    class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                    placeholder="your@email.com" />
+                </div>
+                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="field-group">
+                  <label for="prof-phone" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Phone Number</label>
+                  <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                    <input id="prof-phone" name="phone" type="tel" autocomplete="tel"
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="+1 000 000 0000" />
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="prof-company" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Company (Optional)</label>
+                  <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                    <input id="prof-company" name="company_name" type="text"
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="Company name" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-4 flex gap-4">
+                <button type="submit"
+                  class="flex-1 md:flex-none bg-[var(--primary)] text-[var(--on-primary)] py-4 px-10 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex items-center justify-center gap-3 group cursor-pointer">
+                  <span class="btn-label">SAVE CHANGES</span>
+                  <span class="btn-loader hidden">
+                    <span class="inline-flex gap-1">
+                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:0ms;"></span>
+                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:150ms;"></span>
+                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:300ms;"></span>
+                    </span>
+                  </span>
+                  <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" style="font-size:16px;">save</span>
+                </button>
+                <button type="button" id="profile-reset"
+                  class="py-4 px-6 border border-[var(--outline)] text-[var(--primary)] font-data-label text-xs tracking-[0.2em] hover:border-[var(--primary)] transition-all cursor-pointer">
+                  RESET
+                </button>
+              </div>
+
+              <p id="profile-error" class="font-caption text-[11px] text-[var(--error)] hidden"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION: ADDRESSES ─────────────────────────────────────────────────── -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <section id="section-addresses" class="account-section hidden reveal">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h2 class="font-headline-md text-lg uppercase font-bold mb-1">Saved Addresses</h2>
+          <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">Manage your shipping and billing addresses.</p>
+        </div>
+        <button id="add-address-btn"
+          class="flex items-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 font-data-label text-[11px] tracking-widest hover:bg-[var(--secondary)] transition-all cursor-pointer">
+          <span class="material-symbols-outlined" style="font-size:16px;">add</span>
+          ADD ADDRESS
+        </button>
       </div>
 
-      <!-- Right Column: System History & Gear Status -->
-      <div class="lg:col-span-8 space-y-12">
-        
-        <!-- Gear Status (Active Inventory) -->
-        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+      <!-- Address cards grid -->
+      <div id="addresses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated by JS -->
+        <div class="col-span-full py-16 flex flex-col items-center gap-4 border border-dashed border-[var(--outline-variant)] text-center" id="addresses-empty">
+          <span class="material-symbols-outlined text-[var(--outline-variant)]" style="font-size:40px;">location_off</span>
+          <p class="font-data-label text-xs text-[var(--outline)] uppercase tracking-widest">No addresses saved yet</p>
+          <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">Add your first shipping address to proceed to checkout faster.</p>
+        </div>
+      </div>
+
+      <!-- Address form modal -->
+      <div id="address-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-[var(--primary)]/50 backdrop-blur-sm" id="address-modal-backdrop"></div>
+        <div class="relative bg-[var(--surface)] border border-[var(--outline-variant)] p-8 md:p-12 w-full max-w-lg mx-4 z-10">
           <div class="flex justify-between items-center mb-8">
-            <h2 class="font-headline-md text-xl uppercase text-[var(--primary)] font-bold">Gear Status</h2>
-            <span class="font-data-label text-xs text-[var(--secondary)] tracking-wider">[ 2 ACTIVE SYSTEMS ]</span>
+            <h3 id="address-modal-title" class="font-headline-md text-base uppercase font-bold">New Address</h3>
+            <button id="address-modal-close" class="material-symbols-outlined text-[var(--outline)] hover:text-[var(--primary)] cursor-pointer" style="font-size:20px;">close</button>
           </div>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Active Item 1 -->
-            <div class="border border-[var(--outline-variant)]/30 p-6 group hover:border-[var(--secondary)] transition-all">
-              <div class="flex gap-6">
-                <div class="w-24 h-24 bg-[var(--surface-container-high)] flex-shrink-0 overflow-hidden">
-                  <img 
-                    alt="Gear 01 Carbon Shell" 
-                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcV6l39yhwC4Xpe33gH8870TFhhFskr2LfTdpHVjsRokooLMOP42BqviNxJ8gOLiZTCX4fuKfvGAqTZ-zG-97aZbUg42dl0GPKUCSMH9CeIVPOco8v5fvpNxmBigrw8jbXkyiLpkpGRg-LxXtt9al6sriiD9-JR_BzUPP19EtoyqRWQw6z9TFKeG5V0QJj6UfAs4f7vQY797EicLflKFL0XQSHo4_PgtG-tbqokZ9AAYg1h6FCYqd6G0DCELsMoM1Pzlc-7PpDKr9Z"
-                  />
+          <form id="address-form" class="space-y-5" novalidate>
+            <input type="hidden" name="address_id" id="addr-id" />
+            <div class="grid grid-cols-2 gap-4">
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="first_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="First Name" />
                 </div>
-                <div class="space-y-1">
-                  <span class="font-data-label text-[10px] text-[var(--secondary)] tracking-widest block uppercase font-semibold">ACTIVE</span>
-                  <h3 class="font-headline-md text-base uppercase text-[var(--primary)]">X-1 Carbon Shell</h3>
-                  <p class="font-data-value text-xs text-[var(--on-surface-variant)] mt-1">Maintenance: 84% Integrity</p>
-                </div>
+                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
-              <div class="mt-6 h-1.5 bg-[var(--surface-container-high)] overflow-hidden">
-                <div class="h-full bg-[var(--secondary)] w-4/5"></div>
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="last_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Last Name" />
+                </div>
+                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
             </div>
-
-            <!-- Active Item 2 (In Repair) -->
-            <div class="border border-[var(--outline-variant)]/30 p-6 relative group hover:border-[var(--error)] transition-all">
-              <div class="flex gap-6">
-                <div class="w-24 h-24 bg-[var(--surface-container-high)] flex-shrink-0 opacity-50 overflow-hidden group-hover:opacity-85 transition-all duration-500">
-                  <img 
-                    alt="Gear 02 Apex Hardshell" 
-                    class="w-full h-full object-cover grayscale" 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfTGfB0ufJfAy6-1opEbY22vOxTZP8vhM5uSA5w2XHLd8XYgSEWT40LNIJlPkBWD1NysxAN9GsI8kciAOiwPCbbP20X2u71DfuT_YPQjnqJ0F1y2aGH3ovAozMFKnCDINo-UHcNhSS4aCT7lRmWVQOfrfpP8R0EQ2qYLYtk6T8-BsQpsfi9QQVA4mRW56BbPx3Qp3Qk6fE49qH1DRPb0ClLbGtBPBKCfLP7E9EylOeq0MfGh7zmcIZTMZCK7nKMBuunybqHLZSZSR3"
-                  />
-                </div>
-                <div class="space-y-1">
-                  <span class="font-data-label text-[10px] text-[var(--error)] tracking-widest block uppercase font-semibold">IN REPAIR</span>
-                  <h3 class="font-headline-md text-base uppercase text-[var(--primary)]">Apex Hardshell</h3>
-                  <p class="font-data-value text-xs text-[var(--on-surface-variant)] mt-1">Est: 48:00:00 Remaining</p>
-                </div>
+            <div class="field-group">
+              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 1</label>
+              <div class="border-b border-[var(--outline-variant)] pb-1">
+                <input name="address_1" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Street address" />
               </div>
-              <div class="mt-6 flex justify-between items-center pt-2">
-                <span class="font-data-label text-[9px] text-[var(--outline)] uppercase">Diagnostic Sync...</span>
-                <span class="font-data-label text-[9px] text-[var(--error)] font-bold">CRITICAL</span>
+              <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+            </div>
+            <div class="field-group">
+              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 2 (Optional)</label>
+              <div class="border-b border-[var(--outline-variant)] pb-1">
+                <input name="address_2" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Apartment, suite, unit, etc." />
               </div>
             </div>
-          </div>
-        </section>
-
-        <!-- Acquisition History -->
-        <section class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
-          <h2 class="font-headline-md text-xl uppercase mb-8 text-[var(--primary)] font-bold">Acquisition History</h2>
-          <div class="space-y-4">
-            
-            <!-- Order 1 -->
-            <div class="border border-[var(--outline-variant)]/30 p-6 hover:bg-[var(--surface)] transition-all">
-              <div class="flex flex-col sm:flex-row justify-between gap-6 mb-6">
-                <div>
-                  <span class="font-data-label text-[10px] text-[var(--outline)] uppercase mb-2 block tracking-wider">Order #AE-7721-00</span>
-                  <h3 class="font-headline-md text-base text-[var(--primary)] font-bold uppercase tracking-tight">TERRAIN MASTER SERIES</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">City</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="city" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="City" />
                 </div>
-                <div class="sm:text-right">
-                  <p class="font-data-value text-base text-[var(--primary)] font-bold">$1,240.00</p>
-                  <p class="font-data-label text-[10px] text-[var(--secondary)] uppercase tracking-wider mt-1">Delivered // 2024.03.12</p>
-                </div>
+                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-[var(--outline-variant)]/20">
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">FABRIC TYPE</p>
-                  <p class="font-data-value text-xs text-[var(--primary)] uppercase font-semibold">Dyn-Grid Kevlar</p>
-                </div>
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">SYSTEM WEIGHT</p>
-                  <p class="font-data-value text-xs text-[var(--primary)]">420g / Ultra</p>
-                </div>
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">LIMITING RANGE</p>
-                  <p class="font-data-value text-xs text-[var(--primary)]">-20C Rating</p>
-                </div>
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">UNIQUE ID</p>
-                  <p class="font-data-value text-xs text-[var(--primary)] uppercase">SN: 9942-01</p>
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">State / Province</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="province" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="State / Province" />
                 </div>
               </div>
             </div>
-
-            <!-- Order 2 -->
-            <div class="border border-[var(--outline-variant)]/30 p-6 hover:bg-[var(--surface)] transition-all">
-              <div class="flex flex-col sm:flex-row justify-between gap-6 mb-6">
-                <div>
-                  <span class="font-data-label text-[10px] text-[var(--outline)] uppercase mb-2 block tracking-wider">Order #AE-6890-22</span>
-                  <h3 class="font-headline-md text-base text-[var(--primary)] font-bold uppercase tracking-tight">ORBITAL MID-LAYER</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Postal Code</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="postal_code" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Postal / Zip Code" />
                 </div>
-                <div class="sm:text-right">
-                  <p class="font-data-value text-base text-[var(--primary)] font-bold">$450.00</p>
-                  <p class="font-data-label text-[10px] text-[var(--secondary)] uppercase tracking-wider mt-1">Delivered // 2023.11.05</p>
-                </div>
+                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-[var(--outline-variant)]/20">
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">FABRIC TYPE</p>
-                  <p class="font-data-value text-xs text-[var(--primary)] uppercase font-semibold">Bio-Poly Fleece</p>
+              <div class="field-group">
+                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Country Code</label>
+                <div class="border-b border-[var(--outline-variant)] pb-1">
+                  <input name="country_code" type="text" required maxlength="2" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Country code (e.g. US)" />
                 </div>
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">SYSTEM WEIGHT</p>
-                  <p class="font-data-value text-xs text-[var(--primary)]">180g / Lite</p>
-                </div>
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">LIMITING RANGE</p>
-                  <p class="font-data-value text-xs text-[var(--primary)]">95% Moisture</p>
-                </div>
-                <div>
-                  <p class="font-data-label text-[9px] text-[var(--outline)] uppercase">UNIQUE ID</p>
-                  <p class="font-data-value text-xs text-[var(--primary)] uppercase">SN: 4410-BC</p>
-                </div>
+                <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
             </div>
+            <label class="flex items-center gap-3 cursor-pointer select-none">
+              <input type="checkbox" name="is_default" class="w-3.5 h-3.5 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer" />
+              <span class="font-caption text-xs uppercase tracking-wider text-[var(--on-surface-variant)]">Set as Default Address</span>
+            </label>
+            <div class="flex gap-4 pt-2">
+              <button type="submit" class="flex-1 bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all cursor-pointer">
+                SAVE ADDRESS
+              </button>
+              <button type="button" id="addr-cancel" class="py-4 px-6 border border-[var(--outline)] font-data-label text-xs tracking-widest hover:border-[var(--primary)] transition-all cursor-pointer">
+                CANCEL
+              </button>
+            </div>
+            <p class="addr-form-error font-caption text-xs text-[var(--error)] hidden"></p>
+          </form>
+        </div>
+      </div>
+    </section>
 
-          </div>
-          
-          <div class="mt-8 flex justify-center">
-            <button 
-              type="button"
-              class="font-data-label text-xs uppercase border-b border-[var(--secondary)] pb-1 hover:text-[var(--secondary)] transition-colors cursor-pointer select-none"
-            >
-              Load Full Archive
-            </button>
-          </div>
-        </section>
-
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION: ORDERS ─────────────────────────────────────────────────── -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <section id="section-orders" class="account-section hidden reveal">
+      <div class="mb-8">
+        <h2 class="font-headline-md text-lg uppercase font-bold mb-1">Order History</h2>
+        <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">All confirmed and past orders.</p>
       </div>
 
+      <!-- Filter bar -->
+      <div class="flex flex-wrap gap-3 mb-6">
+        {["ALL", "DELIVERED", "PROCESSING", "RETURNED"].map((f, i) => (
+          <button
+            data-filter={f.toLowerCase()}
+            class={`order-filter font-data-label text-[10px] tracking-widest px-4 py-2 border transition-all cursor-pointer uppercase ${i === 0 ? "border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5" : "border-[var(--outline-variant)] text-[var(--on-surface-variant)] hover:border-[var(--primary)]"}`}
+          >
+            {f}
+          </button>
+        ))}
+        <div class="ml-auto">
+          <input
+            id="order-search"
+            type="search"
+            placeholder="SEARCH ORDER #..."
+            class="bg-transparent border-b border-[var(--outline-variant)] py-2 px-0 font-data-label text-[10px] tracking-widest placeholder:text-[var(--outline-variant)]/50 focus:outline-none focus:border-[var(--secondary)] w-48 transition-all"
+          />
+        </div>
+      </div>
+
+      <div id="orders-list" class="space-y-4">
+        <!-- Skeleton placeholders -->
+        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24"></div>
+        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24"></div>
+        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24"></div>
+      </div>
+
+      <div id="orders-empty" class="hidden py-16 flex flex-col items-center gap-4 border border-dashed border-[var(--outline-variant)] text-center">
+        <span class="material-symbols-outlined text-[var(--outline-variant)]" style="font-size:40px;">inventory</span>
+        <p class="font-data-label text-xs text-[var(--outline)] uppercase tracking-widest">No orders found</p>
+        <a href="/shop" class="font-caption text-[11px] text-[var(--secondary)] hover:underline underline-offset-2 no-underline">Browse the Shop →</a>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION: SECURITY ──────────────────────────────────────────────── -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <section id="section-security" class="account-section hidden reveal">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- Change password -->
+        <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+          <div class="flex justify-between items-start mb-8">
+            <h2 class="font-headline-md text-lg uppercase font-bold">Change Password</h2>
+            <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:22px;">key</span>
+          </div>
+          <form id="change-password-form" class="space-y-6" novalidate>
+            <div class="field-group">
+              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Current Password</label>
+              <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                <input name="current_password" type="password" autocomplete="current-password" required
+                  class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 pr-8 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                  placeholder="••••••••••••" />
+                <button type="button" class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors">
+                  <span class="material-symbols-outlined" style="font-size:16px;">visibility_off</span>
+                </button>
+              </div>
+              <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+            </div>
+            <div class="field-group">
+              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">New Password</label>
+              <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                <input name="new_password" type="password" autocomplete="new-password" required
+                  class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 pr-8 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                  placeholder="At least 8 characters" />
+                <button type="button" class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors">
+                  <span class="material-symbols-outlined" style="font-size:16px;">visibility_off</span>
+                </button>
+              </div>
+              <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+            </div>
+            <div class="field-group">
+              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Confirm Password</label>
+              <div class="relative border-b border-[var(--outline-variant)] pb-1">
+                <input name="confirm_password" type="password" autocomplete="new-password" required
+                  class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                  placeholder="Re-enter password" />
+              </div>
+              <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
+            </div>
+            <button type="submit"
+              class="w-full bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex justify-between items-center px-8 group cursor-pointer">
+              <span class="btn-label">UPDATE PASSWORD</span>
+              <span class="btn-loader hidden"><span class="inline-flex gap-1"><span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:0ms;"></span><span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:150ms;"></span><span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:300ms;"></span></span></span>
+              <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" style="font-size:16px;">lock_reset</span>
+            </button>
+            <p id="pw-change-msg" class="font-caption text-[11px] hidden text-center"></p>
+          </form>
+        </div>
+
+        <!-- Network preferences -->
+        <div class="space-y-6">
+          <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+            <div class="flex justify-between items-start mb-8">
+              <h2 class="font-headline-md text-lg uppercase font-bold">Preferences</h2>
+              <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:22px;">settings</span>
+            </div>
+            <div class="space-y-6">
+              {[
+                { id: "pref-newsletter", label: "Email Newsletter", desc: "Get notified about new drops, collections and stories.", defaultOn: true },
+                { id: "pref-2fa",        label: "Two-Factor Auth",  desc: "Enhanced account security layer",  defaultOn: true },
+                { id: "pref-public",     label: "Public Profile",   desc: "Make profile visible to community",    defaultOn: false },
+                { id: "pref-marketing",  label: "Exclusive Drop Alerts",   desc: "Get early access and notifications for limited releases.", defaultOn: true },
+              ].map(p => (
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-caption text-xs font-semibold uppercase text-[var(--primary)]">{p.label}</p>
+                    <p class="font-caption text-[10px] text-[var(--on-surface-variant)] mt-0.5">{p.desc}</p>
+                  </div>
+                  <button
+                    type="button"
+                    class="toggle-switch w-11 h-6 flex items-center px-1 cursor-pointer transition-colors"
+                    style={`background: ${p.defaultOn ? "var(--secondary)" : "var(--outline-variant)"}`}
+                    data-state={p.defaultOn ? "on" : "off"}
+                    id={p.id}
+                  >
+                    <div
+                      class="w-4 h-4 bg-white transition-all"
+                      style={p.defaultOn ? "margin-left: auto;" : ""}
+                    ></div>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Danger zone -->
+          <div class="bg-[var(--surface-container-lowest)] border border-[var(--error)]/20 p-8">
+            <div class="flex justify-between items-start mb-6">
+              <h2 class="font-headline-md text-lg uppercase font-bold text-[var(--error)]">Danger Zone</h2>
+              <span class="material-symbols-outlined text-[var(--error)]" style="font-size:22px;">warning</span>
+            </div>
+            <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-6">Permanently delete your account and all associated data. This action cannot be undone.</p>
+            <button
+              id="delete-account-btn"
+              type="button"
+              class="w-full border border-[var(--error)] text-[var(--error)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--error)] hover:text-white transition-all cursor-pointer"
+            >
+              DELETE ACCOUNT
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div
+    id="toast"
+    class="fixed bottom-8 right-8 z-[100] hidden"
+    style="min-width: 280px;"
+  >
+    <div id="toast-inner" class="border p-4 flex items-center gap-3 shadow-xl">
+      <span id="toast-icon" class="material-symbols-outlined" style="font-size: 20px;"></span>
+      <p id="toast-msg" class="font-data-label text-xs tracking-wider uppercase flex-1"></p>
+      <button onclick="document.getElementById('toast').classList.add('hidden')" class="material-symbols-outlined text-current cursor-pointer opacity-60 hover:opacity-100" style="font-size:16px;">close</button>
     </div>
   </div>
 
   <style>
-    /* Technical Grid background pattern */
     .tech-grid {
       background-image: radial-gradient(circle, var(--outline) 1px, transparent 1px);
       background-size: 40px 40px;
     }
-    
-    /* Sweeping Scan-line overlay animation */
+
     .scan-line {
       height: 2px;
       background: linear-gradient(to right, transparent, var(--secondary), transparent);
       position: absolute;
       width: 100%;
-      animation: scan 4s linear infinite;
-      z-index: 10;
+      animation: scan 5s linear infinite;
+      z-index: 5;
     }
-    
+
     @keyframes scan {
-      0% { top: 0; opacity: 0; }
-      50% { opacity: 0.5; }
+      0%   { top: 0; opacity: 0; }
+      15%  { opacity: 0.35; }
+      85%  { opacity: 0.35; }
       100% { top: 100%; opacity: 0; }
+    }
+
+    .shimmer {
+      background: linear-gradient(90deg, var(--surface-container) 25%, var(--surface-container-high) 50%, var(--surface-container) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Address card hover */
+    .address-card:hover { border-color: var(--secondary); }
+
+    /* Order expanded content */
+    .order-details { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .order-details.open { max-height: 600px; }
+
+    /* Toast animation */
+    #toast.show { animation: toast-in 0.3s ease-out both; }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 
   <script>
-    // Header hover effects on components
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-      const h2 = section.querySelector('h2');
-      section.addEventListener('mouseenter', () => {
-        if (h2) {
-          h2.classList.add('text-[var(--secondary)]');
-        }
-      });
-      section.addEventListener('mouseleave', () => {
-        if (h2) {
-          h2.classList.remove('text-[var(--secondary)]');
-        }
+    /* ── Constants ──────────────────────────────────────────────────────────── */
+    const API = (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string) || 'http://localhost:9000';
+    const PK  = (import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY as string) || '';
+
+    /* ── Helpers ────────────────────────────────────────────────────────────── */
+    function getToken(): string | null {
+      return localStorage.getItem('wanna_auth_token');
+    }
+
+    async function apiRequest(path: string, options: RequestInit = {}) {
+      const token = getToken();
+      const headers: Record<string,string> = {
+        'Content-Type': 'application/json',
+        'x-publishable-api-key': PK,
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      };
+      const res = await fetch(`${API}${path}`, { ...options, headers: { ...headers, ...(options.headers as Record<string,string> || {}) }, credentials: 'include' });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.message || `Request failed: ${res.status}`);
+      }
+      return res.json();
+    }
+
+    function showToast(msg: string, type: 'success' | 'error' | 'info' = 'success') {
+      const toast     = document.getElementById('toast')!;
+      const inner     = document.getElementById('toast-inner')!;
+      const iconEl    = document.getElementById('toast-icon')!;
+      const msgEl     = document.getElementById('toast-msg')!;
+      const colorMap  = { success: 'var(--secondary)', error: 'var(--error)', info: 'var(--outline)' };
+      const iconMap   = { success: 'check_circle', error: 'error', info: 'info' };
+
+      inner.style.borderColor = colorMap[type];
+      inner.style.background  = 'var(--surface-container-lowest)';
+      iconEl.textContent       = iconMap[type];
+      iconEl.style.color       = colorMap[type];
+      msgEl.textContent        = msg;
+
+      toast.classList.remove('hidden', 'show');
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => toast.classList.add('hidden'), 4000);
+    }
+
+    function setLoading(form: HTMLElement, loading: boolean) {
+      const btn    = form.querySelector<HTMLButtonElement>('[type=submit]');
+      if (!btn) return;
+      const label  = btn.querySelector<HTMLElement>('.btn-label');
+      const loader = btn.querySelector<HTMLElement>('.btn-loader');
+      btn.disabled = loading;
+      label?.classList.toggle('hidden', loading);
+      loader?.classList.toggle('hidden', !loading);
+    }
+
+    function showFieldError(group: Element, msg: string) {
+      const err = group.querySelector<HTMLElement>('.field-error');
+      if (err) { err.textContent = msg; err.classList.remove('hidden'); }
+    }
+    function clearFieldErrors(form: Element) {
+      form.querySelectorAll('.field-error').forEach(e => { (e as HTMLElement).textContent = ''; e.classList.add('hidden'); });
+    }
+
+    /* ── Auth guard ─────────────────────────────────────────────────────────── */
+    const token = getToken();
+    if (!token) {
+      document.getElementById('auth-guard')!.classList.remove('hidden');
+    }
+
+    /* ── Logout ─────────────────────────────────────────────────────────────── */
+    document.getElementById('logout-btn')?.addEventListener('click', () => {
+      localStorage.removeItem('wanna_auth_token');
+      showToast('Signing out. Redirecting…', 'info');
+      setTimeout(() => { window.location.href = '/auth'; }, 1200);
+    });
+
+    /* ── Delete account confirm ─────────────────────────────────────────────── */
+    document.getElementById('delete-account-btn')?.addEventListener('click', () => {
+      if (!confirm('⚠ CONFIRM DELETE ACCOUNT\n\nThis will permanently delete your account and all data. This cannot be undone.')) return;
+      apiRequest('/store/customers/me', { method: 'DELETE' })
+        .then(() => {
+          localStorage.removeItem('wanna_auth_token');
+          showToast('Account deleted.', 'info');
+          setTimeout(() => { window.location.href = '/'; }, 1500);
+        })
+        .catch(err => showToast(err.message, 'error'));
+    });
+
+    /* ── Tab switching ──────────────────────────────────────────────────────── */
+    const tabs     = document.querySelectorAll<HTMLElement>('.account-tab');
+    const sections = document.querySelectorAll<HTMLElement>('.account-section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        tabs.forEach(t => {
+          t.classList.remove('text-[var(--primary)]', 'border-[var(--primary)]');
+          t.classList.add('text-[var(--on-surface-variant)]', 'border-transparent');
+        });
+        tab.classList.add('text-[var(--primary)]', 'border-[var(--primary)]');
+        tab.classList.remove('text-[var(--on-surface-variant)]', 'border-transparent');
+
+        sections.forEach(s => {
+          s.classList.toggle('hidden', s.id !== `section-${target}`);
+        });
+
+        // Lazy load orders when switching to orders tab
+        if (target === 'orders') loadOrders();
       });
     });
 
-    // Simulating loading telemetry/decryption text decoder iterations
-    const dataValues = document.querySelectorAll('.font-data-value');
-    dataValues.forEach(val => {
-      const el = val as HTMLElement;
-      if (Math.random() > 0.5) {
-        const originalText = el.innerText;
-        el.addEventListener('mouseenter', () => {
-          let iterations = 0;
-          const interval = setInterval(() => {
-            el.innerText = originalText.split("")
-              .map((char, index) => {
-                if (index < iterations) return originalText[index];
-                // Random alphanumeric replacement
-                return String.fromCharCode(65 + Math.floor(Math.random() * 26));
-              }).join("");
-            
-            if (iterations >= originalText.length) {
-              clearInterval(interval);
-              el.innerText = originalText;
-            }
-            iterations += 1/2;
-          }, 30);
+    /* ── Field focus effects ────────────────────────────────────────────────── */
+    function initFieldEffects(root: Element = document.body) {
+      root.querySelectorAll<HTMLInputElement>('.field-input').forEach(input => {
+        const group  = input.closest('.field-group');
+        const border = input.closest('.relative, .border-b') as HTMLElement;
+        const label  = group?.querySelector<HTMLElement>('.field-label');
+
+        input.addEventListener('focus', () => {
+          if (border) { border.style.borderColor = 'var(--secondary)'; }
+          if (label)  { label.style.color = 'var(--secondary)'; }
         });
+        input.addEventListener('blur', () => {
+          if (border) { border.style.borderColor = ''; }
+          if (label)  { label.style.color = ''; }
+        });
+      });
+
+      // Password toggles
+      root.querySelectorAll<HTMLButtonElement>('.pw-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pw   = btn.previousElementSibling as HTMLInputElement;
+          const icon = btn.querySelector('.material-symbols-outlined')!;
+          const isText = pw.type === 'text';
+          pw.type = isText ? 'password' : 'text';
+          icon.textContent = isText ? 'visibility_off' : 'visibility';
+        });
+      });
+    }
+    initFieldEffects();
+
+    /* ── Toggle switches ────────────────────────────────────────────────────── */
+    document.querySelectorAll<HTMLElement>('.toggle-switch').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const isOn  = toggle.dataset.state === 'on';
+        const handle = toggle.querySelector('div') as HTMLElement;
+        toggle.dataset.state = isOn ? 'off' : 'on';
+        toggle.style.background = isOn ? 'var(--outline-variant)' : 'var(--secondary)';
+        handle.style.marginLeft = isOn ? '' : 'auto';
+        showToast(isOn ? 'Setting disabled' : 'Setting enabled', 'info');
+      });
+    });
+
+    /* ── Load customer data ──────────────────────────────────────────────────── */
+    let customerData: any = null;
+
+    async function loadCustomer() {
+      try {
+        const data = await apiRequest('/store/customers/me');
+        customerData = data.customer || data;
+        fillProfile(customerData);
+      } catch {
+        // Not authenticated or API down — populate with demo data
+        customerData = {
+          id: 'demo-001',
+          first_name: 'ELIAS',
+          last_name: 'VANCE',
+          email: 'vance.e@wannasingh.io',
+          phone: '+1 212 555 0142',
+          company_name: 'TAC-OPS',
+          created_at: '2022-03-15T00:00:00Z',
+          addresses: [
+            { id: 'addr-1', address_1: '42 SECTOR BLVD', city: 'NEW YORK', province: 'NY', postal_code: '10001', country_code: 'US', first_name: 'Elias', last_name: 'Vance', is_default_billing: true },
+          ]
+        };
+        fillProfile(customerData);
+      }
+    }
+
+    function fillProfile(c: any) {
+      const name = `${c.first_name || ''} ${c.last_name || ''}`.trim();
+      (document.getElementById('user-display-name') as HTMLElement).textContent = name || '—';
+      (document.getElementById('user-display-email') as HTMLElement).textContent = c.email || '—';
+      (document.getElementById('user-operative-id') as HTMLElement).textContent = `Member ID: ${c.id?.slice(0,12).toUpperCase() || '—'}`;
+      (document.getElementById('user-phone') as HTMLElement).textContent = c.phone || '—';
+      (document.getElementById('user-location') as HTMLElement).textContent = c.addresses?.[0]?.city ? `${c.addresses[0].city}, ${c.addresses[0].country_code?.toUpperCase()}` : '—';
+      (document.getElementById('user-since') as HTMLElement).textContent = c.created_at ? new Date(c.created_at).getFullYear().toString() : '—';
+
+      // Fill profile form
+      const f = document.getElementById('profile-form') as HTMLFormElement;
+      (f.querySelector('[name=first_name]') as HTMLInputElement).value  = c.first_name || '';
+      (f.querySelector('[name=last_name]') as HTMLInputElement).value   = c.last_name  || '';
+      (f.querySelector('[name=email]') as HTMLInputElement).value       = c.email      || '';
+      (f.querySelector('[name=phone]') as HTMLInputElement).value       = c.phone      || '';
+      (f.querySelector('[name=company_name]') as HTMLInputElement).value = c.company_name || '';
+
+      // Addresses
+      renderAddresses(c.addresses || []);
+    }
+
+    loadCustomer();
+
+    /* ── Profile form ────────────────────────────────────────────────────────── */
+    const profileForm = document.getElementById('profile-form') as HTMLFormElement;
+    const profileStatus = document.getElementById('profile-save-status')!;
+
+
+    profileForm.addEventListener('input', () => {
+      profileStatus.textContent = 'UNSAVED CHANGES';
+      profileStatus.style.color = 'var(--outline)';
+    });
+
+    document.getElementById('profile-reset')?.addEventListener('click', () => {
+      if (customerData) {
+        fillProfile(customerData);
+        profileStatus.textContent = 'RESTORED';
+        profileStatus.style.color = 'var(--secondary)';
+        setTimeout(() => { profileStatus.textContent = ''; }, 2000);
       }
     });
 
-    // Interactive Toggle Switch functionality
-    const toggles = document.querySelectorAll('.toggle-switch');
-    toggles.forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const state = toggle.getAttribute('data-state');
-        const handle = toggle.querySelector('div');
-        
-        if (state === 'on') {
-          toggle.setAttribute('data-state', 'off');
-          toggle.classList.remove('bg-[var(--secondary)]');
-          toggle.classList.add('bg-[var(--outline-variant)]');
-          if (handle) {
-            handle.classList.remove('ml-auto');
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearFieldErrors(profileForm);
+
+      const fd = new FormData(profileForm);
+      const email = fd.get('email') as string;
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        const g = (profileForm.querySelector('[name=email]') as HTMLElement).closest('.field-group')!;
+        showFieldError(g, 'Valid email required');
+        return;
+      }
+
+      setLoading(profileForm, true);
+      profileStatus.textContent = 'SAVING…';
+      profileStatus.style.color = 'var(--outline)';
+
+      try {
+        const payload: Record<string,string> = {};
+        fd.forEach((v, k) => { payload[k] = v as string; });
+
+        await apiRequest('/store/customers/me', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        });
+
+        customerData = { ...customerData, ...payload };
+        fillProfile(customerData);
+        profileStatus.textContent = 'CHANGES SAVED';
+        profileStatus.style.color = 'var(--secondary)';
+        showToast('Profile updated', 'success');
+        setTimeout(() => { profileStatus.textContent = ''; }, 3000);
+      } catch (err: any) {
+        profileStatus.textContent = 'SAVE FAILED';
+        profileStatus.style.color = 'var(--error)';
+        showToast(err.message || 'Update failed', 'error');
+      } finally {
+        setLoading(profileForm, false);
+      }
+    });
+
+    /* ── Avatar upload ───────────────────────────────────────────────────────── */
+    document.getElementById('avatar-input')?.addEventListener('change', (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const preview = document.getElementById('avatar-preview') as HTMLImageElement;
+        preview.src = ev.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+      showToast('Avatar updated locally', 'info');
+    });
+
+    /* ── Addresses ───────────────────────────────────────────────────────────── */
+    function renderAddresses(addresses: any[]) {
+      const grid  = document.getElementById('addresses-grid')!;
+      const empty = document.getElementById('addresses-empty')!;
+      // Remove old cards (keep empty placeholder)
+      grid.querySelectorAll('.address-card').forEach(c => c.remove());
+
+      if (addresses.length === 0) {
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      addresses.forEach((addr) => {
+        const card = document.createElement('div');
+        card.className = 'address-card border border-[var(--outline-variant)]/30 p-6 relative transition-colors';
+        card.dataset.addressId = addr.id;
+        card.innerHTML = `
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:18px;">location_on</span>
+              <span class="font-caption text-xs uppercase tracking-widest text-[var(--primary)]">${addr.is_default_billing ? 'DEFAULT ADDRESS' : 'SAVED ADDRESS'}</span>
+            </div>
+            <div class="flex gap-2">
+              <button class="addr-edit-btn material-symbols-outlined text-[var(--outline)] hover:text-[var(--secondary)] cursor-pointer transition-colors" style="font-size:16px;" data-id="${addr.id}">edit</button>
+              <button class="addr-delete-btn material-symbols-outlined text-[var(--outline)] hover:text-[var(--error)] cursor-pointer transition-colors" style="font-size:16px;" data-id="${addr.id}">delete</button>
+            </div>
+          </div>
+          <p class="font-body-md text-sm font-semibold text-[var(--primary)]">${addr.first_name} ${addr.last_name}</p>
+          <p class="font-data-value text-xs text-[var(--on-surface-variant)] mt-1">${addr.address_1}${addr.address_2 ? ', ' + addr.address_2 : ''}</p>
+          <p class="font-data-value text-xs text-[var(--on-surface-variant)]">${addr.city}${addr.province ? ', ' + addr.province : ''} ${addr.postal_code}</p>
+          <p class="font-data-value text-xs text-[var(--on-surface-variant)] uppercase">${addr.country_code}</p>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Edit/delete handlers
+      grid.querySelectorAll<HTMLButtonElement>('.addr-edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.id;
+          const addr = customerData?.addresses?.find((a: any) => a.id === id);
+          if (addr) openAddressModal(addr);
+        });
+      });
+      grid.querySelectorAll<HTMLButtonElement>('.addr-delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.id;
+          if (!confirm('Remove this address?')) return;
+          try {
+            await apiRequest(`/store/customers/me/addresses/${id}`, { method: 'DELETE' });
+            customerData.addresses = customerData.addresses?.filter((a: any) => a.id !== id) || [];
+            renderAddresses(customerData.addresses);
+            showToast('Address removed', 'success');
+          } catch (err: any) {
+            showToast(err.message, 'error');
           }
-        } else {
-          toggle.setAttribute('data-state', 'on');
-          toggle.classList.add('bg-[var(--secondary)]');
-          toggle.classList.remove('bg-[var(--outline-variant)]');
-          if (handle) {
-            handle.classList.add('ml-auto');
-          }
+        });
+      });
+    }
+
+    function openAddressModal(addr?: any) {
+      const modal  = document.getElementById('address-modal')!;
+      const title  = document.getElementById('address-modal-title')!;
+      const form   = document.getElementById('address-form') as HTMLFormElement;
+
+      title.textContent = addr ? 'Edit Address' : 'New Address';
+      form.reset();
+
+      if (addr) {
+        ['first_name','last_name','address_1','address_2','city','province','postal_code','country_code'].forEach(field => {
+          const input = form.querySelector<HTMLInputElement>(`[name=${field}]`);
+          if (input) input.value = addr[field] || '';
+        });
+        (form.querySelector('[name=is_default]') as HTMLInputElement).checked = !!addr.is_default_billing;
+        (form.querySelector('[name=address_id]') as HTMLInputElement).value = addr.id;
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    document.getElementById('add-address-btn')?.addEventListener('click', () => openAddressModal());
+    document.getElementById('address-modal-close')?.addEventListener('click', () => {
+      document.getElementById('address-modal')!.classList.add('hidden');
+    });
+    document.getElementById('address-modal-backdrop')?.addEventListener('click', () => {
+      document.getElementById('address-modal')!.classList.add('hidden');
+    });
+    document.getElementById('addr-cancel')?.addEventListener('click', () => {
+      document.getElementById('address-modal')!.classList.add('hidden');
+    });
+
+    document.getElementById('address-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target as HTMLFormElement;
+      clearFieldErrors(form);
+      const fd = new FormData(form);
+      const id = fd.get('address_id') as string;
+      const required = ['first_name', 'last_name', 'address_1', 'city', 'postal_code', 'country_code'];
+      let valid = true;
+      required.forEach(field => {
+        if (!(fd.get(field) as string)?.trim()) {
+          const g = (form.querySelector(`[name=${field}]`) as HTMLElement)?.closest('.field-group');
+          if (g) showFieldError(g, 'Required');
+          valid = false;
         }
       });
+      if (!valid) return;
+
+      const payload: Record<string,any> = {};
+      fd.forEach((v, k) => {
+        if (k === 'address_id') return;
+        payload[k] = k === 'is_default' ? true : v;
+      });
+
+      try {
+        if (id) {
+          await apiRequest(`/store/customers/me/addresses/${id}`, { method: 'POST', body: JSON.stringify(payload) });
+        } else {
+          await apiRequest('/store/customers/me/addresses', { method: 'POST', body: JSON.stringify(payload) });
+        }
+        await loadCustomer();
+        document.getElementById('address-modal')!.classList.add('hidden');
+        showToast(id ? 'Address updated' : 'Address added', 'success');
+      } catch (err: any) {
+        const errEl = document.querySelector<HTMLElement>('.addr-form-error')!;
+        errEl.textContent = err.message;
+        errEl.classList.remove('hidden');
+      }
     });
+
+    /* ── Orders ──────────────────────────────────────────────────────────────── */
+    let ordersLoaded = false;
+    let allOrders: any[] = [];
+    let currentFilter = 'all';
+
+    // Demo orders (fallback if API not available)
+    const demoOrders = [
+      {
+        id: 'ord-AE-7721-00',
+        display_id: 'AE-7721-00',
+        status: 'completed',
+        fulfillment_status: 'shipped',
+        total: 124000,
+        currency_code: 'usd',
+        created_at: '2024-03-12T10:00:00Z',
+        items: [
+          { title: 'TERRAIN MASTER SERIES', quantity: 1, unit_price: 99000 },
+          { title: 'APEX SHELL LINER', quantity: 1, unit_price: 25000 },
+        ],
+        shipping_address: { address_1: '42 SECTOR BLVD', city: 'NEW YORK', country_code: 'US' }
+      },
+      {
+        id: 'ord-AE-6890-22',
+        display_id: 'AE-6890-22',
+        status: 'completed',
+        fulfillment_status: 'shipped',
+        total: 45000,
+        currency_code: 'usd',
+        created_at: '2023-11-05T10:00:00Z',
+        items: [{ title: 'ORBITAL MID-LAYER', quantity: 1, unit_price: 45000 }],
+        shipping_address: { address_1: '42 SECTOR BLVD', city: 'NEW YORK', country_code: 'US' }
+      },
+      {
+        id: 'ord-AE-5210-03',
+        display_id: 'AE-5210-03',
+        status: 'processing',
+        fulfillment_status: 'not_fulfilled',
+        total: 89000,
+        currency_code: 'usd',
+        created_at: '2024-05-20T10:00:00Z',
+        items: [{ title: 'X-1 CARBON SHELL v2', quantity: 1, unit_price: 89000 }],
+        shipping_address: { address_1: '42 SECTOR BLVD', city: 'NEW YORK', country_code: 'US' }
+      },
+    ];
+
+    async function loadOrders() {
+      if (ordersLoaded) return;
+      try {
+        const data = await apiRequest('/store/customers/me/orders');
+        allOrders = data.orders || demoOrders;
+      } catch {
+        allOrders = demoOrders;
+      }
+      ordersLoaded = true;
+      renderOrders();
+    }
+
+    function statusLabel(order: any): { label: string; color: string } {
+      const s = (order.fulfillment_status || order.status || '').toLowerCase();
+      if (s.includes('ship') || s === 'completed') return { label: 'DELIVERED', color: 'var(--secondary)' };
+      if (s.includes('return')) return { label: 'RETURNED', color: 'var(--error)' };
+      if (s.includes('cancel')) return { label: 'CANCELLED', color: 'var(--error)' };
+      return { label: 'PROCESSING', color: 'var(--outline)' };
+    }
+
+    function formatPrice(amount: number, currency: string): string {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.toUpperCase() }).format(amount / 100);
+    }
+
+    function renderOrders() {
+      const list  = document.getElementById('orders-list')!;
+      const empty = document.getElementById('orders-empty')!;
+      const search = (document.getElementById('order-search') as HTMLInputElement).value.toLowerCase();
+
+      // Remove skeletons
+      list.querySelectorAll('.order-skeleton').forEach(s => s.remove());
+      list.querySelectorAll('.order-item').forEach(s => s.remove());
+
+      let filtered = allOrders.filter(o => {
+        const { label } = statusLabel(o);
+        const matchFilter = currentFilter === 'all' || label.toLowerCase() === currentFilter;
+        const matchSearch = !search || o.display_id?.toLowerCase().includes(search);
+        return matchFilter && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      filtered.forEach(order => {
+        const { label, color } = statusLabel(order);
+        const el = document.createElement('div');
+        el.className = 'order-item border border-[var(--outline-variant)]/30 hover:border-[var(--outline-variant)] transition-colors';
+        el.innerHTML = `
+          <div class="p-6 flex flex-col md:flex-row justify-between gap-6 cursor-pointer order-header" data-order-id="${order.id}">
+            <div class="flex items-start gap-6">
+              <div>
+                <span class="font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Order #${order.display_id || order.id?.slice(-8).toUpperCase()}</span>
+                <h3 class="font-headline-md text-base font-bold uppercase">${order.items?.[0]?.title || 'ORDER'}</h3>
+                ${order.items?.length > 1 ? `<span class="font-data-label text-[10px] text-[var(--on-surface-variant)]">+${order.items.length - 1} more item(s)</span>` : ''}
+              </div>
+            </div>
+            <div class="flex md:flex-col items-center md:items-end justify-between gap-4">
+              <div class="text-right">
+                <p class="font-data-value text-base font-bold">${formatPrice(order.total, order.currency_code || 'usd')}</p>
+                <p class="font-data-label text-[10px] mt-1" style="color: ${color};">${label} // ${new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</p>
+              </div>
+              <span class="material-symbols-outlined text-[var(--outline)] order-chevron transition-transform" style="font-size: 20px;">expand_more</span>
+            </div>
+          </div>
+          <div class="order-details border-t border-[var(--outline-variant)]/20">
+            <div class="p-6 space-y-4">
+              <h4 class="font-caption text-xs uppercase tracking-widest text-[var(--secondary)] font-semibold">Order Items</h4>
+              ${(order.items || []).map((item: any) => `
+                <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/15 pb-3">
+                  <div>
+                    <p class="font-body-md text-sm font-semibold uppercase">${item.title}</p>
+                    <p class="font-data-value text-xs text-[var(--on-surface-variant)]">QTY: ${item.quantity}</p>
+                  </div>
+                  <p class="font-data-value text-sm">${formatPrice(item.unit_price * item.quantity, order.currency_code || 'usd')}</p>
+                </div>
+              `).join('')}
+              <div class="grid grid-cols-2 gap-4 pt-2">
+                <div>
+                  <p class="font-caption text-xs text-[var(--outline)] uppercase mb-1">Shipping Address</p>
+                  <p class="font-data-value text-xs">${order.shipping_address?.address_1 || '—'}</p>
+                  <p class="font-data-value text-xs">${order.shipping_address?.city || ''} ${(order.shipping_address?.country_code || '').toUpperCase()}</p>
+                </div>
+                <div>
+                  <p class="font-caption text-xs text-[var(--outline)] uppercase mb-1">Status</p>
+                  <p class="font-data-value text-xs" style="color: ${color};">${label}</p>
+                </div>
+              </div>
+              <div class="flex gap-3 pt-2">
+                <button class="border border-[var(--outline)] text-[var(--primary)] py-2 px-5 font-caption text-xs uppercase tracking-widest hover:border-[var(--secondary)] hover:text-[var(--secondary)] transition-all cursor-pointer">
+                  VIEW ORDER
+                </button>
+                ${label === 'DELIVERED' ? `<button class="border border-[var(--outline)] text-[var(--primary)] py-2 px-5 font-caption text-xs uppercase tracking-widest hover:border-[var(--error)] hover:text-[var(--error)] transition-all cursor-pointer">REQUEST RETURN</button>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+        list.appendChild(el);
+
+        // Expand/collapse
+        const header  = el.querySelector('.order-header')!;
+        const details = el.querySelector('.order-details')!;
+        const chevron = el.querySelector('.order-chevron')!;
+        header.addEventListener('click', () => {
+          details.classList.toggle('open');
+          (chevron as HTMLElement).style.transform = details.classList.contains('open') ? 'rotate(180deg)' : '';
+        });
+      });
+    }
+
+    // Filter buttons
+    document.querySelectorAll<HTMLElement>('.order-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.order-filter').forEach(b => {
+          b.classList.remove('border-[var(--primary)]', 'text-[var(--primary)]', 'bg-[var(--primary)]/5');
+          b.classList.add('border-[var(--outline-variant)]', 'text-[var(--on-surface-variant)]');
+        });
+        btn.classList.add('border-[var(--primary)]', 'text-[var(--primary)]', 'bg-[var(--primary)]/5');
+        btn.classList.remove('border-[var(--outline-variant)]', 'text-[var(--on-surface-variant)]');
+        currentFilter = btn.dataset.filter || 'all';
+        if (ordersLoaded) renderOrders();
+      });
+    });
+
+    document.getElementById('order-search')?.addEventListener('input', () => {
+      if (ordersLoaded) renderOrders();
+    });
+
+    /* ── Change password form ────────────────────────────────────────────────── */
+    const changePwForm = document.getElementById('change-password-form') as HTMLFormElement;
+    const pwChangeMsg  = document.getElementById('pw-change-msg')!;
+
+    changePwForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearFieldErrors(changePwForm);
+      const fd          = new FormData(changePwForm);
+      const current     = fd.get('current_password') as string;
+      const newPw       = fd.get('new_password') as string;
+      const confirm     = fd.get('confirm_password') as string;
+      let valid = true;
+
+      if (!current) {
+        showFieldError(changePwForm.querySelector('[name=current_password]')!.closest('.field-group')!, 'Required');
+        valid = false;
+      }
+      if (!newPw || newPw.length < 8) {
+        showFieldError(changePwForm.querySelector('[name=new_password]')!.closest('.field-group')!, 'Password must be at least 8 characters');
+        valid = false;
+      }
+      if (newPw !== confirm) {
+        showFieldError(changePwForm.querySelector('[name=confirm_password]')!.closest('.field-group')!, 'Passwords do not match');
+        valid = false;
+      }
+      if (!valid) return;
+
+      setLoading(changePwForm, true);
+      pwChangeMsg.classList.add('hidden');
+
+      try {
+        await apiRequest('/store/customers/me', {
+          method: 'POST',
+          body: JSON.stringify({ password: newPw }),
+        });
+        pwChangeMsg.textContent = '✓ Password updated successfully';
+        pwChangeMsg.style.color = 'var(--secondary)';
+        pwChangeMsg.classList.remove('hidden');
+        changePwForm.reset();
+        showToast('Password updated', 'success');
+      } catch (err: any) {
+        pwChangeMsg.textContent = err.message || 'Update failed';
+        pwChangeMsg.style.color = 'var(--error)';
+        pwChangeMsg.classList.remove('hidden');
+      } finally {
+        setLoading(changePwForm, false);
+      }
+    });
+
+    /* ── Scroll reveal ───────────────────────────────────────────────────────── */
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
   </script>
 </Layout>

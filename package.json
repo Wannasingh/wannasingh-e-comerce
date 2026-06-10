@@ -9,7 +9,10 @@
     "pnpm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "pnpm --parallel --filter './apps/*' dev",
+    "dev": "pnpm --filter @wannasingh/frontend dev",
+    "dev:frontend": "pnpm --filter @wannasingh/frontend dev",
+    "dev:backend": "pnpm --filter @wannasingh/backend dev",
+    "dev:all": "pnpm --parallel --filter './apps/*' dev",
     "build": "pnpm --filter './apps/*' build",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
