@@ -268,7 +268,7 @@ const materialSpecs = [
             class="group cursor-pointer no-underline"
             aria-label={`View ${product.name}`}
           >
-            <!-- Image container -->
+            {/* Image container */}
             <div class="aspect-[3/4] overflow-hidden bg-white mb-6 relative">
               <img
                 class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700"
@@ -289,7 +289,7 @@ const materialSpecs = [
               )}
             </div>
 
-            <!-- Product info -->
+            {/* Product info */}
             <div class="flex flex-col gap-1">
               <span class="font-data-label text-[var(--outline-variant)]" style="font-size: 11px;">
                 {product.sku}
@@ -302,7 +302,7 @@ const materialSpecs = [
                   {product.price}
                 </span>
               </div>
-              <!-- Material tags -->
+              {/* Material tags */}
               <div class="mt-3 flex gap-2 flex-wrap">
                 {product.tags.map((tag) => (
                   <span class="tech-tag">{tag}</span>
