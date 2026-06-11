@@ -3,7 +3,7 @@
  * Uses the native Web Crypto API (supported in all modern browsers).
  */
 export async function decryptPayload(
-  encrypted: { iv: string; data: string } | any,
+  encrypted: any,
   keyString: string = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || ""
 ): Promise<any> {
   // If the payload does not match the encrypted structure, return it directly
@@ -20,29 +20,32 @@ export async function decryptPayload(
       return encrypted;
     }
 
-    const iv = new Uint8Array(ivBytes.map((byte: string) => parseInt(byte, 16)));
-    const encryptedData = new Uint8Array(dataBytes.map((byte: string) => parseInt(byte, 16)));
+    const iv = new Uint8Array(ivBytes.map((byte: string) => Number.parseInt(byte, 16)));
+    const encryptedData = new Uint8Array(dataBytes.map((byte: string) => Number.parseInt(byte, 16)));
 
     // 2. Hash keyString with SHA-256 to match backend key derivation
     const encoder = new TextEncoder();
     const keyData = encoder.encode(keyString);
     
     // Support both browser and Node.js SSR environments for Web Crypto
-    const webCrypto = typeof window !== 'undefined' 
-      ? window.crypto 
-      : (typeof globalThis !== 'undefined' && globalThis.crypto ? globalThis.crypto : null);
+    let webCrypto: Crypto | null = null;
+    if (typeof globalThis !== 'undefined' && globalThis.crypto) {
+      webCrypto = globalThis.crypto;
+    } else if (typeof globalThis.window !== 'undefined' && globalThis.window.crypto) {
+      webCrypto = globalThis.window.crypto;
+    }
       
-    if (!webCrypto?.subtle) {
+    if (!webCrypto || !webCrypto.subtle) {
       throw new Error("Web Crypto API is not supported in this environment.");
     }
 
     const keyHash = await webCrypto.subtle.digest("SHA-256", keyData);
 
-    // 3. Import the derived key for AES-CBC
+    // 3. Import the derived key for AES-GCM
     const cryptoKey = await webCrypto.subtle.importKey(
       "raw",
       keyHash,
-      { name: "AES-CBC" },
+      { name: "AES-GCM" },
       false,
       ["decrypt"]
     );
@@ -50,7 +53,7 @@ export async function decryptPayload(
     // 4. Decrypt the data
     const decryptedBuffer = await webCrypto.subtle.decrypt(
       {
-        name: "AES-CBC",
+        name: "AES-GCM",
         iv,
       },
       cryptoKey,

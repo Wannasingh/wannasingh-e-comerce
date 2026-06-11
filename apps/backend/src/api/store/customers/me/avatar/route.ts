@@ -14,7 +14,7 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   // Parse Base64 image
-  const matches = /^data:([A-Za-z-+\/]+);base64,(.+)$/.exec(avatar);
+  const matches = /^data:([A-Za-z-+/]+);base64,(.+)$/.exec(avatar);
   if (matches?.length !== 3) {
     res.status(400).json({ message: "Invalid image format. Expected Base64 data URL." });
     return;
@@ -74,7 +74,7 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     
     const updatedCustomer = await customerService.updateCustomers(customerId, {
       metadata: {
-        ...(customer.metadata || {}),
+        ...customer.metadata,
         avatar_url: publicUrl,
       },
     });

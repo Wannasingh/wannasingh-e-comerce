@@ -18,7 +18,7 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
 
     const updatedCustomer = await customerService.updateCustomers(customerId, {
       metadata: {
-        ...(customer.metadata || {}),
+        ...customer.metadata,
         seller_requested: "true",
         seller_approved: "false",
       },

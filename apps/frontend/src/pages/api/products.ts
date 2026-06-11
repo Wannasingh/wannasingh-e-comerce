@@ -11,12 +11,15 @@ const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhos
 const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
 
-function decryptPayload(enc: { iv: string; data: string } | any): any {
+function decryptPayload(enc: any): any {
   if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
   const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
   const iv = Buffer.from(enc.iv, "hex");
-  const data = Buffer.from(enc.data, "hex");
-  const decipher = crypto.createDecipheriv("aes-256-cbc", keyHash, iv);
+  const rawData = Buffer.from(enc.data, "hex");
+  const tag = rawData.subarray(rawData.length - 16);
+  const data = rawData.subarray(0, rawData.length - 16);
+  const decipher = crypto.createDecipheriv("aes-256-gcm", keyHash, iv);
+  decipher.setAuthTag(tag);
   return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
 }
 
@@ -32,12 +35,12 @@ interface MedusaProduct {
 }
 
 export const GET: APIRoute = async ({ url }) => {
-  const limit = parseInt(url.searchParams.get("limit") || "12", 10);
-  const offset = parseInt(url.searchParams.get("offset") || "0", 10);
+  const limit = Number.parseInt(url.searchParams.get("limit") || "12", 10);
+  const offset = Number.parseInt(url.searchParams.get("offset") || "0", 10);
   const q = (url.searchParams.get("q") || "").toLowerCase().trim();
   const category = url.searchParams.get("category") || "";
-  const minPrice = parseFloat(url.searchParams.get("minPrice") || "0") * 100; // in cents
-  const maxPrice = parseFloat(url.searchParams.get("maxPrice") || "999999") * 100; // in cents
+  const minPrice = Number.parseFloat(url.searchParams.get("minPrice") || "0") * 100; // in cents
+  const maxPrice = Number.parseFloat(url.searchParams.get("maxPrice") || "999999") * 100; // in cents
   const sort = url.searchParams.get("sort") || "newest";
   const perfFilters = url.searchParams.getAll("perf");
   const fabricFilters = url.searchParams.getAll("fabric");
@@ -59,7 +62,7 @@ export const GET: APIRoute = async ({ url }) => {
         }
         if (priceRaw === 0 && p.metadata?.price) {
           priceStr = p.metadata.price;
-          priceRaw = parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
+          priceRaw = Number.parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
         }
 
         const mainImage = getStableImageUrl(p.metadata?.images?.main || "");

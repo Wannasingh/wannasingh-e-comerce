@@ -139,12 +139,12 @@ export default async function customerCreatedHandler({
       }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      logger.error(`❌ Resend API response error: ${response.status} - ${errorText}`);
-    } else {
+    if (response.ok) {
       const resData = await response.json();
       logger.info(`✅ Welcome email dispatched successfully. ID: ${resData.id}`);
+    } else {
+      const errorText = await response.text();
+      logger.error(`❌ Resend API response error: ${response.status} - ${errorText}`);
     }
   } catch (err: any) {
     logger.error(`❌ Error executing customer-created welcome email subscriber: ${err.message}`);

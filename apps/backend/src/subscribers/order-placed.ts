@@ -12,7 +12,7 @@ export default async function orderPlacedHandler({
   const logger = container.resolve("logger");
   logger.info(`📦 New order placed: ${data.id}`);
 
-  // TODO: Integrate notification service (e.g. Resend, SendGrid)
+  // Future integration: notification service (e.g. Resend, SendGrid)
   // const notificationService = container.resolve("notificationService");
   // await notificationService.send("order-placed", { orderId: data.id });
 }

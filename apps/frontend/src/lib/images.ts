@@ -23,11 +23,11 @@ export function getStableImageUrl(originalUrl: string): string {
     const match = /random=([A-Z]+)-(\d+)/.exec(originalUrl);
     if (match) {
       const prefix = match[1] || "";
-      const index = parseInt(match[2] || "0", 10);
+      const index = Number.parseInt(match[2] || "0", 10);
       
       let hash = 0;
       for (let i = 0; i < prefix.length; i++) {
-        hash += prefix.charCodeAt(i);
+        hash += prefix.codePointAt(i) || 0;
       }
       
       const stableIndex = (index + hash) % stableGoogleImages.length;
