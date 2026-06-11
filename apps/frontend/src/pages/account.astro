@@ -126,6 +126,18 @@ import Layout from "../layouts/Layout.astro";
                 <span id="user-since" class="font-data-value text-xs text-right break-words max-w-[70%]">—</span>
               </div>
             </div>
+
+            <!-- Roles & Admin Actions -->
+            <div class="mt-6 pt-6 border-t border-[var(--outline-variant)]/20 space-y-3" id="admin-actions-box">
+              <a href="/admin" id="go-admin-btn" class="w-full bg-[var(--secondary)] text-white py-3 px-4 font-data-label text-[11px] tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 no-underline hidden">
+                <span class="material-symbols-outlined text-[16px]">terminal</span>
+                ADMIN CONTROL CORE
+              </a>
+              <button id="request-seller-btn" class="w-full border border-[var(--primary)] text-[var(--primary)] py-3 px-4 font-data-label text-[11px] tracking-wider hover:bg-[var(--primary)] hover:text-[var(--surface)] transition-all flex items-center justify-center gap-2 cursor-pointer">
+                <span class="material-symbols-outlined text-[16px]">storefront</span>
+                <span id="request-seller-text">REQUEST TO BE SELLER</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -676,16 +688,18 @@ import Layout from "../layouts/Layout.astro";
       document.getElementById('auth-guard')!.classList.remove('hidden');
     }
 
-    /* ── Logout ─────────────────────────────────────────────────────────────── */
     document.getElementById('logout-btn')?.addEventListener('click', () => {
       localStorage.removeItem('wanna_auth_token');
+      localStorage.removeItem('wanna_auth_role');
+      localStorage.removeItem('wanna_seller_requested');
       showToast('Signing out. Redirecting…', 'info');
       setTimeout(() => { window.location.href = '/auth'; }, 1200);
     });
 
     /* ── Delete account confirm ─────────────────────────────────────────────── */
-    document.getElementById('delete-account-btn')?.addEventListener('click', () => {
-      if (!confirm('⚠ CONFIRM DELETE ACCOUNT\n\nThis will permanently delete your account and all data. This cannot be undone.')) return;
+    document.getElementById('delete-account-btn')?.addEventListener('click', async () => {
+      const confirmed = await (window as any).showAetherConfirm('CONFIRM DELETE ACCOUNT', 'This will permanently delete your account and all data. This cannot be undone.');
+      if (!confirmed) return;
       apiRequest('/store/customers/me', { method: 'DELETE' })
         .then(() => {
           localStorage.removeItem('wanna_auth_token');
@@ -794,6 +808,46 @@ import Layout from "../layouts/Layout.astro";
       (document.getElementById('user-phone') as HTMLElement).textContent = c.phone || '—';
       (document.getElementById('user-location') as HTMLElement).textContent = c.addresses?.[0]?.city ? `${c.addresses[0].city}, ${c.addresses[0].country_code?.toUpperCase()}` : '—';
       (document.getElementById('user-since') as HTMLElement).textContent = c.created_at ? new Date(c.created_at).getFullYear().toString() : '—';
+
+      // Dynamic Admin/Seller check
+      const userTier = document.getElementById('user-tier');
+      const goAdminBtn = document.getElementById('go-admin-btn');
+      const requestSellerBtn = document.getElementById('request-seller-btn') as HTMLButtonElement | null;
+      const requestSellerText = document.getElementById('request-seller-text');
+
+      const isSeller = c.metadata?.seller_approved === 'true';
+      const isAdmin = c.email === 'wannasingh.khan@gmail.com';
+
+      if (isAdmin) {
+        if (userTier) userTier.textContent = 'SUPER ADMIN';
+        if (goAdminBtn) goAdminBtn.classList.remove('hidden');
+        localStorage.setItem('wanna_auth_role', 'admin');
+      } else if (isSeller) {
+        if (userTier) userTier.textContent = 'SELLER';
+        if (goAdminBtn) goAdminBtn.classList.remove('hidden');
+        localStorage.setItem('wanna_auth_role', 'seller');
+      } else {
+        if (userTier) userTier.textContent = 'Level 01 Collector';
+        if (goAdminBtn) goAdminBtn.classList.add('hidden');
+        localStorage.setItem('wanna_auth_role', 'customer');
+      }
+
+      // Set seller request button state
+      if (requestSellerBtn && requestSellerText) {
+        if (c.metadata?.seller_approved === 'true') {
+          requestSellerBtn.disabled = true;
+          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          requestSellerText.textContent = 'SELLER STATUS ACTIVE';
+        } else if (c.metadata?.seller_requested === 'true') {
+          requestSellerBtn.disabled = true;
+          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          requestSellerText.textContent = 'SELLER REQUEST PENDING';
+        } else {
+          requestSellerBtn.disabled = false;
+          requestSellerBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          requestSellerText.textContent = 'REQUEST TO BE SELLER';
+        }
+      }
 
       // Set Avatar URL if present in metadata
       const avatarPreview = document.getElementById('avatar-preview') as HTMLImageElement;
@@ -961,7 +1015,8 @@ import Layout from "../layouts/Layout.astro";
       grid.querySelectorAll<HTMLButtonElement>('.addr-delete-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           const id = btn.dataset.id;
-          if (!confirm('Remove this address?')) return;
+          const confirmed = await (window as any).showAetherConfirm('Remove Address', 'Are you sure you want to remove this address?');
+          if (!confirmed) return;
           try {
             await apiRequest(`/store/customers/me/addresses/${id}`, { method: 'DELETE' });
             customerData.addresses = customerData.addresses?.filter((a: any) => a.id !== id) || [];
@@ -1590,6 +1645,47 @@ import Layout from "../layouts/Layout.astro";
         pwChangeMsg.classList.remove('hidden');
       } finally {
         setLoading(changePwForm, false);
+      }
+    });
+
+    // Seller request button handler
+    const requestSellerBtn = document.getElementById('request-seller-btn') as HTMLButtonElement | null;
+    const requestSellerText = document.getElementById('request-seller-text');
+
+    const hasRequestedCookie = document.cookie.split('; ').find(row => row.startsWith('wanna_seller_requested='))?.split('=')[1] === 'true';
+    if (localStorage.getItem('wanna_seller_requested') === 'true' || hasRequestedCookie) {
+      if (requestSellerBtn && requestSellerText) {
+        requestSellerBtn.disabled = true;
+        requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        requestSellerText.textContent = 'SELLER REQUEST PENDING';
+      }
+    }
+
+    requestSellerBtn?.addEventListener('click', async () => {
+      if (requestSellerText && requestSellerBtn) {
+        requestSellerText.textContent = 'SUBMITTING REQUEST...';
+        requestSellerBtn.disabled = true;
+        
+        try {
+          const emailInput = document.getElementById('prof-email') as HTMLInputElement | null;
+          const userEmail = emailInput?.value || 'sarankhtn@gmail.com';
+
+          // Call Medusa Backend custom route to persist in database!
+          await apiRequest('/store/customers/me/request-seller', { method: 'POST' });
+          
+          localStorage.setItem('wanna_seller_requested', 'true');
+          document.cookie = "wanna_seller_requested=true; path=/; max-age=86400";
+          document.cookie = `wanna_seller_requested_email=${encodeURIComponent(userEmail)}; path=/; max-age=86400`;
+          
+          requestSellerText.textContent = 'SELLER REQUEST PENDING';
+          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          showToast('Seller request submitted successfully!', 'success');
+        } catch (err: any) {
+          console.error("Failed to submit seller request:", err);
+          showToast(err.message || 'Failed to submit seller request. Please try again.', 'error');
+          requestSellerText.textContent = 'REQUEST TO BE SELLER';
+          requestSellerBtn.disabled = false;
+        }
       }
     });
 

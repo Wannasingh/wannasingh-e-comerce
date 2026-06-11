@@ -1,0 +1,45 @@
+---
+// src/pages/admin/settings.astro — System Configuration Panel
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+export const prerender = false;
+---
+<AdminLayout title="WANNASINGH COMMAND CORE - SETTINGS" activeTab="settings">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <div class="w-2 h-2 bg-primary status-pulse"></div>
+                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">System Customizations</span>
+            </div>
+            <h2 class="font-display text-4xl font-bold">CORE_SETTINGS</h2>
+        </div>
+    </div>
+
+    <!-- Preferences list -->
+    <div class="bg-surface-container-low border border-outline-variant p-6 space-y-6 max-w-3xl">
+        <h3 class="font-mono-label text-[12px] text-primary uppercase border-b border-outline-variant/30 pb-2">Diagnostic Console preferences</h3>
+        
+        <div class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="font-mono-label text-xs font-semibold uppercase text-on-surface">Auto-Refresh Diagnostics</p>
+                    <p class="font-sans text-[11px] text-on-surface-variant mt-0.5">Keep diagnostic dashboards polling data in background</p>
+                </div>
+                <button type="button" class="w-11 h-6 flex items-center px-1 cursor-pointer bg-primary text-on-primary" onclick="this.classList.toggle('bg-primary'); this.classList.toggle('bg-outline-variant')">
+                    <div class="w-4 h-4 bg-white ml-auto"></div>
+                </button>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="font-mono-label text-xs font-semibold uppercase text-on-surface">Verbose Debug Log Stream</p>
+                    <p class="font-sans text-[11px] text-on-surface-variant mt-0.5">Stream deep socket payload frames to kernel terminal console</p>
+                </div>
+                <button type="button" class="w-11 h-6 flex items-center px-1 cursor-pointer bg-outline-variant" onclick="this.classList.toggle('bg-primary'); this.classList.toggle('bg-outline-variant')">
+                    <div class="w-4 h-4 bg-white"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+</AdminLayout>

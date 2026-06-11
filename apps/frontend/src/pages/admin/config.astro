@@ -1,0 +1,49 @@
+---
+// src/pages/admin/config.astro — System Environment Configurations
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+export const prerender = false;
+
+const envVars = [
+  { key: "PORT", value: "4321", scope: "FRONTEND_SERVER" },
+  { key: "MEDUSA_BACKEND_URL", value: "http://localhost:9000", scope: "API_INTEGRATION" },
+  { key: "PUBLIC_MEDUSA_PUBLISHABLE_KEY", value: "pk_val_••••••••••••••••••••", scope: "CLIENT_STOREFRONT" },
+  { key: "REDIS_URL", value: "redis://127.0.0.1:6379", scope: "SYSTEM_CACHE" }
+];
+---
+<AdminLayout title="WANNASINGH COMMAND CORE - ENVIRONMENT CONFIG" activeTab="config">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <div class="w-2 h-2 bg-primary status-pulse"></div>
+                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">System Parameter Registries</span>
+            </div>
+            <h2 class="font-display text-4xl font-bold">ENVIRONMENT_CONFIG</h2>
+        </div>
+    </div>
+
+    <!-- Parameter grid -->
+    <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-surface-container-low border-b border-outline-variant">
+                    <tr>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">VARIABLE_KEY</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">SCOPE</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">ACTIVE_VALUE</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/30">
+                    {envVars.map((env) => (
+                        <tr class="hover:bg-surface-bright/20 transition-colors">
+                            <td class="p-4 font-mono-data text-mono-data text-primary font-bold">{env.key}</td>
+                            <td class="p-4 font-mono-label text-[10px] text-on-surface-variant">{env.scope}</td>
+                            <td class="p-4 font-mono-data text-mono-data text-on-surface">{env.value}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</AdminLayout>
