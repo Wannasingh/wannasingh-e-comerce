@@ -160,14 +160,18 @@ const SEED_RUN = Date.now().toString(36).slice(-4); // e.g. "k3a1"
 function generateProducts() {
   const products: any[] = [];
 
+  const categoryCounts: Record<string, number> = {
+    Outerwear: 60,
+    "Mid-Layer": 50,
+    Bottoms: 50,
+    "Base Layer": 40,
+    Accessories: 50,
+    Vests: 35,
+    Footwear: 20
+  };
+
   for (const cat of categories) {
-    const targetCount = cat.category === "Outerwear" ? 60
-      : cat.category === "Mid-Layer" ? 50
-      : cat.category === "Bottoms" ? 50
-      : cat.category === "Base Layer" ? 40
-      : cat.category === "Accessories" ? 50
-      : cat.category === "Vests" ? 35
-      : 20; // Footwear
+    const targetCount = categoryCounts[cat.category] ?? 20;
 
     const catTag = CATEGORY_TAGS[cat.category] || "fashion";
 
