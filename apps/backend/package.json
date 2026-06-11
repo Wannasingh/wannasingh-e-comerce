@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "TSCONFIG_PATHS_DISABLE=1 medusa develop",
     "build": "medusa build",
-    "start": "node .medusa/server/index.js",
+    "start": "medusa start",
     "seed": "medusa exec ./src/scripts/seed.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --max-warnings 0"

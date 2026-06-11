@@ -63,7 +63,8 @@ RUN apk add --no-cache dumb-init && \
 WORKDIR /app
 
 # Copy compiled server bundle
-COPY --from=builder --chown=medusa:medusa /repo/apps/backend/.medusa/server ./server
+COPY --from=builder --chown=medusa:medusa /repo/apps/backend/dist ./dist
+COPY --from=builder --chown=medusa:medusa /repo/apps/backend/package.json ./package.json
 
 # Copy production node_modules
 COPY --from=builder --chown=medusa:medusa /repo/apps/backend/node_modules ./node_modules
@@ -81,4 +82,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 
 # Use dumb-init to handle PID 1 / zombie reaping
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["node", "server/index.js"]
+CMD ["node_modules/.bin/medusa", "start"]
