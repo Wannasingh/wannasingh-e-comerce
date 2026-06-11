@@ -647,7 +647,7 @@ const totalSKUs = displayProducts.length;
         });
 
         // Bulk Actions handler simulations
-        document.getElementById('bulk-publish-btn')?.addEventListener('click', () => {
+        document.getElementById('bulk-publish-btn')?.addEventListener('click', async () => {
             const selectedRows = document.querySelectorAll('.product-row:has(.row-checkbox:checked)');
             selectedRows.forEach(row => {
                 row.setAttribute('data-status', 'PUBLISHED');
@@ -656,10 +656,10 @@ const totalSKUs = displayProducts.length;
                     cell.innerHTML = `<span class="flex items-center gap-2 text-primary font-mono-label text-[10px]"><span class="w-1.5 h-1.5 bg-primary rounded-none"></span> PUBLISHED</span>`;
                 }
             });
-            alert(`Published ${selectedRows.length} products in local manifest registry.`);
+            await window.showAetherAlert('Bulk Operation Success', `Published ${selectedRows.length} products in local manifest registry.`);
         });
 
-        document.getElementById('bulk-draft-btn')?.addEventListener('click', () => {
+        document.getElementById('bulk-draft-btn')?.addEventListener('click', async () => {
             const selectedRows = document.querySelectorAll('.product-row:has(.row-checkbox:checked)');
             selectedRows.forEach(row => {
                 row.setAttribute('data-status', 'DRAFT');
@@ -668,7 +668,7 @@ const totalSKUs = displayProducts.length;
                     cell.innerHTML = `<span class="flex items-center gap-2 text-on-surface-variant font-mono-label text-[10px] italic"><span class="w-1.5 h-1.5 bg-on-surface-variant rounded-none opacity-40"></span> DRAFT</span>`;
                 }
             });
-            alert(`Drafted ${selectedRows.length} products in local manifest registry.`);
+            await window.showAetherAlert('Bulk Operation Success', `Drafted ${selectedRows.length} products in local manifest registry.`);
         });
 
         // Simulating health heartbeat update

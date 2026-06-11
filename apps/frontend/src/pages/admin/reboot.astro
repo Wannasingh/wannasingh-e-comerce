@@ -104,8 +104,9 @@ export const prerender = false;
             "[SYSTEM] Redirecting to System Overview..."
         ];
 
-        rebootBtn?.addEventListener('click', () => {
-            if (!confirm('Are you sure you want to reboot the system kernel?')) return;
+        rebootBtn?.addEventListener('click', async () => {
+            const confirmed = await window.showAetherConfirm('SYSTEM REBOOT SEQUENCE', 'Are you sure you want to reboot the system kernel? This will temporarily interrupt connections.');
+            if (!confirmed) return;
             terminal?.classList.remove('hidden');
 
             let delay = 0;

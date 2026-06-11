@@ -697,8 +697,9 @@ import Layout from "../layouts/Layout.astro";
     });
 
     /* ── Delete account confirm ─────────────────────────────────────────────── */
-    document.getElementById('delete-account-btn')?.addEventListener('click', () => {
-      if (!confirm('⚠ CONFIRM DELETE ACCOUNT\n\nThis will permanently delete your account and all data. This cannot be undone.')) return;
+    document.getElementById('delete-account-btn')?.addEventListener('click', async () => {
+      const confirmed = await (window as any).showAetherConfirm('CONFIRM DELETE ACCOUNT', 'This will permanently delete your account and all data. This cannot be undone.');
+      if (!confirmed) return;
       apiRequest('/store/customers/me', { method: 'DELETE' })
         .then(() => {
           localStorage.removeItem('wanna_auth_token');
@@ -808,17 +809,44 @@ import Layout from "../layouts/Layout.astro";
       (document.getElementById('user-location') as HTMLElement).textContent = c.addresses?.[0]?.city ? `${c.addresses[0].city}, ${c.addresses[0].country_code?.toUpperCase()}` : '—';
       (document.getElementById('user-since') as HTMLElement).textContent = c.created_at ? new Date(c.created_at).getFullYear().toString() : '—';
 
-      // Dynamic Admin check
+      // Dynamic Admin/Seller check
       const userTier = document.getElementById('user-tier');
       const goAdminBtn = document.getElementById('go-admin-btn');
-      if (c.email === 'wannasingh.khan@gmail.com') {
+      const requestSellerBtn = document.getElementById('request-seller-btn') as HTMLButtonElement | null;
+      const requestSellerText = document.getElementById('request-seller-text');
+
+      const isSeller = c.metadata?.seller_approved === 'true';
+      const isAdmin = c.email === 'wannasingh.khan@gmail.com';
+
+      if (isAdmin) {
         if (userTier) userTier.textContent = 'SUPER ADMIN';
         if (goAdminBtn) goAdminBtn.classList.remove('hidden');
         localStorage.setItem('wanna_auth_role', 'admin');
+      } else if (isSeller) {
+        if (userTier) userTier.textContent = 'SELLER';
+        if (goAdminBtn) goAdminBtn.classList.remove('hidden');
+        localStorage.setItem('wanna_auth_role', 'seller');
       } else {
         if (userTier) userTier.textContent = 'Level 01 Collector';
         if (goAdminBtn) goAdminBtn.classList.add('hidden');
-        localStorage.setItem('wanna_auth_role', 'seller');
+        localStorage.setItem('wanna_auth_role', 'customer');
+      }
+
+      // Set seller request button state
+      if (requestSellerBtn && requestSellerText) {
+        if (c.metadata?.seller_approved === 'true') {
+          requestSellerBtn.disabled = true;
+          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          requestSellerText.textContent = 'SELLER STATUS ACTIVE';
+        } else if (c.metadata?.seller_requested === 'true') {
+          requestSellerBtn.disabled = true;
+          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          requestSellerText.textContent = 'SELLER REQUEST PENDING';
+        } else {
+          requestSellerBtn.disabled = false;
+          requestSellerBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          requestSellerText.textContent = 'REQUEST TO BE SELLER';
+        }
       }
 
       // Set Avatar URL if present in metadata
@@ -987,7 +1015,8 @@ import Layout from "../layouts/Layout.astro";
       grid.querySelectorAll<HTMLButtonElement>('.addr-delete-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           const id = btn.dataset.id;
-          if (!confirm('Remove this address?')) return;
+          const confirmed = await (window as any).showAetherConfirm('Remove Address', 'Are you sure you want to remove this address?');
+          if (!confirmed) return;
           try {
             await apiRequest(`/store/customers/me/addresses/${id}`, { method: 'DELETE' });
             customerData.addresses = customerData.addresses?.filter((a: any) => a.id !== id) || [];
@@ -1632,14 +1661,17 @@ import Layout from "../layouts/Layout.astro";
       }
     }
 
-    requestSellerBtn?.addEventListener('click', () => {
+    requestSellerBtn?.addEventListener('click', async () => {
       if (requestSellerText && requestSellerBtn) {
         requestSellerText.textContent = 'SUBMITTING REQUEST...';
         requestSellerBtn.disabled = true;
         
-        setTimeout(() => {
+        try {
           const emailInput = document.getElementById('prof-email') as HTMLInputElement | null;
           const userEmail = emailInput?.value || 'sarankhtn@gmail.com';
+
+          // Call Medusa Backend custom route to persist in database!
+          await apiRequest('/store/customers/me/request-seller', { method: 'POST' });
           
           localStorage.setItem('wanna_seller_requested', 'true');
           document.cookie = "wanna_seller_requested=true; path=/; max-age=86400";
@@ -1648,7 +1680,12 @@ import Layout from "../layouts/Layout.astro";
           requestSellerText.textContent = 'SELLER REQUEST PENDING';
           requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
           showToast('Seller request submitted successfully!', 'success');
-        }, 1500);
+        } catch (err: any) {
+          console.error("Failed to submit seller request:", err);
+          showToast(err.message || 'Failed to submit seller request. Please try again.', 'error');
+          requestSellerText.textContent = 'REQUEST TO BE SELLER';
+          requestSellerBtn.disabled = false;
+        }
       }
     });
 

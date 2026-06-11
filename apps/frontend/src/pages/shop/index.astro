@@ -216,8 +216,9 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
                   <label class="flex items-center gap-3 group cursor-pointer">
                     <input
                       type="checkbox"
-                      checked={opt.checked}
-                      class="w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
+                      value={opt.label}
+                      data-section={section.id}
+                      class="filter-checkbox w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
                       style="border-radius: 0px !important;"
                     />
                     <span
@@ -312,6 +313,8 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
   const limit = 12;
   let currentSort = "newest";
   let maxPrice = 1200;
+  let selectedPerf: string[] = [];
+  let selectedFabric: string[] = [];
   
   // Element selections
   const grid = document.getElementById("product-grid");
@@ -362,6 +365,8 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
     currentSearch = params.get("q") || "";
     currentPage = parseInt(params.get("page") || "1", 10);
     currentSort = params.get("sort") || "newest";
+    selectedPerf = params.getAll("perf");
+    selectedFabric = params.getAll("fabric");
     
     if (searchInput) searchInput.value = currentSearch;
     if (sortBtn) sortBtn.textContent = sortLabels[currentSort] || "SORT: NEWEST ↕";
@@ -375,6 +380,24 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
       } else {
         r.checked = false;
         r.closest("label")?.querySelector(".category-label")?.classList.remove("text-[var(--primary)]", "font-bold");
+      }
+    });
+
+    // Sync performance & fabric checkboxes
+    document.querySelectorAll(".filter-checkbox").forEach((cb) => {
+      const input = cb as HTMLInputElement;
+      const section = input.dataset.section;
+      const val = input.value;
+      if (section === "perf") {
+        input.checked = selectedPerf.includes(val);
+      } else if (section === "fabric") {
+        input.checked = selectedFabric.includes(val);
+      }
+      const textSpan = input.nextElementSibling;
+      if (input.checked) {
+        textSpan?.classList.add("text-[var(--primary)]", "font-bold");
+      } else {
+        textSpan?.classList.remove("text-[var(--primary)]", "font-bold");
       }
     });
 
@@ -396,6 +419,9 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
     if (range && Number(range.value) !== Number(range.max)) {
       params.set("maxPrice", range.value);
     }
+    selectedPerf.forEach(val => params.append("perf", val));
+    selectedFabric.forEach(val => params.append("fabric", val));
+    
     const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
     window.history.replaceState({}, "", newUrl);
   }
@@ -428,7 +454,9 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
     const offset = (currentPage - 1) * limit;
     
     try {
-      const url = `/api/products?limit=${limit}&offset=${offset}&q=${encodeURIComponent(currentSearch)}&category=${currentCategory}&sort=${currentSort}&maxPrice=${maxPrice}`;
+      let url = `/api/products?limit=${limit}&offset=${offset}&q=${encodeURIComponent(currentSearch)}&category=${currentCategory}&sort=${currentSort}&maxPrice=${maxPrice}`;
+      selectedPerf.forEach(p => url += `&perf=${encodeURIComponent(p)}`);
+      selectedFabric.forEach(f => url += `&fabric=${encodeURIComponent(f)}`);
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -630,6 +658,40 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
 
         fetchProducts();
       }
+    });
+  });
+
+  // Checkboxes Selector
+  document.querySelectorAll(".filter-checkbox").forEach((cb) => {
+    cb.addEventListener("change", () => {
+      const perfChecked: string[] = [];
+      const fabricChecked: string[] = [];
+      
+      document.querySelectorAll(".filter-checkbox:checked").forEach((item) => {
+        const input = item as HTMLInputElement;
+        const section = input.dataset.section;
+        if (section === "perf") {
+          perfChecked.push(input.value);
+        } else if (section === "fabric") {
+          fabricChecked.push(input.value);
+        }
+      });
+      
+      selectedPerf = perfChecked;
+      selectedFabric = fabricChecked;
+      currentPage = 1; // reset page
+      fetchProducts();
+      
+      // Update checkbox label formatting
+      document.querySelectorAll(".filter-checkbox").forEach((item) => {
+        const input = item as HTMLInputElement;
+        const textSpan = input.nextElementSibling;
+        if (input.checked) {
+          textSpan?.classList.add("text-[var(--primary)]", "font-bold");
+        } else {
+          textSpan?.classList.remove("text-[var(--primary)]", "font-bold");
+        }
+      });
     });
   });
 

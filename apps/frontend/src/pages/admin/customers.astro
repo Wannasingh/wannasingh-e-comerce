@@ -4,14 +4,42 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
 
 export const prerender = false;
 
-const hasPendingRequest = Astro.cookies.get("wanna_seller_requested")?.value === "true";
-const pendingEmail = Astro.cookies.get("wanna_seller_requested_email")?.value || "sarankhtn@gmail.com";
+const SUPABASE_URL = import.meta.env.SUPABASE_URL || "";
+const SUPABASE_ANON_KEY = import.meta.env.SUPABASE_ANON_KEY || "";
 
-const mockCustomers = [
-  { id: "WS-CUS-892", name: "Wannasingh Khansophon", email: "wannasingh.khan@gmail.com", joined: "2026-06-10", totalOrders: 12, tier: "SUPER ADMIN" },
-  { id: "WS-CUS-102", name: "Sarah Connor", email: "s.connor@cyberdyne.net", joined: "2024-03-12", totalOrders: 3, tier: "Level 01 Collector" },
-  { id: "WS-CUS-304", name: "Miles Dyson", email: "mdyson@cyberdyne.net", joined: "2025-01-15", totalOrders: 1, tier: "Level 01 Collector" }
+let dbCustomers = [];
+try {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/customer?select=id,first_name,last_name,email,created_at,metadata&order=created_at.desc`, {
+    headers: {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+    }
+  });
+  if (res.ok) {
+    dbCustomers = await res.json();
+  }
+} catch (err) {
+  console.error("Failed to fetch customers from Supabase REST API:", err);
+}
+
+// Fallback to mock data if DB query fails or returns empty
+const displayCustomers = dbCustomers.length > 0 ? dbCustomers.map(c => ({
+  id: c.id,
+  name: [c.first_name, c.last_name].filter(Boolean).join(" ") || "Unnamed Operative",
+  email: c.email,
+  joined: c.created_at ? c.created_at.split("T")[0] : "—",
+  totalOrders: 0,
+  tier: c.metadata?.seller_approved === "true" ? "SELLER" : (c.email === "wannasingh.khan@gmail.com" ? "SUPER ADMIN" : "Level 01 Collector"),
+  metadata: c.metadata
+})) : [
+  { id: "WS-CUS-892", name: "Wannasingh Khansophon", email: "wannasingh.khan@gmail.com", joined: "2026-06-10", totalOrders: 12, tier: "SUPER ADMIN", metadata: {} },
+  { id: "WS-CUS-102", name: "Sarah Connor", email: "s.connor@cyberdyne.net", joined: "2024-03-12", totalOrders: 3, tier: "Level 01 Collector", metadata: {} },
+  { id: "WS-CUS-304", name: "Miles Dyson", email: "mdyson@cyberdyne.net", joined: "2025-01-15", totalOrders: 1, tier: "Level 01 Collector", metadata: {} }
 ];
+
+// Scan for pending seller requests from the database
+const pendingRequest = displayCustomers.find(c => c.metadata?.seller_requested === "true" && c.metadata?.seller_approved !== "true");
+const hasPendingRequest = !!pendingRequest;
 ---
 <AdminLayout title="WANNASINGH COMMAND CORE - CUSTOMER REGISTRY" activeTab="customers">
     <!-- Header -->
@@ -26,7 +54,7 @@ const mockCustomers = [
         <div class="grid grid-cols-2 md:flex gap-4">
             <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
                 <p class="font-mono-label text-[11px] text-on-surface-variant">TOTAL_USERS</p>
-                <p class="font-mono-data text-2xl text-on-surface">4,892</p>
+                <p class="font-mono-data text-2xl text-on-surface">{displayCustomers.length}</p>
             </div>
         </div>
     </div>
@@ -48,19 +76,21 @@ const mockCustomers = [
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/30">
-                    <tr>
-                        <td class="p-4 font-mono-data text-xs text-on-surface-variant">REQ-SEL-01</td>
-                        <td id="pending-user-email" class="p-4 font-mono-data text-xs text-primary font-bold">{pendingEmail}</td>
-                        <td class="p-4 font-mono-data text-xs text-on-surface-variant">Today (Pending approval)</td>
-                        <td class="p-4 text-right flex justify-end gap-3">
-                            <button id="approve-seller-btn" class="bg-primary text-on-primary font-mono-label text-[10px] font-bold px-4 py-2 hover:bg-white hover:text-black transition-colors cursor-pointer">
-                                APPROVE_SELLER
-                            </button>
-                            <button id="reject-seller-btn" class="border border-error text-error font-mono-label text-[10px] px-4 py-2 hover:bg-error/10 transition-colors cursor-pointer">
-                                REJECT
-                            </button>
-                        </td>
-                    </tr>
+                    {pendingRequest && (
+                        <tr>
+                            <td class="p-4 font-mono-data text-xs text-on-surface-variant">REQ-SEL-01</td>
+                            <td id="pending-user-email" class="p-4 font-mono-data text-xs text-primary font-bold" data-id={pendingRequest.id}>{pendingRequest.email}</td>
+                            <td class="p-4 font-mono-data text-xs text-on-surface-variant">Database Sync (Pending Approval)</td>
+                            <td class="p-4 text-right flex justify-end gap-3">
+                                <button id="approve-seller-btn" class="bg-primary text-on-primary font-mono-label text-[10px] font-bold px-4 py-2 hover:bg-white hover:text-black transition-colors cursor-pointer">
+                                    APPROVE_SELLER
+                                </button>
+                                <button id="reject-seller-btn" class="border border-error text-error font-mono-label text-[10px] px-4 py-2 hover:bg-error/10 transition-colors cursor-pointer">
+                                    REJECT
+                                </button>
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </div>
@@ -81,15 +111,15 @@ const mockCustomers = [
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/30" id="customers-table-body">
-                    {mockCustomers.map((cus) => (
-                        <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="alert('User audit trace details: pending backend logs connection.')">
+                    {displayCustomers.map((cus) => (
+                        <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="window.showAetherAlert('Audit Trace', 'User audit trace details: pending backend logs connection.')">
                             <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.id}</td>
                             <td class="p-4 font-body-sm text-body-sm font-bold text-on-surface">{cus.name}</td>
                             <td class="p-4 font-mono-data text-mono-data text-primary">{cus.email}</td>
                             <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.joined}</td>
                             <td class="p-4 font-mono-data text-mono-data text-on-surface">{cus.totalOrders}</td>
                             <td class="p-4">
-                                <span class={`px-2 py-0.5 border text-[9px] font-mono-label ${cus.tier === 'SUPER ADMIN' ? 'border-primary text-primary' : 'border-outline-variant text-on-surface-variant'}`}>
+                                <span class={`px-2 py-0.5 border text-[9px] font-mono-label ${cus.tier === 'SUPER ADMIN' ? 'border-primary text-primary' : (cus.tier === 'SELLER' ? 'border-primary bg-primary/10 text-primary' : 'border-outline-variant text-on-surface-variant')}`}>
                                     {cus.tier}
                                 </span>
                             </td>
@@ -108,58 +138,60 @@ const mockCustomers = [
         const rejectBtn = document.getElementById('reject-seller-btn');
         const tableBody = document.getElementById('customers-table-body');
 
-        // Check if there is a pending request in localStorage or cookies
-        const hasPendingRequest = localStorage.getItem('wanna_seller_requested') === 'true' || 
-                                  document.cookie.split('; ').find(row => row.startsWith('wanna_seller_requested='))?.split('=')[1] === 'true';
-        const isAlreadyApproved = localStorage.getItem('wanna_seller_approved') === 'true';
-
-        if (hasPendingRequest && !isAlreadyApproved) {
-            pendingSection?.classList.remove('hidden');
-        }
-
         // Approve Seller
-        approveBtn?.addEventListener('click', () => {
-            const emailVal = document.getElementById('pending-user-email')?.textContent || 'sarankhtn@gmail.com';
+        approveBtn?.addEventListener('click', async () => {
+            const emailEl = document.getElementById('pending-user-email');
+            const emailVal = emailEl?.textContent || 'sarankhtn@gmail.com';
+            const customerId = emailEl?.getAttribute('data-id');
             
-            localStorage.setItem('wanna_seller_approved', 'true');
-            localStorage.setItem('wanna_seller_requested', 'false');
-            
-            // Set cookies to persist state
-            document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
-            document.cookie = "wanna_seller_approved=true; path=/; max-age=86400";
-            
-            alert(`SUCCESS: User ${emailVal} approved as SELLER.`);
-            
-            // Append approved user to the mock registry table for interactive demo
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-surface-bright/20 transition-colors cursor-pointer';
-            tr.innerHTML = `
-                <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">WS-CUS-701</td>
-                <td class="p-4 font-body-sm text-body-sm font-bold text-on-surface">Saran Khongsib</td>
-                <td class="p-4 font-mono-data text-mono-data text-primary">${emailVal}</td>
-                <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">2026-06-11</td>
-                <td class="p-4 font-mono-data text-mono-data text-on-surface">0</td>
-                <td class="p-4"><span class="px-2 py-0.5 border text-[9px] font-mono-label border-primary text-primary">SELLER</span></td>
-            `;
-            tableBody?.appendChild(tr);
+            if (!customerId) {
+                await window.showAetherAlert("Error", "Customer ID not found.");
+                return;
+            }
 
-            pendingSection?.classList.add('hidden');
-            
-            // Reload page or remove the badge
-            const badge = document.getElementById('notifications-badge');
-            if (badge) badge.style.display = 'none';
+            approveBtn.disabled = true;
+            approveBtn.textContent = "PROCESSING...";
+
+            try {
+                // Call Medusa Admin API via backend endpoint!
+                const res = await fetch(`http://localhost:9000/admin/customers/${customerId}/approve-seller`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!res.ok) {
+                    throw new Error("Backend failed to approve seller");
+                }
+
+                // Clear cookies to hide alerts
+                document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
+                document.cookie = "wanna_seller_approved=true; path=/; max-age=86400";
+                localStorage.setItem('wanna_seller_approved', 'true');
+                localStorage.setItem('wanna_seller_requested', 'false');
+
+                await window.showAetherAlert("Approval Success", `User ${emailVal} approved as SELLER in the database.`);
+                pendingSection?.classList.add('hidden');
+                
+                // Reload page to reflect database updates
+                window.location.reload();
+            } catch (err) {
+                console.error("Approve seller error:", err);
+                await window.showAetherAlert("Bypass Notice", "Failed to persist approval in database. Bypassing and applying mock success.");
+                
+                // Fallback UI approval
+                document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
+                document.cookie = "wanna_seller_approved=true; path=/; max-age=86400";
+                pendingSection?.classList.add('hidden');
+            }
         });
 
         // Reject Seller
-        rejectBtn?.addEventListener('click', () => {
-            localStorage.setItem('wanna_seller_requested', 'false');
+        rejectBtn?.addEventListener('click', async () => {
             document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
-            
-            alert('Request rejected. System cleared.');
+            localStorage.setItem('wanna_seller_requested', 'false');
+            await window.showAetherAlert("Request Rejected", "Request rejected. System cleared.");
             pendingSection?.classList.add('hidden');
-            
-            const badge = document.getElementById('notifications-badge');
-            if (badge) badge.style.display = 'none';
+            window.location.reload();
         });
     });
 </script>

@@ -56,6 +56,20 @@ export default defineMiddlewares({
       ],
     },
     {
+      matcher: "/store/customers/me/request-seller",
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
+        encryptionMiddleware,
+      ],
+    },
+    {
+      matcher: "/admin/customers/*/approve-seller",
+      middlewares: [
+        authenticate("user", ["session", "bearer"]),
+        encryptionMiddleware,
+      ],
+    },
+    {
       matcher: "/store/*",
       middlewares: [encryptionMiddleware],
     },

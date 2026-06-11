@@ -201,9 +201,27 @@ import Layout from "../layouts/Layout.astro";
         `;
 
         // Qty −
-        el.querySelector(".btn-minus")!.addEventListener("click", () => {
+        el.querySelector(".btn-minus")!.addEventListener("click", async () => {
           const c = getCart();
-          if (c[idx] && c[idx].qty > 1) { c[idx].qty--; saveCart(c); render(); }
+          if (c[idx]) {
+            if (c[idx].qty > 1) {
+              c[idx].qty--;
+              saveCart(c);
+              render();
+            } else {
+              const confirmRemove = await (window as any).showAetherConfirm("Confirm Item Removal", `Are you sure you want to remove ${item.name} from your bag?`);
+              if (confirmRemove) {
+                el.style.opacity = "0";
+                el.style.transform = "translateY(10px)";
+                setTimeout(() => {
+                  const newCart = getCart();
+                  newCart.splice(idx, 1);
+                  saveCart(newCart);
+                  render();
+                }, 280);
+              }
+            }
+          }
         });
 
         // Qty +
@@ -213,7 +231,10 @@ import Layout from "../layouts/Layout.astro";
         });
 
         // Remove
-        el.querySelector(".btn-remove")!.addEventListener("click", () => {
+        el.querySelector(".btn-remove")!.addEventListener("click", async () => {
+          const confirmRemove = await (window as any).showAetherConfirm("Confirm Item Removal", `Are you sure you want to remove ${item.name} from your bag?`);
+          if (!confirmRemove) return;
+
           el.style.opacity = "0";
           el.style.transform = "translateY(10px)";
           setTimeout(() => {

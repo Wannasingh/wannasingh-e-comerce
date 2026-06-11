@@ -37,6 +37,8 @@ export const GET: APIRoute = async ({ url }) => {
   const minPrice = parseFloat(url.searchParams.get("minPrice") || "0") * 100; // in cents
   const maxPrice = parseFloat(url.searchParams.get("maxPrice") || "999999") * 100; // in cents
   const sort = url.searchParams.get("sort") || "newest";
+  const perfFilters = url.searchParams.getAll("perf");
+  const fabricFilters = url.searchParams.getAll("fabric");
 
   try {
     const medusaProducts = await getCachedProducts();
@@ -82,6 +84,70 @@ export const GET: APIRoute = async ({ url }) => {
       processedProducts = processedProducts.filter(
         (p) => p.category.toLowerCase() === category.toLowerCase()
       );
+    }
+
+    // Apply Technical Performance filters
+    if (perfFilters.length > 0) {
+      processedProducts = processedProducts.filter((p) => {
+        const rawP = medusaProducts.find(rm => rm.id === p.id);
+        if (!rawP) return false;
+
+        const specs = rawP.metadata?.specs || [];
+        const features = rawP.metadata?.features || [];
+        const materials = rawP.metadata?.materials || [];
+
+        return perfFilters.every((filterVal) => {
+          const filter = filterVal.toUpperCase();
+          if (filter === "WATERPROOF") {
+            const hasWaterproofSpec = specs.some((s: any) => s.label.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("mm"));
+            const hasWaterproofFeature = features.some((f: any) => f.title.toLowerCase().includes("waterproof") || f.desc.toLowerCase().includes("waterproof") || f.title.toLowerCase().includes("water"));
+            const hasWaterproofMaterial = materials.some((m: any) => m.value.toLowerCase().includes("waterproof") || m.value.toLowerCase().includes("membrane") || m.value.toLowerCase().includes("gore-tex"));
+            return hasWaterproofSpec || hasWaterproofFeature || hasWaterproofMaterial;
+          }
+          if (filter === "WINDPROOF") {
+            const hasWindproofSpec = specs.some((s: any) => s.label.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("blocked"));
+            const hasWindproofFeature = features.some((f: any) => f.title.toLowerCase().includes("windproof") || f.desc.toLowerCase().includes("windproof") || f.title.toLowerCase().includes("wind"));
+            return hasWindproofSpec || hasWindproofFeature;
+          }
+          if (filter === "BREATHABLE") {
+            const hasBreathableSpec = specs.some((s: any) => s.label.toLowerCase().includes("breathability") || s.value.toLowerCase().includes("ret") || s.value.toLowerCase().includes("breathable"));
+            const hasBreathableFeature = features.some((f: any) => f.title.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("moisture"));
+            return hasBreathableSpec || hasBreathableFeature;
+          }
+          if (filter === "INSULATED") {
+            const hasInsulatedSpec = specs.some((s: any) => s.label.toLowerCase().includes("warmth") || s.value.toLowerCase().includes("clo") || s.value.toLowerCase().includes("insulated"));
+            const hasInsulatedFeature = features.some((f: any) => f.title.toLowerCase().includes("insulated") || f.title.toLowerCase().includes("insulation") || f.desc.toLowerCase().includes("warmth") || f.title.toLowerCase().includes("thermal"));
+            const hasInsulatedMaterial = materials.some((m: any) => m.value.toLowerCase().includes("primaloft") || m.value.toLowerCase().includes("insulation") || m.value.toLowerCase().includes("fleece"));
+            return hasInsulatedSpec || hasInsulatedFeature || hasInsulatedMaterial;
+          }
+          return true;
+        });
+      });
+    }
+
+    // Apply Fabric Technology filters
+    if (fabricFilters.length > 0) {
+      processedProducts = processedProducts.filter((p) => {
+        const rawP = medusaProducts.find(rm => rm.id === p.id);
+        if (!rawP) return false;
+
+        const specs = rawP.metadata?.specs || [];
+        const materials = rawP.metadata?.materials || [];
+
+        return fabricFilters.every((filterVal) => {
+          const filter = filterVal.toUpperCase();
+          if (filter === "GORE-TEX PRO") {
+            return materials.some((m: any) => m.value.toUpperCase().includes("GORE-TEX") || m.value.toUpperCase().includes("GORE-PRO")) || specs.some((s: any) => s.value.toUpperCase().includes("GORE-TEX"));
+          }
+          if (filter === "DYNEEMA® BLEND") {
+            return materials.some((m: any) => m.value.toUpperCase().includes("DYNEEMA")) || specs.some((s: any) => s.value.toUpperCase().includes("DYNEEMA"));
+          }
+          if (filter === "3L CORDURA®") {
+            return materials.some((m: any) => m.value.toUpperCase().includes("CORDURA")) || specs.some((s: any) => s.value.toUpperCase().includes("CORDURA"));
+          }
+          return true;
+        });
+      });
     }
 
     // Apply search filter (q)

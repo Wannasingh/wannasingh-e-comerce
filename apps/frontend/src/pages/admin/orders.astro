@@ -50,7 +50,7 @@ const mockOrders = [
                 </thead>
                 <tbody class="divide-y divide-outline-variant/30">
                     {mockOrders.map((ord) => (
-                        <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="alert('Order panel details sync: pending backend database hooks.')">
+                        <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="window.showAetherAlert('Order Sync', 'Order panel details sync: pending backend database hooks.')">
                             <td class="p-4 font-mono-data text-mono-data text-primary font-bold">{ord.id}</td>
                             <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{ord.date}</td>
                             <td class="p-4 font-body-sm text-body-sm font-bold">{ord.customer}</td>

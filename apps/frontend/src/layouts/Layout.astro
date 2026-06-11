@@ -159,6 +159,64 @@ const navLinks = [
 
     <!-- ── Scripts ─────────────────────────────────────────────────────────── -->
     <script>
+      // ── Custom AETHER Modal Dialog ──────────────────────────────────────────
+      function createAetherDialog(type: 'alert' | 'confirm', title: string, message: string): Promise<boolean> {
+        return new Promise((resolve) => {
+          let dialog = document.getElementById('aether-dialog') as HTMLDialogElement;
+          if (dialog) dialog.remove();
+
+          dialog = document.createElement('dialog') as HTMLDialogElement;
+          dialog.id = 'aether-dialog';
+          dialog.className = 'fixed inset-0 z-[100] m-auto bg-surface-container-low border border-outline-variant p-0 text-on-surface max-w-md w-[calc(100%-2rem)] md:w-full shadow-2xl backdrop:backdrop-blur-sm backdrop:bg-black/70 animate-fade-in';
+          
+          dialog.innerHTML = `
+            <div class="p-6 font-sans">
+              <div class="flex justify-between items-center border-b border-outline-variant/30 pb-3 mb-4">
+                <span class="font-data-label text-xs tracking-widest text-primary uppercase font-bold">${title}</span>
+                <span class="material-symbols-outlined text-outline-variant text-[18px]">warning</span>
+              </div>
+              <p class="font-body-md text-xs leading-relaxed text-on-surface-variant mb-6 whitespace-pre-wrap">${message}</p>
+              <div class="flex justify-end gap-3 font-data-label text-xs">
+                ${type === 'confirm' ? `
+                  <button id="aether-dialog-cancel" class="px-4 py-2 border border-outline-variant text-on-surface-variant hover:text-primary hover:border-primary transition-colors cursor-pointer uppercase">
+                    Cancel
+                  </button>
+                ` : ''}
+                <button id="aether-dialog-confirm" class="px-5 py-2 bg-primary text-on-primary hover:bg-secondary transition-colors cursor-pointer uppercase">
+                  Confirm
+                </button>
+              </div>
+            </div>
+          `;
+
+          document.body.appendChild(dialog);
+          dialog.showModal();
+
+          const confirmBtn = dialog.querySelector('#aether-dialog-confirm');
+          const cancelBtn = dialog.querySelector('#aether-dialog-cancel');
+
+          confirmBtn?.addEventListener('click', () => {
+            dialog.close();
+            dialog.remove();
+            resolve(true);
+          });
+
+          cancelBtn?.addEventListener('click', () => {
+            dialog.close();
+            dialog.remove();
+            resolve(false);
+          });
+
+          dialog.addEventListener('cancel', () => {
+            dialog.remove();
+            resolve(false);
+          });
+        });
+      }
+
+      (window as any).showAetherAlert = (title: string, message: string) => createAetherDialog('alert', title, message).then(() => {});
+      (window as any).showAetherConfirm = (title: string, message: string) => createAetherDialog('confirm', title, message);
+
       // Mobile menu toggle
       const toggle = document.getElementById("mobile-menu-toggle");
       const mobileMenu = document.getElementById("mobile-menu");
