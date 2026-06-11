@@ -1,9 +1,11 @@
 ---
 // src/pages/shop/index.astro — Shop Outerwear | AETHER Cyber-Minimalist Design
-import Layout from "@layouts/Layout.astro";
 import crypto from "node:crypto";
-import { getStableImageUrl } from "../../lib/images";
+
+import Layout from "@layouts/Layout.astro";
+
 import { getCachedProducts } from "../../lib/cache";
+import { getStableImageUrl } from "../../lib/images";
 
 const siteTitle = "OUTERWEAR | WANNASINGH PERFORMANCE SYSTEMS";
 const siteDescription =

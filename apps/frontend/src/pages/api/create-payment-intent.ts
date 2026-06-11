@@ -1,7 +1,8 @@
 // src/pages/api/create-payment-intent.ts
 // Server-side Stripe PaymentIntent creation
-import type { APIRoute } from "astro";
 import Stripe from "stripe";
+
+import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request }) => {
   const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;

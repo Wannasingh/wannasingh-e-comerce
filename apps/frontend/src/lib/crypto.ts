@@ -32,7 +32,7 @@ export async function decryptPayload(
       ? window.crypto 
       : (typeof globalThis !== 'undefined' && globalThis.crypto ? globalThis.crypto : null);
       
-    if (!webCrypto || !webCrypto.subtle) {
+    if (!webCrypto?.subtle) {
       throw new Error("Web Crypto API is not supported in this environment.");
     }
 

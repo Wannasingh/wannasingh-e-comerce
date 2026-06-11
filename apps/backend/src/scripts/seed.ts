@@ -1,6 +1,6 @@
 import { createProductsWorkflow } from "@medusajs/core-flows";
+import { type ExecArgs } from "@medusajs/framework/types";
 import { Modules } from "@medusajs/framework/utils";
-import { ExecArgs } from "@medusajs/framework/types";
 
 // ── Category-Specific Product Image Tags ──────────────────────────────
 // Uses tags mapped to categories to fetch unique, contextual photos
@@ -264,7 +264,7 @@ export default async function seed({ container }: ExecArgs) {
     const batch = productsToSeed.slice(i, i + BATCH_SIZE);
     const productsInput = batch.map((p: any) => ({
       title: p.title, handle: p.handle, subtitle: p.subtitle, description: p.description,
-      status: p.status as any, options: p.options, variants: p.variants as any,
+      status: p.status, options: p.options, variants: p.variants,
       sales_channels: [{ id: salesChannelId }], metadata: p.metadata,
     }));
 
