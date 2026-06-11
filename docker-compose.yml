@@ -17,12 +17,7 @@ volumes:
     driver: local
   postgres-data:
     driver: local
-  sonarqube-data:
-    driver: local
-  sonarqube-logs:
-    driver: local
-  sonarqube-extensions:
-    driver: local
+
 
 # ── Services ──────────────────────────────────────────────────────────────────
 services:
@@ -180,37 +175,3 @@ services:
       retries: 3
       start_period: 30s
 
-  # ── SonarQube (optional — comment out if not needed locally) ─────────────
-  sonarqube:
-    image: sonarqube:10-community
-    container_name: wannasingh-sonarqube
-    restart: unless-stopped
-    profiles:
-      - qa   # Only start with: docker compose --profile qa up
-    environment:
-      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
-      SONAR_JDBC_USERNAME: sonar
-      SONAR_JDBC_PASSWORD: sonar
-    volumes:
-      - sonarqube-data:/opt/sonarqube/data
-      - sonarqube-logs:/opt/sonarqube/logs
-      - sonarqube-extensions:/opt/sonarqube/extensions
-    ports:
-      - "9100:9000"   # Map to 9100 to avoid conflict with Medusa
-    networks:
-      - app-network
-    depends_on:
-      - sonar-db
-
-  sonar-db:
-    image: postgres:16-alpine
-    container_name: wannasingh-sonar-db
-    restart: unless-stopped
-    profiles:
-      - qa
-    environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
-      POSTGRES_DB: sonar
-    networks:
-      - app-network
