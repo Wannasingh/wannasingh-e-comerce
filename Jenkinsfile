@@ -138,6 +138,8 @@ pipeline {
                 --target runner \
                 --tag ${IMAGE_FRONTEND}:${IMAGE_TAG} \
                 --tag ${IMAGE_FRONTEND}:latest \
+                --build-arg NODE_VERSION=${NODE_VERSION} \
+                --build-arg PNPM_VERSION=${PNPM_VERSION} \
                 --build-arg PUBLIC_MEDUSA_BACKEND_URL=\${PUBLIC_MEDUSA_BACKEND_URL:-https://api.wannasingh.com} \
                 --build-arg PUBLIC_SITE_URL=\${PUBLIC_SITE_URL:-https://wannasingh.com} \
                 --cache-from ${IMAGE_FRONTEND}:latest \
@@ -157,6 +159,8 @@ pipeline {
                 --target runner \
                 --tag ${IMAGE_BACKEND}:${IMAGE_TAG} \
                 --tag ${IMAGE_BACKEND}:latest \
+                --build-arg NODE_VERSION=${NODE_VERSION} \
+                --build-arg PNPM_VERSION=${PNPM_VERSION} \
                 --cache-from ${IMAGE_BACKEND}:latest \
                 --label "org.opencontainers.image.source=\$(git remote get-url origin)" \
                 --label "org.opencontainers.image.revision=\$(git rev-parse HEAD)" \

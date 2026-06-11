@@ -12,13 +12,14 @@ ARG PNPM_VERSION=9.15.0
 # Stage 1: deps — Install Node.js dependencies
 # ==============================================================================
 FROM node:${NODE_VERSION}-alpine AS deps
+ARG PNPM_VERSION
 
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 
 WORKDIR /repo
 
 # Copy workspace manifests
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
 COPY apps/backend/package.json ./apps/backend/
 
 # Install all deps (including dev, needed for medusa build)
@@ -28,6 +29,7 @@ RUN pnpm install --frozen-lockfile --filter @wannasingh/backend...
 # Stage 2: builder — Compile MedusaJS bundle
 # ==============================================================================
 FROM node:${NODE_VERSION}-alpine AS builder
+ARG PNPM_VERSION
 
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 
@@ -36,6 +38,7 @@ WORKDIR /repo
 COPY --from=deps /repo/node_modules ./node_modules
 COPY --from=deps /repo/apps/backend/node_modules ./apps/backend/node_modules
 
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
 COPY tsconfig.base.json ./
 COPY apps/backend ./apps/backend
 

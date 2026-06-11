@@ -13,6 +13,7 @@ ARG PNPM_VERSION=9.15.0
 # Stage 1: deps — Install Node.js dependencies
 # ==============================================================================
 FROM node:${NODE_VERSION}-alpine AS deps
+ARG PNPM_VERSION
 
 # Install pnpm via corepack (avoids npx download on each build)
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
@@ -20,7 +21,7 @@ RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /repo
 
 # Copy workspace manifests first (layer cache for dependency installs)
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
 COPY apps/frontend/package.json ./apps/frontend/
 
 # Install only production + dev deps needed for build (frozen for reproducibility)
@@ -30,6 +31,7 @@ RUN pnpm install --frozen-lockfile --filter @wannasingh/frontend...
 # Stage 2: builder — Compile Astro SSR bundle
 # ==============================================================================
 FROM node:${NODE_VERSION}-alpine AS builder
+ARG PNPM_VERSION
 
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 
@@ -39,7 +41,8 @@ WORKDIR /repo
 COPY --from=deps /repo/node_modules ./node_modules
 COPY --from=deps /repo/apps/frontend/node_modules ./apps/frontend/node_modules
 
-# Copy full source
+# Copy workspace manifests and source code
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
 COPY tsconfig.base.json ./
 COPY apps/frontend ./apps/frontend
 
