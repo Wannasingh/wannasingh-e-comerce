@@ -112,8 +112,7 @@ pipeline {
           sh """
             sonar-scanner \
               -Dsonar.login=${SONAR_TOKEN} \
-              -Dsonar.host.url=${SONAR_HOST_URL} \
-              -Dsonar.branch.name=${env.BRANCH_NAME ?: 'main'}
+              -Dsonar.host.url=${SONAR_HOST_URL}
           """
         }
       }
