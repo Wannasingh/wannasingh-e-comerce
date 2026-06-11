@@ -1,0 +1,73 @@
+---
+// src/pages/admin/orders.astro — System Orders Matrix
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+export const prerender = false;
+
+// Mock orders list for simulation
+const mockOrders = [
+  { id: "WS-ORD-8921", date: "2026-06-10 16:42", customer: "Wannasingh Kh.", total: "$1,190.00", items: "2 items", status: "PROCESSING", type: "SHELL-JACKET" },
+  { id: "WS-ORD-8920", date: "2026-06-10 15:10", customer: "Sarah Connor", total: "$420.00", items: "1 item", status: "DELIVERED", type: "CARGO-PANTS" },
+  { id: "WS-ORD-8919", date: "2026-06-10 14:02", customer: "Miles Dyson", total: "$595.00", items: "1 item", status: "PROCESSING", type: "SHELL-JACKET" },
+  { id: "WS-ORD-8918", date: "2026-06-10 12:45", customer: "John Doe", total: "$315.00", items: "1 item", status: "DELIVERED", type: "MIDLAYER" }
+];
+---
+<AdminLayout title="WANNASINGH COMMAND CORE - ORDERS MATRIX" activeTab="orders">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <div class="w-2 h-2 bg-primary status-pulse"></div>
+                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">Transaction Matrices</span>
+            </div>
+            <h2 class="font-display text-4xl font-bold">ORDER_MATRIX</h2>
+        </div>
+        <div class="grid grid-cols-2 md:flex gap-4">
+            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+                <p class="font-mono-label text-[11px] text-on-surface-variant">TOTAL_ORDERS</p>
+                <p class="font-mono-data text-2xl text-on-surface">12,401</p>
+            </div>
+            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+                <p class="font-mono-label text-[11px] text-on-surface-variant">FULFILLMENT</p>
+                <p class="font-mono-data text-2xl text-primary">98.2%</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Table Grid -->
+    <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-surface-container-low border-b border-outline-variant">
+                    <tr>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">ORDER_ID</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">TIMESTAMP</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">OPERATIVE_CUSTOMER</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">ITEMS</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant text-right">TOTAL</th>
+                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">STATE</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/30">
+                    {mockOrders.map((ord) => (
+                        <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="window.showAetherAlert('Order Sync', 'Order panel details sync: pending backend database hooks.')">
+                            <td class="p-4 font-mono-data text-mono-data text-primary font-bold">{ord.id}</td>
+                            <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{ord.date}</td>
+                            <td class="p-4 font-body-sm text-body-sm font-bold">{ord.customer}</td>
+                            <td class="p-4">
+                                <span class="px-2 py-0.5 border border-outline-variant text-on-surface-variant text-[9px] font-mono-label">{ord.items}</span>
+                            </td>
+                            <td class="p-4 text-right font-mono-data text-mono-data text-on-surface">{ord.total}</td>
+                            <td class="p-4">
+                                <span class={`flex items-center gap-2 font-mono-label text-[10px] ${ord.status === 'PROCESSING' ? 'text-primary' : 'text-secondary'}`}>
+                                    <span class={`w-1.5 h-1.5 rounded-none ${ord.status === 'PROCESSING' ? 'bg-primary status-pulse' : 'bg-secondary'}`}></span>
+                                    {ord.status}
+                                </span>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</AdminLayout>

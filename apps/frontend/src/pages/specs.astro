@@ -154,6 +154,7 @@ import Layout from "../layouts/Layout.astro";
           </div>
           <button 
             type="button"
+            id="view-full-specs-btn"
             class="mt-8 border border-white/30 text-white hover:border-white hover:bg-white hover:text-black px-6 py-3 font-data-label text-xs transition-colors uppercase tracking-widest text-center cursor-pointer"
           >
             View Full Specs
@@ -298,12 +299,14 @@ import Layout from "../layouts/Layout.astro";
             <div class="flex flex-wrap gap-4 pt-2">
               <button 
                 type="button"
+                id="request-api-btn"
                 class="bg-[var(--secondary)] text-white px-8 py-4 font-data-label text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-all cursor-pointer"
               >
                 REQUEST_API_ACCESS
               </button>
               <button 
                 type="button"
+                id="download-pdf-btn"
                 class="border border-white text-white px-8 py-4 font-data-label text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-all cursor-pointer"
               >
                 DOWNLOAD_FULL_PDF
@@ -391,6 +394,27 @@ import Layout from "../layouts/Layout.astro";
         (card as HTMLElement).style.transform = 'translateY(0)';
         (card as HTMLElement).style.boxShadow = '';
       });
+    });
+    // Button interactions
+    document.getElementById('view-full-specs-btn')?.addEventListener('click', () => {
+      window.location.href = '/shop';
+    });
+
+    document.getElementById('request-api-btn')?.addEventListener('click', (e) => {
+      const btn = e.target as HTMLButtonElement;
+      const orig = btn.textContent;
+      btn.textContent = 'REQUEST SUBMITTED ✓';
+      btn.style.background = 'var(--secondary)';
+      btn.style.color = 'white';
+      btn.disabled = true;
+      setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; }, 3000);
+    });
+
+    document.getElementById('download-pdf-btn')?.addEventListener('click', (e) => {
+      const btn = e.target as HTMLButtonElement;
+      const orig = btn.textContent;
+      btn.textContent = 'COMING SOON — Q3 2025';
+      setTimeout(() => { btn.textContent = orig; }, 3000);
     });
   </script>
 </Layout>

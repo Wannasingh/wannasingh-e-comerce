@@ -1,40 +1,77 @@
 ---
 // src/pages/collections.astro — Collections Archive | AETHER Cyber-Minimalism
 import Layout from "../layouts/Layout.astro";
+import crypto from "node:crypto";
+import { getCachedProducts } from "../lib/cache";
 
-// Static collections list for Wannasingh archive
-const collections = [
-  {
-    id: "aw24",
-    title: "AW24 // KINETIC SYSTEM",
-    status: "ACTIVE OPERATIONAL",
-    statusColor: "var(--secondary)",
-    desc: "Engineered for high-stakes urban navigation and extreme environmental adaptability. Features modular shell structures, Primaloft mapping, and GORE-TEX waterproof shielding.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHFF-Askr-UVEcPxEatG03-NYhria9d1LD89xkSFRsysrpXIb0-XITMLvOob4NG48RStSeUZvnqE-b0SAZ_D2REoczbzNrn_ja6JX8qLfbj5o8EV8uKaT6I89igEyEsDyhTlKc6dWgEOQ1HbTdtwD9xmvaRM-i0Mm5qoW5Zuxpc6OnoQQ0lwxc5O-uaBl4Swcy_WU8x0_ODGNpMMMymEBBqmhJs2NFIfJm2Uhy7s0zGbBqDJxq7es5PhSa0Mv9snsLxe-_XFKGLYYG",
-    itemsCount: "12 UNITS",
-    release: "2024.10"
-  },
-  {
-    id: "ss24",
-    title: "SS24 // LIGHTWEIGHT ARMOR",
-    status: "ARCHIVED STANDBY",
-    statusColor: "var(--outline)",
-    desc: "Ultra-breathable biotic shell structures and packable hybrid layers. Calibrated for temperate zones, high humidity shielding, and weightless athletic agility.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBL87xX1K0i9R29FHPxTIXjgw1stKC9rJh86b2mHgLXY09NZAtxJsZMfi9mPDXfuna_OWYZMngAf86typMW0QE2iupdv-yOeNjb05ocVQMnhXYLXouCOH2COgVF79WicjVQM4ky1BPqPh8pl8ApYdh32xE5F206KBdmfrlJgQdXCFPiMeDd3NjrdsB3FiGeporoYcr9LerMp3CryMuD0AQr0WCsn9veXed5UjsIOvkqDMhIuZQMXYNXK97tJmr6c3nZ-Odbav9_enPj",
-    itemsCount: "08 UNITS",
-    release: "2024.04"
-  },
-  {
-    id: "aw23",
-    title: "AW23 // STEALTH SHIELD",
-    status: "ARCHIVED STANDBY",
-    statusColor: "var(--outline)",
-    desc: "Deep Carbon series focusing on extreme thermal insulation and windproof performance. Incorporates Dyneema composite reinforcements and high-density ballistic trims.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAXrJJEBZr1z5HKEIHGZRJhS6P99lFF7sQ3Jw5E3jfkx6g_49h5d8Rl61whMwfLki_FSAjDeoPhrkDVvhUirzEov67awPdLwauSg7IVRliC_1vTCqLmVla8NHT7fYLEWRbQEzy_i8DO1mrFFcKqyJh9HjWwWOOzrXBdwlFSc6Xlsn91dAvndP4A8dTb7kGJaQ866VHA3qeTLq0PQX5N0GSs3ZwL9l76T-Bf4yQ0WWrMbyadC5oIclmahquPXSqZEYen8QPPfukFNY1D",
-    itemsCount: "16 UNITS",
-    release: "2023.10"
+// ── Fetch product counts from Medusa API ──────────────────────────────
+const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
+const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
+
+function decryptPayload(enc: { iv: string; data: string } | any): any {
+  if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
+  const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
+  const iv = Buffer.from(enc.iv, "hex");
+  const data = Buffer.from(enc.data, "hex");
+  const decipher = crypto.createDecipheriv("aes-256-cbc", keyHash, iv);
+  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
+}
+
+// Fetch total product count from API
+let totalProducts = 0;
+let categoryMap: Record<string, number> = {};
+
+try {
+  const products = await getCachedProducts();
+  if (products.length > 0) {
+    totalProducts = products.length;
+    // Count by category from metadata
+    for (const p of products) {
+      const cat = p.metadata?.category || "Outerwear";
+      categoryMap[cat] = (categoryMap[cat] || 0) + 1;
+    }
   }
+} catch (err) {
+  console.error("Failed to fetch product counts:", err);
+}
+
+const IMG = [
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuCHFF-Askr-UVEcPxEatG03-NYhria9d1LD89xkSFRsysrpXIb0-XITMLvOob4NG48RStSeUZvnqE-b0SAZ_D2REoczbzNrn_ja6JX8qLfbj5o8EV8uKaT6I89igEyEsDyhTlKc6dWgEOQ1HbTdtwD9xmvaRM-i0Mm5qoW5Zuxpc6OnoQQ0lwxc5O-uaBl4Swcy_WU8x0_ODGNpMMMymEBBqmhJs2NFIfJm2Uhy7s0zGbBqDJxq7es5PhSa0Mv9snsLxe-_XFKGLYYG",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBEBLQdp0-1kvBJRQWQVsotyAdr4P1zLrLAVKcsx-BIevAhnAdUerqyhrHJEVOR3IW1QP2dJz8slM3XieNHLnPAoUe51ZIsYmmFZJQP688RNtK9vDwoN1N3GAvnnD5nYbzw23y8q86DXbbNGskNIiqfTEPBF8XXrraJA5vGKX3GQpm2SXP9MxsxzcQHMCUPwKbwhPBFvh6LytQFapNXZP4dwhhvz1uHoZF5gwtlqeG2eLuNi_YK9ax-jOpJVehlejDYroY3GcCKMWBE",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuD6WTv34VitQexJJiT16v3SRk4xSCov8gxQeKuWZie-PLPsI9Tu64Nkdi7iEMqfDzKkhxs7vzhHFhW-wYyyAWfTMEBjzaJoneGu4B23eNKXbsOElwykRDijdKkaurib1Z0XkvpTYG2_3EnlTRS2g0M3qQkVPvhlGLr4bIS1CHnF6uGb0f3GlD8qU71JXyAlLlIZt9B0qTb_VSDQ9gSgXYKCnvOPA5EizjNVKun6f5NROmNmyJTNbPqpoBmnCx6OXSAji-vXYeD7iQsi",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuDj080BlpX9quuEZyPbBXuZEqJDkjGgGUBCygUBm8ypVpA5Q1_nzyg_8l2797PWXxaDOtZCj_p629ugTX1E9AdKClIvOM0OPz4P3CpWNCBdGXF8hsh8x0OwCLbBcfbCXeiDb3H18laq7N1iduNdarS8TczvXcgQcQXsMSrjg0hGl935Pd_Nv8rjWCEJQMRYd9GC2KqsmojDBfUMMmqLn2QRQkMUmvYvMSLQaWKDj604VVK6WgZID6nRG_Bsllqd42kyWT-dux0wNxk3",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuAduJI42AxGAa90CHHC917vkMZm6rmcX8SxqcFulA-bnXj9reWIBbwdxWLlKI9LrKzAhbxkaIDkB2JcR0ahWI4WmNPBtOkrYPNO1S5Wp0uePYMkRPf9XrzXtQteKZ2CpZifA4_RaQ19ycGm_8t8Ha5ZJUM_UXtNhNOUs18uMxb8yaa9SLWx-5w77E-sfbaKyj3721IX9qMvBoUEtuu9w-rYLW9gxudF7jCDFGDzKsZbLM4BRaQmXMsNEdahBB07uYWatnrB4HVIbMX0",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuB6o8eGNrsnN_Cw93q55oLygXOH8w1eidswoGyRCQBEl5GHo3ZEW7uKaSNy_2gsWNaR5ujpA2_jioVBpNjmEin6uQndXi0TinPTsbDXAz0kPYV-aVOLgv91JGCvZNzZiqwaaALW8mai_5-pgdeya82DJs4kfnlsSFSyTs3BGGCY-HlmLihMCyWtKu1k03iU51LV0hexj4nx6oz3SOCXS9uEj3BBEtwrs_yWse0RFen87QoS_uRObyMYqnAKnxy2ov8gbRPWygb8OwGL",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuD5j6wILASNWIJgj1ANFebyww1VgywHS8WLxTA4QIG3Psj4N-BPZkozhZRL9aIUfNNpeKB_4jkE43hFkyARpZWvODhEPGUgkq7xbC7WFd3FwKMp_MB3LHb8_oRUAI5Tjhdqeaot2F0uN_lrZwiQZGlEOAX0xjPAYenKCjf5MHO6aMa2hszyFRiYRJlqzNUpyHSiU7UbeNf_r8GdkMeXoioBgHfRd4F9xuof-Xmm9XfUY5Fd-_rTqLwKxInV667-SIJGoxKpGNdYkuBb",
 ];
+
+// Build collections from actual product categories
+const categoryDescriptions: Record<string, { title: string; desc: string; status: string; statusColor: string }> = {
+  "Outerwear": { title: "OUTERWEAR // SHELL SYSTEMS", desc: "Engineered for high-stakes urban navigation and extreme environmental adaptability. Features modular shell structures, waterproof membranes, and wind-barrier technologies.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+  "Mid-Layer": { title: "MID-LAYERS // THERMAL CORE", desc: "Active insulation and thermal regulation systems. From PrimaLoft hybrid construction to Polartec stretch fleece, calibrated for dynamic temperature management.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+  "Bottoms": { title: "BOTTOMS // MOBILITY SYSTEM", desc: "Articulated tactical trousers and technical joggers. Ripstop construction with reinforced knee panels and modular pocket architecture.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+  "Base Layer": { title: "BASE LAYERS // CORE SYSTEM", desc: "Next-to-skin performance fabrics. Merino blends and synthetic moisture-management systems for temperature regulation and odor control.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+  "Accessories": { title: "ACCESSORIES // UTILITY MODULES", desc: "Tactical utility accessories from balaclavas to chest rigs. MOLLE-compatible, weather-sealed, and built from military-specification materials.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+  "Vests": { title: "VESTS // CARRY SYSTEMS", desc: "Modular load-carry architecture. Tactical chest rigs and utility vests with multi-point MOLLE attachment systems and ergonomic harness geometry.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+  "Footwear": { title: "FOOTWEAR // GROUND SYSTEM", desc: "Technical footwear engineered for all-terrain performance. GORE-TEX linings, Vibram outsoles, and reinforced toe protection.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+};
+
+const collections = Object.entries(categoryMap)
+  .sort((a, b) => b[1] - a[1])
+  .map(([cat, count], i) => {
+    const info = categoryDescriptions[cat] || { title: `${cat.toUpperCase()} // SYSTEM`, desc: `High-performance ${cat.toLowerCase()} collection.`, status: "ACTIVE", statusColor: "var(--secondary)" };
+    return {
+      id: cat.toLowerCase().replace(/\s+/g, "-"),
+      title: info.title,
+      status: info.status,
+      statusColor: info.statusColor,
+      desc: info.desc,
+      image: IMG[i % IMG.length],
+      itemsCount: `${String(count).padStart(2, "0")} UNITS`,
+      release: "2024.10",
+    };
+  });
 ---
 
 <Layout title="AETHER | COLLECTIONS ARCHIVE" description="Browse seasonal systems, techwear collections, and legacy operational gear from Wannasingh.">
@@ -47,7 +84,7 @@ const collections = [
         <h1 class="font-display text-4xl text-[var(--primary)] uppercase leading-none mt-1">Collections</h1>
       </div>
       <p class="font-data-value text-xs text-[var(--on-surface-variant)] max-w-xs md:text-right leading-relaxed">
-        DOCUMENTING THE EVOLUTION OF WANNASINGH ATMOSPHERIC SHELLS AND PERFORMANCE MODES.
+        {totalProducts} PRODUCTS ACROSS {collections.length} PERFORMANCE CATEGORIES. DOCUMENTING THE EVOLUTION OF WANNASINGH SYSTEMS.
       </p>
     </header>
 
@@ -57,7 +94,7 @@ const collections = [
         const isEven = index % 2 === 0;
         return (
           <div class={`flex flex-col lg:flex-row gap-12 items-center ${isEven ? '' : 'lg:flex-row-reverse'}`}>
-            <!-- Image Panel -->
+            {/* Image Panel */}
             <div class="w-full lg:w-1/2 aspect-[16/10] bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 overflow-hidden relative group">
               <img 
                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700" 
@@ -69,7 +106,7 @@ const collections = [
               </div>
             </div>
             
-            <!-- Description Panel -->
+            {/* Description Panel */}
             <div class="w-full lg:w-1/2 space-y-6">
               <div class="flex items-center gap-3">
                 <span class="w-2 h-2 rounded-none animate-pulse" style={`background-color: ${col.statusColor}`}></span>

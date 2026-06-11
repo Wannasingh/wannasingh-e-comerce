@@ -17,8 +17,7 @@ pipeline {
     IMAGE_FRONTEND   = "${REGISTRY}/frontend"
     IMAGE_BACKEND    = "${REGISTRY}/backend"
 
-    // Image tag: prefer branch-specific tags, fall back to 'latest'
-    IMAGE_TAG        = "${env.BRANCH_NAME?.replaceAll('[^a-zA-Z0-9._-]', '-') ?: 'latest'}-${env.BUILD_NUMBER}"
+    IMAGE_TAG        = "build-${env.BUILD_NUMBER}"
 
     // Jenkins credential IDs — configure these in Jenkins > Credentials
     DOCKER_CREDS     = credentials("docker-registry-creds")   // username/password credential

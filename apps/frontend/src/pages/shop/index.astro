@@ -1,119 +1,100 @@
 ---
 // src/pages/shop/index.astro — Shop Outerwear | AETHER Cyber-Minimalist Design
 import Layout from "@layouts/Layout.astro";
+import crypto from "node:crypto";
+import { getStableImageUrl } from "../../lib/images";
+import { getCachedProducts } from "../../lib/cache";
 
 const siteTitle = "OUTERWEAR | WANNASINGH PERFORMANCE SYSTEMS";
 const siteDescription =
   "Engineered for extreme performance. Our outerwear collection fuses technical tactical utility with minimalist aesthetic precision.";
 
-interface ProductSpec {
-  label: string;
-  value: string;
+// ── Fetch products from Medusa v2 Store API (server-side) ──────────────────
+const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
+const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
+
+function decryptPayload(enc: { iv: string; data: string } | any): any {
+  if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
+  const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
+  const iv = Buffer.from(enc.iv, "hex");
+  const data = Buffer.from(enc.data, "hex");
+  const decipher = crypto.createDecipheriv("aes-256-cbc", keyHash, iv);
+  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
 }
 
-interface Product {
+interface MedusaProduct {
   id: string;
+  title: string;
+  handle: string;
+  subtitle: string | null;
+  status: string;
+  metadata: any;
+  variants: any[];
+}
+
+interface ProductCard {
+  id: string;
+  handle: string;
   name: string;
   subtitle: string;
   price: string;
+  priceRaw: number;
   image: string;
   imageAlt: string;
   href: string;
-  specs: ProductSpec[];
+  specs: { label: string; value: string }[];
+  createdAt: string;
 }
 
-const products: Product[] = [
-  {
-    id: "ws-01-stealth-shell",
-    name: "WS-01 STEALTH SHELL",
-    subtitle: "Matte Carbon / 3-Layer Performance",
-    price: "$645.00",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAduJI42AxGAa90CHHC917vkMZm6rmcX8SxqcFulA-bnXj9reWIBbwdxWLlKI9LrKzAhbxkaIDkB2JcR0ahWI4WmNPBtOkrYPNO1S5Wp0uePYMkRPf9XrzXtQteKZ2CpZifA4_RaQ19ycGm_8t8Ha5ZJUM_UXtNhNOUs18uMxb8yaa9SLWx-5w77E-sfbaKyj3721IX9qMvBoUEtuu9w-rYLW9gxudF7jCDFGDzKsZbLM4BRaQmXMsNEdahBB07uYWatnrB4HVIbMX0",
-    imageAlt: "A studio portrait of a futuristic technical shell jacket in matte charcoal grey.",
-    href: "/shop/ws-01-stealth-shell",
-    specs: [
-      { label: "Membrane", value: "GORE-TEX 3L" },
-      { label: "Waterproof", value: "28,000mm" },
-      { label: "Breathability", value: "RET < 6" },
-      { label: "Weight", value: "420g" },
-    ],
-  },
-  {
-    id: "altitude-parka",
-    name: "ALTITUDE PARKA",
-    subtitle: "Deep Navy / Extreme Cold",
-    price: "$890.00",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6o8eGNrsnN_Cw93q55oLygXOH8w1eidswoGyRCQBEl5GHo3ZEW7uKaSNy_2gsWNaR5ujpA2_jioVBpNjmEin6uQndXi0TinPTsbDXAz0kPYV-aVOLgv91JGCvZNzZiqwaaALW8mai_5-pgdeya82DJs4kfnlsSFSyTs3BGGCY-HlmLihMCyWtKu1k03iU51LV0hexj4nx6oz3SOCXS9uEj3BBEtwrs_yWse0RFen87QoS_uRObyMYqnAKnxy2ov8gbRPWygb8OwGL",
-    imageAlt: "A full-length studio shot of a sleek, slim-fit insulated parka in deep navy blue.",
-    href: "/shop/altitude-parka",
-    specs: [
-      { label: "Insulation", value: "800 Fill Power" },
-      { label: "Outer Shell", value: "Ripstop Nylon" },
-      { label: "Temp Rating", value: "-15°C / 5°F" },
-      { label: "Fit", value: "Athletic Taper" },
-    ],
-  },
-  {
-    id: "vitesse-windbreaker",
-    name: "VITESSE WINDBREAKER",
-    subtitle: "Optic White / High Activity",
-    price: "$325.00",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCQmPjJDsh4hWrghd_l1n1GCqNdmGclllyDEayeX-HyL71xQqyZ7gsOvp4EtUbeqq0RlRQHG3xBhTyXCiARRpKDzsDQFVK0Gkji7uN8sJFkkFCPG2P_0XkMtF8bs1E80AgnLUu6QlPdd0AACZYJbL9M6sK0Kl9C3Faw2ru2Ghkn6O1-vrb9TxEQ20AU6GYENsCEuSoQUjYB85zIr8kdjD8C9gK6M2SS_KzQJYPF6gcwAENY7oGJYs2kgiITlTP2J8vQQllrAQ5ozqqD",
-    imageAlt: "A close-up of a lightweight technical windbreaker in optic white with reflective piping.",
-    href: "/shop/vitesse-windbreaker",
-    specs: [
-      { label: "Fabric", value: "Pertex Quantum" },
-      { label: "Features", value: "DWR Finish" },
-      { label: "Packability", value: "Internal Pocket" },
-      { label: "Visibility", value: "3M Reflective" },
-    ],
-  },
-  {
-    id: "field-operative-jacket",
-    name: "FIELD OPERATIVE JACKET",
-    subtitle: "Tactical Olive / Modular Utility",
-    price: "$580.00",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD6WTv34VitQexJJiT16v3SRk4xSCov8gxQeKuWZie-PLPsI9Tu64Nkdi7iEMqfDzKkhxs7vzhHFhW-wYyyAWfTMEBjzaJoneGu4B23eNKXbsOElwykRDijdKkaurib1Z0XkvpTYG2_3EnlTRS2g0M3qQkVPvhlGLr4bIS1CHnF6uGb0f3GlD8qU71JXyAlLlIZt9B0qTb_VSDQ9gSgXYKCnvOPA5EizjNVKun6f5NROmNmyJTNbPqpoBmnCx6OXSAji-vXYeD7iQsi",
-    imageAlt: "A military-inspired tactical field jacket in olive drab redesigned for urban luxury context.",
-    href: "/shop/field-operative-jacket",
-    specs: [
-      { label: "Material", value: "Dyname-Nylon" },
-      { label: "Closure", value: "Fidlock Magnets" },
-      { label: "Pockets", value: "8 Modular" },
-      { label: "Origin", value: "Italy" },
-    ],
-  },
-  {
-    id: "aero-hybrid-vest",
-    name: "AERO HYBRID VEST",
-    subtitle: "Jet Black / High Versatility",
-    price: "$275.00",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEBLQdp0-1kvBJRQWQVsotyAdr4P1zLrLAVKcsx-BIevAhnAdUerqyhrHJEVOR3IW1QP2dJz8slM3XieNHLnPAoUe51ZIsYmmFZJQP688RNtK9vDwoN1N3GAvnnD5nYbzw23y8q86DXbbNGskNIiqfTEPBF8XXrraJA5vGKX3GQpm2SXP9MxsxzcQHMCUPwKbwhPBFvh6LytQFapNXZP4dwhhvz1uHoZF5gwtlqeG2eLuNi_YK9ax-jOpJVehlejDYroY3GcCKMWBE",
-    imageAlt: "A sleek black performance vest with hybrid quilted down panels and stretch softshell.",
-    href: "/shop/aero-hybrid-vest",
-    specs: [
-      { label: "Hybrid Tech", value: "Quilt+Softshell" },
-      { label: "Fill", value: "Primaloft Gold" },
-      { label: "Stretch", value: "4-Way Power" },
-      { label: "Activity", value: "Layering" },
-    ],
-  },
-  {
-    id: "vapor-trench",
-    name: "VAPOR TRENCH",
-    subtitle: "Smoke Grey / Translucent Shield",
-    price: "$1,150.00",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD5j6wILASNWIJgj1ANFebyww1VgywHS8WLxTA4QIG3Psj4N-BPZkozhZRL9aIUfNNpeKB_4jkE43hFkyARpZWvODhEPGUgkq7xbC7WFd3FwKMp_MB3LHb8_oRUAI5Tjhdqeaot2F0uN_lrZwiQZGlEOAX0xjPAYenKCjf5MHO6aMa2hszyFRiYRJlqzNUpyHSiU7UbeNf_r8GdkMeXoioBgHfRd4F9xuof-Xmm9XfUY5Fd-_rTqLwKxInV667-SIJGoxKpGNdYkuBb",
-    imageAlt: "A long, high-fashion technical trench coat in translucent smoke-grey performance fabric.",
-    href: "/shop/vapor-trench",
-    specs: [
-      { label: "Material", value: "T-Poly 1.0" },
-      { label: "Process", value: "Taped Seams" },
-      { label: "Shield", value: "100% Water Repel" },
-      { label: "Limited", value: "Archive 24 Edition" },
-    ],
-  },
-];
+let products: ProductCard[] = [];
+
+try {
+  const medusaProducts = await getCachedProducts();
+  if (medusaProducts.length > 0) {
+
+    products = medusaProducts
+      .filter((p) => p.status === "published")
+      .map((p) => {
+        // Extract price from first variant
+        let priceRaw = 0;
+        let priceStr = "$0.00";
+        const firstVariant = p.variants?.[0];
+        if (firstVariant?.prices?.[0]) {
+          priceRaw = firstVariant.prices[0].amount;
+          const dollars = priceRaw / 100;
+          priceStr = `$${dollars.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+        // Fallback to metadata price if variant pricing not found
+        if (priceRaw === 0 && p.metadata?.price) {
+          priceStr = p.metadata.price;
+          priceRaw = parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
+        }
+
+        // Get image from metadata
+        const mainImage = getStableImageUrl(p.metadata?.images?.main || "");
+
+        // Get specs from metadata
+        const specs = p.metadata?.specs || p.metadata?.quickSpecs || [];
+
+        return {
+          id: p.id,
+          handle: p.handle,
+          name: p.title,
+          subtitle: p.subtitle || p.metadata?.series || "",
+          price: priceStr,
+          priceRaw,
+          image: mainImage,
+          imageAlt: `${p.title} — WANNASINGH Performance Systems`,
+          href: `/shop/${p.handle}`,
+          specs: specs.slice(0, 4),
+          createdAt: (p as any).created_at || "",
+        };
+      });
+  }
+} catch (err) {
+  console.error("Failed to fetch products from Medusa API:", err);
+}
 
 const filterSections = [
   {
@@ -122,7 +103,7 @@ const filterSections = [
     options: [
       { label: "WATERPROOF", checked: false },
       { label: "WINDPROOF", checked: false },
-      { label: "BREATHABLE", checked: true },
+      { label: "BREATHABLE", checked: false },
       { label: "INSULATED", checked: false },
     ],
   },
@@ -136,13 +117,17 @@ const filterSections = [
     ],
   },
 ];
----
 
+// Compute max price for range slider
+const maxPriceValue = Math.max(...products.map((p) => p.priceRaw / 100), 1200);
+const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
+---
 <Layout title={siteTitle} description={siteDescription}>
   <main class="pt-12 pb-24 container-aether">
     <!-- ── Page Header ───────────────────────────────────────────────────── -->
     <header class="mb-14">
       <h1
+        id="page-main-title"
         class="font-display text-[var(--primary)] uppercase mb-4"
         style="font-size: clamp(36px, 5vw, 56px); letter-spacing: -0.03em;"
       >
@@ -152,13 +137,13 @@ const filterSections = [
         class="flex flex-col md:flex-row md:justify-between md:items-end pb-6 gap-4"
         style="border-bottom: 1px solid rgba(196,199,199,0.35);"
       >
-        <p class="font-body-lg text-[var(--on-surface-variant)] max-w-2xl" style="font-size: 16px;">
+        <p id="page-main-desc" class="font-body-lg text-[var(--on-surface-variant)] max-w-2xl" style="font-size: 16px;">
           Engineered for extreme performance. Our outerwear collection fuses technical tactical utility with
           minimalist aesthetic precision.
         </p>
         <div class="flex items-center gap-5 shrink-0">
-          <span class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
-            RESULTS [{products.length}]
+          <span id="results-count" class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
+            RESULTS [0]
           </span>
           <button
             id="sort-toggle"
@@ -177,6 +162,46 @@ const filterSections = [
       <!-- Sidebar Filter -->
       <aside class="w-full md:w-60 shrink-0" aria-label="Product filters">
         <div class="sticky top-28 space-y-10">
+          
+          <!-- Category Filter -->
+          <section aria-labelledby="filter-categories">
+            <h3
+              id="filter-categories"
+              class="font-data-label text-[var(--primary)] mb-5 tracking-widest"
+              style="font-size: 11px;"
+            >
+              SYSTEM CATEGORIES
+            </h3>
+            <div class="space-y-3">
+              {[
+                { label: "ALL PRODUCTS", val: "" },
+                { label: "OUTERWEAR", val: "Outerwear" },
+                { label: "MID-LAYERS", val: "Mid-Layer" },
+                { label: "BOTTOMS", val: "Bottoms" },
+                { label: "BASE LAYERS", val: "Base Layer" },
+                { label: "ACCESSORIES", val: "Accessories" },
+                { label: "VESTS", val: "Vests" },
+                { label: "FOOTWEAR", val: "Footwear" }
+              ].map((catOpt) => (
+                <label class="flex items-center gap-3 group cursor-pointer">
+                  <input
+                    type="radio"
+                    name="category-filter"
+                    value={catOpt.val}
+                    class="w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
+                  />
+                  <span
+                    class="category-label font-data-label transition-colors text-[var(--on-surface-variant)] group-hover:text-[var(--primary)]"
+                    style="font-size: 11px;"
+                  >
+                    {catOpt.label}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </section>
+
+          <!-- Legacy Filters -->
           {filterSections.map((section) => (
             <section aria-labelledby={`filter-${section.id}`}>
               <h3
@@ -191,8 +216,9 @@ const filterSections = [
                   <label class="flex items-center gap-3 group cursor-pointer">
                     <input
                       type="checkbox"
-                      checked={opt.checked}
-                      class="w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
+                      value={opt.label}
+                      data-section={section.id}
+                      class="filter-checkbox w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
                       style="border-radius: 0px !important;"
                     />
                     <span
@@ -223,111 +249,489 @@ const filterSections = [
             <input
               type="range"
               min="200"
-              max="1200"
-              value="1200"
+              max={maxPriceCeil}
+              value={maxPriceCeil}
               id="price-range"
               class="w-full h-px cursor-pointer accent-[var(--primary)]"
               aria-label="Maximum price"
             />
             <div class="flex justify-between mt-3">
               <span class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">$200</span>
-              <span id="price-max-label" class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">$1,200</span>
+              <span id="price-max-label" class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">${maxPriceCeil.toLocaleString()}</span>
             </div>
           </section>
         </div>
       </aside>
 
-      <!-- Product Grid -->
-      <div
-        class="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-14"
-        aria-label="Products"
-        role="list"
-      >
-        {products.map((product) => (
-          <a
-            href={product.href}
-            id={`product-${product.id}`}
-            class="group cursor-pointer no-underline reveal"
-            role="listitem"
-            aria-label={`${product.name} — ${product.price}`}
-          >
-            <!-- Image + specs overlay -->
-            <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)]">
-              <img
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                src={product.image}
-                alt={product.imageAlt}
-                loading="lazy"
-                width="600"
-                height="800"
-              />
+      <!-- Main Listing Area -->
+      <div class="flex-1 flex flex-col">
+        <!-- Search Input -->
+        <div class="mb-10 relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[var(--outline)]" style="font-size: 18px;">search</span>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="SEARCH SYSTEM ARCHIVE..."
+            class="w-full bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/60 py-4.5 pl-12 pr-4 font-data-label text-[11px] uppercase tracking-widest focus:outline-none focus:border-[var(--primary)] transition-colors"
+            style="border-radius: 0px !important;"
+          />
+        </div>
 
-              <!-- Hover specs overlay -->
-              <div
-                class="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-95
-                       transition-opacity duration-300 p-8 flex flex-col justify-end"
-                aria-hidden="true"
-              >
-                <div class="space-y-5">
-                  <h4 class="font-data-label text-[var(--on-primary)] tracking-widest" style="font-size: 11px;">
-                    TECHNICAL SPECIFICATIONS
-                  </h4>
-                  <div
-                    class="grid grid-cols-2 gap-4 pt-4"
-                    style="border-top: 1px solid rgba(255,255,255,0.15);"
-                  >
-                    {product.specs.map((spec) => (
-                      <div>
-                        <span class="block font-caption text-[var(--on-primary-container)] uppercase mb-1" style="font-size: 10px;">
-                          {spec.label}
-                        </span>
-                        <span class="font-data-value text-[var(--on-primary)]" style="font-size: 12px;">
-                          {spec.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <div
-                    class="w-full py-4 bg-[var(--on-primary)] text-[var(--primary)]
-                           font-data-label text-center hover:bg-[var(--secondary)] hover:text-[var(--on-secondary)]
-                           transition-colors duration-300"
-                    style="font-size: 11px; letter-spacing: 0.1em;"
-                  >
-                    VIEW FULL SPECS
-                  </div>
-                </div>
-              </div>
-            </div>
+        <!-- Product Grid -->
+        <div
+          id="product-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-14"
+          aria-label="Products"
+          role="list"
+        >
+          <!-- Loaded dynamically on client side -->
+        </div>
 
-            <!-- Product info -->
-            <div class="flex justify-between items-start gap-4">
-              <div>
-                <h2
-                  class="font-headline-md text-[var(--primary)] mb-1 uppercase"
-                  style="font-size: 16px; font-weight: 700;"
-                >
-                  {product.name}
-                </h2>
-                <p class="font-data-label text-[var(--on-surface-variant)] uppercase" style="font-size: 10px;">
-                  {product.subtitle}
-                </p>
-              </div>
-              <span class="font-data-value text-[var(--primary)] shrink-0" style="font-size: 15px;">
-                {product.price}
-              </span>
-            </div>
-          </a>
-        ))}
+        <!-- Pagination Controls -->
+        <div id="pagination-controls" class="flex justify-between items-center pt-12 border-t border-[var(--outline-variant)]/30 mt-16">
+          <button id="prev-page" class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> PREV
+          </button>
+          <div id="page-indicators" class="flex gap-4 font-data-label text-xs">
+            <!-- Dynamically populated page buttons -->
+          </div>
+          <button id="next-page" class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
+            NEXT <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+        </div>
       </div>
+
     </div>
   </main>
 </Layout>
 
 <script>
-  // Price range label sync
+  // ── Client-Side State Management ─────────────────────────────────────
+  let currentCategory = "";
+  let currentSearch = "";
+  let currentPage = 1;
+  const limit = 12;
+  let currentSort = "newest";
+  let maxPrice = 1200;
+  let selectedPerf: string[] = [];
+  let selectedFabric: string[] = [];
+  
+  // Element selections
+  const grid = document.getElementById("product-grid");
+  const searchInput = document.getElementById("search-input") as HTMLInputElement | null;
+  const resultsCount = document.getElementById("results-count");
+  const sortBtn = document.getElementById("sort-toggle");
   const range = document.getElementById("price-range") as HTMLInputElement | null;
-  const label = document.getElementById("price-max-label");
-  range?.addEventListener("input", () => {
-    if (label) label.textContent = `$${Number(range.value).toLocaleString()}`;
+  const priceLabel = document.getElementById("price-max-label");
+  const pageMainTitle = document.getElementById("page-main-title");
+  const pageMainDesc = document.getElementById("page-main-desc");
+
+  const prevBtn = document.getElementById("prev-page") as HTMLButtonElement | null;
+  const nextBtn = document.getElementById("next-page") as HTMLButtonElement | null;
+  const pageIndicators = document.getElementById("page-indicators");
+
+  const catRadios = document.querySelectorAll('input[name="category-filter"]');
+
+  // Descriptions mapping
+  const categoryTexts: Record<string, { title: string; desc: string }> = {
+    "": { title: "ALL PRODUCTS", desc: "Browse the entire operational product archive of WANNASINGH technical systems." },
+    Outerwear: { title: "OUTERWEAR", desc: "Engineered for extreme performance. Fuses technical tactical utility with minimalist aesthetic precision." },
+    "Mid-Layer": { title: "MID-LAYERS", desc: "Active insulation and thermal regulation systems calibrated for dynamic temperature management." },
+    Bottoms: { title: "BOTTOMS", desc: "Articulated tactical trousers and technical joggers with reinforced knee panels." },
+    "Base Layer": { title: "BASE LAYERS", desc: "Next-to-skin performance fabrics for temperature regulation and odor control." },
+    Accessories: { title: "ACCESSORIES", desc: "Tactical utility accessories from balaclavas to chest bags built from Cordura." },
+    Vests: { title: "VESTS", desc: "Modular load-carry architecture and chest rigs with multi-point MOLLE attachment." },
+    Footwear: { title: "FOOTWEAR", desc: "Technical footwear featuring GORE-TEX linings, Vibram outsoles, and toe protection." }
+  };
+
+  // Sort settings
+  const sortLabels: Record<string, string> = {
+    newest: "SORT: NEWEST ↕",
+    oldest: "SORT: OLDEST ↕",
+    "price-asc": "SORT: PRICE ↑",
+    "price-desc": "SORT: PRICE ↓",
+  };
+  const sortCycle: Array<"newest" | "oldest" | "price-asc" | "price-desc"> = [
+    "newest",
+    "oldest",
+    "price-asc",
+    "price-desc",
+  ];
+
+  // Initialize state from URL params
+  function initFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    currentCategory = params.get("category") || "";
+    currentSearch = params.get("q") || "";
+    currentPage = parseInt(params.get("page") || "1", 10);
+    currentSort = params.get("sort") || "newest";
+    selectedPerf = params.getAll("perf");
+    selectedFabric = params.getAll("fabric");
+    
+    if (searchInput) searchInput.value = currentSearch;
+    if (sortBtn) sortBtn.textContent = sortLabels[currentSort] || "SORT: NEWEST ↕";
+    
+    // Sync category radios
+    catRadios.forEach((radio) => {
+      const r = radio as HTMLInputElement;
+      if (r.value === currentCategory) {
+        r.checked = true;
+        r.closest("label")?.querySelector(".category-label")?.classList.add("text-[var(--primary)]", "font-bold");
+      } else {
+        r.checked = false;
+        r.closest("label")?.querySelector(".category-label")?.classList.remove("text-[var(--primary)]", "font-bold");
+      }
+    });
+
+    // Sync performance & fabric checkboxes
+    document.querySelectorAll(".filter-checkbox").forEach((cb) => {
+      const input = cb as HTMLInputElement;
+      const section = input.dataset.section;
+      const val = input.value;
+      if (section === "perf") {
+        input.checked = selectedPerf.includes(val);
+      } else if (section === "fabric") {
+        input.checked = selectedFabric.includes(val);
+      }
+      const textSpan = input.nextElementSibling;
+      if (input.checked) {
+        textSpan?.classList.add("text-[var(--primary)]", "font-bold");
+      } else {
+        textSpan?.classList.remove("text-[var(--primary)]", "font-bold");
+      }
+    });
+
+    const maxP = params.get("maxPrice");
+    if (maxP && range) {
+      maxPrice = parseInt(maxP, 10);
+      range.value = String(maxPrice);
+      if (priceLabel) priceLabel.textContent = `$${maxPrice.toLocaleString()}`;
+    }
+  }
+
+  // Update URL params
+  function updateUrlParams() {
+    const params = new URLSearchParams();
+    if (currentCategory) params.set("category", currentCategory);
+    if (currentSearch) params.set("q", currentSearch);
+    if (currentPage > 1) params.set("page", String(currentPage));
+    if (currentSort !== "newest") params.set("sort", currentSort);
+    if (range && Number(range.value) !== Number(range.max)) {
+      params.set("maxPrice", range.value);
+    }
+    selectedPerf.forEach(val => params.append("perf", val));
+    selectedFabric.forEach(val => params.append("fabric", val));
+    
+    const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.replaceState({}, "", newUrl);
+  }
+
+  // Skeleton Loader Builder
+  function renderSkeletons() {
+    if (!grid) return;
+    const skeletonCard = `
+      <div class="animate-pulse flex flex-col gap-5">
+        <div class="aspect-[3/4] bg-[var(--surface-container-highest)]/40"></div>
+        <div class="space-y-3">
+          <div class="h-4 bg-[var(--surface-container-highest)]/40 w-2/3"></div>
+          <div class="h-3 bg-[var(--surface-container-highest)]/25 w-1/2"></div>
+        </div>
+      </div>
+    `;
+    grid.innerHTML = Array(6).fill(skeletonCard).join("");
+  }
+
+  // Fetch products and update DOM
+  async function fetchProducts() {
+    renderSkeletons();
+    updateUrlParams();
+
+    // Update Header texts
+    const info = categoryTexts[currentCategory] || categoryTexts[""]!;
+    if (pageMainTitle) pageMainTitle.textContent = info.title;
+    if (pageMainDesc) pageMainDesc.textContent = info.desc;
+
+    const offset = (currentPage - 1) * limit;
+    
+    try {
+      let url = `/api/products?limit=${limit}&offset=${offset}&q=${encodeURIComponent(currentSearch)}&category=${currentCategory}&sort=${currentSort}&maxPrice=${maxPrice}`;
+      selectedPerf.forEach(p => url += `&perf=${encodeURIComponent(p)}`);
+      selectedFabric.forEach(f => url += `&fabric=${encodeURIComponent(f)}`);
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        const products = data.products || [];
+        const total = data.total || 0;
+
+        if (resultsCount) {
+          resultsCount.textContent = `RESULTS [${total}]`;
+        }
+
+        renderProducts(products);
+        renderPagination(total);
+      } else {
+        if (grid) grid.innerHTML = `<div class="col-span-full py-20 text-center font-data-label text-xs">FAILED TO LOAD PRODUCTS</div>`;
+      }
+    } catch (err) {
+      console.error(err);
+      if (grid) grid.innerHTML = `<div class="col-span-full py-20 text-center font-data-label text-xs">FAILED TO CONNECT TO SERVER</div>`;
+    }
+  }
+
+  // Render product grid
+  function renderProducts(products: any[]) {
+    if (!grid) return;
+    if (products.length === 0) {
+      grid.innerHTML = `
+        <div class="col-span-full text-center py-20">
+          <p class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 13px;">
+            NO PRODUCTS MATCHING ACTIVE PARAMETERS
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = products.map((product) => `
+      <a
+        href="${product.href}"
+        id="product-${product.handle}"
+        class="group cursor-pointer no-underline reveal product-card"
+        role="listitem"
+        aria-label="${product.name} — ${product.price}"
+      >
+        <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10">
+          ${product.image ? `
+            <img
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              src="${product.image}"
+              alt="${product.imageAlt}"
+              loading="lazy"
+              width="600"
+              height="800"
+            />
+          ` : `
+            <div class="w-full h-full flex items-center justify-center">
+              <span class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
+                NO IMAGE
+              </span>
+            </div>
+          `}
+
+          <!-- Hover specs overlay -->
+          <div
+            class="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-95
+                   transition-opacity duration-300 p-8 flex flex-col justify-end"
+            aria-hidden="true"
+          >
+            <div class="space-y-5">
+              <h4 class="font-data-label text-[var(--on-primary)] tracking-widest" style="font-size: 11px;">
+                TECHNICAL SPECIFICATIONS
+              </h4>
+              <div
+                class="grid grid-cols-2 gap-4 pt-4"
+                style="border-top: 1px solid rgba(255,255,255,0.15);"
+              >
+                ${product.specs.map((spec: any) => `
+                  <div>
+                    <span class="block font-caption text-[var(--on-primary-container)] uppercase mb-1" style="font-size: 10px;">
+                      ${spec.label}
+                    </span>
+                    <span class="font-data-value text-[var(--on-primary)]" style="font-size: 12px;">
+                      ${spec.value}
+                    </span>
+                  </div>
+                `).join("")}
+              </div>
+              <div
+                class="w-full py-4 bg-[var(--on-primary)] text-[var(--primary)]
+                       font-data-label text-center hover:bg-[var(--secondary)] hover:text-[var(--on-secondary)]
+                       transition-colors duration-300"
+                style="font-size: 11px; letter-spacing: 0.1em;"
+              >
+                VIEW FULL SPECS
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product info -->
+        <div class="flex justify-between items-start gap-4">
+          <div>
+            <h2
+              class="font-headline-md text-[var(--primary)] mb-1 uppercase"
+              style="font-size: 16px; font-weight: 700;"
+            >
+              ${product.name}
+            </h2>
+            <p class="font-data-label text-[var(--on-surface-variant)] uppercase" style="font-size: 10px;">
+              ${product.subtitle}
+            </p>
+          </div>
+          <span class="font-data-value text-[var(--primary)] shrink-0" style="font-size: 15px;">
+            ${product.price}
+          </span>
+        </div>
+      </a>
+    `).join("");
+
+    // Observe newly rendered reveal elements
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    grid.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  }
+
+  // Render pagination buttons
+  function renderPagination(total: number) {
+    if (!prevBtn || !nextBtn || !pageIndicators) return;
+
+    const totalPages = Math.ceil(total / limit);
+
+    // Prev / Next states
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages || totalPages === 0;
+
+    // Build indicator buttons
+    let indicators = "";
+    for (let i = 1; i <= totalPages; i++) {
+      indicators += `
+        <button 
+          class="page-num-btn hover:text-[var(--primary)] transition-colors cursor-pointer select-none
+            ${i === currentPage ? "text-[var(--primary)] font-bold border-b-2 border-[var(--primary)]" : "text-[var(--outline)]"}"
+          data-page="${i}"
+        >
+          ${String(i).padStart(2, "0")}
+        </button>
+      `;
+    }
+    pageIndicators.innerHTML = indicators;
+
+    // Attach indicator listeners
+    document.querySelectorAll(".page-num-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        currentPage = parseInt((btn as HTMLElement).dataset.page || "1", 10);
+        fetchProducts();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  // ── Event Listeners ──────────────────────────────────────────────────
+  
+  // Search input with debounce
+  let searchTimeout: any;
+  searchInput?.addEventListener("input", () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      currentSearch = searchInput.value;
+      currentPage = 1; // reset to first page
+      fetchProducts();
+    }, 300);
   });
+
+  // Category Selector
+  catRadios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.checked) {
+        currentCategory = target.value;
+        currentPage = 1; // reset page
+
+        // Update labels font-weights
+        catRadios.forEach((r) => {
+          const l = (r as HTMLElement).closest("label")?.querySelector(".category-label");
+          if (r === target) {
+            l?.classList.add("text-[var(--primary)]", "font-bold");
+          } else {
+            l?.classList.remove("text-[var(--primary)]", "font-bold");
+          }
+        });
+
+        fetchProducts();
+      }
+    });
+  });
+
+  // Checkboxes Selector
+  document.querySelectorAll(".filter-checkbox").forEach((cb) => {
+    cb.addEventListener("change", () => {
+      const perfChecked: string[] = [];
+      const fabricChecked: string[] = [];
+      
+      document.querySelectorAll(".filter-checkbox:checked").forEach((item) => {
+        const input = item as HTMLInputElement;
+        const section = input.dataset.section;
+        if (section === "perf") {
+          perfChecked.push(input.value);
+        } else if (section === "fabric") {
+          fabricChecked.push(input.value);
+        }
+      });
+      
+      selectedPerf = perfChecked;
+      selectedFabric = fabricChecked;
+      currentPage = 1; // reset page
+      fetchProducts();
+      
+      // Update checkbox label formatting
+      document.querySelectorAll(".filter-checkbox").forEach((item) => {
+        const input = item as HTMLInputElement;
+        const textSpan = input.nextElementSibling;
+        if (input.checked) {
+          textSpan?.classList.add("text-[var(--primary)]", "font-bold");
+        } else {
+          textSpan?.classList.remove("text-[var(--primary)]", "font-bold");
+        }
+      });
+    });
+  });
+
+  // Sort Selector
+  sortBtn?.addEventListener("click", () => {
+    const idx = sortCycle.indexOf(currentSort as any);
+    currentSort = sortCycle[(idx + 1) % sortCycle.length];
+    if (sortBtn) sortBtn.textContent = sortLabels[currentSort] || "SORT: NEWEST ↕";
+    currentPage = 1; // reset page
+    fetchProducts();
+  });
+
+  // Price Range
+  range?.addEventListener("input", () => {
+    maxPrice = Number(range.value);
+    if (priceLabel) priceLabel.textContent = `$${maxPrice.toLocaleString()}`;
+  });
+
+  range?.addEventListener("change", () => {
+    currentPage = 1;
+    fetchProducts();
+  });
+
+  // Pagination buttons
+  prevBtn?.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      fetchProducts();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  nextBtn?.addEventListener("click", () => {
+    currentPage++;
+    fetchProducts();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Initialize
+  initFromUrl();
+  fetchProducts();
 </script>
+
