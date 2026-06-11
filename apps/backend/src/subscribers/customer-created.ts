@@ -1,8 +1,8 @@
 import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 
-type CustomerCreatedEvent = {
+interface CustomerCreatedEvent {
   id: string;
-};
+}
 
 export default async function customerCreatedHandler({
   event: { data },
@@ -15,7 +15,7 @@ export default async function customerCreatedHandler({
 
   try {
     const customer = await customerService.retrieveCustomer(data.id);
-    if (!customer || !customer.email) {
+    if (!customer?.email) {
       logger.warn(`⚠️ Customer ${data.id} details or email not found.`);
       return;
     }

@@ -14,8 +14,8 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
   }
 
   // Parse Base64 image
-  const matches = avatar.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-  if (!matches || matches.length !== 3) {
+  const matches = /^data:([A-Za-z-+\/]+);base64,(.+)$/.exec(avatar);
+  if (matches?.length !== 3) {
     res.status(400).json({ message: "Invalid image format. Expected Base64 data URL." });
     return;
   }

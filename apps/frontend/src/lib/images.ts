@@ -20,7 +20,7 @@ export function getStableImageUrl(originalUrl: string): string {
   if (!originalUrl) return "";
   
   if (originalUrl.includes("loremflickr.com")) {
-    const match = originalUrl.match(/random=([A-Z]+)-(\d+)/);
+    const match = /random=([A-Z]+)-(\d+)/.exec(originalUrl);
     if (match) {
       const prefix = match[1] || "";
       const index = parseInt(match[2] || "0", 10);

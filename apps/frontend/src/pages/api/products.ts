@@ -1,9 +1,11 @@
 // src/pages/api/products.ts
 // Server-side API endpoint for paginated, filtered, and sorted product data
-import type { APIRoute } from "astro";
 import crypto from "node:crypto";
-import { getStableImageUrl } from "../../lib/images";
+
 import { getCachedProducts } from "../../lib/cache";
+import { getStableImageUrl } from "../../lib/images";
+
+import type { APIRoute } from "astro";
 
 const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
 const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";

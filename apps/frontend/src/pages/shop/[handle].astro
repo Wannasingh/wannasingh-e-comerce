@@ -1,9 +1,10 @@
 ---
 // src/pages/shop/[handle].astro — Product Detail Page | AETHER Cyber-Minimalist Design
-import Layout from "../../layouts/Layout.astro";
 import crypto from "node:crypto";
-import { getStableImageUrl } from "../../lib/images";
+
+import Layout from "../../layouts/Layout.astro";
 import { getCachedProducts } from "../../lib/cache";
+import { getStableImageUrl } from "../../lib/images";
 
 // ── Fetch product from Medusa v2 Store API (server-side) ──────────────────
 const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
