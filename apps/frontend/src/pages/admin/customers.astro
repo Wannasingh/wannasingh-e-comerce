@@ -23,7 +23,7 @@ try {
 }
 
 // Fallback to mock data if DB query fails or returns empty
-const displayCustomers = dbCustomers.length > 0 ? dbCustomers.map(c => ({
+const displayCustomers = dbCustomers.length > 0 ? dbCustomers.map((c: any) => ({
   id: c.id,
   name: [c.first_name, c.last_name].filter(Boolean).join(" ") || "Unnamed Operative",
   email: c.email,
@@ -38,7 +38,7 @@ const displayCustomers = dbCustomers.length > 0 ? dbCustomers.map(c => ({
 ];
 
 // Scan for pending seller requests from the database
-const pendingRequest = displayCustomers.find(c => c.metadata?.seller_requested === "true" && c.metadata?.seller_approved !== "true");
+const pendingRequest = displayCustomers.find((c: any) => c.metadata?.seller_requested === "true" && c.metadata?.seller_approved !== "true");
 const hasPendingRequest = !!pendingRequest;
 ---
 <AdminLayout title="WANNASINGH COMMAND CORE - CUSTOMER REGISTRY" activeTab="customers">
@@ -111,7 +111,7 @@ const hasPendingRequest = !!pendingRequest;
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/30" id="customers-table-body">
-                    {displayCustomers.map((cus) => (
+                    {displayCustomers.map((cus: any) => (
                         <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="window.showAetherAlert('Audit Trace', 'User audit trace details: pending backend logs connection.')">
                             <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.id}</td>
                             <td class="p-4 font-body-sm text-body-sm font-bold text-on-surface">{cus.name}</td>

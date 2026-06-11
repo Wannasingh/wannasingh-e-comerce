@@ -1,6 +1,5 @@
 ---
 // src/pages/shop/index.astro — Shop Outerwear | AETHER Cyber-Minimalist Design
-import crypto from "node:crypto";
 
 import Layout from "@layouts/Layout.astro";
 
@@ -12,31 +11,6 @@ const siteDescription =
   "Engineered for extreme performance. Our outerwear collection fuses technical tactical utility with minimalist aesthetic precision.";
 
 // ── Fetch products from Medusa v2 Store API (server-side) ──────────────────
-const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
-const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
-const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
-
-function decryptPayload(enc: any): any {
-  if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
-  const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
-  const iv = Buffer.from(enc.iv, "hex");
-  const rawData = Buffer.from(enc.data, "hex");
-  const tag = rawData.subarray(rawData.length - 16);
-  const data = rawData.subarray(0, rawData.length - 16);
-  const decipher = crypto.createDecipheriv("aes-256-gcm", keyHash, iv);
-  decipher.setAuthTag(tag);
-  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
-}
-
-interface MedusaProduct {
-  id: string;
-  title: string;
-  handle: string;
-  subtitle: string | null;
-  status: string;
-  metadata: any;
-  variants: any[];
-}
 
 interface ProductCard {
   id: string;
@@ -703,7 +677,7 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
   // Sort Selector
   sortBtn?.addEventListener("click", () => {
     const idx = sortCycle.indexOf(currentSort as any);
-    currentSort = sortCycle[(idx + 1) % sortCycle.length];
+    currentSort = sortCycle[(idx + 1) % sortCycle.length] || "newest";
     if (sortBtn) sortBtn.textContent = sortLabels[currentSort] || "SORT: NEWEST ↕";
     currentPage = 1; // reset page
     fetchProducts();

@@ -28,12 +28,7 @@ export async function decryptPayload(
     const keyData = encoder.encode(keyString);
     
     // Support both browser and Node.js SSR environments for Web Crypto
-    let webCrypto: Crypto | null = null;
-    if (typeof globalThis !== 'undefined' && globalThis.crypto) {
-      webCrypto = globalThis.crypto;
-    } else if (typeof globalThis.window !== 'undefined' && globalThis.window.crypto) {
-      webCrypto = globalThis.window.crypto;
-    }
+    const webCrypto = globalThis.crypto || globalThis.window?.crypto;
       
     if (!webCrypto || !webCrypto.subtle) {
       throw new Error("Web Crypto API is not supported in this environment.");

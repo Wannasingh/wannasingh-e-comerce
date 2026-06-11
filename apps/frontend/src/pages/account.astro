@@ -1428,45 +1428,6 @@ import Layout from "../layouts/Layout.astro";
     let allOrders: any[] = [];
     let currentFilter = 'all';
 
-    // Demo orders (fallback if API not available)
-    const demoOrders = [
-      {
-        id: 'ord-AE-7721-00',
-        display_id: 'AE-7721-00',
-        status: 'completed',
-        fulfillment_status: 'shipped',
-        total: 124000,
-        currency_code: 'usd',
-        created_at: '2024-03-12T10:00:00Z',
-        items: [
-          { title: 'TERRAIN MASTER SERIES', quantity: 1, unit_price: 99000 },
-          { title: 'APEX SHELL LINER', quantity: 1, unit_price: 25000 },
-        ],
-        shipping_address: { address_1: '42 SECTOR BLVD', city: 'NEW YORK', country_code: 'US' }
-      },
-      {
-        id: 'ord-AE-6890-22',
-        display_id: 'AE-6890-22',
-        status: 'completed',
-        fulfillment_status: 'shipped',
-        total: 45000,
-        currency_code: 'usd',
-        created_at: '2023-11-05T10:00:00Z',
-        items: [{ title: 'ORBITAL MID-LAYER', quantity: 1, unit_price: 45000 }],
-        shipping_address: { address_1: '42 SECTOR BLVD', city: 'NEW YORK', country_code: 'US' }
-      },
-      {
-        id: 'ord-AE-5210-03',
-        display_id: 'AE-5210-03',
-        status: 'processing',
-        fulfillment_status: 'not_fulfilled',
-        total: 89000,
-        currency_code: 'usd',
-        created_at: '2024-05-20T10:00:00Z',
-        items: [{ title: 'X-1 CARBON SHELL v2', quantity: 1, unit_price: 89000 }],
-        shipping_address: { address_1: '42 SECTOR BLVD', city: 'NEW YORK', country_code: 'US' }
-      },
-    ];
 
     async function loadOrders() {
       if (ordersLoaded) return;

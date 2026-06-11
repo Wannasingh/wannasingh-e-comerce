@@ -307,7 +307,7 @@ const materialSpecs = [
               </div>
               {/* Material tags */}
               <div class="mt-3 flex gap-2 flex-wrap">
-                {product.tags.map((tag) => (
+                {product.tags.map((tag: string) => (
                   <span class="tech-tag">{tag}</span>
                 ))}
               </div>
@@ -376,8 +376,6 @@ const materialSpecs = [
 </Layout>
 
 <script>
-  // Animate status dot (micro ping animation via JS for compatibility)
-  const statusDot = document.querySelector("#hero .scanline-effect .w-2");
   // Newsletter form toast
   const form = document.getElementById("newsletter-form") as HTMLFormElement | null;
   form?.addEventListener("submit", (e) => {

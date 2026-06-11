@@ -1,38 +1,10 @@
 // src/pages/api/products.ts
 // Server-side API endpoint for paginated, filtered, and sorted product data
-import crypto from "node:crypto";
 
 import { getCachedProducts } from "../../lib/cache";
 import { getStableImageUrl } from "../../lib/images";
 
 import type { APIRoute } from "astro";
-
-const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
-const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
-const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
-
-function decryptPayload(enc: any): any {
-  if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
-  const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
-  const iv = Buffer.from(enc.iv, "hex");
-  const rawData = Buffer.from(enc.data, "hex");
-  const tag = rawData.subarray(rawData.length - 16);
-  const data = rawData.subarray(0, rawData.length - 16);
-  const decipher = crypto.createDecipheriv("aes-256-gcm", keyHash, iv);
-  decipher.setAuthTag(tag);
-  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
-}
-
-interface MedusaProduct {
-  id: string;
-  title: string;
-  handle: string;
-  subtitle: string | null;
-  status: string;
-  metadata: any;
-  variants: any[];
-  created_at: string;
-}
 
 export const GET: APIRoute = async ({ url }) => {
   const limit = Number.parseInt(url.searchParams.get("limit") || "12", 10);

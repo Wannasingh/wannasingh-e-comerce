@@ -16,12 +16,6 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const currentPath = Astro.url.pathname;
-
-const navLinks = [
-  { href: "/shop", label: "SHOP", id: "nav-shop" },
-  { href: "/collections", label: "COLLECTIONS", id: "nav-collections" },
-  { href: "/specs", label: "SPECS ARCHIVE", id: "nav-specs" },
-];
 ---
 
 <!doctype html>

@@ -9,8 +9,8 @@ function decryptPayload(enc: any): any {
   const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
   const iv = Buffer.from(enc.iv, "hex");
   const rawData = Buffer.from(enc.data, "hex");
-  const tag = rawData.subarray(rawData.length - 16);
-  const data = rawData.subarray(0, rawData.length - 16);
+  const tag = rawData.subarray(-16);
+  const data = rawData.subarray(0, -16);
   const decipher = crypto.createDecipheriv("aes-256-gcm", keyHash, iv);
   decipher.setAuthTag(tag);
   return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
