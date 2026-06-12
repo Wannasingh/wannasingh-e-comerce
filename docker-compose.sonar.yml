@@ -3,14 +3,30 @@ version: "3.8"
 name: wannasingh-sonarqube-local
 
 services:
+  sonar-plugin-download:
+    image: alpine:latest
+    container_name: sonar-plugin-download
+    volumes:
+      - sonarqube-extensions:/opt/sonarqube/extensions
+    command: >
+      sh -c "
+        mkdir -p /opt/sonarqube/extensions/plugins &&
+        cd /opt/sonarqube/extensions/plugins &&
+        if [ ! -f sonarqube-community-branch-plugin-1.19.0.jar ]; then
+          wget https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/1.19.0/sonarqube-community-branch-plugin-1.19.0.jar;
+        fi
+      "
+
   sonarqube:
-    image: sonarqube:10-community
+    image: sonarqube:10.6-community
     container_name: wannasingh-sonarqube-local
     restart: unless-stopped
     environment:
       - SONAR_JDBC_URL=jdbc:postgresql://sonar-db:5432/sonar
       - SONAR_JDBC_USERNAME=sonar
       - SONAR_JDBC_PASSWORD=sonar
+      - SONAR_WEB_JAVAADDITIONALOPTS=-javaagent:/opt/sonarqube/extensions/plugins/sonarqube-community-branch-plugin-1.19.0.jar=web
+      - SONAR_CE_JAVAADDITIONALOPTS=-javaagent:/opt/sonarqube/extensions/plugins/sonarqube-community-branch-plugin-1.19.0.jar=ce
     volumes:
       - sonarqube-data:/opt/sonarqube/data
       - sonarqube-logs:/opt/sonarqube/logs
@@ -20,6 +36,8 @@ services:
     networks:
       - sonar-network
     depends_on:
+      sonar-plugin-download:
+        condition: service_completed_successfully
       sonar-db:
         condition: service_healthy
 

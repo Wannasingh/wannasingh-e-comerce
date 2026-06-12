@@ -89,16 +89,27 @@ pipeline {
       }
     }
 
-    // ── Stage 2: Parallel Build & Unit Test ─────────────────────────────────
+    // ── Stage 2: Install Dependencies ───────────────────────────────────────
+    stage("Install Dependencies") {
+      steps {
+        echo "⚙️ Installing project dependencies..."
+        sh """
+          corepack enable
+          corepack prepare pnpm@${PNPM_VERSION} --activate
+          pnpm install --frozen-lockfile
+        """
+      }
+    }
+
+    // ── Stage 3: Parallel Build & Unit Test ─────────────────────────────────
     stage("Parallel Build & Unit Test") {
       parallel {
         stage("Backend: Build & Test") {
           steps {
-            echo "⚙️ Setting up Backend dependencies & running unit tests..."
+            echo "⚙️ Running Backend Type Checks & Tests..."
             sh """
               corepack enable
               corepack prepare pnpm@${PNPM_VERSION} --activate
-              pnpm install --frozen-lockfile
               
               echo "🔷 Running Backend Type Checks..."
               pnpm --filter @wannasingh/backend type-check
@@ -114,11 +125,10 @@ pipeline {
         }
         stage("Frontend: Build & Test") {
           steps {
-            echo "⚙️ Setting up Frontend dependencies & running unit tests..."
+            echo "⚙️ Running Frontend Type Checks, Linters & Tests..."
             sh """
               corepack enable
               corepack prepare pnpm@${PNPM_VERSION} --activate
-              pnpm install --frozen-lockfile
               
               echo "🔷 Running Frontend Type Checks & Linters..."
               pnpm --filter @wannasingh/frontend type-check
