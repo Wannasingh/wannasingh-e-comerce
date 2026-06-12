@@ -98,6 +98,16 @@ services:
           }
         "
 
+  # ── Redis (enables pub/sub & job queues) ──────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: wannasingh-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
   # ── MedusaJS Backend ──────────────────────────────────────────────────────
   backend:
     build:
@@ -113,10 +123,13 @@ services:
         condition: service_healthy
       mongo-init:
         condition: service_completed_successfully
+      redis:
+        condition: service_started
     environment:
       NODE_ENV: development
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/wannasingh_ecommerce
       MONGODB_URI_LOCAL: mongodb://root:rootpassword@mongo:27017/wannasingh_ecommerce?authSource=admin&replicaSet=rs0
+      REDIS_URL: redis://redis:6379
       JWT_SECRET: dev-jwt-secret-change-in-production
       COOKIE_SECRET: dev-cookie-secret-change-in-production
       MEDUSA_BACKEND_URL: http://localhost:9000

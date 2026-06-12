@@ -45,7 +45,7 @@ export default defineConfig({
 
     // ── Redis (optional — enables pub/sub & job queues) ──────────────────────
     // Uncomment when Redis is available:
-    // redisUrl: process.env.REDIS_URL,
+    ...(process.env.REDIS_URL ? { redisUrl: process.env.REDIS_URL } : {}),
   },
 
   // ── Modules ────────────────────────────────────────────────────────────────
