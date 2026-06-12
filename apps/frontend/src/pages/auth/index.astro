@@ -610,7 +610,10 @@ const defaultTab = tabParam === "register" ? "register" : "login";
           throw new Error(data.message || 'Invalid credentials. Please try again.');
         }
 
-        if (data.token) localStorage.setItem('wanna_auth_token', data.token);
+        if (data.token) {
+          localStorage.setItem('wanna_auth_token', data.token);
+          localStorage.setItem('wanna_auth_email', emailField.value);
+        }
 
         // Show success then redirect
         successEl.classList.remove('hidden');

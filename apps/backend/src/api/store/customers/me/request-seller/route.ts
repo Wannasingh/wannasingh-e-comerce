@@ -11,11 +11,6 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     const customerService = req.scope.resolve("customer");
     const customer = await customerService.retrieveCustomer(customerId);
 
-    if (!customer) {
-      res.status(404).json({ message: "Customer profile not found" });
-      return;
-    }
-
     const updatedCustomer = await customerService.updateCustomers(customerId, {
       metadata: {
         ...customer.metadata,
@@ -25,8 +20,9 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     });
 
     res.status(200).json({ customer: updatedCustomer });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error in request-seller API route:", err);
-    res.status(500).json({ message: err.message || "An error occurred while submitting seller request" });
+    const message = err instanceof Error ? err.message : "An error occurred while submitting seller request";
+    res.status(500).json({ message });
   }
 }

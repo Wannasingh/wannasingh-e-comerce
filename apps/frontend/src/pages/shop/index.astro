@@ -26,10 +26,34 @@ interface ProductCard {
   createdAt: string;
 }
 
+interface MedusaProduct {
+  id: string;
+  handle: string;
+  title: string;
+  subtitle?: string;
+  status: string;
+  created_at?: string;
+  variants?: {
+    prices?: {
+      amount: number;
+      currency_code: string;
+    }[];
+  }[];
+  metadata?: {
+    price?: string;
+    images?: {
+      main?: string;
+    };
+    specs?: { label: string; value: string }[];
+    quickSpecs?: { label: string; value: string }[];
+    series?: string;
+  };
+}
+
 let products: ProductCard[] = [];
 
 try {
-  const medusaProducts = await getCachedProducts();
+  const medusaProducts = (await getCachedProducts()) as MedusaProduct[];
   if (medusaProducts.length > 0) {
 
     products = medusaProducts
@@ -47,27 +71,27 @@ try {
         // Fallback to metadata price if variant pricing not found
         if (priceRaw === 0 && p.metadata?.price) {
           priceStr = p.metadata.price;
-          priceRaw = parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
+          priceRaw = Number.parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
         }
 
         // Get image from metadata
-        const mainImage = getStableImageUrl(p.metadata?.images?.main || "");
+        const mainImage = getStableImageUrl(p.metadata?.images?.main ?? "");
 
         // Get specs from metadata
-        const specs = p.metadata?.specs || p.metadata?.quickSpecs || [];
+        const specs = p.metadata?.specs ?? p.metadata?.quickSpecs ?? [];
 
         return {
           id: p.id,
           handle: p.handle,
           name: p.title,
-          subtitle: p.subtitle || p.metadata?.series || "",
+          subtitle: p.subtitle ?? p.metadata?.series ?? "",
           price: priceStr,
           priceRaw,
           image: mainImage,
           imageAlt: `${p.title} — WANNASINGH Performance Systems`,
           href: `/shop/${p.handle}`,
           specs: specs.slice(0, 4),
-          createdAt: (p as any).created_at || "",
+          createdAt: p.created_at ?? "",
         };
       });
   }
@@ -267,14 +291,12 @@ const initialProducts = products.slice(0, initialLimit);
           id="product-grid"
           class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-14"
           aria-label="Products"
-          role="list"
         >
           {initialProducts.map((product) => (
             <a
               href={product.href}
               id={`product-${product.handle}`}
               class="group cursor-pointer no-underline reveal product-card"
-              role="listitem"
               aria-label={`${product.name} — ${product.price}`}
             >
               <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10">
