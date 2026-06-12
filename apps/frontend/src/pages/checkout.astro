@@ -45,32 +45,32 @@ const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
           </h2>
           <div class="grid grid-cols-2 gap-5">
             <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
-              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">First Name</label>
+              <label for="field-first-name" class="font-data-label text-[10px] uppercase text-on-surface-variant">First Name</label>
               <input id="field-first-name" type="text" placeholder="ERIK" autocomplete="given-name"
                 class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
             </div>
             <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
-              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Last Name</label>
+              <label for="field-last-name" class="font-data-label text-[10px] uppercase text-on-surface-variant">Last Name</label>
               <input id="field-last-name" type="text" placeholder="VON S." autocomplete="family-name"
                 class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
             </div>
             <div class="col-span-2 flex flex-col gap-1">
-              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Email</label>
+              <label for="field-email" class="font-data-label text-[10px] uppercase text-on-surface-variant">Email</label>
               <input id="field-email" type="email" placeholder="OPERATOR@DOMAIN.COM" autocomplete="email"
                 class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
             </div>
             <div class="col-span-2 flex flex-col gap-1">
-              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Address</label>
+              <label for="field-address" class="font-data-label text-[10px] uppercase text-on-surface-variant">Address</label>
               <input id="field-address" type="text" placeholder="TECHNICAL DISTRICT, 407" autocomplete="street-address"
                 class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
             </div>
             <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
-              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">City</label>
+              <label for="field-city" class="font-data-label text-[10px] uppercase text-on-surface-variant">City</label>
               <input id="field-city" type="text" placeholder="REYKJAVIK" autocomplete="address-level2"
                 class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
             </div>
             <div class="col-span-2 sm:col-span-1 flex flex-col gap-1">
-              <label class="font-data-label text-[10px] uppercase text-on-surface-variant">Postal Code</label>
+              <label for="field-postal" class="font-data-label text-[10px] uppercase text-on-surface-variant">Postal Code</label>
               <input id="field-postal" type="text" placeholder="101" autocomplete="postal-code"
                 class="bg-transparent border-b border-outline-variant py-2 font-data-label text-xs text-primary placeholder:text-outline-variant focus:outline-none focus:border-secondary transition-colors" />
             </div>
@@ -167,7 +167,8 @@ const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
     </div>
   </div>
 
-  <script define:vars={{ stripePublishableKey }}>
+  <script is:inline define:vars={{ stripePublishableKey }}>
+    // @ts-nocheck
     // ── Types & Helpers ───────────────────────────────────────────────────
     function getCart() {
       try { return JSON.parse(localStorage.getItem("wanna_cart") || "[]"); }

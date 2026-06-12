@@ -26,10 +26,34 @@ interface ProductCard {
   createdAt: string;
 }
 
+interface MedusaProduct {
+  id: string;
+  handle: string;
+  title: string;
+  subtitle?: string;
+  status: string;
+  created_at?: string;
+  variants?: {
+    prices?: {
+      amount: number;
+      currency_code: string;
+    }[];
+  }[];
+  metadata?: {
+    price?: string;
+    images?: {
+      main?: string;
+    };
+    specs?: { label: string; value: string }[];
+    quickSpecs?: { label: string; value: string }[];
+    series?: string;
+  };
+}
+
 let products: ProductCard[] = [];
 
 try {
-  const medusaProducts = await getCachedProducts();
+  const medusaProducts = (await getCachedProducts()) as MedusaProduct[];
   if (medusaProducts.length > 0) {
 
     products = medusaProducts
@@ -47,27 +71,27 @@ try {
         // Fallback to metadata price if variant pricing not found
         if (priceRaw === 0 && p.metadata?.price) {
           priceStr = p.metadata.price;
-          priceRaw = parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
+          priceRaw = Number.parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
         }
 
         // Get image from metadata
-        const mainImage = getStableImageUrl(p.metadata?.images?.main || "");
+        const mainImage = getStableImageUrl(p.metadata?.images?.main ?? "");
 
         // Get specs from metadata
-        const specs = p.metadata?.specs || p.metadata?.quickSpecs || [];
+        const specs = p.metadata?.specs ?? p.metadata?.quickSpecs ?? [];
 
         return {
           id: p.id,
           handle: p.handle,
           name: p.title,
-          subtitle: p.subtitle || p.metadata?.series || "",
+          subtitle: p.subtitle ?? p.metadata?.series ?? "",
           price: priceStr,
           priceRaw,
           image: mainImage,
           imageAlt: `${p.title} — WANNASINGH Performance Systems`,
           href: `/shop/${p.handle}`,
           specs: specs.slice(0, 4),
-          createdAt: (p as any).created_at || "",
+          createdAt: p.created_at ?? "",
         };
       });
   }
@@ -100,6 +124,12 @@ const filterSections = [
 // Compute max price for range slider
 const maxPriceValue = Math.max(...products.map((p) => p.priceRaw / 100), 1200);
 const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
+
+// Pagination variables for server pre-rendering
+const initialLimit = 12;
+const totalProducts = products.length;
+const totalPages = Math.ceil(totalProducts / initialLimit);
+const initialProducts = products.slice(0, initialLimit);
 ---
 <Layout title={siteTitle} description={siteDescription}>
   <main class="pt-12 pb-24 container-aether">
@@ -261,20 +291,107 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
           id="product-grid"
           class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-14"
           aria-label="Products"
-          role="list"
         >
-          <!-- Loaded dynamically on client side -->
+          {initialProducts.map((product) => (
+            <a
+              href={product.href}
+              id={`product-${product.handle}`}
+              class="group cursor-pointer no-underline reveal product-card"
+              aria-label={`${product.name} — ${product.price}`}
+            >
+              <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10">
+                {product.image ? (
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    src={product.image}
+                    alt={product.imageAlt}
+                    loading="lazy"
+                    width="600"
+                    height="800"
+                  />
+                ) : (
+                  <div class="w-full h-full flex items-center justify-center">
+                    <span class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
+                      NO IMAGE
+                    </span>
+                  </div>
+                )}
+
+                <!-- Hover specs overlay -->
+                <div
+                  class="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-95
+                         transition-opacity duration-300 p-8 flex flex-col justify-end"
+                  aria-hidden="true"
+                >
+                  <div class="space-y-5">
+                    <h4 class="font-data-label text-[var(--on-primary)] tracking-widest" style="font-size: 11px;">
+                      TECHNICAL SPECIFICATIONS
+                    </h4>
+                    <div
+                      class="grid grid-cols-2 gap-4 pt-4"
+                      style="border-top: 1px solid rgba(255,255,255,0.15);"
+                    >
+                      {product.specs.map((spec) => (
+                        <div>
+                          <span class="block font-caption text-[var(--on-primary-container)] uppercase mb-1" style="font-size: 10px;">
+                            {spec.label}
+                          </span>
+                          <span class="font-data-value text-[var(--on-primary)]" style="font-size: 12px;">
+                            {spec.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div
+                      class="w-full py-4 bg-[var(--on-primary)] text-[var(--primary)]
+                             font-data-label text-center hover:bg-[var(--secondary)] hover:text-[var(--on-secondary)]
+                             transition-colors duration-300"
+                      style="font-size: 11px; letter-spacing: 0.1em;"
+                    >
+                      VIEW FULL SPECS
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Product info -->
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <h2
+                    class="font-headline-md text-[var(--primary)] mb-1 uppercase"
+                    style="font-size: 16px; font-weight: 700;"
+                  >
+                    {product.name}
+                  </h2>
+                  <p class="font-data-label text-[var(--on-surface-variant)] uppercase" style="font-size: 10px;">
+                    {product.subtitle}
+                  </p>
+                </div>
+                <span class="font-data-value text-[var(--primary)] shrink-0" style="font-size: 15px;">
+                  {product.price}
+                </span>
+              </div>
+            </a>
+          ))}
         </div>
 
         <!-- Pagination Controls -->
         <div id="pagination-controls" class="flex justify-between items-center pt-12 border-t border-[var(--outline-variant)]/30 mt-16">
-          <button id="prev-page" class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
+          <button id="prev-page" disabled class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
             <span class="material-symbols-outlined text-sm">arrow_back</span> PREV
           </button>
           <div id="page-indicators" class="flex gap-4 font-data-label text-xs">
-            <!-- Dynamically populated page buttons -->
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((i) => (
+              <button 
+                class={`page-num-btn hover:text-[var(--primary)] transition-colors cursor-pointer select-none
+                  ${i === 1 ? "text-[var(--primary)] font-bold border-b-2 border-[var(--primary)]" : "text-[var(--outline)]"}`}
+                data-page={i}
+              >
+                {String(i).padStart(2, "0")}
+              </button>
+            ))}
           </div>
-          <button id="next-page" class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
+          <button id="next-page" disabled={totalPages <= 1} class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
             NEXT <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
         </div>
@@ -709,8 +826,31 @@ const maxPriceCeil = Math.ceil(maxPriceValue / 100) * 100;
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
+  // Attach listeners to pre-rendered server pagination indicators
+  function attachInitialListeners() {
+    document.querySelectorAll(".page-num-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        currentPage = parseInt((btn as HTMLElement).dataset.page || "1", 10);
+        fetchProducts();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
   // Initialize
   initFromUrl();
-  fetchProducts();
+  const hasActiveFilters = 
+    currentCategory !== "" || 
+    currentSearch !== "" || 
+    currentPage !== 1 || 
+    currentSort !== "newest" || 
+    selectedPerf.length > 0 || 
+    selectedFabric.length > 0;
+
+  if (hasActiveFilters) {
+    fetchProducts();
+  } else {
+    attachInitialListeners();
+  }
 </script>
 

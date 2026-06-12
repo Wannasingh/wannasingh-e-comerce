@@ -1,26 +1,34 @@
 import crypto from "node:crypto";
 
-const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
-const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
-const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
+const MEDUSA_URL = (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string | undefined) ?? "http://localhost:9000";
+const PK = (import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY as string | undefined) ?? "";
+const ENC_KEY = (import.meta.env.PUBLIC_API_ENCRYPTION_KEY as string | undefined) ?? "";
 
-function decryptPayload(enc: any): any {
-  if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
+interface EncryptedPayload {
+  iv?: string;
+  data?: string;
+  [key: string]: unknown;
+}
+
+function decryptPayload(enc: unknown): unknown {
+  if (!enc || typeof enc !== "object") return enc;
+  const payload = enc as EncryptedPayload;
+  if (!payload.iv || !payload.data) return enc;
   const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
-  const iv = Buffer.from(enc.iv, "hex");
-  const rawData = Buffer.from(enc.data, "hex");
+  const iv = Buffer.from(payload.iv, "hex");
+  const rawData = Buffer.from(payload.data, "hex");
   const tag = rawData.subarray(-16);
   const data = rawData.subarray(0, -16);
   const decipher = crypto.createDecipheriv("aes-256-gcm", keyHash, iv);
   decipher.setAuthTag(tag);
-  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
+  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString()) as unknown;
 }
 
-let cachedProducts: any[] = [];
+let cachedProducts: unknown[] = [];
 let lastFetched = 0;
 const CACHE_TTL = 10 * 60 * 1000; // 10 minutes TTL
 
-export async function getCachedProducts(): Promise<any[]> {
+export async function getCachedProducts(): Promise<unknown[]> {
   const now = Date.now();
   if (cachedProducts.length > 0 && (now - lastFetched) < CACHE_TTL) {
     return cachedProducts;
@@ -38,9 +46,13 @@ export async function getCachedProducts(): Promise<any[]> {
     );
 
     if (res.ok) {
-      const raw = await res.json();
+      const raw: unknown = await res.json();
       const data = decryptPayload(raw);
-      cachedProducts = data.products || [];
+      if (data && typeof data === "object" && "products" in data) {
+        cachedProducts = (data as { products?: unknown[] }).products ?? [];
+      } else {
+        cachedProducts = [];
+      }
       lastFetched = now;
       return cachedProducts;
     }

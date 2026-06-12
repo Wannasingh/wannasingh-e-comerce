@@ -22,16 +22,16 @@ export function getStableImageUrl(originalUrl: string): string {
   if (originalUrl.includes("loremflickr.com")) {
     const match = /random=([A-Z]+)-(\d+)/.exec(originalUrl);
     if (match) {
-      const prefix = match[1] || "";
-      const index = Number.parseInt(match[2] || "0", 10);
+      const prefix = match[1] ?? "";
+      const index = Number.parseInt(match[2] ?? "0", 10);
       
       let hash = 0;
       for (let i = 0; i < prefix.length; i++) {
-        hash += prefix.codePointAt(i) || 0;
+        hash += prefix.codePointAt(i) ?? 0;
       }
       
       const stableIndex = (index + hash) % stableGoogleImages.length;
-      return stableGoogleImages[stableIndex]!;
+      return stableGoogleImages[stableIndex] ?? "";
     }
   }
   

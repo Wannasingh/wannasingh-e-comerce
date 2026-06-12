@@ -9,23 +9,72 @@ const siteDescription =
   "Engineered to transcend environmental boundaries. Technical performance meets minimalist architecture in our AW24 collection.";
 
 // ── Fetch featured products from Medusa API ───────────────────────────
-const MEDUSA_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
-const PK = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
-const ENC_KEY = import.meta.env.PUBLIC_API_ENCRYPTION_KEY || "";
+const MEDUSA_URL = (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string | undefined) ?? "http://localhost:9000";
+const PK = (import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY as string | undefined) ?? "";
+const ENC_KEY = (import.meta.env.PUBLIC_API_ENCRYPTION_KEY as string | undefined) ?? "";
 
-function decryptPayload(enc: any): any {
-  if (!enc || typeof enc !== "object" || !enc.iv || !enc.data) return enc;
-  const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
-  const iv = Buffer.from(enc.iv, "hex");
-  const rawData = Buffer.from(enc.data, "hex");
-  const tag = rawData.subarray(rawData.length - 16);
-  const data = rawData.subarray(0, rawData.length - 16);
-  const decipher = crypto.createDecipheriv("aes-256-gcm", keyHash, iv);
-  decipher.setAuthTag(tag);
-  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString());
+interface EncryptedPayload {
+  iv?: string;
+  data?: string;
+  [key: string]: unknown;
 }
 
-let featuredProducts: any[] = [];
+function decryptPayload(enc: unknown): unknown {
+  if (!enc || typeof enc !== "object") return enc;
+  const payload = enc as EncryptedPayload;
+  if (!payload.iv || !payload.data) return enc;
+  const keyHash = crypto.createHash("sha256").update(ENC_KEY).digest();
+  const iv = Buffer.from(payload.iv, "hex");
+  const rawData = Buffer.from(payload.data, "hex");
+  const tag = rawData.subarray(-16);
+  const data = rawData.subarray(0, -16);
+  const decipher = crypto.createDecipheriv("aes-256-gcm", keyHash, iv);
+  decipher.setAuthTag(tag);
+  return JSON.parse(Buffer.concat([decipher.update(data), decipher.final()]).toString()) as unknown;
+}
+
+interface IndexProductPrice {
+  amount: number;
+  currency_code: string;
+}
+
+interface IndexProductVariant {
+  prices?: IndexProductPrice[];
+}
+
+interface IndexProductSpec {
+  value: string;
+}
+
+interface IndexProduct {
+  id: string;
+  handle: string;
+  title: string;
+  status: string;
+  variants?: IndexProductVariant[];
+  metadata?: {
+    price?: string;
+    category?: string;
+    specs?: IndexProductSpec[];
+    images?: {
+      main?: string;
+    };
+  };
+}
+
+interface FeaturedProduct {
+  id: string;
+  sku: string;
+  name: string;
+  price: string;
+  badge: string | null;
+  tags: string[];
+  image: string;
+  imageAlt: string;
+  href: string;
+}
+
+let featuredProducts: FeaturedProduct[] = [];
 
 try {
   const res = await fetch(
@@ -33,28 +82,34 @@ try {
     { headers: { "x-publishable-api-key": PK, "Content-Type": "application/json" } }
   );
   if (res.ok) {
-    const raw = await res.json();
+    const raw: unknown = await res.json();
     const data = decryptPayload(raw);
-    featuredProducts = (data.products || []).filter((p: any) => p.status === "published").slice(0, 3).map((p: any, i: number) => {
-      const meta = p.metadata || {};
-      const firstVariant = p.variants?.[0];
-      let price = meta.price || "$0.00";
-      if (firstVariant?.prices?.[0]) {
-        price = `$${(firstVariant.prices[0].amount / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-      }
-      const skuLabels = ["MOD-01 // SHELL", "LYR-04 // INSULATION", "ACC-12 // UTILITY"];
-      return {
-        id: p.handle,
-        sku: skuLabels[i % 3],
-        name: p.title,
-        price,
-        badge: i === 0 ? "NEW RELEASE" : null,
-        tags: meta.specs?.slice(0, 2)?.map((s: any) => s.value) || [meta.category?.toUpperCase() || "PERFORMANCE"],
-        image: meta.images?.main || "",
-        imageAlt: `${p.title} — WANNASINGH Performance Systems`,
-        href: `/shop/${p.handle}`,
-      };
-    });
+    if (data && typeof data === "object" && "products" in data) {
+      const productsList = (data as { products: IndexProduct[] }).products ?? [];
+      featuredProducts = productsList
+        .filter((p) => p.status === "published")
+        .slice(0, 3)
+        .map((p, i) => {
+          const meta = p.metadata ?? {};
+          const firstVariant = p.variants?.[0];
+          let price = meta.price ?? "$0.00";
+          if (firstVariant?.prices?.[0]) {
+            price = `$${(firstVariant.prices[0].amount / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+          }
+          const skuLabels = ["MOD-01 // SHELL", "LYR-04 // INSULATION", "ACC-12 // UTILITY"];
+          return {
+            id: p.handle,
+            sku: skuLabels[i % 3] ?? "",
+            name: p.title,
+            price,
+            badge: i === 0 ? "NEW RELEASE" : null,
+            tags: meta.specs?.slice(0, 2)?.map((s) => s.value) ?? [meta.category?.toUpperCase() ?? "PERFORMANCE"],
+            image: meta.images?.main ?? "",
+            imageAlt: `${p.title} — WANNASINGH Performance Systems`,
+            href: `/shop/${p.handle}`,
+          };
+        });
+    }
   }
 } catch (err) {
   console.error("Failed to fetch featured products:", err);
@@ -195,7 +250,7 @@ const materialSpecs = [
           </h2>
 
           <!-- Key-value spec list -->
-          <ul class="space-y-4 max-w-md" role="list">
+          <ul class="space-y-4 max-w-md">
             {materialSpecs.map((spec) => (
               <li class="flex justify-between items-center pb-3" style="border-bottom: 1px solid rgba(196,199,199,0.35);">
                 <span class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 12px;">

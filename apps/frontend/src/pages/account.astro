@@ -7,6 +7,19 @@ import Layout from "../layouts/Layout.astro";
   title="WANNASINGH | My Account"
   description="Manage your WANNASINGH account — personal data, addresses, order history and security settings."
 >
+  <!-- AETHER Loading Overlay -->
+  <div
+    id="aether-loader"
+    class="fixed inset-0 z-[998] bg-[var(--background)] flex flex-col items-center justify-center gap-4 transition-all duration-300"
+  >
+    <div class="relative w-16 h-16 flex items-center justify-center">
+      <div class="absolute inset-0 border-t-2 border-r-2 border-[var(--secondary)] rounded-full animate-spin"></div>
+      <div class="absolute inset-2 border-b-2 border-l-2 border-[var(--primary)] rounded-full animate-spin" style="animation-direction: reverse; animation-duration: 1s;"></div>
+      <span class="material-symbols-outlined text-[var(--secondary)] animate-pulse" style="font-size: 24px;">fingerprint</span>
+    </div>
+    <p class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-[0.2em] animate-pulse">Initializing Aether Core...</p>
+  </div>
+
   <!-- Auth guard overlay (shown if not logged in) -->
   <div
     id="auth-guard"
@@ -266,60 +279,60 @@ import Layout from "../layouts/Layout.astro";
               <input type="hidden" name="address_id" id="addr-id" />
               <div class="grid grid-cols-2 gap-4">
                 <div class="field-group">
-                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
+                  <label for="addr-first-name" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="first_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="First Name" />
+                    <input name="first_name" id="addr-first-name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="First Name" />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
                 <div class="field-group">
-                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
+                  <label for="addr-last-name" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="last_name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Last Name" />
+                    <input name="last_name" id="addr-last-name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Last Name" />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
               </div>
               <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 1</label>
+                <label for="addr-address-1" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 1</label>
                 <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="address_1" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Street address" />
+                  <input name="address_1" id="addr-address-1" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Street address" />
                 </div>
                 <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
               <div class="field-group">
-                <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 2 (Optional)</label>
+                <label for="addr-address-2" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 2 (Optional)</label>
                 <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="address_2" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Apartment, suite, unit, etc." />
+                  <input name="address_2" id="addr-address-2" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Apartment, suite, unit, etc." />
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div class="field-group">
-                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">City</label>
+                  <label for="addr-city" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">City</label>
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="city" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="City" />
+                    <input name="city" id="addr-city" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="City" />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
                 <div class="field-group">
-                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">State / Province</label>
+                  <label for="addr-province" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">State / Province</label>
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="province" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="State / Province" />
+                    <input name="province" id="addr-province" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="State / Province" />
                   </div>
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div class="field-group">
-                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Postal Code</label>
+                  <label for="addr-postal-code" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Postal Code</label>
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="postal_code" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Postal / Zip Code" />
+                    <input name="postal_code" id="addr-postal-code" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Postal / Zip Code" />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
                 <div class="field-group">
-                  <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Country Code</label>
+                  <label for="addr-country-code" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Country Code</label>
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="country_code" type="text" required maxlength="2" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Country code (e.g. US)" />
+                    <input name="country_code" id="addr-country-code" type="text" required maxlength="2" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Country code (e.g. US)" />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
@@ -429,9 +442,9 @@ import Layout from "../layouts/Layout.astro";
           </div>
           <form id="change-password-form" class="space-y-6" novalidate>
             <div class="field-group">
-              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Current Password</label>
+              <label for="current-password" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Current Password</label>
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                <input name="current_password" type="password" autocomplete="current-password" required
+                <input name="current_password" id="current-password" type="password" autocomplete="current-password" required
                   class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 pr-8 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
                   placeholder="••••••••••••" />
                 <button type="button" class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors">
@@ -441,9 +454,9 @@ import Layout from "../layouts/Layout.astro";
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
             </div>
             <div class="field-group">
-              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">New Password</label>
+              <label for="new-password" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">New Password</label>
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                <input name="new_password" type="password" autocomplete="new-password" required
+                <input name="new_password" id="new-password" type="password" autocomplete="new-password" required
                   class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 pr-8 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
                   placeholder="At least 8 characters" />
                 <button type="button" class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors">
@@ -453,9 +466,9 @@ import Layout from "../layouts/Layout.astro";
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
             </div>
             <div class="field-group">
-              <label class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Confirm Password</label>
+              <label for="confirm-password" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Confirm Password</label>
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                <input name="confirm_password" type="password" autocomplete="new-password" required
+                <input name="confirm_password" id="confirm-password" type="password" autocomplete="new-password" required
                   class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
                   placeholder="Re-enter password" />
               </div>
@@ -627,7 +640,8 @@ import Layout from "../layouts/Layout.astro";
       return localStorage.getItem('wanna_auth_token');
     }
 
-    async function apiRequest(path: string, options: RequestInit = {}) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async function apiRequest(path: string, options: RequestInit = {}): Promise<any> {
       const token = getToken();
       const headers: Record<string,string> = {
         'Content-Type': 'application/json',
@@ -637,7 +651,8 @@ import Layout from "../layouts/Layout.astro";
       const res = await fetch(`${API}${path}`, { ...options, headers: { ...headers, ...(options.headers as Record<string,string> || {}) }, credentials: 'include' });
       
       const encryptedData = await res.json().catch(() => ({}));
-      const body = await decryptPayload(encryptedData);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const body: any = await decryptPayload(encryptedData);
 
       if (!res.ok) {
         throw new Error(body.message || `Request failed: ${res.status}`);
@@ -682,10 +697,19 @@ import Layout from "../layouts/Layout.astro";
       form.querySelectorAll('.field-error').forEach(e => { (e as HTMLElement).textContent = ''; e.classList.add('hidden'); });
     }
 
+    function hideLoader() {
+      const loader = document.getElementById('aether-loader');
+      if (loader) {
+        loader.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => loader.classList.add('hidden'), 300);
+      }
+    }
+
     /* ── Auth guard ─────────────────────────────────────────────────────────── */
     const token = getToken();
     if (!token) {
       document.getElementById('auth-guard')!.classList.remove('hidden');
+      hideLoader();
     }
 
     document.getElementById('logout-btn')?.addEventListener('click', () => {
@@ -782,6 +806,7 @@ import Layout from "../layouts/Layout.astro";
         const data = await apiRequest('/store/customers/me');
         customerData = data.customer || data;
         fillProfile(customerData);
+        hideLoader();
       } catch {
         // Not authenticated or API down — populate with demo data
         customerData = {
@@ -797,6 +822,7 @@ import Layout from "../layouts/Layout.astro";
           ]
         };
         fillProfile(customerData);
+        hideLoader();
       }
     }
 
@@ -804,6 +830,9 @@ import Layout from "../layouts/Layout.astro";
       const name = `${c.first_name || ''} ${c.last_name || ''}`.trim();
       (document.getElementById('user-display-name') as HTMLElement).textContent = name || '—';
       (document.getElementById('user-display-email') as HTMLElement).textContent = c.email || '—';
+      if (c.email) {
+        localStorage.setItem('wanna_auth_email', c.email);
+      }
       (document.getElementById('user-operative-id') as HTMLElement).textContent = `Member ID: ${c.id?.slice(0,12).toUpperCase() || '—'}`;
       (document.getElementById('user-phone') as HTMLElement).textContent = c.phone || '—';
       (document.getElementById('user-location') as HTMLElement).textContent = c.addresses?.[0]?.city ? `${c.addresses[0].city}, ${c.addresses[0].country_code?.toUpperCase()}` : '—';

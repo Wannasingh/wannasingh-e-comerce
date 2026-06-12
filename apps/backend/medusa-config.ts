@@ -45,7 +45,7 @@ export default defineConfig({
 
     // ── Redis (optional — enables pub/sub & job queues) ──────────────────────
     // Uncomment when Redis is available:
-    // redisUrl: process.env.REDIS_URL,
+    ...(process.env.REDIS_URL ? { redisUrl: process.env.REDIS_URL } : {}),
   },
 
   // ── Modules ────────────────────────────────────────────────────────────────
@@ -70,6 +70,26 @@ export default defineConfig({
         ],
       },
     },
+
+    // ── Redis Event Bus & Workflow Engine ─────────────────────────────────────
+    ...(process.env.REDIS_URL ? [
+      {
+        key: "event_bus",
+        resolve: "@medusajs/medusa/event-bus-redis",
+        options: {
+          redisUrl: process.env.REDIS_URL,
+        },
+      },
+      {
+        key: "workflows",
+        resolve: "@medusajs/medusa/workflow-engine-redis",
+        options: {
+          redis: {
+            redisUrl: process.env.REDIS_URL,
+          },
+        },
+      },
+    ] : []),
   ],
 
   // ── Admin Dashboard ────────────────────────────────────────────────────────

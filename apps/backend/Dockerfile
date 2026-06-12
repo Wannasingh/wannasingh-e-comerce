@@ -20,6 +20,7 @@ WORKDIR /repo
 
 # Copy workspace manifests
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
+COPY scripts ./scripts
 COPY apps/backend/package.json ./apps/backend/
 
 # Install all deps (including dev, needed for medusa build)
@@ -41,6 +42,7 @@ COPY --from=deps /repo/apps/backend/node_modules ./apps/backend/node_modules
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
 COPY tsconfig.base.json ./
 COPY apps/backend ./apps/backend
+COPY scripts ./scripts
 
 WORKDIR /repo/apps/backend
 

@@ -6,19 +6,72 @@ import { getStableImageUrl } from "../../lib/images";
 
 import type { APIRoute } from "astro";
 
+interface ProductPrice {
+  amount: number;
+  currency_code: string;
+}
+
+interface ProductVariant {
+  title?: string;
+  sku?: string;
+  prices?: ProductPrice[];
+  options?: Record<string, string>;
+}
+
+interface ProductSpec {
+  label: string;
+  value: string;
+}
+
+interface ProductFeature {
+  title: string;
+  desc: string;
+}
+
+interface ProductMaterial {
+  label: string;
+  value: string;
+}
+
+interface ProductMetadata {
+  price?: string;
+  images?: {
+    main?: string;
+    [key: string]: unknown;
+  };
+  specs?: ProductSpec[];
+  quickSpecs?: ProductSpec[];
+  series?: string;
+  category?: string;
+  features?: ProductFeature[];
+  materials?: ProductMaterial[];
+  [key: string]: unknown;
+}
+
+interface MedusaProduct {
+  id: string;
+  handle: string;
+  title: string;
+  subtitle?: string;
+  status: string;
+  created_at?: string;
+  variants?: ProductVariant[];
+  metadata?: ProductMetadata;
+}
+
 export const GET: APIRoute = async ({ url }) => {
-  const limit = Number.parseInt(url.searchParams.get("limit") || "12", 10);
-  const offset = Number.parseInt(url.searchParams.get("offset") || "0", 10);
-  const q = (url.searchParams.get("q") || "").toLowerCase().trim();
-  const category = url.searchParams.get("category") || "";
-  const minPrice = Number.parseFloat(url.searchParams.get("minPrice") || "0") * 100; // in cents
-  const maxPrice = Number.parseFloat(url.searchParams.get("maxPrice") || "999999") * 100; // in cents
-  const sort = url.searchParams.get("sort") || "newest";
+  const limit = Number.parseInt(url.searchParams.get("limit") ?? "12", 10);
+  const offset = Number.parseInt(url.searchParams.get("offset") ?? "0", 10);
+  const q = (url.searchParams.get("q") ?? "").toLowerCase().trim();
+  const category = url.searchParams.get("category") ?? "";
+  const minPrice = Number.parseFloat(url.searchParams.get("minPrice") ?? "0") * 100; // in cents
+  const maxPrice = Number.parseFloat(url.searchParams.get("maxPrice") ?? "999999") * 100; // in cents
+  const sort = url.searchParams.get("sort") ?? "newest";
   const perfFilters = url.searchParams.getAll("perf");
   const fabricFilters = url.searchParams.getAll("fabric");
 
   try {
-    const medusaProducts = await getCachedProducts();
+    const medusaProducts = (await getCachedProducts()) as MedusaProduct[];
 
     // Filter, map and process products in memory
     let processedProducts = medusaProducts
@@ -37,22 +90,22 @@ export const GET: APIRoute = async ({ url }) => {
           priceRaw = Number.parseFloat(p.metadata.price.replace(/[^0-9.]/g, "")) * 100;
         }
 
-        const mainImage = getStableImageUrl(p.metadata?.images?.main || "");
-        const specs = p.metadata?.specs || p.metadata?.quickSpecs || [];
+        const mainImage = getStableImageUrl(p.metadata?.images?.main ?? "");
+        const specs = p.metadata?.specs ?? p.metadata?.quickSpecs ?? [];
 
         return {
           id: p.id,
           handle: p.handle,
           name: p.title,
-          subtitle: p.subtitle || p.metadata?.series || "",
+          subtitle: p.subtitle ?? p.metadata?.series ?? "",
           price: priceStr,
           priceRaw,
           image: mainImage,
           imageAlt: `${p.title} — WANNASINGH Performance Systems`,
           href: `/shop/${p.handle}`,
           specs: specs.slice(0, 4),
-          createdAt: p.created_at || "",
-          category: p.metadata?.category || "Outerwear",
+          createdAt: p.created_at ?? "",
+          category: p.metadata?.category ?? "Outerwear",
         };
       });
 
@@ -69,32 +122,32 @@ export const GET: APIRoute = async ({ url }) => {
         const rawP = medusaProducts.find(rm => rm.id === p.id);
         if (!rawP) return false;
 
-        const specs = rawP.metadata?.specs || [];
-        const features = rawP.metadata?.features || [];
-        const materials = rawP.metadata?.materials || [];
+        const specs = rawP.metadata?.specs ?? [];
+        const features = rawP.metadata?.features ?? [];
+        const materials = rawP.metadata?.materials ?? [];
 
         return perfFilters.every((filterVal) => {
           const filter = filterVal.toUpperCase();
           if (filter === "WATERPROOF") {
-            const hasWaterproofSpec = specs.some((s: any) => s.label.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("mm"));
-            const hasWaterproofFeature = features.some((f: any) => f.title.toLowerCase().includes("waterproof") || f.desc.toLowerCase().includes("waterproof") || f.title.toLowerCase().includes("water"));
-            const hasWaterproofMaterial = materials.some((m: any) => m.value.toLowerCase().includes("waterproof") || m.value.toLowerCase().includes("membrane") || m.value.toLowerCase().includes("gore-tex"));
+            const hasWaterproofSpec = specs.some((s) => s.label.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("mm"));
+            const hasWaterproofFeature = features.some((f) => f.title.toLowerCase().includes("waterproof") || f.desc.toLowerCase().includes("waterproof") || f.title.toLowerCase().includes("water"));
+            const hasWaterproofMaterial = materials.some((m) => m.value.toLowerCase().includes("waterproof") || m.value.toLowerCase().includes("membrane") || m.value.toLowerCase().includes("gore-tex"));
             return hasWaterproofSpec || hasWaterproofFeature || hasWaterproofMaterial;
           }
           if (filter === "WINDPROOF") {
-            const hasWindproofSpec = specs.some((s: any) => s.label.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("blocked"));
-            const hasWindproofFeature = features.some((f: any) => f.title.toLowerCase().includes("windproof") || f.desc.toLowerCase().includes("windproof") || f.title.toLowerCase().includes("wind"));
+            const hasWindproofSpec = specs.some((s) => s.label.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("blocked"));
+            const hasWindproofFeature = features.some((f) => f.title.toLowerCase().includes("windproof") || f.desc.toLowerCase().includes("windproof") || f.title.toLowerCase().includes("wind"));
             return hasWindproofSpec || hasWindproofFeature;
           }
           if (filter === "BREATHABLE") {
-            const hasBreathableSpec = specs.some((s: any) => s.label.toLowerCase().includes("breathability") || s.value.toLowerCase().includes("ret") || s.value.toLowerCase().includes("breathable"));
-            const hasBreathableFeature = features.some((f: any) => f.title.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("moisture"));
+            const hasBreathableSpec = specs.some((s) => s.label.toLowerCase().includes("breathability") || s.value.toLowerCase().includes("ret") || s.value.toLowerCase().includes("breathable"));
+            const hasBreathableFeature = features.some((f) => f.title.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("moisture"));
             return hasBreathableSpec || hasBreathableFeature;
           }
           if (filter === "INSULATED") {
-            const hasInsulatedSpec = specs.some((s: any) => s.label.toLowerCase().includes("warmth") || s.value.toLowerCase().includes("clo") || s.value.toLowerCase().includes("insulated"));
-            const hasInsulatedFeature = features.some((f: any) => f.title.toLowerCase().includes("insulated") || f.title.toLowerCase().includes("insulation") || f.desc.toLowerCase().includes("warmth") || f.title.toLowerCase().includes("thermal"));
-            const hasInsulatedMaterial = materials.some((m: any) => m.value.toLowerCase().includes("primaloft") || m.value.toLowerCase().includes("insulation") || m.value.toLowerCase().includes("fleece"));
+            const hasInsulatedSpec = specs.some((s) => s.label.toLowerCase().includes("warmth") || s.value.toLowerCase().includes("clo") || s.value.toLowerCase().includes("insulated"));
+            const hasInsulatedFeature = features.some((f) => f.title.toLowerCase().includes("insulated") || f.title.toLowerCase().includes("insulation") || f.desc.toLowerCase().includes("warmth") || f.title.toLowerCase().includes("thermal"));
+            const hasInsulatedMaterial = materials.some((m) => m.value.toLowerCase().includes("primaloft") || m.value.toLowerCase().includes("insulation") || m.value.toLowerCase().includes("fleece"));
             return hasInsulatedSpec || hasInsulatedFeature || hasInsulatedMaterial;
           }
           return true;
@@ -108,19 +161,19 @@ export const GET: APIRoute = async ({ url }) => {
         const rawP = medusaProducts.find(rm => rm.id === p.id);
         if (!rawP) return false;
 
-        const specs = rawP.metadata?.specs || [];
-        const materials = rawP.metadata?.materials || [];
+        const specs = rawP.metadata?.specs ?? [];
+        const materials = rawP.metadata?.materials ?? [];
 
         return fabricFilters.every((filterVal) => {
           const filter = filterVal.toUpperCase();
           if (filter === "GORE-TEX PRO") {
-            return materials.some((m: any) => m.value.toUpperCase().includes("GORE-TEX") || m.value.toUpperCase().includes("GORE-PRO")) || specs.some((s: any) => s.value.toUpperCase().includes("GORE-TEX"));
+            return materials.some((m) => m.value.toUpperCase().includes("GORE-TEX") || m.value.toUpperCase().includes("GORE-PRO")) || specs.some((s) => s.value.toUpperCase().includes("GORE-TEX"));
           }
           if (filter === "DYNEEMA® BLEND") {
-            return materials.some((m: any) => m.value.toUpperCase().includes("DYNEEMA")) || specs.some((s: any) => s.value.toUpperCase().includes("DYNEEMA"));
+            return materials.some((m) => m.value.toUpperCase().includes("DYNEEMA")) || specs.some((s) => s.value.toUpperCase().includes("DYNEEMA"));
           }
           if (filter === "3L CORDURA®") {
-            return materials.some((m: any) => m.value.toUpperCase().includes("CORDURA")) || specs.some((s: any) => s.value.toUpperCase().includes("CORDURA"));
+            return materials.some((m) => m.value.toUpperCase().includes("CORDURA")) || specs.some((s) => s.value.toUpperCase().includes("CORDURA"));
           }
           return true;
         });

@@ -23,6 +23,7 @@ try {
 }
 
 // Fallback to mock data if DB query fails or returns empty
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const displayCustomers = dbCustomers.length > 0 ? dbCustomers.map((c: any) => ({
   id: c.id,
   name: [c.first_name, c.last_name].filter(Boolean).join(" ") || "Unnamed Operative",
@@ -38,6 +39,7 @@ const displayCustomers = dbCustomers.length > 0 ? dbCustomers.map((c: any) => ({
 ];
 
 // Scan for pending seller requests from the database
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pendingRequest = displayCustomers.find((c: any) => c.metadata?.seller_requested === "true" && c.metadata?.seller_approved !== "true");
 const hasPendingRequest = !!pendingRequest;
 ---
@@ -111,6 +113,7 @@ const hasPendingRequest = !!pendingRequest;
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/30" id="customers-table-body">
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {displayCustomers.map((cus: any) => (
                         <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="window.showAetherAlert('Audit Trace', 'User audit trace details: pending backend logs connection.')">
                             <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.id}</td>
@@ -129,6 +132,7 @@ const hasPendingRequest = !!pendingRequest;
             </table>
         </div>
     </div>
+    <div id="admin-config-metadata" class="hidden" data-backend-url={import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"} data-publishable-key={import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""}></div>
 </AdminLayout>
 
 <script is:inline>
@@ -137,6 +141,11 @@ const hasPendingRequest = !!pendingRequest;
         const approveBtn = document.getElementById('approve-seller-btn');
         const rejectBtn = document.getElementById('reject-seller-btn');
         const tableBody = document.getElementById('customers-table-body');
+
+        const configEl = document.getElementById('admin-config-metadata');
+        const API_URL = configEl?.getAttribute('data-backend-url') || 'http://localhost:9000';
+        const PK = configEl?.getAttribute('data-publishable-key') || '';
+        const token = localStorage.getItem('wanna_auth_token');
 
         // Approve Seller
         approveBtn?.addEventListener('click', async () => {
@@ -154,13 +163,25 @@ const hasPendingRequest = !!pendingRequest;
 
             try {
                 // Call Medusa Admin API via backend endpoint!
-                const res = await fetch(`http://localhost:9000/admin/customers/${customerId}/approve-seller`, {
+                const res = await fetch(`${API_URL}/store/admin-api/customers/${customerId}/approve-seller`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-publishable-api-key': PK,
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    }
                 });
 
                 if (!res.ok) {
-                    throw new Error("Backend failed to approve seller");
+                    if (res.status === 401) {
+                        localStorage.removeItem('wanna_auth_token');
+                        localStorage.setItem('wanna_auth_role', 'customer');
+                        await window.showAetherAlert("Unauthorized", "เซสชันหมดอายุหรือรหัสเข้าสู่ระบบไม่ถูกต้อง ระบบจะนำคุณไปยังหน้าเข้าสู่ระบบ...");
+                        window.location.href = '/auth';
+                        return;
+                    }
+                    const errorData = await res.json().catch(() => ({}));
+                    throw new Error(errorData.message || "Backend failed to approve seller");
                 }
 
                 // Clear cookies to hide alerts
@@ -176,22 +197,60 @@ const hasPendingRequest = !!pendingRequest;
                 window.location.reload();
             } catch (err) {
                 console.error("Approve seller error:", err);
-                await window.showAetherAlert("Bypass Notice", "Failed to persist approval in database. Bypassing and applying mock success.");
-                
-                // Fallback UI approval
-                document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
-                document.cookie = "wanna_seller_approved=true; path=/; max-age=86400";
-                pendingSection?.classList.add('hidden');
+                await window.showAetherAlert("Error", `Failed to approve seller: ${err.message}`);
+                approveBtn.disabled = false;
+                approveBtn.textContent = "APPROVE_SELLER";
             }
         });
 
         // Reject Seller
         rejectBtn?.addEventListener('click', async () => {
-            document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
-            localStorage.setItem('wanna_seller_requested', 'false');
-            await window.showAetherAlert("Request Rejected", "Request rejected. System cleared.");
-            pendingSection?.classList.add('hidden');
-            window.location.reload();
+            const emailEl = document.getElementById('pending-user-email');
+            const emailVal = emailEl?.textContent || 'sarankhtn@gmail.com';
+            const customerId = emailEl?.getAttribute('data-id');
+            
+            if (!customerId) {
+                await window.showAetherAlert("Error", "Customer ID not found.");
+                return;
+            }
+
+            rejectBtn.disabled = true;
+            rejectBtn.textContent = "REJECTING...";
+
+            try {
+                // Call Medusa Admin API via backend endpoint!
+                const res = await fetch(`${API_URL}/store/admin-api/customers/${customerId}/reject-seller`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-publishable-api-key': PK,
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    }
+                });
+
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        localStorage.removeItem('wanna_auth_token');
+                        localStorage.setItem('wanna_auth_role', 'customer');
+                        await window.showAetherAlert("Unauthorized", "เซสชันหมดอายุหรือรหัสเข้าสู่ระบบไม่ถูกต้อง ระบบจะนำคุณไปยังหน้าเข้าสู่ระบบ...");
+                        window.location.href = '/auth';
+                        return;
+                    }
+                    const errorData = await res.json().catch(() => ({}));
+                    throw new Error(errorData.message || "Backend failed to reject seller");
+                }
+
+                document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
+                localStorage.setItem('wanna_seller_requested', 'false');
+                await window.showAetherAlert("Request Rejected", `Request for ${emailVal} rejected. System cleared.`);
+                pendingSection?.classList.add('hidden');
+                window.location.reload();
+            } catch (err) {
+                console.error("Reject seller error:", err);
+                await window.showAetherAlert("Error", `Failed to reject seller: ${err.message}`);
+                rejectBtn.disabled = false;
+                rejectBtn.textContent = "REJECT";
+            }
         });
     });
 </script>
