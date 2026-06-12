@@ -20,7 +20,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mts,mjs,js,cjs,astro,json,css,md}\"",
     "type-check": "pnpm --filter './apps/*' type-check",
     "clean": "pnpm --filter './apps/*' exec rm -rf dist .next .astro node_modules/.cache",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "node scripts/patch-medusa-cli.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
