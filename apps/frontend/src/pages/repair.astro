@@ -159,7 +159,7 @@ import Layout from "../layouts/Layout.astro";
             </p>
             <form id="intake-form" class="space-y-8" onsubmit="return false">
               <div class="relative border-b border-[var(--outline-variant)]/50 pb-2 group">
-                <label class="font-data-label text-[10px] uppercase tracking-widest text-[var(--secondary)] block mb-2">01. PRODUCT SERIAL</label>
+                <label for="serial-input" class="font-data-label text-[10px] uppercase tracking-widest text-[var(--secondary)] block mb-2">01. PRODUCT SERIAL</label>
                 <input 
                   required
                   id="serial-input"
@@ -169,7 +169,7 @@ import Layout from "../layouts/Layout.astro";
                 />
               </div>
               <div class="relative space-y-3">
-                <label class="font-data-label text-[10px] uppercase tracking-widest text-[var(--on-surface-variant)] block">02. SERVICE TYPE</label>
+                <span class="font-data-label text-[10px] uppercase tracking-widest text-[var(--on-surface-variant)] block">02. SERVICE TYPE</span>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <button 
                     type="button" 

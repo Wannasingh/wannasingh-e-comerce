@@ -5,6 +5,9 @@ import { getCachedProducts } from "../../lib/cache";
 
 export const prerender = false;
 
+const PUBLIC_MEDUSA_BACKEND_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const PUBLIC_MEDUSA_PUBLISHABLE_KEY = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
+
 let rawProducts = [];
 try {
   rawProducts = await getCachedProducts();
@@ -30,7 +33,8 @@ const defaultProducts = [
     ],
     material: "3L GORE-TEX PRO",
     weight: "480g",
-    breathability: "RET < 6"
+    breathability: "RET < 6",
+    seller_email: "wannasingh.khan@gmail.com"
   },
   {
     id: "WS-901-Y",
@@ -47,7 +51,8 @@ const defaultProducts = [
     ],
     material: "Dyneema Composite",
     weight: "310g",
-    breathability: "Highly Breathable"
+    breathability: "Highly Breathable",
+    seller_email: "wannasingh.khan@gmail.com"
   },
   {
     id: "WS-712-B",
@@ -64,11 +69,13 @@ const defaultProducts = [
     ],
     material: "Ventile L24 Organic",
     weight: "520g",
-    breathability: "RET < 8"
+    breathability: "RET < 8",
+    seller_email: "wannasingh.khan@gmail.com"
   }
 ];
 
 // Map Medusa SDK output products to our grid format
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mappedProducts = rawProducts.map((p: any) => {
   const price = p.variants?.[0]?.prices?.[0]?.amount 
     ? p.variants[0].prices[0].amount 
@@ -78,6 +85,7 @@ const mappedProducts = rawProducts.map((p: any) => {
     ? p.variants[0].inventory_quantity 
     : 0;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const images = p.images?.map((img: any) => img.url) || [];
   if (images.length === 0 && p.thumbnail) {
     images.push(p.thumbnail);
@@ -89,6 +97,7 @@ const mappedProducts = rawProducts.map((p: any) => {
   const material = p.metadata?.material || "3L GORE-TEX PRO";
   const weight = p.metadata?.weight || "450g";
   const breathability = p.metadata?.breathability || "RET < 6";
+  const seller_email = p.metadata?.seller_email || "wannasingh.khan@gmail.com";
 
   return {
     id: p.id,
@@ -103,7 +112,8 @@ const mappedProducts = rawProducts.map((p: any) => {
     images,
     material,
     weight,
-    breathability
+    breathability,
+    seller_email
   };
 });
 
@@ -113,6 +123,7 @@ const displayProducts = [...mappedProducts, ...defaultProducts.filter(d => !mapp
 const totalSKUs = displayProducts.length;
 ---
 <AdminLayout title="WANNASINGH COMMAND CORE - PRODUCTS" activeTab="products">
+    <div id="api-config" data-url={PUBLIC_MEDUSA_BACKEND_URL} data-key={PUBLIC_MEDUSA_PUBLISHABLE_KEY} class="hidden"></div>
     <!-- Context Header & Stats -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
@@ -229,7 +240,8 @@ const totalSKUs = displayProducts.length;
                             data-material={prod.material}
                             data-weight={prod.weight}
                             data-breathability={prod.breathability}
-                            data-images={JSON.stringify(prod.images)}>
+                            data-images={JSON.stringify(prod.images)}
+                            data-seller-email={prod.seller_email}>
                             <td class="p-4"><input class="bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 row-checkbox cursor-pointer" type="checkbox"></td>
                             <td class="p-4 font-mono-data text-[13px] text-on-surface-variant product-id-cell">{prod.id.slice(0, 10)}</td>
                             <td class="p-4 font-mono-data text-[13px] product-sku">{prod.sku}</td>
@@ -469,6 +481,32 @@ const totalSKUs = displayProducts.length;
             toggleBulkToolbar(false);
         });
 
+        // Retrieve API config injected from server
+        const apiConfig = document.getElementById('api-config');
+        const API = apiConfig ? apiConfig.getAttribute('data-url') : 'http://localhost:9000';
+        const PK  = apiConfig ? apiConfig.getAttribute('data-key') : '';
+
+        // If wanna_auth_email is not in localStorage, fetch it from backend asynchronously
+        if (!localStorage.getItem('wanna_auth_email') && localStorage.getItem('wanna_auth_token')) {
+            fetch(`${API}/store/customers/me`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-publishable-api-key': PK,
+                    'Authorization': `Bearer ${localStorage.getItem('wanna_auth_token')}`
+                },
+                credentials: 'include'
+            })
+            .then(res => res.json())
+            .then(data => {
+                const customer = data.customer || data;
+                if (customer && customer.email) {
+                    localStorage.setItem('wanna_auth_email', customer.email);
+                    filterProducts();
+                }
+            })
+            .catch(err => console.error("Error fetching profile email:", err));
+        }
+
         // Search & Filter product items locally
         const searchInput = document.getElementById('query-db');
         const filterFabric = document.getElementById('filter-fabric');
@@ -477,6 +515,8 @@ const totalSKUs = displayProducts.length;
         const filterStatus = document.getElementById('filter-status');
 
         function filterProducts() {
+            const loggedInEmail = localStorage.getItem('wanna_auth_email') || 'wannasingh.khan@gmail.com';
+
             const query = searchInput ? searchInput.value.toLowerCase() : '';
             const fabric = filterFabric ? filterFabric.value : 'ALL';
             const collection = filterCollection ? filterCollection.value : 'ALL';
@@ -493,6 +533,7 @@ const totalSKUs = displayProducts.length;
                 const rowFabric = row.getAttribute('data-fabric');
                 const rowClimate = row.getAttribute('data-climate');
                 const rowStatus = row.getAttribute('data-status');
+                const rowSellerEmail = row.getAttribute('data-seller-email') || 'wannasingh.khan@gmail.com';
 
                 // Check text query
                 const matchesQuery = rowId.includes(query) || rowSku.includes(query) || rowTitle.includes(query);
@@ -505,7 +546,10 @@ const totalSKUs = displayProducts.length;
                 // Note: Collection is stubbed here for simplicity since defaults don't map it directly
                 const matchesCollection = true; 
 
-                if (matchesQuery && matchesFabric && matchesClimate && matchesStatus && matchesCollection) {
+                // Pre-filter: only show products owned by this seller
+                const matchesSeller = rowSellerEmail.toLowerCase() === loggedInEmail.toLowerCase();
+
+                if (matchesSeller && matchesQuery && matchesFabric && matchesClimate && matchesStatus && matchesCollection) {
                     row.classList.remove('hidden');
                     visibleCount++;
                 } else {
@@ -522,6 +566,9 @@ const totalSKUs = displayProducts.length;
                 badge.textContent = visibleCount.toString();
             }
         }
+
+        // Run initial pre-filter on load
+        filterProducts();
 
         searchInput?.addEventListener('input', filterProducts);
         filterFabric?.addEventListener('change', filterProducts);

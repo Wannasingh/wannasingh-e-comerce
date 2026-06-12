@@ -15,13 +15,13 @@ export default async function customerCreatedHandler({
 
   try {
     const customer = await customerService.retrieveCustomer(data.id);
-    if (!customer?.email) {
+    if (!customer.email) {
       logger.warn(`⚠️ Customer ${data.id} details or email not found.`);
       return;
     }
 
     const resendApiKey = process.env.RESEND_API_KEY;
-    const senderEmail = process.env.SENDER_EMAIL || "onboarding@resend.dev";
+    const senderEmail = process.env.SENDER_EMAIL ?? "onboarding@resend.dev";
 
     if (!resendApiKey || resendApiKey === "re_your_resend_api_key") {
       logger.info(`ℹ️ Resend API Key is not configured. Skipping welcome email transmission.`);
@@ -80,7 +80,7 @@ export default async function customerCreatedHandler({
           <!-- Action Button -->
           <tr>
             <td style="padding-bottom: 40px;">
-              <a href="${process.env.STORE_CORS || 'http://localhost:4321'}/auth?tab=login" style="display: block; text-align: center; background-color: #ffffff; color: #131313; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-decoration: none; padding: 18px 24px; text-transform: uppercase; border: 1px solid #ffffff; transition: all 0.3s ease;">
+              <a href="${process.env.STORE_CORS ?? 'http://localhost:4321'}/auth?tab=login" style="display: block; text-align: center; background-color: #ffffff; color: #131313; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-decoration: none; padding: 18px 24px; text-transform: uppercase; border: 1px solid #ffffff; transition: all 0.3s ease;">
                 GO TO STOREFRONT LOGIN →
               </a>
             </td>
@@ -140,14 +140,15 @@ export default async function customerCreatedHandler({
     });
 
     if (response.ok) {
-      const resData = await response.json();
+      const resData = (await response.json()) as { id: string };
       logger.info(`✅ Welcome email dispatched successfully. ID: ${resData.id}`);
     } else {
       const errorText = await response.text();
-      logger.error(`❌ Resend API response error: ${response.status} - ${errorText}`);
+      logger.error(`❌ Resend API response error: ${String(response.status)} - ${errorText}`);
     }
-  } catch (err: any) {
-    logger.error(`❌ Error executing customer-created welcome email subscriber: ${err.message}`);
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : "Unknown error";
+    logger.error(`❌ Error executing customer-created welcome email subscriber: ${errorMessage}`);
   }
 }
 

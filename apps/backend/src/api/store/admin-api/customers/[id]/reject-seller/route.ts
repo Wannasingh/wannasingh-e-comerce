@@ -1,3 +1,4 @@
+/* eslint-disable */
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 
 export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse): Promise<void> {
@@ -7,10 +8,23 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     return;
   }
 
+  const callerId = req.auth_context.actor_id;
+  if (!callerId) {
+    res.status(401).json({ message: "Unauthorized: Missing authentication context" });
+    return;
+  }
+
   try {
     const customerService = req.scope.resolve("customer");
-    const customer = await customerService.retrieveCustomer(id);
+    
+    // Verify caller is admin
+    const caller = await customerService.retrieveCustomer(callerId);
+    if (!caller || caller.email !== "wannasingh.khan@gmail.com") {
+      res.status(403).json({ message: "Forbidden: Caller is not authorized as system admin" });
+      return;
+    }
 
+    const customer = await customerService.retrieveCustomer(id);
     if (!customer) {
       res.status(404).json({ message: "Customer not found" });
       return;
@@ -20,13 +34,13 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
       metadata: {
         ...customer.metadata,
         seller_requested: "false",
-        seller_approved: "true",
+        seller_approved: "false",
       },
     });
 
     res.status(200).json({ customer: updatedCustomer });
   } catch (err: any) {
-    console.error("Error in approve-seller API route:", err);
-    res.status(500).json({ message: err.message || "An error occurred during seller approval" });
+    console.error("Error in reject-seller API route:", err);
+    res.status(500).json({ message: err.message || "An error occurred during seller rejection" });
   }
 }

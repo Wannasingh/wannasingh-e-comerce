@@ -157,8 +157,40 @@ const colorVariants = ["Black", "Carbon", "Olive", "Navy", "Slate", "Shadow", "M
 // Unique seed run ID to prevent SKU conflicts
 const SEED_RUN = Date.now().toString(36).slice(-4); // e.g. "k3a1"
 
-function generateProducts() {
-  const products: any[] = [];
+interface ProductInput {
+  title: string;
+  handle: string;
+  subtitle: string;
+  description: string;
+  status: "draft" | "proposed" | "published" | "rejected";
+  options: { title: string; values: string[] }[];
+  variants: {
+    title: string;
+    sku: string;
+    options: Record<string, string>;
+    prices: { amount: number; currency_code: string }[];
+  }[];
+  metadata: {
+    series: string;
+    category: string;
+    color: string;
+    price: string;
+    quickSpecs: { label: string; value: string }[];
+    images: {
+      main: string;
+      detail1: string;
+      detail2: string;
+      darkSection: string;
+    };
+    features: { icon: string; title: string; desc: string }[];
+    materialsDescription: string;
+    materials: { label: string; value: string }[];
+    specs: { label: string; value: string }[];
+  };
+}
+
+function generateProducts(): ProductInput[] {
+  const products: ProductInput[] = [];
 
   const categoryCounts: Record<string, number> = {
     Outerwear: 60,
@@ -173,16 +205,16 @@ function generateProducts() {
   for (const cat of categories) {
     const targetCount = categoryCounts[cat.category] ?? 20;
 
-    const catTag = CATEGORY_TAGS[cat.category] || "fashion";
+    const catTag = CATEGORY_TAGS[cat.category] ?? "fashion";
 
     for (let i = 0; i < targetCount; i++) {
-      const nameBase = cat.names[i % cat.names.length]!;
-      const adj = cat.adjectives[i % cat.adjectives.length]!;
-      const color = colorVariants[i % colorVariants.length]!;
-      const version = i < cat.names.length ? "" : ` V${Math.floor(i / cat.names.length) + 1}`;
+      const nameBase = cat.names[i % cat.names.length] ?? "";
+      const adj = cat.adjectives[i % cat.adjectives.length] ?? "";
+      const color = colorVariants[i % colorVariants.length] ?? "";
+      const version = i < cat.names.length ? "" : ` V${String(Math.floor(i / cat.names.length) + 1)}`;
 
       const title = `${nameBase.toUpperCase()}${version ? version.toUpperCase() : ""}`;
-      const handle = `${nameBase.toLowerCase().replace(/[^a-z0-9]+/g, "-")}${version ? `-v${Math.floor(i / cat.names.length) + 1}` : ""}`;
+      const handle = `${nameBase.toLowerCase().replace(/[^a-z0-9]+/g, "-")}${version ? `-v${String(Math.floor(i / cat.names.length) + 1)}` : ""}`;
       // Unique SKU with run ID to prevent inventory conflicts
       const sku = `${SEED_RUN}-${cat.prefix}-${String(i + 1).padStart(3, "0")}`;
 
@@ -190,16 +222,18 @@ function generateProducts() {
       const roundedPrice = Math.round(priceAmount / 500) * 500;
 
       // Assign unique dynamic images from LoremFlickr pool (ensures zero duplication)
-      const mainImg = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${i}`;
-      const detailImg1 = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${i + 1000}`;
-      const detailImg2 = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${i + 2000}`;
-      const darkImg = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${i + 3000}`;
+      const mainImg = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${String(i)}`;
+      const detailImg1 = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${String(i + 1000)}`;
+      const detailImg2 = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${String(i + 2000)}`;
+      const darkImg = `https://loremflickr.com/600/800/${catTag}?random=${cat.prefix}-${String(i + 3000)}`;
+
+      const materialsFirstValue = cat.materials[0]?.value ?? "";
 
       products.push({
         title,
         handle,
         subtitle: `${adj} ${cat.category.toLowerCase()} system. ${color} ${nameBase.toLowerCase()} engineered for ${cat.climateClass.toLowerCase()} performance.`,
-        description: `High-performance ${cat.category.toLowerCase()} from the ${cat.series} collection. Engineered with ${cat.materials[0]!.value} construction for maximum durability and performance in demanding conditions.`,
+        description: `High-performance ${cat.category.toLowerCase()} from the ${cat.series} collection. Engineered with ${materialsFirstValue} construction for maximum durability and performance in demanding conditions.`,
         status: "published",
         options: [{ title: "Size", values: ["S", "M", "L", "XL"] }],
         variants: [
@@ -215,7 +249,7 @@ function generateProducts() {
           price: `$${(roundedPrice / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}`,
           quickSpecs: [
             { label: "Climate Class", value: cat.climateClass },
-            { label: "Weight", value: cat.specs.find(s => s.label === "Weight")?.value || "350g" },
+            { label: "Weight", value: cat.specs.find(s => s.label === "Weight")?.value ?? "350g" },
             { label: "Warranty", value: "LIFETIME" },
           ],
           images: {
@@ -225,7 +259,7 @@ function generateProducts() {
             darkSection: darkImg,
           },
           features: cat.features,
-          materialsDescription: `${cat.category} from the ${cat.series} collection. Built with ${cat.materials[0]!.value} for uncompromising performance.`,
+          materialsDescription: `${cat.category} from the ${cat.series} collection. Built with ${materialsFirstValue} for uncompromising performance.`,
           materials: cat.materials,
           specs: cat.specs,
         },
@@ -237,7 +271,7 @@ function generateProducts() {
 }
 
 // ── Seed Execution ─────────────────────────────────────────────────────
-export default async function seed({ container }: ExecArgs) {
+export default async function seed({ container }: ExecArgs): Promise<void> {
   const logger = container.resolve("logger");
   logger.info(`Starting product seed (300+ items, run=${SEED_RUN})...`);
 
@@ -246,18 +280,20 @@ export default async function seed({ container }: ExecArgs) {
 
   const [salesChannels] = await salesChannelService.listAndCountSalesChannels({});
   if (!salesChannels.length) throw new Error("No sales channels found.");
-  const salesChannelId = salesChannels[0]!.id;
-  logger.info(`Using sales channel: ${salesChannels[0]!.name} (${salesChannelId})`);
+  const firstChannel = salesChannels[0];
+  if (!firstChannel) throw new Error("No sales channel found.");
+  const salesChannelId = firstChannel.id;
+  logger.info(`Using sales channel: ${firstChannel.name} (${salesChannelId})`);
 
   const productsToSeed = generateProducts();
-  logger.info(`Generated ${productsToSeed.length} products to seed.`);
+  logger.info(`Generated ${String(productsToSeed.length)} products to seed.`);
 
   // Clean up existing products
   const [existingProducts] = await productModuleService.listAndCountProducts({}, { take: 1000 });
   if (existingProducts.length > 0) {
-    const ids = existingProducts.map((p: any) => p.id);
+    const ids = existingProducts.map((p: { id: string }) => p.id);
     await productModuleService.deleteProducts(ids);
-    logger.info(`Cleaned up ${existingProducts.length} existing products.`);
+    logger.info(`Cleaned up ${String(existingProducts.length)} existing products.`);
   }
 
   // Seed in batches
@@ -266,7 +302,7 @@ export default async function seed({ container }: ExecArgs) {
 
   for (let i = 0; i < productsToSeed.length; i += BATCH_SIZE) {
     const batch = productsToSeed.slice(i, i + BATCH_SIZE);
-    const productsInput = batch.map((p: any) => ({
+    const productsInput = batch.map((p) => ({
       title: p.title, handle: p.handle, subtitle: p.subtitle, description: p.description,
       status: p.status, options: p.options, variants: p.variants,
       sales_channels: [{ id: salesChannelId }], metadata: p.metadata,
@@ -275,11 +311,12 @@ export default async function seed({ container }: ExecArgs) {
     try {
       const { result } = await createProductsWorkflow(container).run({ input: { products: productsInput } });
       seeded += result.length;
-      logger.info(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: Seeded ${result.length} (total: ${seeded}/${productsToSeed.length})`);
-    } catch (error: any) {
-      logger.error(`Batch ${Math.floor(i / BATCH_SIZE) + 1} failed: ${error.message}`);
+      logger.info(`Batch ${String(Math.floor(i / BATCH_SIZE) + 1)}: Seeded ${String(result.length)} (total: ${String(seeded)}/${String(productsToSeed.length)})`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      logger.error(`Batch ${String(Math.floor(i / BATCH_SIZE) + 1)} failed: ${errorMessage}`);
     }
   }
 
-  logger.info(`✅ Seed complete! Total: ${seeded} products.`);
+  logger.info(`✅ Seed complete! Total: ${String(seeded)} products.`);
 }

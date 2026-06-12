@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request }) => {
-  const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY;
+  const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY as string | undefined;
 
   if (!stripeSecretKey || stripeSecretKey.includes("REPLACE_WITH")) {
     return new Response(

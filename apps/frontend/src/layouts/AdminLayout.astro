@@ -80,6 +80,11 @@ const { title, activeTab } = Astro.props;
         .overlay-blur {
             backdrop-filter: blur(4px);
         }
+        @media (min-width: 768px) {
+            #menu-toggle-mobile {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-background text-on-surface flex h-screen overflow-hidden">
@@ -92,13 +97,11 @@ const { title, activeTab } = Astro.props;
     <div class="p-gutter border-b border-outline-variant">
         <h1 class="font-sans text-primary text-2xl font-bold tracking-tight">MEDUSA_V2</h1>
         <p class="font-mono-label text-[11px] text-on-surface-variant opacity-70">KERNEL_STABLE</p>
+        <a href="/" class="text-[10px] font-mono-label text-primary hover:underline mt-2 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[12px]">arrow_back</span> กลับไปยังหน้าหลักร้านค้า
+        </a>
     </div>
     <nav class="flex-1 py-4 overflow-y-auto custom-scrollbar">
-        <div class="px-4 mb-6" data-role="admin-only">
-            <button class="w-full py-3 bg-primary text-on-primary font-mono-label text-[11px] font-bold flex items-center justify-center gap-2 transition-all duration-150 ease-in-out active:opacity-80 cursor-pointer" id="execute-new-btn">
-                <span class="material-symbols-outlined text-[18px]">add</span> EXECUTE_NEW
-            </button>
-        </div>
         <div class="space-y-6">
             <div class="space-y-1">
                 <div class="px-6 py-2">
@@ -117,28 +120,11 @@ const { title, activeTab } = Astro.props;
                     <span class="material-symbols-outlined mr-3">group</span> CUSTOMERS
                 </a>
             </div>
-            <div class="space-y-1" data-role="admin-only">
-                <div class="px-6 py-2">
-                    <p class="font-mono-label text-[10px] text-on-surface-variant opacity-50 tracking-widest uppercase">System</p>
-                </div>
-                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'logs' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/logs">
-                    <span class="material-symbols-outlined mr-3">terminal</span> KERNEL LOGS
-                </a>
-                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'api-status' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/api-status">
-                    <span class="material-symbols-outlined mr-3">sensors</span> API STATUS
-                </a>
-                <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'config' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/config">
-                    <span class="material-symbols-outlined mr-3">settings_input_component</span> ENVIRONMENT CONFIG
-                </a>
-            </div>
         </div>
     </nav>
     <div class="mt-auto border-t border-outline-variant py-4" data-role="admin-only">
         <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'settings' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/settings">
             <span class="material-symbols-outlined mr-3">settings</span> SETTINGS
-        </a>
-        <a class={`flex items-center px-6 py-3 font-mono-label text-[11px] transition-all duration-150 ease-in-out ${activeTab === 'reboot' ? 'text-primary border-l-2 border-primary bg-primary/5 font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant'}`} href="/admin/reboot">
-            <span class="material-symbols-outlined mr-3">restart_alt</span> REBOOT
         </a>
     </div>
 </aside>
@@ -318,7 +304,17 @@ const { title, activeTab } = Astro.props;
 
     // Enforce role-based menu visibility
     (function enforceRoleLimits() {
-        const userRole = localStorage.getItem('wanna_auth_role') || 'seller';
+        const userRole = localStorage.getItem('wanna_auth_role');
+        const token = localStorage.getItem('wanna_auth_token');
+        
+        // If not logged in or doesn't have admin/seller role, redirect to login
+        if (!token || (userRole !== 'admin' && userRole !== 'seller')) {
+            localStorage.removeItem('wanna_auth_role');
+            localStorage.removeItem('wanna_auth_token');
+            window.location.href = '/auth';
+            return;
+        }
+
         const userDisplay = document.getElementById('admin-user-display');
         
         if (userRole === 'admin') {

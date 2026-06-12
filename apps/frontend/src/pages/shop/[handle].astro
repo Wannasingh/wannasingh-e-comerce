@@ -7,21 +7,124 @@ import { getStableImageUrl } from "../../lib/images";
 
 const { handle } = Astro.params;
 
-let currentProduct: any = null;
-let similarProducts: any[] = [];
+interface ProductSpec {
+  label: string;
+  value: string;
+}
+
+interface ProductFeature {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+interface ProductMaterial {
+  label: string;
+  value: string;
+}
+
+interface CurrentProduct {
+  series: string;
+  name: string;
+  subtitle: string;
+  price: string;
+  sku: string;
+  quickSpecs: ProductSpec[];
+  images: {
+    main: string;
+    detail1: string;
+    detail2: string;
+    darkSection: string;
+  };
+  features: ProductFeature[];
+  materialsDescription: string;
+  materials: ProductMaterial[];
+  sizes: string[];
+  category: string;
+}
+
+interface SimilarProduct {
+  handle: string;
+  name: string;
+  subtitle: string;
+  price: string;
+  image: string;
+  category: string;
+}
+
+interface MedusaProductPrice {
+  amount: number;
+  currency_code: string;
+}
+
+interface MedusaProductVariant {
+  title?: string;
+  sku?: string;
+  prices?: MedusaProductPrice[];
+  options?: Record<string, string>;
+}
+
+interface MedusaProductSpec {
+  label: string;
+  value: string;
+}
+
+interface MedusaProductFeature {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+interface MedusaProductMaterial {
+  label: string;
+  value: string;
+}
+
+interface MedusaProductMetadata {
+  price?: string;
+  images?: {
+    main?: string;
+    detail1?: string;
+    detail2?: string;
+    darkSection?: string;
+  };
+  specs?: MedusaProductSpec[];
+  quickSpecs?: MedusaProductSpec[];
+  series?: string;
+  category?: string;
+  features?: MedusaProductFeature[];
+  materials?: MedusaProductMaterial[];
+  materialsDescription?: string;
+}
+
+interface MedusaProduct {
+  id: string;
+  handle: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  status: string;
+  created_at?: string;
+  variants?: MedusaProductVariant[];
+  metadata?: MedusaProductMetadata;
+  options?: { title: string; values: (string | { value: string })[] }[];
+}
+
+let currentProduct: CurrentProduct | null = null;
+let similarProducts: SimilarProduct[] = [];
 
 try {
-  const products = await getCachedProducts();
+  const products = (await getCachedProducts()) as MedusaProduct[];
   if (products.length > 0) {
 
-    const matchedProduct = products.find((p: any) => p.handle === handle);
+    const matchedProduct = products.find((p) => p.handle === handle);
 
     if (matchedProduct) {
       const p = matchedProduct;
-      const meta = p.metadata || {};
+      const meta = p.metadata ?? {};
 
       // Extract price from first variant
-      let priceStr = meta.price || "$0.00";
+      let priceStr = meta.price ?? "$0.00";
       const firstVariant = p.variants?.[0];
       if (firstVariant?.prices?.[0]) {
         const dollars = firstVariant.prices[0].amount / 100;
@@ -29,45 +132,45 @@ try {
       }
 
       // Extract sizes from options or variants
-      const sizes = p.options?.find((o: any) => o.title === "Size")?.values?.map((v: any) => typeof v === 'string' ? v : v.value) 
-        || p.variants?.map((v: any) => v.title) 
+      const sizes: string[] = p.options?.find((o) => o.title === "Size")?.values?.map((v) => typeof v === 'string' ? v : v.value) 
+        || p.variants?.map((v) => v.title ?? "") 
         || ["S", "M", "L", "XL"];
 
       // Extract SKU prefix from first variant
-      const sku = firstVariant?.sku?.replace(/-[SMLX]+$/, "") || "";
+      const sku = firstVariant?.sku?.replace(/-[SMLX]+$/, "") ?? "";
 
-      const imagesRaw = meta.images || { main: "", detail1: "", detail2: "", darkSection: "" };
+      const imagesRaw = meta.images ?? { main: "", detail1: "", detail2: "", darkSection: "" };
       const images = {
-        main: getStableImageUrl(imagesRaw.main),
-        detail1: getStableImageUrl(imagesRaw.detail1),
-        detail2: getStableImageUrl(imagesRaw.detail2),
-        darkSection: getStableImageUrl(imagesRaw.darkSection),
+        main: getStableImageUrl(imagesRaw.main ?? ""),
+        detail1: getStableImageUrl(imagesRaw.detail1 ?? ""),
+        detail2: getStableImageUrl(imagesRaw.detail2 ?? ""),
+        darkSection: getStableImageUrl(imagesRaw.darkSection ?? ""),
       };
 
       currentProduct = {
-        series: meta.series || "",
+        series: meta.series ?? "",
         name: p.title,
-        subtitle: p.subtitle || p.description || "",
+        subtitle: p.subtitle ?? p.description ?? "",
         price: priceStr,
         sku,
-        quickSpecs: meta.quickSpecs || meta.specs?.slice(0, 3) || [],
+        quickSpecs: meta.quickSpecs ?? meta.specs?.slice(0, 3) ?? [],
         images,
-        features: meta.features || [],
-        materialsDescription: meta.materialsDescription || p.description || "",
-        materials: meta.materials || [],
+        features: meta.features ?? [],
+        materialsDescription: meta.materialsDescription ?? p.description ?? "",
+        materials: meta.materials ?? [],
         sizes,
-        category: meta.category || "Outerwear",
+        category: meta.category ?? "Outerwear",
       };
 
       // Fetch other products in the same category (using cache)
       try {
-        const medusaSim = await getCachedProducts();
+        const medusaSim = products;
         if (medusaSim.length > 0) {
           similarProducts = medusaSim
-            .filter((sp: any) => sp.status === "published" && sp.handle !== handle)
-            .map((sp: any) => {
-              const smeta = sp.metadata || {};
-              let priceStr = smeta.price || "$0.00";
+            .filter((sp) => sp.status === "published" && sp.handle !== handle)
+            .map((sp) => {
+              const smeta = sp.metadata ?? {};
+              let priceStr = smeta.price ?? "$0.00";
               const firstVariant = sp.variants?.[0];
               if (firstVariant?.prices?.[0]) {
                 const dollars = firstVariant.prices[0].amount / 100;
@@ -76,13 +179,13 @@ try {
               return {
                 handle: sp.handle,
                 name: sp.title,
-                subtitle: sp.subtitle || smeta.series || "",
+                subtitle: sp.subtitle ?? smeta.series ?? "",
                 price: priceStr,
-                image: getStableImageUrl(smeta.images?.main || ""),
-                category: smeta.category || "Outerwear",
+                image: getStableImageUrl(smeta.images?.main ?? ""),
+                category: smeta.category ?? "Outerwear",
               };
             })
-            .filter((sp: any) => sp.category.toLowerCase() === currentProduct.category.toLowerCase())
+            .filter((sp) => sp.category.toLowerCase() === currentProduct!.category.toLowerCase())
             .slice(0, 4);
         }
       } catch (err) {
@@ -147,7 +250,7 @@ const siteDescription = currentProduct.subtitle;
         
         <!-- Specs Grid -->
         <div class="border-y border-outline-variant py-6 space-y-4 transition-all duration-700 opacity-100 translate-y-0">
-          {currentProduct.quickSpecs.map((spec: any) => (
+          {currentProduct.quickSpecs.map((spec) => (
             <div class="flex justify-between items-center">
               <span class="font-data-label text-data-label uppercase text-on-surface-variant">{spec.label}</span>
               <span class="font-data-value text-data-label uppercase text-[var(--primary)] font-semibold">{spec.value}</span>
@@ -162,7 +265,7 @@ const siteDescription = currentProduct.subtitle;
             <button type="button" id="size-guide-btn" class="underline hover:text-secondary transition-colors cursor-pointer text-xs select-none">Size Guide</button>
           </div>
           <div class="grid grid-cols-4 gap-2" id="size-grid">
-            {currentProduct.sizes.map((size: any) => (
+            {currentProduct.sizes.map((size) => (
               <button 
                 type="button" 
                 class={`size-btn border py-3 font-data-label text-data-label hover:border-primary transition-all cursor-pointer select-none
@@ -200,7 +303,7 @@ const siteDescription = currentProduct.subtitle;
         <div class="space-y-12 relative z-10">
           <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg tracking-tighter uppercase text-white">ENGINEERED<br>FOR ANOMALY</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {currentProduct.features.map((feat: any) => (
+            {currentProduct.features.map((feat) => (
               <div class="space-y-4">
                 <span class="material-symbols-outlined text-secondary text-4xl">{feat.icon}</span>
                 <h3 class="font-headline-md text-headline-md text-white uppercase">{feat.title}</h3>
@@ -229,7 +332,7 @@ const siteDescription = currentProduct.subtitle;
         <p class="font-body-md text-on-surface-variant max-w-md">{currentProduct.materialsDescription}</p>
       </div>
       <div class="space-y-4">
-        {currentProduct.materials.map((mat: any) => (
+        {currentProduct.materials.map((mat) => (
           <div class="flex justify-between items-baseline border-b border-outline-variant/30 pb-4">
             <span class="font-data-label text-data-label uppercase text-[var(--on-surface-variant)]">{mat.label}</span>
             <span class="font-data-value text-data-label text-[var(--primary)] font-semibold">{mat.value}</span>

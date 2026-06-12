@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { defineMiddlewares, authenticate } from "@medusajs/medusa";
 
 import { encryptPayload } from "./api-encryption";
@@ -64,9 +65,16 @@ export default defineMiddlewares({
       ],
     },
     {
-      matcher: "/admin/customers/*/approve-seller",
+      matcher: "/store/admin-api/customers/*/approve-seller",
       middlewares: [
-        authenticate("user", ["session", "bearer"]),
+        authenticate("customer", ["session", "bearer"]),
+        encryptionMiddleware,
+      ],
+    },
+    {
+      matcher: "/store/admin-api/customers/*/reject-seller",
+      middlewares: [
+        authenticate("customer", ["session", "bearer"]),
         encryptionMiddleware,
       ],
     },

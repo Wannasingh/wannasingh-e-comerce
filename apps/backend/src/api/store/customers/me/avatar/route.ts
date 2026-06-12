@@ -35,10 +35,10 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
   else if (mimeType.includes("webp")) ext = "webp";
   else if (mimeType.includes("gif")) ext = "gif";
 
-  const filename = `avatar-${customerId}-${Date.now()}.${ext}`;
+  const filename = `avatar-${customerId}-${String(Date.now())}.${ext}`;
 
   // Supabase storage bucket parameters
-  const supabaseUrlBase = process.env.SUPABASE_URL || "https://jbzdwpcbfcasmzkkwgpx.supabase.co";
+  const supabaseUrlBase = process.env.SUPABASE_URL ?? "https://jbzdwpcbfcasmzkkwgpx.supabase.co";
   const supabaseUrl = `${supabaseUrlBase}/storage/v1/object/profiles/${filename}`;
   const anonKey = process.env.SUPABASE_ANON_KEY;
   if (!anonKey) {
@@ -80,8 +80,9 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     });
 
     res.status(200).json({ customer: updatedCustomer });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Avatar upload handler error:", err);
-    res.status(500).json({ message: err.message || "An error occurred during avatar upload" });
+    const message = err instanceof Error ? err.message : "An error occurred during avatar upload";
+    res.status(500).json({ message });
   }
 }
