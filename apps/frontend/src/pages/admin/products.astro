@@ -8,9 +8,11 @@ export const prerender = false;
 const PUBLIC_MEDUSA_BACKEND_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
 const PUBLIC_MEDUSA_PUBLISHABLE_KEY = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 
-let rawProducts = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let rawProducts: any[] = [];
 try {
-  rawProducts = await getCachedProducts();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rawProducts = await getCachedProducts() as any[];
 } catch (e) {
   console.error("Failed to load products in admin page", e);
 }

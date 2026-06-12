@@ -4,12 +4,18 @@
 import Layout from "../layouts/Layout.astro";
 import { getCachedProducts } from "../lib/cache";
 
+interface CollectionsProduct {
+  metadata?: {
+    category?: string;
+  };
+}
+
 // Fetch total product count from API
 let totalProducts = 0;
 let categoryMap: Record<string, number> = {};
 
 try {
-  const products = await getCachedProducts();
+  const products = (await getCachedProducts()) as CollectionsProduct[];
   if (products.length > 0) {
     totalProducts = products.length;
     // Count by category from metadata

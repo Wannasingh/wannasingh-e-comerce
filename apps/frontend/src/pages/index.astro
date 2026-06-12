@@ -62,7 +62,19 @@ interface IndexProduct {
   };
 }
 
-let featuredProducts: unknown[] = [];
+interface FeaturedProduct {
+  id: string;
+  sku: string;
+  name: string;
+  price: string;
+  badge: string | null;
+  tags: string[];
+  image: string;
+  imageAlt: string;
+  href: string;
+}
+
+let featuredProducts: FeaturedProduct[] = [];
 
 try {
   const res = await fetch(
@@ -87,7 +99,7 @@ try {
           const skuLabels = ["MOD-01 // SHELL", "LYR-04 // INSULATION", "ACC-12 // UTILITY"];
           return {
             id: p.handle,
-            sku: skuLabels[i % 3],
+            sku: skuLabels[i % 3] ?? "",
             name: p.title,
             price,
             badge: i === 0 ? "NEW RELEASE" : null,
