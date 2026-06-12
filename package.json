@@ -19,7 +19,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,mts,mjs,js,cjs,astro,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,mts,mjs,js,cjs,astro,json,css,md}\"",
     "type-check": "pnpm --filter './apps/*' type-check",
-    "clean": "pnpm --filter './apps/*' exec rm -rf dist .next .astro node_modules/.cache"
+    "clean": "pnpm --filter './apps/*' exec rm -rf dist .next .astro node_modules/.cache",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
@@ -28,10 +29,11 @@
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-astro": "^1.0.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-import": "^2.31.0",
+    "husky": "^9.1.7",
     "prettier": "^3.4.0",
     "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.7.0",
