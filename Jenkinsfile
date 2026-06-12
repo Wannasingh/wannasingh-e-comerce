@@ -275,6 +275,13 @@ pipeline {
 
     // ── Stage 5: Deploy to Staging / UAT Environment ───────────────────────
     stage("Deploy to Staging") {
+      when {
+        anyOf {
+          branch "main"
+          branch "master"
+          branch pattern: "release/.*", comparator: "REGEXP"
+        }
+      }
       steps {
         echo "🏗️ Running Infrastructure checks (Terraform lint / validate / plan)..."
         // ตัวอย่างการทำ Infrastructure as Code (IaC) ด้วย Terraform:
@@ -290,6 +297,13 @@ pipeline {
 
     // ── Stage 6: Dynamic Testing (Post-Deployment) ──────────────────────────
     stage("Dynamic Testing") {
+      when {
+        anyOf {
+          branch "main"
+          branch "master"
+          branch pattern: "release/.*", comparator: "REGEXP"
+        }
+      }
       parallel {
         stage("E2E Integration (Cypress)") {
           steps {
