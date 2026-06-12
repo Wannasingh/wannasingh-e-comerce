@@ -604,7 +604,8 @@ const defaultTab = tabParam === "register" ? "register" : "login";
         });
 
         const encryptedData = await res.json().catch(() => ({}));
-        const data = await decryptPayload(encryptedData);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data: any = await decryptPayload(encryptedData);
 
         if (!res.ok) {
           throw new Error(data.message || 'Invalid credentials. Please try again.');
@@ -682,7 +683,8 @@ const defaultTab = tabParam === "register" ? "register" : "login";
         });
 
         const encryptedReg = await regRes.json().catch(() => ({}));
-        const regData = await decryptPayload(encryptedReg);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const regData: any = await decryptPayload(encryptedReg);
 
         if (!regRes.ok) {
           throw new Error(regData.message || 'Registration failed. Please try again.');
@@ -707,7 +709,8 @@ const defaultTab = tabParam === "register" ? "register" : "login";
         });
 
         const encryptedCust = await custRes.json().catch(() => ({}));
-        const custData = await decryptPayload(encryptedCust);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const custData: any = await decryptPayload(encryptedCust);
 
         if (!custRes.ok) {
           throw new Error(custData.message || 'Customer profile linking failed. Please try again.');

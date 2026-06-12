@@ -640,7 +640,8 @@ import Layout from "../layouts/Layout.astro";
       return localStorage.getItem('wanna_auth_token');
     }
 
-    async function apiRequest(path: string, options: RequestInit = {}) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async function apiRequest(path: string, options: RequestInit = {}): Promise<any> {
       const token = getToken();
       const headers: Record<string,string> = {
         'Content-Type': 'application/json',
@@ -650,7 +651,8 @@ import Layout from "../layouts/Layout.astro";
       const res = await fetch(`${API}${path}`, { ...options, headers: { ...headers, ...(options.headers as Record<string,string> || {}) }, credentials: 'include' });
       
       const encryptedData = await res.json().catch(() => ({}));
-      const body = await decryptPayload(encryptedData);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const body: any = await decryptPayload(encryptedData);
 
       if (!res.ok) {
         throw new Error(body.message || `Request failed: ${res.status}`);

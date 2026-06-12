@@ -22,6 +22,7 @@ WORKDIR /repo
 
 # Copy workspace manifests first (layer cache for dependency installs)
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
+COPY scripts ./scripts
 COPY apps/frontend/package.json ./apps/frontend/
 
 # Install only production + dev deps needed for build (frozen for reproducibility)
@@ -45,6 +46,7 @@ COPY --from=deps /repo/apps/frontend/node_modules ./apps/frontend/node_modules
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc* ./
 COPY tsconfig.base.json ./
 COPY apps/frontend ./apps/frontend
+COPY scripts ./scripts
 
 # Build args for public env vars (safe to bake into static assets)
 ARG PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000

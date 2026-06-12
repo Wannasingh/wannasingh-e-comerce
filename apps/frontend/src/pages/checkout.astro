@@ -167,7 +167,8 @@ const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
     </div>
   </div>
 
-  <script define:vars={{ stripePublishableKey }}>
+  <script is:inline define:vars={{ stripePublishableKey }}>
+    // @ts-nocheck
     // ── Types & Helpers ───────────────────────────────────────────────────
     function getCart() {
       try { return JSON.parse(localStorage.getItem("wanna_cart") || "[]"); }
