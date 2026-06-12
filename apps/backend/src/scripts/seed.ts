@@ -162,7 +162,7 @@ interface ProductInput {
   handle: string;
   subtitle: string;
   description: string;
-  status: string;
+  status: "draft" | "proposed" | "published" | "rejected";
   options: { title: string; values: string[] }[];
   variants: {
     title: string;
