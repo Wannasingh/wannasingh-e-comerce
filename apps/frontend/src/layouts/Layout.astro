@@ -60,40 +60,75 @@ const currentPath = Astro.url.pathname;
     </a>
 
     <!-- ── Navigation ─────────────────────────────────────────────────────── -->
-    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30">
-      <div class="flex justify-between items-center px-margin-desktop h-20 w-full max-w-container-max mx-auto">
+    <nav
+      class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30"
+    >
+      <div
+        class="flex justify-between items-center px-margin-desktop h-20 w-full max-w-container-max mx-auto"
+      >
         <!-- Logo -->
-        <a class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary no-underline" href="/">WANNASINGH</a>
-        
+        <a
+          class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary no-underline"
+          href="/">WANNASINGH</a
+        >
+
         <!-- Desktop nav links -->
         <div class="hidden md:flex items-center gap-10">
-          <a class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
-            ${currentPath === "/shop" || currentPath.startsWith("/shop/")
-              ? "text-secondary font-bold border-b border-secondary"
-              : "text-on-surface-variant hover:text-secondary"
-            }`} href="/shop">SHOP</a>
-          <a class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
-            ${currentPath === "/collections"
-              ? "text-secondary font-bold border-b border-secondary"
-              : "text-on-surface-variant hover:text-secondary"
-            }`} href="/collections">COLLECTIONS</a>
-          <a class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
-            ${currentPath === "/specs"
-              ? "text-secondary font-bold border-b border-secondary"
-              : "text-on-surface-variant hover:text-secondary"
-            }`} href="/specs">SPECS ARCHIVE</a>
+          <a
+            class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
+            ${
+              currentPath === "/shop" || currentPath.startsWith("/shop/")
+                ? "text-secondary font-bold border-b border-secondary"
+                : "text-on-surface-variant hover:text-secondary"
+            }`}
+            href="/shop">SHOP</a
+          >
+          <a
+            class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
+            ${
+              currentPath === "/collections"
+                ? "text-secondary font-bold border-b border-secondary"
+                : "text-on-surface-variant hover:text-secondary"
+            }`}
+            href="/collections">COLLECTIONS</a
+          >
+          <a
+            class={`font-body-md text-body-md tracking-widest no-underline transition-colors duration-300
+            ${
+              currentPath === "/specs"
+                ? "text-secondary font-bold border-b border-secondary"
+                : "text-on-surface-variant hover:text-secondary"
+            }`}
+            href="/specs">SPECS ARCHIVE</a
+          >
         </div>
 
         <!-- Right side actions -->
         <div class="flex items-center gap-6">
-          <a href="/cart" class="relative material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="shopping_bag">
+          <a
+            href="/cart"
+            class="relative material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline"
+            data-icon="shopping_bag"
+          >
             shopping_bag
-            <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-[var(--secondary)] text-[var(--on-secondary)] font-bold text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center hidden" style="border: 1px solid var(--surface);">
+            <span
+              id="cart-count"
+              class="absolute -top-1.5 -right-1.5 bg-[var(--secondary)] text-[var(--on-secondary)] font-bold text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center hidden"
+              style="border: 1px solid var(--surface);"
+            >
               0
             </span>
           </a>
-          <a href="/account" class="material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline" data-icon="person">person</a>
-          <button class="md:!hidden material-symbols-outlined text-primary cursor-pointer" id="mobile-menu-toggle" data-icon="menu">menu</button>
+          <a
+            href="/account"
+            class="material-symbols-outlined text-primary hover:text-secondary transition-all active:opacity-70 no-underline"
+            data-icon="person">person</a
+          >
+          <button
+            class="md:!hidden material-symbols-outlined text-primary cursor-pointer"
+            id="mobile-menu-toggle"
+            data-icon="menu">menu</button
+          >
         </div>
       </div>
 
@@ -105,9 +140,18 @@ const currentPath = Astro.url.pathname;
         aria-label="Mobile navigation"
       >
         <div class="flex flex-col gap-4 px-margin-desktop py-6">
-          <a class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline" href="/shop">SHOP</a>
-          <a class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline" href="/collections">COLLECTIONS</a>
-          <a class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline" href="/specs">SPECS ARCHIVE</a>
+          <a
+            class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline"
+            href="/shop">SHOP</a
+          >
+          <a
+            class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline"
+            href="/collections">COLLECTIONS</a
+          >
+          <a
+            class="font-body-md text-body-md tracking-widest text-on-surface-variant hover:text-secondary no-underline"
+            href="/specs">SPECS ARCHIVE</a
+          >
         </div>
       </div>
     </nav>
@@ -119,34 +163,67 @@ const currentPath = Astro.url.pathname;
 
     <!-- ── Footer ─────────────────────────────────────────────────────────── -->
     <footer class="bg-surface-container-lowest border-t border-outline-variant w-full py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max mx-auto"
+      >
         <div class="space-y-8">
           <div class="font-headline-md text-headline-md font-bold text-primary">WANNASINGH</div>
-          <p class="font-data-label text-data-label text-on-surface-variant">WANNASINGH PERFORMANCE SYSTEMS FOR THE NEO-CITIZEN.</p>
+          <p class="font-data-label text-data-label text-on-surface-variant">
+            WANNASINGH PERFORMANCE SYSTEMS FOR THE NEO-CITIZEN.
+          </p>
         </div>
         <div class="flex flex-col gap-4">
           <h4 class="font-data-label text-data-label font-bold text-primary uppercase">Explore</h4>
-          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/environment">Environmental Impact</a>
-          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/specs">Technical Specs</a>
+          <a
+            class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline"
+            href="/environment">Environmental Impact</a
+          >
+          <a
+            class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline"
+            href="/specs">Technical Specs</a
+          >
         </div>
         <div class="flex flex-col gap-4">
           <h4 class="font-data-label text-data-label font-bold text-primary uppercase">Support</h4>
-          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/repair">Repair Program</a>
-          <a class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline" href="/terms">Terms</a>
+          <a
+            class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline"
+            href="/repair">Repair Program</a
+          >
+          <a
+            class="font-data-label text-data-label uppercase text-on-surface-variant hover:text-secondary transition-colors active:translate-x-1 transition-transform no-underline"
+            href="/terms">Terms</a
+          >
         </div>
         <div class="flex flex-col gap-4">
-          <h4 class="font-data-label text-data-label font-bold text-primary uppercase">Newsletter</h4>
+          <h4 class="font-data-label text-data-label font-bold text-primary uppercase">
+            Newsletter
+          </h4>
           <div class="relative">
-            <input class="w-full bg-transparent border-b border-primary py-2 font-data-label text-data-label focus:outline-none focus:border-secondary placeholder:text-outline-variant" placeholder="ENLIST EMAIL" type="email">
-            <button class="absolute right-0 bottom-2 material-symbols-outlined cursor-pointer" data-icon="north_east">north_east</button>
+            <input
+              class="w-full bg-transparent border-b border-primary py-2 font-data-label text-data-label focus:outline-none focus:border-secondary placeholder:text-outline-variant"
+              placeholder="ENLIST EMAIL"
+              type="email"
+            />
+            <button
+              class="absolute right-0 bottom-2 material-symbols-outlined cursor-pointer"
+              data-icon="north_east">north_east</button
+            >
           </div>
         </div>
       </div>
-      <div class="mt-20 px-margin-desktop max-w-container-max mx-auto flex justify-between items-center border-t border-outline-variant/30 pt-8">
-        <span class="font-data-label text-[10px] text-on-surface-variant">© 2024 WANNASINGH PERFORMANCE SYSTEMS. ALL RIGHTS RESERVED.</span>
+      <div
+        class="mt-20 px-margin-desktop max-w-container-max mx-auto flex justify-between items-center border-t border-outline-variant/30 pt-8"
+      >
+        <span class="font-data-label text-[10px] text-on-surface-variant"
+          >© 2024 WANNASINGH PERFORMANCE SYSTEMS. ALL RIGHTS RESERVED.</span
+        >
         <div class="flex gap-6">
-          <span class="font-data-label text-[10px] text-on-surface-variant">© 2024 WANNASINGH PERFORMANCE SYSTEMS. ALL RIGHTS RESERVED.</span>
-          <span class="font-data-label text-[10px] text-on-surface-variant uppercase">DESIGNED IN TOKYO</span>
+          <span class="font-data-label text-[10px] text-on-surface-variant"
+            >© 2024 WANNASINGH PERFORMANCE SYSTEMS. ALL RIGHTS RESERVED.</span
+          >
+          <span class="font-data-label text-[10px] text-on-surface-variant uppercase"
+            >DESIGNED IN TOKYO</span
+          >
         </div>
       </div>
     </footer>
@@ -154,15 +231,20 @@ const currentPath = Astro.url.pathname;
     <!-- ── Scripts ─────────────────────────────────────────────────────────── -->
     <script>
       // ── Custom AETHER Modal Dialog ──────────────────────────────────────────
-      function createAetherDialog(type: 'alert' | 'confirm', title: string, message: string): Promise<boolean> {
+      function createAetherDialog(
+        type: "alert" | "confirm",
+        title: string,
+        message: string,
+      ): Promise<boolean> {
         return new Promise((resolve) => {
-          let dialog = document.getElementById('aether-dialog') as HTMLDialogElement;
+          let dialog = document.getElementById("aether-dialog") as HTMLDialogElement;
           if (dialog) dialog.remove();
 
-          dialog = document.createElement('dialog') as HTMLDialogElement;
-          dialog.id = 'aether-dialog';
-          dialog.className = 'fixed inset-0 z-[100] m-auto bg-surface-container-low border border-outline-variant p-0 text-on-surface max-w-md w-[calc(100%-2rem)] md:w-full shadow-2xl backdrop:backdrop-blur-sm backdrop:bg-black/70 animate-fade-in';
-          
+          dialog = document.createElement("dialog") as HTMLDialogElement;
+          dialog.id = "aether-dialog";
+          dialog.className =
+            "fixed inset-0 z-[100] m-auto bg-surface-container-low border border-outline-variant p-0 text-on-surface max-w-md w-[calc(100%-2rem)] md:w-full shadow-2xl backdrop:backdrop-blur-sm backdrop:bg-black/70 animate-fade-in";
+
           dialog.innerHTML = `
             <div class="p-6 font-sans">
               <div class="flex justify-between items-center border-b border-outline-variant/30 pb-3 mb-4">
@@ -171,11 +253,15 @@ const currentPath = Astro.url.pathname;
               </div>
               <p class="font-body-md text-xs leading-relaxed text-on-surface-variant mb-6 whitespace-pre-wrap">${message}</p>
               <div class="flex justify-end gap-3 font-data-label text-xs">
-                ${type === 'confirm' ? `
+                ${
+                  type === "confirm"
+                    ? `
                   <button id="aether-dialog-cancel" class="px-4 py-2 border border-outline-variant text-on-surface-variant hover:text-primary hover:border-primary transition-colors cursor-pointer uppercase">
                     Cancel
                   </button>
-                ` : ''}
+                `
+                    : ""
+                }
                 <button id="aether-dialog-confirm" class="px-5 py-2 bg-primary text-on-primary hover:bg-secondary transition-colors cursor-pointer uppercase">
                   Confirm
                 </button>
@@ -186,30 +272,32 @@ const currentPath = Astro.url.pathname;
           document.body.appendChild(dialog);
           dialog.showModal();
 
-          const confirmBtn = dialog.querySelector('#aether-dialog-confirm');
-          const cancelBtn = dialog.querySelector('#aether-dialog-cancel');
+          const confirmBtn = dialog.querySelector("#aether-dialog-confirm");
+          const cancelBtn = dialog.querySelector("#aether-dialog-cancel");
 
-          confirmBtn?.addEventListener('click', () => {
+          confirmBtn?.addEventListener("click", () => {
             dialog.close();
             dialog.remove();
             resolve(true);
           });
 
-          cancelBtn?.addEventListener('click', () => {
+          cancelBtn?.addEventListener("click", () => {
             dialog.close();
             dialog.remove();
             resolve(false);
           });
 
-          dialog.addEventListener('cancel', () => {
+          dialog.addEventListener("cancel", () => {
             dialog.remove();
             resolve(false);
           });
         });
       }
 
-      (window as any).showAetherAlert = (title: string, message: string) => createAetherDialog('alert', title, message).then(() => {});
-      (window as any).showAetherConfirm = (title: string, message: string) => createAetherDialog('confirm', title, message);
+      (window as any).showAetherAlert = (title: string, message: string) =>
+        createAetherDialog("alert", title, message).then(() => {});
+      (window as any).showAetherConfirm = (title: string, message: string) =>
+        createAetherDialog("confirm", title, message);
 
       // Mobile menu toggle
       const toggle = document.getElementById("mobile-menu-toggle");
@@ -231,7 +319,7 @@ const currentPath = Astro.url.pathname;
             }
           });
         },
-        { threshold: 0.12 }
+        { threshold: 0.12 },
       );
       document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
@@ -240,7 +328,9 @@ const currentPath = Astro.url.pathname;
         const badge = document.getElementById("cart-count");
         if (!badge) return;
         try {
-          const cart: Array<{qty: number}> = JSON.parse(localStorage.getItem("wanna_cart") || "[]");
+          const cart: Array<{ qty: number }> = JSON.parse(
+            localStorage.getItem("wanna_cart") || "[]",
+          );
           const total = cart.reduce((s, i) => s + i.qty, 0);
           badge.textContent = String(total);
           badge.classList.toggle("hidden", total === 0);

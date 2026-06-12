@@ -51,7 +51,7 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     const uploadRes = await fetch(supabaseUrl, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${anonKey}`,
+        Authorization: `Bearer ${anonKey}`,
         "Content-Type": mimeType,
         "x-upsert": "true",
       },
@@ -71,7 +71,7 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     // Update customer metadata
     const customerService = req.scope.resolve("customer");
     const customer = await customerService.retrieveCustomer(customerId);
-    
+
     const updatedCustomer = await customerService.updateCustomers(customerId, {
       metadata: {
         ...customer.metadata,

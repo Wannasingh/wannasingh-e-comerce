@@ -22,7 +22,8 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     res.status(200).json({ customer: updatedCustomer });
   } catch (err: unknown) {
     console.error("Error in request-seller API route:", err);
-    const message = err instanceof Error ? err.message : "An error occurred while submitting seller request";
+    const message =
+      err instanceof Error ? err.message : "An error occurred while submitting seller request";
     res.status(500).json({ message });
   }
 }

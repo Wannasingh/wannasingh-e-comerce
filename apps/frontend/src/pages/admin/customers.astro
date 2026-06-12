@@ -4,17 +4,32 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
 
 export const prerender = false;
 
+interface DBCustomer {
+  id: string;
+  first_name?: string;
+  last_name?: string;
+  email: string;
+  created_at?: string;
+  metadata?: {
+    seller_approved?: string;
+    seller_requested?: string;
+  };
+}
+
 const SUPABASE_URL = import.meta.env.SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = import.meta.env.SUPABASE_ANON_KEY || "";
 
-let dbCustomers = [];
+let dbCustomers: DBCustomer[] = [];
 try {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/customer?select=id,first_name,last_name,email,created_at,metadata&order=created_at.desc`, {
-    headers: {
-      "apikey": SUPABASE_ANON_KEY,
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-    }
-  });
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/customer?select=id,first_name,last_name,email,created_at,metadata&order=created_at.desc`,
+    {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+    },
+  );
   if (res.ok) {
     dbCustomers = await res.json();
   }
@@ -23,234 +38,328 @@ try {
 }
 
 // Fallback to mock data if DB query fails or returns empty
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const displayCustomers = dbCustomers.length > 0 ? dbCustomers.map((c: any) => ({
-  id: c.id,
-  name: [c.first_name, c.last_name].filter(Boolean).join(" ") || "Unnamed Operative",
-  email: c.email,
-  joined: c.created_at ? c.created_at.split("T")[0] : "—",
-  totalOrders: 0,
-  tier: c.metadata?.seller_approved === "true" ? "SELLER" : (c.email === "wannasingh.khan@gmail.com" ? "SUPER ADMIN" : "Level 01 Collector"),
-  metadata: c.metadata
-})) : [
-  { id: "WS-CUS-892", name: "Wannasingh Khansophon", email: "wannasingh.khan@gmail.com", joined: "2026-06-10", totalOrders: 12, tier: "SUPER ADMIN", metadata: {} },
-  { id: "WS-CUS-102", name: "Sarah Connor", email: "s.connor@cyberdyne.net", joined: "2024-03-12", totalOrders: 3, tier: "Level 01 Collector", metadata: {} },
-  { id: "WS-CUS-304", name: "Miles Dyson", email: "mdyson@cyberdyne.net", joined: "2025-01-15", totalOrders: 1, tier: "Level 01 Collector", metadata: {} }
-];
+const displayCustomers =
+  dbCustomers.length > 0
+    ? dbCustomers.map((c) => ({
+        id: c.id,
+        name: [c.first_name, c.last_name].filter(Boolean).join(" ") || "Unnamed Operative",
+        email: c.email,
+        joined: c.created_at ? c.created_at.split("T")[0] : "—",
+        totalOrders: 0,
+        tier:
+          c.metadata?.seller_approved === "true"
+            ? "SELLER"
+            : c.email === "wannasingh.khan@gmail.com"
+              ? "SUPER ADMIN"
+              : "Level 01 Collector",
+        metadata: c.metadata,
+      }))
+    : [
+        {
+          id: "WS-CUS-892",
+          name: "Wannasingh Khansophon",
+          email: "wannasingh.khan@gmail.com",
+          joined: "2026-06-10",
+          totalOrders: 12,
+          tier: "SUPER ADMIN",
+          metadata: {},
+        },
+        {
+          id: "WS-CUS-102",
+          name: "Sarah Connor",
+          email: "s.connor@cyberdyne.net",
+          joined: "2024-03-12",
+          totalOrders: 3,
+          tier: "Level 01 Collector",
+          metadata: {},
+        },
+        {
+          id: "WS-CUS-304",
+          name: "Miles Dyson",
+          email: "mdyson@cyberdyne.net",
+          joined: "2025-01-15",
+          totalOrders: 1,
+          tier: "Level 01 Collector",
+          metadata: {},
+        },
+      ];
 
 // Scan for pending seller requests from the database
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const pendingRequest = displayCustomers.find((c: any) => c.metadata?.seller_requested === "true" && c.metadata?.seller_approved !== "true");
+const pendingRequest = displayCustomers.find(
+  (c) => c.metadata?.seller_requested === "true" && c.metadata?.seller_approved !== "true",
+);
 const hasPendingRequest = !!pendingRequest;
 ---
+
 <AdminLayout title="WANNASINGH COMMAND CORE - CUSTOMER REGISTRY" activeTab="customers">
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-        <div>
-            <div class="flex items-center gap-2 mb-1">
-                <div class="w-2 h-2 bg-primary status-pulse"></div>
-                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">Identity Registries</span>
-            </div>
-            <h2 class="font-display text-4xl font-bold">OPERATIVE_REGISTRY</h2>
-        </div>
-        <div class="grid grid-cols-2 md:flex gap-4">
-            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
-                <p class="font-mono-label text-[11px] text-on-surface-variant">TOTAL_USERS</p>
-                <p class="font-mono-data text-2xl text-on-surface">{displayCustomers.length}</p>
-            </div>
-        </div>
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <div class="w-2 h-2 bg-primary status-pulse"></div>
+        <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase"
+          >Identity Registries</span
+        >
+      </div>
+      <h2 class="font-display text-4xl font-bold">OPERATIVE_REGISTRY</h2>
     </div>
-
-    <!-- PENDING SELLER REQUESTS PANEL -->
-    <div id="pending-requests-section" class:list={["border border-primary/30 bg-primary/5 p-6 mb-8 space-y-4", !hasPendingRequest && "hidden"]}>
-        <div class="flex items-center gap-2 text-primary">
-            <span class="material-symbols-outlined" style="font-size: 20px;">account_box</span>
-            <h3 class="font-mono-label text-xs uppercase tracking-widest font-bold">Pending Seller Requests (คำขอเป็นผู้ขายที่รอดำเนินการ)</h3>
-        </div>
-        <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-surface-container-low border-b border-outline-variant">
-                    <tr>
-                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">REQUEST_ID</th>
-                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">USER_EMAIL</th>
-                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">REQUEST_DATE</th>
-                        <th class="p-4 font-mono-label text-[10px] text-on-surface-variant text-right">ACTIONS</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-outline-variant/30">
-                    {pendingRequest && (
-                        <tr>
-                            <td class="p-4 font-mono-data text-xs text-on-surface-variant">REQ-SEL-01</td>
-                            <td id="pending-user-email" class="p-4 font-mono-data text-xs text-primary font-bold" data-id={pendingRequest.id}>{pendingRequest.email}</td>
-                            <td class="p-4 font-mono-data text-xs text-on-surface-variant">Database Sync (Pending Approval)</td>
-                            <td class="p-4 text-right flex justify-end gap-3">
-                                <button id="approve-seller-btn" class="bg-primary text-on-primary font-mono-label text-[10px] font-bold px-4 py-2 hover:bg-white hover:text-black transition-colors cursor-pointer">
-                                    APPROVE_SELLER
-                                </button>
-                                <button id="reject-seller-btn" class="border border-error text-error font-mono-label text-[10px] px-4 py-2 hover:bg-error/10 transition-colors cursor-pointer">
-                                    REJECT
-                                </button>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>
+    <div class="grid grid-cols-2 md:flex gap-4">
+      <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+        <p class="font-mono-label text-[11px] text-on-surface-variant">TOTAL_USERS</p>
+        <p class="font-mono-data text-2xl text-on-surface">{displayCustomers.length}</p>
+      </div>
     </div>
+  </div>
 
-    <!-- Technical Table Grid -->
+  <!-- PENDING SELLER REQUESTS PANEL -->
+  <div
+    id="pending-requests-section"
+    class:list={[
+      "border border-primary/30 bg-primary/5 p-6 mb-8 space-y-4",
+      !hasPendingRequest && "hidden",
+    ]}
+  >
+    <div class="flex items-center gap-2 text-primary">
+      <span class="material-symbols-outlined" style="font-size: 20px;">account_box</span>
+      <h3 class="font-mono-label text-xs uppercase tracking-widest font-bold">
+        Pending Seller Requests (คำขอเป็นผู้ขายที่รอดำเนินการ)
+      </h3>
+    </div>
     <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-surface-container-low border-b border-outline-variant">
-                    <tr>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">OPERATIVE_ID</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">NAME</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">EMAIL</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">JOIN_DATE</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">ORDERS</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">TIER</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-outline-variant/30" id="customers-table-body">
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {displayCustomers.map((cus: any) => (
-                        <tr class="hover:bg-surface-bright/20 transition-colors cursor-pointer" onclick="window.showAetherAlert('Audit Trace', 'User audit trace details: pending backend logs connection.')">
-                            <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.id}</td>
-                            <td class="p-4 font-body-sm text-body-sm font-bold text-on-surface">{cus.name}</td>
-                            <td class="p-4 font-mono-data text-mono-data text-primary">{cus.email}</td>
-                            <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.joined}</td>
-                            <td class="p-4 font-mono-data text-mono-data text-on-surface">{cus.totalOrders}</td>
-                            <td class="p-4">
-                                <span class={`px-2 py-0.5 border text-[9px] font-mono-label ${cus.tier === 'SUPER ADMIN' ? 'border-primary text-primary' : (cus.tier === 'SELLER' ? 'border-primary bg-primary/10 text-primary' : 'border-outline-variant text-on-surface-variant')}`}>
-                                    {cus.tier}
-                                </span>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-surface-container-low border-b border-outline-variant">
+          <tr>
+            <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">REQUEST_ID</th>
+            <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">USER_EMAIL</th>
+            <th class="p-4 font-mono-label text-[10px] text-on-surface-variant">REQUEST_DATE</th>
+            <th class="p-4 font-mono-label text-[10px] text-on-surface-variant text-right"
+              >ACTIONS</th
+            >
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/30">
+          {
+            pendingRequest && (
+              <tr>
+                <td class="p-4 font-mono-data text-xs text-on-surface-variant">REQ-SEL-01</td>
+                <td
+                  id="pending-user-email"
+                  class="p-4 font-mono-data text-xs text-primary font-bold"
+                  data-id={pendingRequest.id}
+                >
+                  {pendingRequest.email}
+                </td>
+                <td class="p-4 font-mono-data text-xs text-on-surface-variant">
+                  Database Sync (Pending Approval)
+                </td>
+                <td class="p-4 text-right flex justify-end gap-3">
+                  <button
+                    id="approve-seller-btn"
+                    class="bg-primary text-on-primary font-mono-label text-[10px] font-bold px-4 py-2 hover:bg-white hover:text-black transition-colors cursor-pointer"
+                  >
+                    APPROVE_SELLER
+                  </button>
+                  <button
+                    id="reject-seller-btn"
+                    class="border border-error text-error font-mono-label text-[10px] px-4 py-2 hover:bg-error/10 transition-colors cursor-pointer"
+                  >
+                    REJECT
+                  </button>
+                </td>
+              </tr>
+            )
+          }
+        </tbody>
+      </table>
     </div>
-    <div id="admin-config-metadata" class="hidden" data-backend-url={import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"} data-publishable-key={import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""}></div>
+  </div>
+
+  <!-- Technical Table Grid -->
+  <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
+    <div class="overflow-x-auto custom-scrollbar">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-surface-container-low border-b border-outline-variant">
+          <tr>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">OPERATIVE_ID</th
+            >
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">NAME</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">EMAIL</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">JOIN_DATE</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">ORDERS</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">TIER</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/30" id="customers-table-body">
+          {
+            displayCustomers.map((cus) => (
+              <tr
+                class="hover:bg-surface-bright/20 transition-colors cursor-pointer"
+                onclick="window.showAetherAlert('Audit Trace', 'User audit trace details: pending backend logs connection.')"
+              >
+                <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">{cus.id}</td>
+                <td class="p-4 font-body-sm text-body-sm font-bold text-on-surface">{cus.name}</td>
+                <td class="p-4 font-mono-data text-mono-data text-primary">{cus.email}</td>
+                <td class="p-4 font-mono-data text-mono-data text-on-surface-variant">
+                  {cus.joined}
+                </td>
+                <td class="p-4 font-mono-data text-mono-data text-on-surface">{cus.totalOrders}</td>
+                <td class="p-4">
+                  <span
+                    class={`px-2 py-0.5 border text-[9px] font-mono-label ${cus.tier === "SUPER ADMIN" ? "border-primary text-primary" : cus.tier === "SELLER" ? "border-primary bg-primary/10 text-primary" : "border-outline-variant text-on-surface-variant"}`}
+                  >
+                    {cus.tier}
+                  </span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div
+    id="admin-config-metadata"
+    class="hidden"
+    data-backend-url={import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"}
+    data-publishable-key={import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""}
+  >
+  </div>
 </AdminLayout>
 
 <script is:inline>
-    document.addEventListener('DOMContentLoaded', () => {
-        const pendingSection = document.getElementById('pending-requests-section');
-        const approveBtn = document.getElementById('approve-seller-btn');
-        const rejectBtn = document.getElementById('reject-seller-btn');
-        const tableBody = document.getElementById('customers-table-body');
+  document.addEventListener("DOMContentLoaded", () => {
+    const pendingSection = document.getElementById("pending-requests-section");
+    const approveBtn = document.getElementById("approve-seller-btn");
+    const rejectBtn = document.getElementById("reject-seller-btn");
+    const tableBody = document.getElementById("customers-table-body");
 
-        const configEl = document.getElementById('admin-config-metadata');
-        const API_URL = configEl?.getAttribute('data-backend-url') || 'http://localhost:9000';
-        const PK = configEl?.getAttribute('data-publishable-key') || '';
-        const token = localStorage.getItem('wanna_auth_token');
+    const configEl = document.getElementById("admin-config-metadata");
+    const API_URL = configEl?.getAttribute("data-backend-url") || "http://localhost:9000";
+    const PK = configEl?.getAttribute("data-publishable-key") || "";
+    const token = localStorage.getItem("wanna_auth_token");
 
-        // Approve Seller
-        approveBtn?.addEventListener('click', async () => {
-            const emailEl = document.getElementById('pending-user-email');
-            const emailVal = emailEl?.textContent || 'sarankhtn@gmail.com';
-            const customerId = emailEl?.getAttribute('data-id');
-            
-            if (!customerId) {
-                await window.showAetherAlert("Error", "Customer ID not found.");
-                return;
-            }
+    // Approve Seller
+    approveBtn?.addEventListener("click", async () => {
+      const emailEl = document.getElementById("pending-user-email");
+      const emailVal = emailEl?.textContent || "sarankhtn@gmail.com";
+      const customerId = emailEl?.getAttribute("data-id");
 
-            approveBtn.disabled = true;
-            approveBtn.textContent = "PROCESSING...";
+      if (!customerId) {
+        await window.showAetherAlert("Error", "Customer ID not found.");
+        return;
+      }
 
-            try {
-                // Call Medusa Admin API via backend endpoint!
-                const res = await fetch(`${API_URL}/store/admin-api/customers/${customerId}/approve-seller`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'x-publishable-api-key': PK,
-                        'Authorization': token ? `Bearer ${token}` : ''
-                    }
-                });
+      approveBtn.disabled = true;
+      approveBtn.textContent = "PROCESSING...";
 
-                if (!res.ok) {
-                    if (res.status === 401) {
-                        localStorage.removeItem('wanna_auth_token');
-                        localStorage.setItem('wanna_auth_role', 'customer');
-                        await window.showAetherAlert("Unauthorized", "เซสชันหมดอายุหรือรหัสเข้าสู่ระบบไม่ถูกต้อง ระบบจะนำคุณไปยังหน้าเข้าสู่ระบบ...");
-                        window.location.href = '/auth';
-                        return;
-                    }
-                    const errorData = await res.json().catch(() => ({}));
-                    throw new Error(errorData.message || "Backend failed to approve seller");
-                }
+      try {
+        // Call Medusa Admin API via backend endpoint!
+        const res = await fetch(
+          `${API_URL}/store/admin-api/customers/${customerId}/approve-seller`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-publishable-api-key": PK,
+              Authorization: token ? `Bearer ${token}` : "",
+            },
+          },
+        );
 
-                // Clear cookies to hide alerts
-                document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
-                document.cookie = "wanna_seller_approved=true; path=/; max-age=86400";
-                localStorage.setItem('wanna_seller_approved', 'true');
-                localStorage.setItem('wanna_seller_requested', 'false');
+        if (!res.ok) {
+          if (res.status === 401) {
+            localStorage.removeItem("wanna_auth_token");
+            localStorage.setItem("wanna_auth_role", "customer");
+            await window.showAetherAlert(
+              "Unauthorized",
+              "เซสชันหมดอายุหรือรหัสเข้าสู่ระบบไม่ถูกต้อง ระบบจะนำคุณไปยังหน้าเข้าสู่ระบบ...",
+            );
+            window.location.href = "/auth";
+            return;
+          }
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.message || "Backend failed to approve seller");
+        }
 
-                await window.showAetherAlert("Approval Success", `User ${emailVal} approved as SELLER in the database.`);
-                pendingSection?.classList.add('hidden');
-                
-                // Reload page to reflect database updates
-                window.location.reload();
-            } catch (err) {
-                console.error("Approve seller error:", err);
-                await window.showAetherAlert("Error", `Failed to approve seller: ${err.message}`);
-                approveBtn.disabled = false;
-                approveBtn.textContent = "APPROVE_SELLER";
-            }
-        });
+        // Clear cookies to hide alerts
+        document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
+        document.cookie = "wanna_seller_approved=true; path=/; max-age=86400";
+        localStorage.setItem("wanna_seller_approved", "true");
+        localStorage.setItem("wanna_seller_requested", "false");
 
-        // Reject Seller
-        rejectBtn?.addEventListener('click', async () => {
-            const emailEl = document.getElementById('pending-user-email');
-            const emailVal = emailEl?.textContent || 'sarankhtn@gmail.com';
-            const customerId = emailEl?.getAttribute('data-id');
-            
-            if (!customerId) {
-                await window.showAetherAlert("Error", "Customer ID not found.");
-                return;
-            }
+        await window.showAetherAlert(
+          "Approval Success",
+          `User ${emailVal} approved as SELLER in the database.`,
+        );
+        pendingSection?.classList.add("hidden");
 
-            rejectBtn.disabled = true;
-            rejectBtn.textContent = "REJECTING...";
-
-            try {
-                // Call Medusa Admin API via backend endpoint!
-                const res = await fetch(`${API_URL}/store/admin-api/customers/${customerId}/reject-seller`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'x-publishable-api-key': PK,
-                        'Authorization': token ? `Bearer ${token}` : ''
-                    }
-                });
-
-                if (!res.ok) {
-                    if (res.status === 401) {
-                        localStorage.removeItem('wanna_auth_token');
-                        localStorage.setItem('wanna_auth_role', 'customer');
-                        await window.showAetherAlert("Unauthorized", "เซสชันหมดอายุหรือรหัสเข้าสู่ระบบไม่ถูกต้อง ระบบจะนำคุณไปยังหน้าเข้าสู่ระบบ...");
-                        window.location.href = '/auth';
-                        return;
-                    }
-                    const errorData = await res.json().catch(() => ({}));
-                    throw new Error(errorData.message || "Backend failed to reject seller");
-                }
-
-                document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
-                localStorage.setItem('wanna_seller_requested', 'false');
-                await window.showAetherAlert("Request Rejected", `Request for ${emailVal} rejected. System cleared.`);
-                pendingSection?.classList.add('hidden');
-                window.location.reload();
-            } catch (err) {
-                console.error("Reject seller error:", err);
-                await window.showAetherAlert("Error", `Failed to reject seller: ${err.message}`);
-                rejectBtn.disabled = false;
-                rejectBtn.textContent = "REJECT";
-            }
-        });
+        // Reload page to reflect database updates
+        window.location.reload();
+      } catch (err) {
+        console.error("Approve seller error:", err);
+        await window.showAetherAlert("Error", `Failed to approve seller: ${err.message}`);
+        approveBtn.disabled = false;
+        approveBtn.textContent = "APPROVE_SELLER";
+      }
     });
+
+    // Reject Seller
+    rejectBtn?.addEventListener("click", async () => {
+      const emailEl = document.getElementById("pending-user-email");
+      const emailVal = emailEl?.textContent || "sarankhtn@gmail.com";
+      const customerId = emailEl?.getAttribute("data-id");
+
+      if (!customerId) {
+        await window.showAetherAlert("Error", "Customer ID not found.");
+        return;
+      }
+
+      rejectBtn.disabled = true;
+      rejectBtn.textContent = "REJECTING...";
+
+      try {
+        // Call Medusa Admin API via backend endpoint!
+        const res = await fetch(
+          `${API_URL}/store/admin-api/customers/${customerId}/reject-seller`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-publishable-api-key": PK,
+              Authorization: token ? `Bearer ${token}` : "",
+            },
+          },
+        );
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            localStorage.removeItem("wanna_auth_token");
+            localStorage.setItem("wanna_auth_role", "customer");
+            await window.showAetherAlert(
+              "Unauthorized",
+              "เซสชันหมดอายุหรือรหัสเข้าสู่ระบบไม่ถูกต้อง ระบบจะนำคุณไปยังหน้าเข้าสู่ระบบ...",
+            );
+            window.location.href = "/auth";
+            return;
+          }
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.message || "Backend failed to reject seller");
+        }
+
+        document.cookie = "wanna_seller_requested=false; path=/; max-age=86400";
+        localStorage.setItem("wanna_seller_requested", "false");
+        await window.showAetherAlert(
+          "Request Rejected",
+          `Request for ${emailVal} rejected. System cleared.`,
+        );
+        pendingSection?.classList.add("hidden");
+        window.location.reload();
+      } catch (err) {
+        console.error("Reject seller error:", err);
+        await window.showAetherAlert("Error", `Failed to reject seller: ${err.message}`);
+        rejectBtn.disabled = false;
+        rejectBtn.textContent = "REJECT";
+      }
+    });
+  });
 </script>

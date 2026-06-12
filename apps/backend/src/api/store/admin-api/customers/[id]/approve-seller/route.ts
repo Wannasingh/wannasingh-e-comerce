@@ -16,7 +16,7 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
 
   try {
     const customerService = req.scope.resolve("customer");
-    
+
     // Verify caller is admin
     const caller = await customerService.retrieveCustomer(callerId);
     if (!caller || caller.email !== "wannasingh.khan@gmail.com") {

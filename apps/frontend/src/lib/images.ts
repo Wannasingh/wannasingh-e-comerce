@@ -9,7 +9,7 @@ const stableGoogleImages = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDj080BlpX9quuEZyPbBXuZEqJDkjGgGUBCygUBm8ypVpA5Q1_nzyg_8l2797PWXxaDOtZCj_p629ugTX1E9AdKClIvOM0OPz4P3CpWNCBdGXF8hsh8x0OwCLbBcfbCXeiDb3H18laq7N1iduNdarS8TczvXcgQcQXsMSrjg0hGl935Pd_Nv8rjWCEJQMRYd9GC2KqsmojDBfUMMmqLn2QRQkMUmvYvMSLQaWKDj604VVK6WgZID6nRG_Bsllqd42kyWT-dux0wNxk3",
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAduJI42AxGAa90CHHC917vkMZm6rmcX8SxqcFulA-bnXj9reWIBbwdxWLlKI9LrKzAhbxkaIDkB2JcR0ahWI4WmNPBtOkrYPNO1S5Wp0uePYMkRPf9XrzXtQteKZ2CpZifA4_RaQ19ycGm_8t8Ha5ZJUM_UXtNhNOUs18uMxb8yaa9SLWx-5w77E-sfbaKyj3721IX9qMvBoUEtuu9w-rYLW9gxudF7jCDFGDzKsZbLM4BRaQmXMsNEdahBB07uYWatnrB4HVIbMX0",
   "https://lh3.googleusercontent.com/aida-public/AB6AXuB6o8eGNrsnN_Cw93q55oLygXOH8w1eidswoGyRCQBEl5GHo3ZEW7uKaSNy_2gsWNaR5ujpA2_jioVBpNjmEin6uQndXi0TinPTsbDXAz0kPYV-aVOLgv91JGCvZNzZiqwaaALW8mai_5-pgdeya82DJs4kfnlsSFSyTs3BGGCY-HlmLihMCyWtKu1k03iU51LV0hexj4nx6oz3SOCXS9uEj3BBEtwrs_yWse0RFen87QoS_uRObyMYqnAKnxy2ov8gbRPWygb8OwGL",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuD5j6wILASNWIJgj1ANFebyww1VgywHS8WLxTA4QIG3Psj4N-BPZkozhZRL9aIUfNNpeKB_4jkE43hFkyARpZWvODhEPGUgkq7xbC7WFd3FwKMp_MB3LHb8_oRUAI5Tjhdqeaot2F0uN_lrZwiQZGlEOAX0xjPAYenKCjf5MHO6aMa2hszyFRiYRJlqzNUpyHSiU7UbeNf_r8GdkMeXoioBgHfRd4F9xuof-Xmm9XfUY5Fd-_rTqLwKxInV667-SIJGoxKpGNdYkuBb"
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuD5j6wILASNWIJgj1ANFebyww1VgywHS8WLxTA4QIG3Psj4N-BPZkozhZRL9aIUfNNpeKB_4jkE43hFkyARpZWvODhEPGUgkq7xbC7WFd3FwKMp_MB3LHb8_oRUAI5Tjhdqeaot2F0uN_lrZwiQZGlEOAX0xjPAYenKCjf5MHO6aMa2hszyFRiYRJlqzNUpyHSiU7UbeNf_r8GdkMeXoioBgHfRd4F9xuof-Xmm9XfUY5Fd-_rTqLwKxInV667-SIJGoxKpGNdYkuBb",
 ];
 
 /**
@@ -18,22 +18,22 @@ const stableGoogleImages = [
  */
 export function getStableImageUrl(originalUrl: string): string {
   if (!originalUrl) return "";
-  
+
   if (originalUrl.includes("loremflickr.com")) {
     const match = /random=([A-Z]+)-(\d+)/.exec(originalUrl);
     if (match) {
       const prefix = match[1] ?? "";
       const index = Number.parseInt(match[2] ?? "0", 10);
-      
+
       let hash = 0;
       for (let i = 0; i < prefix.length; i++) {
         hash += prefix.codePointAt(i) ?? 0;
       }
-      
+
       const stableIndex = (index + hash) % stableGoogleImages.length;
       return stableGoogleImages[stableIndex] ?? "";
     }
   }
-  
+
   return originalUrl;
 }

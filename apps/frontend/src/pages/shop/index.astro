@@ -55,7 +55,6 @@ let products: ProductCard[] = [];
 try {
   const medusaProducts = (await getCachedProducts()) as MedusaProduct[];
   if (medusaProducts.length > 0) {
-
     products = medusaProducts
       .filter((p) => p.status === "published")
       .map((p) => {
@@ -131,6 +130,7 @@ const totalProducts = products.length;
 const totalPages = Math.ceil(totalProducts / initialLimit);
 const initialProducts = products.slice(0, initialLimit);
 ---
+
 <Layout title={siteTitle} description={siteDescription}>
   <main class="pt-12 pb-24 container-aether">
     <!-- ── Page Header ───────────────────────────────────────────────────── -->
@@ -146,12 +146,20 @@ const initialProducts = products.slice(0, initialLimit);
         class="flex flex-col md:flex-row md:justify-between md:items-end pb-6 gap-4"
         style="border-bottom: 1px solid rgba(196,199,199,0.35);"
       >
-        <p id="page-main-desc" class="font-body-lg text-[var(--on-surface-variant)] max-w-2xl" style="font-size: 16px;">
-          Engineered for extreme performance. Our outerwear collection fuses technical tactical utility with
-          minimalist aesthetic precision.
+        <p
+          id="page-main-desc"
+          class="font-body-lg text-[var(--on-surface-variant)] max-w-2xl"
+          style="font-size: 16px;"
+        >
+          Engineered for extreme performance. Our outerwear collection fuses technical tactical
+          utility with minimalist aesthetic precision.
         </p>
         <div class="flex items-center gap-5 shrink-0">
-          <span id="results-count" class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
+          <span
+            id="results-count"
+            class="font-data-label text-[var(--outline)]"
+            style="font-size: 11px;"
+          >
             RESULTS [0]
           </span>
           <button
@@ -167,11 +175,9 @@ const initialProducts = products.slice(0, initialLimit);
 
     <!-- ── Layout: Sidebar + Grid ────────────────────────────────────────── -->
     <div class="flex flex-col md:flex-row gap-12">
-
       <!-- Sidebar Filter -->
       <aside class="w-full md:w-60 shrink-0" aria-label="Product filters">
         <div class="sticky top-28 space-y-10">
-          
           <!-- Category Filter -->
           <section aria-labelledby="filter-categories">
             <h3
@@ -182,69 +188,73 @@ const initialProducts = products.slice(0, initialLimit);
               SYSTEM CATEGORIES
             </h3>
             <div class="space-y-3">
-              {[
-                { label: "ALL PRODUCTS", val: "" },
-                { label: "OUTERWEAR", val: "Outerwear" },
-                { label: "MID-LAYERS", val: "Mid-Layer" },
-                { label: "BOTTOMS", val: "Bottoms" },
-                { label: "BASE LAYERS", val: "Base Layer" },
-                { label: "ACCESSORIES", val: "Accessories" },
-                { label: "VESTS", val: "Vests" },
-                { label: "FOOTWEAR", val: "Footwear" }
-              ].map((catOpt) => (
-                <label class="flex items-center gap-3 group cursor-pointer">
-                  <input
-                    type="radio"
-                    name="category-filter"
-                    value={catOpt.val}
-                    class="w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
-                  />
-                  <span
-                    class="category-label font-data-label transition-colors text-[var(--on-surface-variant)] group-hover:text-[var(--primary)]"
-                    style="font-size: 11px;"
-                  >
-                    {catOpt.label}
-                  </span>
-                </label>
-              ))}
+              {
+                [
+                  { label: "ALL PRODUCTS", val: "" },
+                  { label: "OUTERWEAR", val: "Outerwear" },
+                  { label: "MID-LAYERS", val: "Mid-Layer" },
+                  { label: "BOTTOMS", val: "Bottoms" },
+                  { label: "BASE LAYERS", val: "Base Layer" },
+                  { label: "ACCESSORIES", val: "Accessories" },
+                  { label: "VESTS", val: "Vests" },
+                  { label: "FOOTWEAR", val: "Footwear" },
+                ].map((catOpt) => (
+                  <label class="flex items-center gap-3 group cursor-pointer">
+                    <input
+                      type="radio"
+                      name="category-filter"
+                      value={catOpt.val}
+                      class="w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
+                    />
+                    <span
+                      class="category-label font-data-label transition-colors text-[var(--on-surface-variant)] group-hover:text-[var(--primary)]"
+                      style="font-size: 11px;"
+                    >
+                      {catOpt.label}
+                    </span>
+                  </label>
+                ))
+              }
             </div>
           </section>
 
           <!-- Legacy Filters -->
-          {filterSections.map((section) => (
-            <section aria-labelledby={`filter-${section.id}`}>
-              <h3
-                id={`filter-${section.id}`}
-                class="font-data-label text-[var(--primary)] mb-5 tracking-widest"
-                style="font-size: 11px;"
-              >
-                {section.title}
-              </h3>
-              <div class="space-y-3">
-                {section.options.map((opt) => (
-                  <label class="flex items-center gap-3 group cursor-pointer">
-                    <input
-                      type="checkbox"
-                      value={opt.label}
-                      data-section={section.id}
-                      class="filter-checkbox w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
-                      style="border-radius: 0px !important;"
-                    />
-                    <span
-                      class={`font-data-label transition-colors ${
-                        opt.checked
-                          ? "text-[var(--primary)]"
-                          : "text-[var(--on-surface-variant)] group-hover:text-[var(--primary)]"
-                      }`}
-                      style="font-size: 11px;"
-                    >
-                      {opt.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </section>
-          ))}
+          {
+            filterSections.map((section) => (
+              <section aria-labelledby={`filter-${section.id}`}>
+                <h3
+                  id={`filter-${section.id}`}
+                  class="font-data-label text-[var(--primary)] mb-5 tracking-widest"
+                  style="font-size: 11px;"
+                >
+                  {section.title}
+                </h3>
+                <div class="space-y-3">
+                  {section.options.map((opt) => (
+                    <label class="flex items-center gap-3 group cursor-pointer">
+                      <input
+                        type="checkbox"
+                        value={opt.label}
+                        data-section={section.id}
+                        class="filter-checkbox w-4 h-4 border-[var(--outline)] accent-[var(--secondary)] cursor-pointer"
+                        style="border-radius: 0px !important;"
+                      />
+                      <span
+                        class={`font-data-label transition-colors ${
+                          opt.checked
+                            ? "text-[var(--primary)]"
+                            : "text-[var(--on-surface-variant)] group-hover:text-[var(--primary)]"
+                        }`}
+                        style="font-size: 11px;"
+                      >
+                        {opt.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </section>
+            ))
+          }
 
           <!-- Price Range -->
           <section aria-labelledby="filter-price">
@@ -265,8 +275,15 @@ const initialProducts = products.slice(0, initialLimit);
               aria-label="Maximum price"
             />
             <div class="flex justify-between mt-3">
-              <span class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">$200</span>
-              <span id="price-max-label" class="font-data-label text-[var(--on-surface-variant)]" style="font-size: 11px;">${maxPriceCeil.toLocaleString()}</span>
+              <span
+                class="font-data-label text-[var(--on-surface-variant)]"
+                style="font-size: 11px;">$200</span
+              >
+              <span
+                id="price-max-label"
+                class="font-data-label text-[var(--on-surface-variant)]"
+                style="font-size: 11px;">${maxPriceCeil.toLocaleString()}</span
+              >
             </div>
           </section>
         </div>
@@ -276,7 +293,10 @@ const initialProducts = products.slice(0, initialLimit);
       <div class="flex-1 flex flex-col">
         <!-- Search Input -->
         <div class="mb-10 relative">
-          <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[var(--outline)]" style="font-size: 18px;">search</span>
+          <span
+            class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[var(--outline)]"
+            style="font-size: 18px;">search</span
+          >
           <input
             type="text"
             id="search-input"
@@ -292,111 +312,140 @@ const initialProducts = products.slice(0, initialLimit);
           class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-14"
           aria-label="Products"
         >
-          {initialProducts.map((product) => (
-            <a
-              href={product.href}
-              id={`product-${product.handle}`}
-              class="group cursor-pointer no-underline reveal product-card"
-              aria-label={`${product.name} — ${product.price}`}
-            >
-              <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10">
-                {product.image ? (
-                  <img
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src={product.image}
-                    alt={product.imageAlt}
-                    loading="lazy"
-                    width="600"
-                    height="800"
-                  />
-                ) : (
-                  <div class="w-full h-full flex items-center justify-center">
-                    <span class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
-                      NO IMAGE
-                    </span>
-                  </div>
-                )}
-
-                <!-- Hover specs overlay -->
-                <div
-                  class="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-95
-                         transition-opacity duration-300 p-8 flex flex-col justify-end"
-                  aria-hidden="true"
-                >
-                  <div class="space-y-5">
-                    <h4 class="font-data-label text-[var(--on-primary)] tracking-widest" style="font-size: 11px;">
-                      TECHNICAL SPECIFICATIONS
-                    </h4>
-                    <div
-                      class="grid grid-cols-2 gap-4 pt-4"
-                      style="border-top: 1px solid rgba(255,255,255,0.15);"
-                    >
-                      {product.specs.map((spec) => (
-                        <div>
-                          <span class="block font-caption text-[var(--on-primary-container)] uppercase mb-1" style="font-size: 10px;">
-                            {spec.label}
-                          </span>
-                          <span class="font-data-value text-[var(--on-primary)]" style="font-size: 12px;">
-                            {spec.value}
-                          </span>
-                        </div>
-                      ))}
+          {
+            initialProducts.map((product) => (
+              <a
+                href={product.href}
+                id={`product-${product.handle}`}
+                class="group cursor-pointer no-underline reveal product-card"
+                aria-label={`${product.name} — ${product.price}`}
+              >
+                <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10">
+                  {product.image ? (
+                    <img
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      src={product.image}
+                      alt={product.imageAlt}
+                      loading="lazy"
+                      width="600"
+                      height="800"
+                    />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center">
+                      <span class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
+                        NO IMAGE
+                      </span>
                     </div>
-                    <div
-                      class="w-full py-4 bg-[var(--on-primary)] text-[var(--primary)]
+                  )}
+
+                  {/* Hover specs overlay */}
+                  <div
+                    class="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-95
+                         transition-opacity duration-300 p-8 flex flex-col justify-end"
+                    aria-hidden="true"
+                  >
+                    <div class="space-y-5">
+                      <h4
+                        class="font-data-label text-[var(--on-primary)] tracking-widest"
+                        style="font-size: 11px;"
+                      >
+                        TECHNICAL SPECIFICATIONS
+                      </h4>
+                      <div
+                        class="grid grid-cols-2 gap-4 pt-4"
+                        style="border-top: 1px solid rgba(255,255,255,0.15);"
+                      >
+                        {product.specs.map((spec) => (
+                          <div>
+                            <span
+                              class="block font-caption text-[var(--on-primary-container)] uppercase mb-1"
+                              style="font-size: 10px;"
+                            >
+                              {spec.label}
+                            </span>
+                            <span
+                              class="font-data-value text-[var(--on-primary)]"
+                              style="font-size: 12px;"
+                            >
+                              {spec.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <div
+                        class="w-full py-4 bg-[var(--on-primary)] text-[var(--primary)]
                              font-data-label text-center hover:bg-[var(--secondary)] hover:text-[var(--on-secondary)]
                              transition-colors duration-300"
-                      style="font-size: 11px; letter-spacing: 0.1em;"
-                    >
-                      VIEW FULL SPECS
+                        style="font-size: 11px; letter-spacing: 0.1em;"
+                      >
+                        VIEW FULL SPECS
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Product info -->
-              <div class="flex justify-between items-start gap-4">
-                <div>
-                  <h2
-                    class="font-headline-md text-[var(--primary)] mb-1 uppercase"
-                    style="font-size: 16px; font-weight: 700;"
+                {/* Product info */}
+                <div class="flex justify-between items-start gap-4">
+                  <div>
+                    <h2
+                      class="font-headline-md text-[var(--primary)] mb-1 uppercase"
+                      style="font-size: 16px; font-weight: 700;"
+                    >
+                      {product.name}
+                    </h2>
+                    <p
+                      class="font-data-label text-[var(--on-surface-variant)] uppercase"
+                      style="font-size: 10px;"
+                    >
+                      {product.subtitle}
+                    </p>
+                  </div>
+                  <span
+                    class="font-data-value text-[var(--primary)] shrink-0"
+                    style="font-size: 15px;"
                   >
-                    {product.name}
-                  </h2>
-                  <p class="font-data-label text-[var(--on-surface-variant)] uppercase" style="font-size: 10px;">
-                    {product.subtitle}
-                  </p>
+                    {product.price}
+                  </span>
                 </div>
-                <span class="font-data-value text-[var(--primary)] shrink-0" style="font-size: 15px;">
-                  {product.price}
-                </span>
-              </div>
-            </a>
-          ))}
+              </a>
+            ))
+          }
         </div>
 
         <!-- Pagination Controls -->
-        <div id="pagination-controls" class="flex justify-between items-center pt-12 border-t border-[var(--outline-variant)]/30 mt-16">
-          <button id="prev-page" disabled class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
+        <div
+          id="pagination-controls"
+          class="flex justify-between items-center pt-12 border-t border-[var(--outline-variant)]/30 mt-16"
+        >
+          <button
+            id="prev-page"
+            disabled
+            class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer"
+          >
             <span class="material-symbols-outlined text-sm">arrow_back</span> PREV
           </button>
           <div id="page-indicators" class="flex gap-4 font-data-label text-xs">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((i) => (
-              <button 
-                class={`page-num-btn hover:text-[var(--primary)] transition-colors cursor-pointer select-none
+            {
+              Array.from({ length: totalPages }, (_, i) => i + 1).map((i) => (
+                <button
+                  class={`page-num-btn hover:text-[var(--primary)] transition-colors cursor-pointer select-none
                   ${i === 1 ? "text-[var(--primary)] font-bold border-b-2 border-[var(--primary)]" : "text-[var(--outline)]"}`}
-                data-page={i}
-              >
-                {String(i).padStart(2, "0")}
-              </button>
-            ))}
+                  data-page={i}
+                >
+                  {String(i).padStart(2, "0")}
+                </button>
+              ))
+            }
           </div>
-          <button id="next-page" disabled={totalPages <= 1} class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer">
+          <button
+            id="next-page"
+            disabled={totalPages <= 1}
+            class="font-data-label text-xs uppercase tracking-widest text-[var(--outline)] hover:text-[var(--primary)] disabled:opacity-30 disabled:pointer-events-none transition-colors flex items-center gap-2 cursor-pointer"
+          >
             NEXT <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
         </div>
       </div>
-
     </div>
   </main>
 </Layout>
@@ -411,7 +460,7 @@ const initialProducts = products.slice(0, initialLimit);
   let maxPrice = 1200;
   let selectedPerf: string[] = [];
   let selectedFabric: string[] = [];
-  
+
   // Element selections
   const grid = document.getElementById("product-grid");
   const searchInput = document.getElementById("search-input") as HTMLInputElement | null;
@@ -430,14 +479,38 @@ const initialProducts = products.slice(0, initialLimit);
 
   // Descriptions mapping
   const categoryTexts: Record<string, { title: string; desc: string }> = {
-    "": { title: "ALL PRODUCTS", desc: "Browse the entire operational product archive of WANNASINGH technical systems." },
-    Outerwear: { title: "OUTERWEAR", desc: "Engineered for extreme performance. Fuses technical tactical utility with minimalist aesthetic precision." },
-    "Mid-Layer": { title: "MID-LAYERS", desc: "Active insulation and thermal regulation systems calibrated for dynamic temperature management." },
-    Bottoms: { title: "BOTTOMS", desc: "Articulated tactical trousers and technical joggers with reinforced knee panels." },
-    "Base Layer": { title: "BASE LAYERS", desc: "Next-to-skin performance fabrics for temperature regulation and odor control." },
-    Accessories: { title: "ACCESSORIES", desc: "Tactical utility accessories from balaclavas to chest bags built from Cordura." },
-    Vests: { title: "VESTS", desc: "Modular load-carry architecture and chest rigs with multi-point MOLLE attachment." },
-    Footwear: { title: "FOOTWEAR", desc: "Technical footwear featuring GORE-TEX linings, Vibram outsoles, and toe protection." }
+    "": {
+      title: "ALL PRODUCTS",
+      desc: "Browse the entire operational product archive of WANNASINGH technical systems.",
+    },
+    Outerwear: {
+      title: "OUTERWEAR",
+      desc: "Engineered for extreme performance. Fuses technical tactical utility with minimalist aesthetic precision.",
+    },
+    "Mid-Layer": {
+      title: "MID-LAYERS",
+      desc: "Active insulation and thermal regulation systems calibrated for dynamic temperature management.",
+    },
+    Bottoms: {
+      title: "BOTTOMS",
+      desc: "Articulated tactical trousers and technical joggers with reinforced knee panels.",
+    },
+    "Base Layer": {
+      title: "BASE LAYERS",
+      desc: "Next-to-skin performance fabrics for temperature regulation and odor control.",
+    },
+    Accessories: {
+      title: "ACCESSORIES",
+      desc: "Tactical utility accessories from balaclavas to chest bags built from Cordura.",
+    },
+    Vests: {
+      title: "VESTS",
+      desc: "Modular load-carry architecture and chest rigs with multi-point MOLLE attachment.",
+    },
+    Footwear: {
+      title: "FOOTWEAR",
+      desc: "Technical footwear featuring GORE-TEX linings, Vibram outsoles, and toe protection.",
+    },
   };
 
   // Sort settings
@@ -463,19 +536,23 @@ const initialProducts = products.slice(0, initialLimit);
     currentSort = params.get("sort") || "newest";
     selectedPerf = params.getAll("perf");
     selectedFabric = params.getAll("fabric");
-    
+
     if (searchInput) searchInput.value = currentSearch;
     if (sortBtn) sortBtn.textContent = sortLabels[currentSort] || "SORT: NEWEST ↕";
-    
+
     // Sync category radios
     catRadios.forEach((radio) => {
       const r = radio as HTMLInputElement;
       if (r.value === currentCategory) {
         r.checked = true;
-        r.closest("label")?.querySelector(".category-label")?.classList.add("text-[var(--primary)]", "font-bold");
+        r.closest("label")
+          ?.querySelector(".category-label")
+          ?.classList.add("text-[var(--primary)]", "font-bold");
       } else {
         r.checked = false;
-        r.closest("label")?.querySelector(".category-label")?.classList.remove("text-[var(--primary)]", "font-bold");
+        r.closest("label")
+          ?.querySelector(".category-label")
+          ?.classList.remove("text-[var(--primary)]", "font-bold");
       }
     });
 
@@ -515,10 +592,10 @@ const initialProducts = products.slice(0, initialLimit);
     if (range && Number(range.value) !== Number(range.max)) {
       params.set("maxPrice", range.value);
     }
-    selectedPerf.forEach(val => params.append("perf", val));
-    selectedFabric.forEach(val => params.append("fabric", val));
-    
-    const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    selectedPerf.forEach((val) => params.append("perf", val));
+    selectedFabric.forEach((val) => params.append("fabric", val));
+
+    const newUrl = `${window.location.pathname}${params.toString() ? "?" + params.toString() : ""}`;
     window.history.replaceState({}, "", newUrl);
   }
 
@@ -548,11 +625,11 @@ const initialProducts = products.slice(0, initialLimit);
     if (pageMainDesc) pageMainDesc.textContent = info.desc;
 
     const offset = (currentPage - 1) * limit;
-    
+
     try {
       let url = `/api/products?limit=${limit}&offset=${offset}&q=${encodeURIComponent(currentSearch)}&category=${currentCategory}&sort=${currentSort}&maxPrice=${maxPrice}`;
-      selectedPerf.forEach(p => url += `&perf=${encodeURIComponent(p)}`);
-      selectedFabric.forEach(f => url += `&fabric=${encodeURIComponent(f)}`);
+      selectedPerf.forEach((p) => (url += `&perf=${encodeURIComponent(p)}`));
+      selectedFabric.forEach((f) => (url += `&fabric=${encodeURIComponent(f)}`));
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -566,11 +643,13 @@ const initialProducts = products.slice(0, initialLimit);
         renderProducts(products);
         renderPagination(total);
       } else {
-        if (grid) grid.innerHTML = `<div class="col-span-full py-20 text-center font-data-label text-xs">FAILED TO LOAD PRODUCTS</div>`;
+        if (grid)
+          grid.innerHTML = `<div class="col-span-full py-20 text-center font-data-label text-xs">FAILED TO LOAD PRODUCTS</div>`;
       }
     } catch (err) {
       console.error(err);
-      if (grid) grid.innerHTML = `<div class="col-span-full py-20 text-center font-data-label text-xs">FAILED TO CONNECT TO SERVER</div>`;
+      if (grid)
+        grid.innerHTML = `<div class="col-span-full py-20 text-center font-data-label text-xs">FAILED TO CONNECT TO SERVER</div>`;
     }
   }
 
@@ -588,7 +667,9 @@ const initialProducts = products.slice(0, initialLimit);
       return;
     }
 
-    grid.innerHTML = products.map((product) => `
+    grid.innerHTML = products
+      .map(
+        (product) => `
       <a
         href="${product.href}"
         id="product-${product.handle}"
@@ -597,7 +678,9 @@ const initialProducts = products.slice(0, initialLimit);
         aria-label="${product.name} — ${product.price}"
       >
         <div class="relative aspect-[3/4] mb-5 overflow-hidden bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10">
-          ${product.image ? `
+          ${
+            product.image
+              ? `
             <img
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               src="${product.image}"
@@ -606,13 +689,15 @@ const initialProducts = products.slice(0, initialLimit);
               width="600"
               height="800"
             />
-          ` : `
+          `
+              : `
             <div class="w-full h-full flex items-center justify-center">
               <span class="font-data-label text-[var(--outline)]" style="font-size: 11px;">
                 NO IMAGE
               </span>
             </div>
-          `}
+          `
+          }
 
           <!-- Hover specs overlay -->
           <div
@@ -628,7 +713,9 @@ const initialProducts = products.slice(0, initialLimit);
                 class="grid grid-cols-2 gap-4 pt-4"
                 style="border-top: 1px solid rgba(255,255,255,0.15);"
               >
-                ${product.specs.map((spec: any) => `
+                ${product.specs
+                  .map(
+                    (spec: any) => `
                   <div>
                     <span class="block font-caption text-[var(--on-primary-container)] uppercase mb-1" style="font-size: 10px;">
                       ${spec.label}
@@ -637,7 +724,9 @@ const initialProducts = products.slice(0, initialLimit);
                       ${spec.value}
                     </span>
                   </div>
-                `).join("")}
+                `,
+                  )
+                  .join("")}
               </div>
               <div
                 class="w-full py-4 bg-[var(--on-primary)] text-[var(--primary)]
@@ -669,7 +758,9 @@ const initialProducts = products.slice(0, initialLimit);
           </span>
         </div>
       </a>
-    `).join("");
+    `,
+      )
+      .join("");
 
     // Observe newly rendered reveal elements
     const observer = new IntersectionObserver(
@@ -681,7 +772,7 @@ const initialProducts = products.slice(0, initialLimit);
           }
         });
       },
-      { threshold: 0.05 }
+      { threshold: 0.05 },
     );
     grid.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   }
@@ -722,7 +813,7 @@ const initialProducts = products.slice(0, initialLimit);
   }
 
   // ── Event Listeners ──────────────────────────────────────────────────
-  
+
   // Search input with debounce
   let searchTimeout: any;
   searchInput?.addEventListener("input", () => {
@@ -762,7 +853,7 @@ const initialProducts = products.slice(0, initialLimit);
     cb.addEventListener("change", () => {
       const perfChecked: string[] = [];
       const fabricChecked: string[] = [];
-      
+
       document.querySelectorAll(".filter-checkbox:checked").forEach((item) => {
         const input = item as HTMLInputElement;
         const section = input.dataset.section;
@@ -772,12 +863,12 @@ const initialProducts = products.slice(0, initialLimit);
           fabricChecked.push(input.value);
         }
       });
-      
+
       selectedPerf = perfChecked;
       selectedFabric = fabricChecked;
       currentPage = 1; // reset page
       fetchProducts();
-      
+
       // Update checkbox label formatting
       document.querySelectorAll(".filter-checkbox").forEach((item) => {
         const input = item as HTMLInputElement;
@@ -839,12 +930,12 @@ const initialProducts = products.slice(0, initialLimit);
 
   // Initialize
   initFromUrl();
-  const hasActiveFilters = 
-    currentCategory !== "" || 
-    currentSearch !== "" || 
-    currentPage !== 1 || 
-    currentSort !== "newest" || 
-    selectedPerf.length > 0 || 
+  const hasActiveFilters =
+    currentCategory !== "" ||
+    currentSearch !== "" ||
+    currentPage !== 1 ||
+    currentSort !== "newest" ||
+    selectedPerf.length > 0 ||
     selectedFabric.length > 0;
 
   if (hasActiveFilters) {
@@ -853,4 +944,3 @@ const initialProducts = products.slice(0, initialLimit);
     attachInitialListeners();
   }
 </script>
-

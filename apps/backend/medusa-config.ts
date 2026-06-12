@@ -30,10 +30,8 @@ export default defineConfig({
     // ── HTTP ─────────────────────────────────────────────────────────────────
     http: {
       // ── Security ────────────────────────────────────────────────────────────
-      jwtSecret:
-        process.env.JWT_SECRET ?? "temp_jwt_secret_for_build_only",
-      cookieSecret:
-        process.env.COOKIE_SECRET ?? "temp_cookie_secret_for_build_only",
+      jwtSecret: process.env.JWT_SECRET ?? "temp_jwt_secret_for_build_only",
+      cookieSecret: process.env.COOKIE_SECRET ?? "temp_cookie_secret_for_build_only",
 
       // Admin dashboard CORS — tighten in production
       adminCors: process.env.ADMIN_CORS ?? "http://localhost:7001",
@@ -72,24 +70,26 @@ export default defineConfig({
     },
 
     // ── Redis Event Bus & Workflow Engine ─────────────────────────────────────
-    ...(process.env.REDIS_URL ? [
-      {
-        key: "event_bus",
-        resolve: "@medusajs/medusa/event-bus-redis",
-        options: {
-          redisUrl: process.env.REDIS_URL,
-        },
-      },
-      {
-        key: "workflows",
-        resolve: "@medusajs/medusa/workflow-engine-redis",
-        options: {
-          redis: {
-            redisUrl: process.env.REDIS_URL,
+    ...(process.env.REDIS_URL
+      ? [
+          {
+            key: "event_bus",
+            resolve: "@medusajs/medusa/event-bus-redis",
+            options: {
+              redisUrl: process.env.REDIS_URL,
+            },
           },
-        },
-      },
-    ] : []),
+          {
+            key: "workflows",
+            resolve: "@medusajs/medusa/workflow-engine-redis",
+            options: {
+              redis: {
+                redisUrl: process.env.REDIS_URL,
+              },
+            },
+          },
+        ]
+      : []),
   ],
 
   // ── Admin Dashboard ────────────────────────────────────────────────────────

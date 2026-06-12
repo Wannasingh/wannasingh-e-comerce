@@ -5,43 +5,58 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
 export const prerender = false;
 
 const services = [
-  { name: "MEDUSA_CORE_API", url: "http://localhost:9000/store", latency: "14ms", status: "ONLINE" },
-  { name: "POSTGRESQL_DB_POOL", url: "postgresql://localhost:5432", latency: "2ms", status: "ONLINE" },
+  {
+    name: "MEDUSA_CORE_API",
+    url: "http://localhost:9000/store",
+    latency: "14ms",
+    status: "ONLINE",
+  },
+  {
+    name: "POSTGRESQL_DB_POOL",
+    url: "postgresql://localhost:5432",
+    latency: "2ms",
+    status: "ONLINE",
+  },
   { name: "REDIS_CACHE_STORE", url: "redis://127.0.0.1:6379", latency: "1ms", status: "ONLINE" },
-  { name: "STRIPE_GATEWAY_WEBHOOKS", url: "api.stripe.com", latency: "128ms", status: "ONLINE" }
+  { name: "STRIPE_GATEWAY_WEBHOOKS", url: "api.stripe.com", latency: "128ms", status: "ONLINE" },
 ];
 ---
-<AdminLayout title="WANNASINGH COMMAND CORE - API HEARTBEAT" activeTab="api-status">
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-        <div>
-            <div class="flex items-center gap-2 mb-1">
-                <div class="w-2 h-2 bg-primary status-pulse"></div>
-                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">System API Heartbeat</span>
-            </div>
-            <h2 class="font-display text-4xl font-bold">API_STATUS</h2>
-        </div>
-    </div>
 
-    <!-- Services list -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {services.map(s => (
-            <div class="bg-surface-container-low border border-outline-variant p-6 space-y-4">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-mono-label text-[12px] text-on-surface font-bold">{s.name}</h3>
-                        <p class="font-mono-data text-[11px] text-on-surface-variant/60 mt-1">{s.url}</p>
-                    </div>
-                    <span class="flex items-center gap-1.5 text-primary font-mono-label text-[10px] border border-primary/20 px-2 py-0.5">
-                        <span class="w-1.5 h-1.5 bg-primary status-pulse"></span>
-                        {s.status}
-                    </span>
-                </div>
-                <div class="flex justify-between items-center pt-2 border-t border-outline-variant/10">
-                    <span class="font-mono-label text-[10px] text-on-surface-variant">RESPONSE_TIME</span>
-                    <span class="font-mono-data text-xs text-primary">{s.latency}</span>
-                </div>
-            </div>
-        ))}
+<AdminLayout title="WANNASINGH COMMAND CORE - API HEARTBEAT" activeTab="api-status">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <div class="w-2 h-2 bg-primary status-pulse"></div>
+        <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase"
+          >System API Heartbeat</span
+        >
+      </div>
+      <h2 class="font-display text-4xl font-bold">API_STATUS</h2>
     </div>
+  </div>
+
+  <!-- Services list -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {
+      services.map((s) => (
+        <div class="bg-surface-container-low border border-outline-variant p-6 space-y-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="font-mono-label text-[12px] text-on-surface font-bold">{s.name}</h3>
+              <p class="font-mono-data text-[11px] text-on-surface-variant/60 mt-1">{s.url}</p>
+            </div>
+            <span class="flex items-center gap-1.5 text-primary font-mono-label text-[10px] border border-primary/20 px-2 py-0.5">
+              <span class="w-1.5 h-1.5 bg-primary status-pulse" />
+              {s.status}
+            </span>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-outline-variant/10">
+            <span class="font-mono-label text-[10px] text-on-surface-variant">RESPONSE_TIME</span>
+            <span class="font-mono-data text-xs text-primary">{s.latency}</span>
+          </div>
+        </div>
+      ))
+    }
+  </div>
 </AdminLayout>

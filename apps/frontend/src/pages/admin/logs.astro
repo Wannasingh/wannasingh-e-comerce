@@ -36,212 +36,270 @@ const initialLogs = [
   { time: "2026-06-10 17:01:18", type: "INFO", text: "Ping check heartbeat: OK" },
   { time: "2026-06-10 17:02:02", type: "INFO", text: "Scheduled job: DB_CLEANUP successful" },
   { time: "2026-06-10 17:02:05", type: "INFO", text: "Ping check heartbeat: OK" },
-  { time: "2026-06-10 17:02:10", type: "DEBUG", text: "New websocket connection: PID_4922" }
+  { time: "2026-06-10 17:02:10", type: "DEBUG", text: "New websocket connection: PID_4922" },
 ];
 ---
+
 <AdminLayout title="WANNASINGH COMMAND CORE - SYSTEM LOGS" activeTab="logs">
-    <!-- Dashboard Header & Stats -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-            <div class="flex items-center gap-2 mb-1">
-                <div class="w-2 h-2 bg-primary status-pulse"></div>
-                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">System Logs & Telemetry</span>
-            </div>
-            <h2 class="font-display text-4xl font-bold">KERNEL_LOGS</h2>
-        </div>
-        <div class="grid grid-cols-2 md:flex gap-4">
-            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
-                <p class="font-mono-label text-[11px] text-on-surface-variant">ENGINE_UPTIME</p>
-                <p class="font-mono-data text-2xl text-on-surface" id="uptime-value">12d 4h 12m</p>
-            </div>
-            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
-                <p class="font-mono-label text-[11px] text-on-surface-variant">WS_LATENCY</p>
-                <p class="font-mono-data text-2xl text-primary">12ms</p>
-            </div>
-        </div>
+  <!-- Dashboard Header & Stats -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <div class="w-2 h-2 bg-primary status-pulse"></div>
+        <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase"
+          >System Logs & Telemetry</span
+        >
+      </div>
+      <h2 class="font-display text-4xl font-bold">KERNEL_LOGS</h2>
     </div>
-
-    <!-- Filters & Toolbar -->
-    <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-surface-container-low p-4 border border-outline-variant">
-        <div class="flex flex-wrap gap-4 items-center">
-            <div class="flex flex-col space-y-1">
-                <span class="font-mono-label text-[10px] text-on-surface-variant uppercase">FILTER LEVEL</span>
-                <div class="flex border border-outline-variant overflow-hidden">
-                    <button class="px-3 py-1 font-mono-label text-[10px] bg-primary text-on-primary font-bold log-filter-btn cursor-pointer" data-filter="ALL">ALL</button>
-                    <button class="px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer" data-filter="INFO">INFO</button>
-                    <button class="px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer" data-filter="DEBUG">DEBUG</button>
-                    <button class="px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer" data-filter="WARN">WARN</button>
-                </div>
-            </div>
-        </div>
-        <div class="flex gap-2">
-            <button class="px-4 py-2 border border-outline-variant text-on-surface-variant font-mono-label text-[10px] hover:bg-surface-variant cursor-pointer" id="clear-logs-btn">CLEAR_CONSOLE</button>
-            <button class="px-4 py-2 bg-primary text-on-primary font-mono-label text-[10px] font-bold hover:brightness-110 cursor-pointer" id="download-logs-btn">DOWNLOAD_LOGS</button>
-        </div>
+    <div class="grid grid-cols-2 md:flex gap-4">
+      <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+        <p class="font-mono-label text-[11px] text-on-surface-variant">ENGINE_UPTIME</p>
+        <p class="font-mono-data text-2xl text-on-surface" id="uptime-value">12d 4h 12m</p>
+      </div>
+      <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+        <p class="font-mono-label text-[11px] text-on-surface-variant">WS_LATENCY</p>
+        <p class="font-mono-data text-2xl text-primary">12ms</p>
+      </div>
     </div>
+  </div>
 
-    <!-- Terminal Logs Panel -->
-    <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden flex flex-col h-[500px]">
-        <div class="bg-surface-container-low px-4 py-2 border-b border-outline-variant flex justify-between items-center shrink-0">
-            <div class="flex items-center gap-2">
-                <div class="w-2.5 h-2.5 bg-error rounded-full"></div>
-                <div class="w-2.5 h-2.5 bg-primary rounded-full"></div>
-                <div class="w-2.5 h-2.5 bg-outline rounded-full"></div>
-                <span class="font-mono-label text-[10px] text-on-surface-variant ml-2 uppercase">matrix_engine_kernel.log</span>
-            </div>
-            <span class="font-mono-label text-[10px] text-on-surface-variant opacity-60">AUTO_SCROLL: ENABLED</span>
+  <!-- Filters & Toolbar -->
+  <div
+    class="flex flex-col md:flex-row gap-4 items-center justify-between bg-surface-container-low p-4 border border-outline-variant"
+  >
+    <div class="flex flex-wrap gap-4 items-center">
+      <div class="flex flex-col space-y-1">
+        <span class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+          >FILTER LEVEL</span
+        >
+        <div class="flex border border-outline-variant overflow-hidden">
+          <button
+            class="px-3 py-1 font-mono-label text-[10px] bg-primary text-on-primary font-bold log-filter-btn cursor-pointer"
+            data-filter="ALL">ALL</button
+          >
+          <button
+            class="px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer"
+            data-filter="INFO">INFO</button
+          >
+          <button
+            class="px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer"
+            data-filter="DEBUG">DEBUG</button
+          >
+          <button
+            class="px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer"
+            data-filter="WARN">WARN</button
+          >
         </div>
-        <div class="flex-1 p-4 overflow-y-auto custom-scrollbar font-mono-data text-[13px] space-y-2 select-text" id="logs-container">
-            {initialLogs.map((log) => (
-                <p class="text-on-tertiary-fixed-variant log-line" data-type={log.type}>
-                    [{log.time}] 
-                    <span class={log.type === "INFO" ? "text-primary" : log.type === "WARN" ? "text-secondary" : "text-outline"}>{log.type}:</span> 
-                    {log.text}
-                </p>
-            ))}
-        </div>
+      </div>
     </div>
-
-    <!-- Metric Details -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-surface-container border border-outline-variant p-6">
-            <h3 class="font-mono-label text-[11px] text-primary uppercase mb-3">Memory Allocation</h3>
-            <div class="space-y-2">
-                <div class="flex justify-between font-mono-data text-[12px]">
-                    <span>Heap Used</span>
-                    <span>14.8 MB</span>
-                </div>
-                <div class="w-full bg-surface-variant h-1.5">
-                    <div class="bg-primary h-full" style="width: 38%"></div>
-                </div>
-                <div class="flex justify-between font-mono-data text-[12px]">
-                    <span>RSS size</span>
-                    <span>124.2 MB</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-surface-container border border-outline-variant p-6">
-            <h3 class="font-mono-label text-[11px] text-primary uppercase mb-3">Connection Load</h3>
-            <div class="space-y-2">
-                <div class="flex justify-between font-mono-data text-[12px]">
-                    <span>Active WS Sockets</span>
-                    <span>42 / 1,000</span>
-                </div>
-                <div class="w-full bg-surface-variant h-1.5">
-                    <div class="bg-primary h-full" style="width: 4.2%"></div>
-                </div>
-                <div class="flex justify-between font-mono-data text-[12px]">
-                    <span>HTTP Request Queue</span>
-                    <span>0 pending</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-surface-container border border-outline-variant p-6">
-            <h3 class="font-mono-label text-[11px] text-primary uppercase mb-3">Cache Statistics</h3>
-            <div class="space-y-2">
-                <div class="flex justify-between font-mono-data text-[12px]">
-                    <span>Cache Hit Ratio</span>
-                    <span>94.2%</span>
-                </div>
-                <div class="w-full bg-surface-variant h-1.5">
-                    <div class="bg-primary h-full" style="width: 94.2%"></div>
-                </div>
-                <div class="flex justify-between font-mono-data text-[12px]">
-                    <span>Flushed cache</span>
-                    <span>Never this uptime</span>
-                </div>
-            </div>
-        </div>
+    <div class="flex gap-2">
+      <button
+        class="px-4 py-2 border border-outline-variant text-on-surface-variant font-mono-label text-[10px] hover:bg-surface-variant cursor-pointer"
+        id="clear-logs-btn">CLEAR_CONSOLE</button
+      >
+      <button
+        class="px-4 py-2 bg-primary text-on-primary font-mono-label text-[10px] font-bold hover:brightness-110 cursor-pointer"
+        id="download-logs-btn">DOWNLOAD_LOGS</button
+      >
     </div>
+  </div>
 
-    <script is:inline>
-        // Log filters toggling logic
-        const filterBtns = document.querySelectorAll('.log-filter-btn');
-        const logsContainer = document.getElementById('logs-container');
-        let currentFilter = 'ALL';
+  <!-- Terminal Logs Panel -->
+  <div
+    class="border border-outline-variant bg-surface-container-lowest overflow-hidden flex flex-col h-[500px]"
+  >
+    <div
+      class="bg-surface-container-low px-4 py-2 border-b border-outline-variant flex justify-between items-center shrink-0"
+    >
+      <div class="flex items-center gap-2">
+        <div class="w-2.5 h-2.5 bg-error rounded-full"></div>
+        <div class="w-2.5 h-2.5 bg-primary rounded-full"></div>
+        <div class="w-2.5 h-2.5 bg-outline rounded-full"></div>
+        <span class="font-mono-label text-[10px] text-on-surface-variant ml-2 uppercase"
+          >matrix_engine_kernel.log</span
+        >
+      </div>
+      <span class="font-mono-label text-[10px] text-on-surface-variant opacity-60"
+        >AUTO_SCROLL: ENABLED</span
+      >
+    </div>
+    <div
+      class="flex-1 p-4 overflow-y-auto custom-scrollbar font-mono-data text-[13px] space-y-2 select-text"
+      id="logs-container"
+    >
+      {
+        initialLogs.map((log) => (
+          <p class="text-on-tertiary-fixed-variant log-line" data-type={log.type}>
+            [{log.time}]
+            <span
+              class={
+                log.type === "INFO"
+                  ? "text-primary"
+                  : log.type === "WARN"
+                    ? "text-secondary"
+                    : "text-outline"
+              }
+            >
+              {log.type}:
+            </span>
+            {log.text}
+          </p>
+        ))
+      }
+    </div>
+  </div>
 
-        function applyFilters() {
-            const lines = document.querySelectorAll('.log-line');
-            lines.forEach((line) => {
-                const type = line.getAttribute('data-type');
-                if (currentFilter === 'ALL' || type === currentFilter) {
-                    line.classList.remove('hidden');
-                } else {
-                    line.classList.add('hidden');
-                }
-            });
+  <!-- Metric Details -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-surface-container border border-outline-variant p-6">
+      <h3 class="font-mono-label text-[11px] text-primary uppercase mb-3">Memory Allocation</h3>
+      <div class="space-y-2">
+        <div class="flex justify-between font-mono-data text-[12px]">
+          <span>Heap Used</span>
+          <span>14.8 MB</span>
+        </div>
+        <div class="w-full bg-surface-variant h-1.5">
+          <div class="bg-primary h-full" style="width: 38%"></div>
+        </div>
+        <div class="flex justify-between font-mono-data text-[12px]">
+          <span>RSS size</span>
+          <span>124.2 MB</span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-surface-container border border-outline-variant p-6">
+      <h3 class="font-mono-label text-[11px] text-primary uppercase mb-3">Connection Load</h3>
+      <div class="space-y-2">
+        <div class="flex justify-between font-mono-data text-[12px]">
+          <span>Active WS Sockets</span>
+          <span>42 / 1,000</span>
+        </div>
+        <div class="w-full bg-surface-variant h-1.5">
+          <div class="bg-primary h-full" style="width: 4.2%"></div>
+        </div>
+        <div class="flex justify-between font-mono-data text-[12px]">
+          <span>HTTP Request Queue</span>
+          <span>0 pending</span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-surface-container border border-outline-variant p-6">
+      <h3 class="font-mono-label text-[11px] text-primary uppercase mb-3">Cache Statistics</h3>
+      <div class="space-y-2">
+        <div class="flex justify-between font-mono-data text-[12px]">
+          <span>Cache Hit Ratio</span>
+          <span>94.2%</span>
+        </div>
+        <div class="w-full bg-surface-variant h-1.5">
+          <div class="bg-primary h-full" style="width: 94.2%"></div>
+        </div>
+        <div class="flex justify-between font-mono-data text-[12px]">
+          <span>Flushed cache</span>
+          <span>Never this uptime</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // Log filters toggling logic
+    const filterBtns = document.querySelectorAll(".log-filter-btn");
+    const logsContainer = document.getElementById("logs-container");
+    let currentFilter = "ALL";
+
+    function applyFilters() {
+      const lines = document.querySelectorAll(".log-line");
+      lines.forEach((line) => {
+        const type = line.getAttribute("data-type");
+        if (currentFilter === "ALL" || type === currentFilter) {
+          line.classList.remove("hidden");
+        } else {
+          line.classList.add("hidden");
         }
+      });
+    }
 
-        filterBtns.forEach((btn) => {
-            btn.addEventListener('click', (e) => {
-                filterBtns.forEach(b => b.className = "px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer");
-                e.target.className = "px-3 py-1 font-mono-label text-[10px] bg-primary text-on-primary font-bold log-filter-btn cursor-pointer";
-                currentFilter = e.target.getAttribute('data-filter');
-                applyFilters();
-            });
-        });
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        filterBtns.forEach(
+          (b) =>
+            (b.className =
+              "px-3 py-1 font-mono-label text-[10px] hover:bg-surface-bright text-on-surface log-filter-btn cursor-pointer"),
+        );
+        e.target.className =
+          "px-3 py-1 font-mono-label text-[10px] bg-primary text-on-primary font-bold log-filter-btn cursor-pointer";
+        currentFilter = e.target.getAttribute("data-filter");
+        applyFilters();
+      });
+    });
 
-        // Uptime clock counter
-        const uptimeVal = document.getElementById('uptime-value');
-        let uptimeSeconds = 12 * 24 * 3600 + 4 * 3600 + 12 * 60;
-        setInterval(() => {
-            uptimeSeconds++;
-            const days = Math.floor(uptimeSeconds / (24 * 3600));
-            const hours = Math.floor((uptimeSeconds % (24 * 3600)) / 3600);
-            const minutes = Math.floor((uptimeSeconds % 3600) / 60);
-            const seconds = uptimeSeconds % 60;
-            if(uptimeVal) uptimeVal.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }, 1000);
+    // Uptime clock counter
+    const uptimeVal = document.getElementById("uptime-value");
+    let uptimeSeconds = 12 * 24 * 3600 + 4 * 3600 + 12 * 60;
+    setInterval(() => {
+      uptimeSeconds++;
+      const days = Math.floor(uptimeSeconds / (24 * 3600));
+      const hours = Math.floor((uptimeSeconds % (24 * 3600)) / 3600);
+      const minutes = Math.floor((uptimeSeconds % 3600) / 60);
+      const seconds = uptimeSeconds % 60;
+      if (uptimeVal) uptimeVal.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
 
-        // Clear log elements from view
-        document.getElementById('clear-logs-btn')?.addEventListener('click', () => {
-            if (logsContainer) logsContainer.innerHTML = '';
-        });
+    // Clear log elements from view
+    document.getElementById("clear-logs-btn")?.addEventListener("click", () => {
+      if (logsContainer) logsContainer.innerHTML = "";
+    });
 
-        // Download raw logs simulation
-        document.getElementById('download-logs-btn')?.addEventListener('click', () => {
-            const lines = document.querySelectorAll('.log-line');
-            let text = '';
-            lines.forEach(l => text += l.textContent?.trim() + '\n');
-            
-            const blob = new Blob([text], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `matrix_engine_kernel_${Date.now()}.log`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
+    // Download raw logs simulation
+    document.getElementById("download-logs-btn")?.addEventListener("click", () => {
+      const lines = document.querySelectorAll(".log-line");
+      let text = "";
+      lines.forEach((l) => (text += l.textContent?.trim() + "\n"));
 
-        // Simulated new log insertions
-        const mockMessages = [
-            { type: "INFO", text: "Ping check heartbeat: OK" },
-            { type: "DEBUG", text: "Socket frame payload successfully encrypted." },
-            { type: "WARN", text: "Latency spike detected in regional CDN edge node." },
-            { type: "INFO", text: "Scheduled job: DB_CLEANUP successful" },
-            { type: "DEBUG", text: "New websocket connection: PID_5001" },
-            { type: "INFO", text: "Syncing product catalog with local cache. Hit ratio: 94%" }
-        ];
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `matrix_engine_kernel_${Date.now()}.log`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
 
-        setInterval(() => {
-            if (!logsContainer) return;
-            const msg = mockMessages[Math.floor(Math.random() * mockMessages.length)];
-            const time = new Date().toISOString().replace('T', ' ').substring(0, 19);
-            const colorClass = msg.type === "INFO" ? "text-primary" : msg.type === "WARN" ? "text-secondary" : "text-outline";
-            
-            const p = document.createElement('p');
-            p.className = 'text-on-tertiary-fixed-variant log-line';
-            p.setAttribute('data-type', msg.type);
-            p.innerHTML = `[${time}] <span class="${colorClass}">${msg.type}:</span> ${msg.text}`;
-            
-            logsContainer.appendChild(p);
-            
-            // Auto-scroll to bottom
-            logsContainer.scrollTop = logsContainer.scrollHeight;
-            
-            applyFilters();
-        }, 4000);
-    </script>
+    // Simulated new log insertions
+    const mockMessages = [
+      { type: "INFO", text: "Ping check heartbeat: OK" },
+      { type: "DEBUG", text: "Socket frame payload successfully encrypted." },
+      { type: "WARN", text: "Latency spike detected in regional CDN edge node." },
+      { type: "INFO", text: "Scheduled job: DB_CLEANUP successful" },
+      { type: "DEBUG", text: "New websocket connection: PID_5001" },
+      { type: "INFO", text: "Syncing product catalog with local cache. Hit ratio: 94%" },
+    ];
+
+    setInterval(() => {
+      if (!logsContainer) return;
+      const msg = mockMessages[Math.floor(Math.random() * mockMessages.length)];
+      const time = new Date().toISOString().replace("T", " ").substring(0, 19);
+      const colorClass =
+        msg.type === "INFO"
+          ? "text-primary"
+          : msg.type === "WARN"
+            ? "text-secondary"
+            : "text-outline";
+
+      const p = document.createElement("p");
+      p.className = "text-on-tertiary-fixed-variant log-line";
+      p.setAttribute("data-type", msg.type);
+      p.innerHTML = `[${time}] <span class="${colorClass}">${msg.type}:</span> ${msg.text}`;
+
+      logsContainer.appendChild(p);
+
+      // Auto-scroll to bottom
+      logsContainer.scrollTop = logsContainer.scrollHeight;
+
+      applyFilters();
+    }, 4000);
+  </script>
 </AdminLayout>

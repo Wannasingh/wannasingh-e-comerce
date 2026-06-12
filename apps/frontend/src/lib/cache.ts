@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 
-const MEDUSA_URL = (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string | undefined) ?? "http://localhost:9000";
+const MEDUSA_URL =
+  (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string | undefined) ?? "http://localhost:9000";
 const PK = (import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY as string | undefined) ?? "";
 const ENC_KEY = (import.meta.env.PUBLIC_API_ENCRYPTION_KEY as string | undefined) ?? "";
 
@@ -30,7 +31,7 @@ const CACHE_TTL = 10 * 60 * 1000; // 10 minutes TTL
 
 export async function getCachedProducts(): Promise<unknown[]> {
   const now = Date.now();
-  if (cachedProducts.length > 0 && (now - lastFetched) < CACHE_TTL) {
+  if (cachedProducts.length > 0 && now - lastFetched < CACHE_TTL) {
     return cachedProducts;
   }
 
@@ -42,7 +43,7 @@ export async function getCachedProducts(): Promise<unknown[]> {
           "x-publishable-api-key": PK,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     if (res.ok) {
