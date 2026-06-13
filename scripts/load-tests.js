@@ -26,7 +26,7 @@ export default function () {
   const resHealth = http.get(`${targetUrl}/health`);
   check(resHealth, {
     'health status is 200': (r) => r.status === 200,
-    'health body is OK': (r) => r.body.includes('OK'),
+    'health body is ok': (r) => r.body.includes('ok'),
   });
   sleep(1);
 }
