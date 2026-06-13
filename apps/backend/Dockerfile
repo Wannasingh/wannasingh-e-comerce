@@ -75,6 +75,10 @@ COPY --from=builder --chown=medusa:medusa /repo/apps/backend/.medusa ./.medusa
 COPY --from=builder --chown=medusa:medusa /repo/apps/backend/node_modules ./node_modules
 COPY --from=builder --chown=medusa:medusa /repo/node_modules /repo/node_modules
 
+# Ensure /repo/apps/backend is owned by medusa and symlink public folder
+RUN chown -R medusa:medusa /repo/apps/backend && \
+    ln -s /repo/apps/backend/dist/public /repo/apps/backend/public
+
 USER medusa
 
 ENV NODE_ENV=production
