@@ -5,14 +5,15 @@ import { getCachedProducts } from "../../lib/cache";
 
 export const prerender = false;
 
-const PUBLIC_MEDUSA_BACKEND_URL = import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
+const PUBLIC_MEDUSA_BACKEND_URL =
+  import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000";
 const PUBLIC_MEDUSA_PUBLISHABLE_KEY = import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let rawProducts: any[] = [];
 try {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  rawProducts = await getCachedProducts() as any[];
+  rawProducts = (await getCachedProducts()) as any[];
 } catch (e) {
   console.error("Failed to load products in admin page", e);
 }
@@ -27,16 +28,16 @@ const defaultProducts = [
     fabric: "GORE-PRO",
     climate: "CLASS-IV",
     stock: 412,
-    price: 595.00,
+    price: 595.0,
     status: "PUBLISHED",
     images: [
       "https://lh3.googleusercontent.com/aida-public/AB6AXuB1fUpjAFtDqmLc5bac4eZ0Oxwm-IMdfFcyNreeGFsEcAx4lahEIo6EP2j8LyAMxROgf1xRG3KPHIuVZFWAskq1BASmAxkmTbMZPkY0z4DLiq1hx1XWjkSjjDukygew0Sd8QEZmgt3gFaZk7RrRoQ7F5kEGsTSuyFAh2hOeDSsDORcUC6c1ywP_bIJWR_ZF_jp-sDExnDj6mgcaNiiyY1pQ6rRYq5oo4VGdRkp0-vP3F2DLhIL53-cnnSwLl0kLsVwXPSc9a2sUjbtN",
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCP0_QnQ91FEBCcioy_EYfkwbmsR2DKrLUjmlWNvD-OiYibbxpKfmWJRnUwTC1_DAmK_JWG7Ve3kQZbn8BoUU0W8ZpQe5jPfNRMlsW1qcZEY8Lv-dznKKVl7LjRKwlYLztWUFXqfj86dfEMaFOqq19d7avDsd6hWMwJQS5eotPCKMG8GDlwPdCiRGqhEskT1gUneEC3CGmoSrqYIE7hR-jhQFJZd7Sqt6Qrz3n2s3ML9v3BITlJbbbEjpTDXBNPbceDCiDIGezNIaIk"
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCP0_QnQ91FEBCcioy_EYfkwbmsR2DKrLUjmlWNvD-OiYibbxpKfmWJRnUwTC1_DAmK_JWG7Ve3kQZbn8BoUU0W8ZpQe5jPfNRMlsW1qcZEY8Lv-dznKKVl7LjRKwlYLztWUFXqfj86dfEMaFOqq19d7avDsd6hWMwJQS5eotPCKMG8GDlwPdCiRGqhEskT1gUneEC3CGmoSrqYIE7hR-jhQFJZd7Sqt6Qrz3n2s3ML9v3BITlJbbbEjpTDXBNPbceDCiDIGezNIaIk",
     ],
     material: "3L GORE-TEX PRO",
     weight: "480g",
     breathability: "RET < 6",
-    seller_email: "wannasingh.khan@gmail.com"
+    seller_email: "wannasingh.khan@gmail.com",
   },
   {
     id: "WS-901-Y",
@@ -46,15 +47,15 @@ const defaultProducts = [
     fabric: "DYNEEMA",
     climate: "CLASS-I",
     stock: 0,
-    price: 420.00,
+    price: 420.0,
     status: "OUT_OF_STOCK",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCP0_QnQ91FEBCcioy_EYfkwbmsR2DKrLUjmlWNvD-OiYibbxpKfmWJRnUwTC1_DAmK_JWG7Ve3kQZbn8BoUU0W8ZpQe5jPfNRMlsW1qcZEY8Lv-dznKKVl7LjRKwlYLztWUFXqfj86dfEMaFOqq19d7avDsd6hWMwJQS5eotPCKMG8GDlwPdCiRGqhEskT1gUneEC3CGmoSrqYIE7hR-jhQFJZd7Sqt6Qrz3n2s3ML9v3BITlJbbbEjpTDXBNPbceDCiDIGezNIaIk"
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCP0_QnQ91FEBCcioy_EYfkwbmsR2DKrLUjmlWNvD-OiYibbxpKfmWJRnUwTC1_DAmK_JWG7Ve3kQZbn8BoUU0W8ZpQe5jPfNRMlsW1qcZEY8Lv-dznKKVl7LjRKwlYLztWUFXqfj86dfEMaFOqq19d7avDsd6hWMwJQS5eotPCKMG8GDlwPdCiRGqhEskT1gUneEC3CGmoSrqYIE7hR-jhQFJZd7Sqt6Qrz3n2s3ML9v3BITlJbbbEjpTDXBNPbceDCiDIGezNIaIk",
     ],
     material: "Dyneema Composite",
     weight: "310g",
     breathability: "Highly Breathable",
-    seller_email: "wannasingh.khan@gmail.com"
+    seller_email: "wannasingh.khan@gmail.com",
   },
   {
     id: "WS-712-B",
@@ -64,28 +65,24 @@ const defaultProducts = [
     fabric: "VENTILE",
     climate: "CLASS-II",
     stock: 88,
-    price: 315.00,
+    price: 315.0,
     status: "DRAFT",
     images: [
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB1fUpjAFtDqmLc5bac4eZ0Oxwm-IMdfFcyNreeGFsEcAx4lahEIo6EP2j8LyAMxROgf1xRG3KPHIuVZFWAskq1BASmAxkmTbMZPkY0z4DLiq1hx1XWjkSjjDukygew0Sd8QEZmgt3gFaZk7RrRoQ7F5kEGsTSuyFAh2hOeDSsDORcUC6c1ywP_bIJWR_ZF_jp-sDExnDj6mgcaNiiyY1pQ6rRYq5oo4VGdRkp0-vP3F2DLhIL53-cnnSwLl0kLsVwXPSc9a2sUjbtN"
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuB1fUpjAFtDqmLc5bac4eZ0Oxwm-IMdfFcyNreeGFsEcAx4lahEIo6EP2j8LyAMxROgf1xRG3KPHIuVZFWAskq1BASmAxkmTbMZPkY0z4DLiq1hx1XWjkSjjDukygew0Sd8QEZmgt3gFaZk7RrRoQ7F5kEGsTSuyFAh2hOeDSsDORcUC6c1ywP_bIJWR_ZF_jp-sDExnDj6mgcaNiiyY1pQ6rRYq5oo4VGdRkp0-vP3F2DLhIL53-cnnSwLl0kLsVwXPSc9a2sUjbtN",
     ],
     material: "Ventile L24 Organic",
     weight: "520g",
     breathability: "RET < 8",
-    seller_email: "wannasingh.khan@gmail.com"
-  }
+    seller_email: "wannasingh.khan@gmail.com",
+  },
 ];
 
 // Map Medusa SDK output products to our grid format
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mappedProducts = rawProducts.map((p: any) => {
-  const price = p.variants?.[0]?.prices?.[0]?.amount 
-    ? p.variants[0].prices[0].amount 
-    : 0;
+  const price = p.variants?.[0]?.prices?.[0]?.amount ? p.variants[0].prices[0].amount : 0;
 
-  const stock = p.variants?.[0]?.inventory_quantity 
-    ? p.variants[0].inventory_quantity 
-    : 0;
+  const stock = p.variants?.[0]?.inventory_quantity ? p.variants[0].inventory_quantity : 0;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const images = p.images?.map((img: any) => img.url) || [];
@@ -115,615 +112,909 @@ const mappedProducts = rawProducts.map((p: any) => {
     material,
     weight,
     breathability,
-    seller_email
+    seller_email,
   };
 });
 
 // Merge mapped medusa products and fallback defaults securely
-const displayProducts = [...mappedProducts, ...defaultProducts.filter(d => !mappedProducts.some(m => m.id === d.id))];
+const displayProducts = [
+  ...mappedProducts,
+  ...defaultProducts.filter((d) => !mappedProducts.some((m) => m.id === d.id)),
+];
 
 const totalSKUs = displayProducts.length;
 ---
+
 <AdminLayout title="WANNASINGH COMMAND CORE - PRODUCTS" activeTab="products">
-    <div id="api-config" data-url={PUBLIC_MEDUSA_BACKEND_URL} data-key={PUBLIC_MEDUSA_PUBLISHABLE_KEY} class="hidden"></div>
-    <!-- Context Header & Stats -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-            <div class="flex items-center gap-2 mb-1">
-                <div class="w-2 h-2 bg-primary status-pulse"></div>
-                <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase">Product Environment</span>
-            </div>
-            <h2 class="font-display text-4xl font-bold">INVENTORY_MATRIX</h2>
-        </div>
-        <div class="grid grid-cols-2 md:flex gap-4">
-            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
-                <p class="font-mono-label text-[11px] text-on-surface-variant">TOTAL_SKU</p>
-                <p class="font-mono-data text-2xl text-on-surface" id="total-sku-badge">{totalSKUs}</p>
-            </div>
-            <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
-                <p class="font-mono-label text-[11px] text-on-surface-variant">SYNC_STATUS</p>
-                <p class="font-mono-data text-2xl text-primary">OPTIMAL</p>
-            </div>
-        </div>
+  <div
+    id="api-config"
+    data-url={PUBLIC_MEDUSA_BACKEND_URL}
+    data-key={PUBLIC_MEDUSA_PUBLISHABLE_KEY}
+    class="hidden"
+  >
+  </div>
+  <!-- Context Header & Stats -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <div class="w-2 h-2 bg-primary status-pulse"></div>
+        <span class="font-mono-label text-[11px] text-primary tracking-widest uppercase"
+          >Product Environment</span
+        >
+      </div>
+      <h2 class="font-display text-4xl font-bold">INVENTORY_MATRIX</h2>
     </div>
-
-    <!-- Bulk Actions Toolbar -->
-    <div class="bg-primary/10 border border-primary/30 p-3 flex items-center justify-between hidden transition-all" id="bulk-toolbar">
-        <div class="flex items-center gap-4">
-            <span class="font-mono-label text-[11px] text-primary" id="selected-count-label">00 ITEMS_SELECTED</span>
-            <div class="h-4 w-[1px] bg-primary/30"></div>
-            <div class="flex gap-2">
-                <button class="px-3 py-1 border border-primary/50 text-primary font-mono-label text-[10px] hover:bg-primary/20 cursor-pointer" id="bulk-publish-btn">PUBLISH</button>
-                <button class="px-3 py-1 border border-primary/50 text-primary font-mono-label text-[10px] hover:bg-primary/20 cursor-pointer" id="bulk-draft-btn">MARK_DRAFT</button>
-                <button class="px-3 py-1 border border-primary/50 text-primary font-mono-label text-[10px] hover:bg-primary/20 cursor-pointer" id="bulk-update-pricing-btn">UPDATE_PRICING</button>
-            </div>
-        </div>
-        <button class="material-symbols-outlined text-primary text-[20px] cursor-pointer" data-icon="close" id="close-bulk-toolbar-btn">close</button>
+    <div class="grid grid-cols-2 md:flex gap-4">
+      <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+        <p class="font-mono-label text-[11px] text-on-surface-variant">TOTAL_SKU</p>
+        <p class="font-mono-data text-2xl text-on-surface" id="total-sku-badge">{totalSKUs}</p>
+      </div>
+      <div class="bg-surface-container border border-outline-variant p-3 min-w-[120px]">
+        <p class="font-mono-label text-[11px] text-on-surface-variant">SYNC_STATUS</p>
+        <p class="font-mono-data text-2xl text-primary">OPTIMAL</p>
+      </div>
     </div>
+  </div>
 
-    <!-- Filters & Actions -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-        <div class="lg:col-span-10 grid grid-cols-1 md:grid-cols-4 gap-4 bg-surface-container-low p-4 border border-outline-variant">
+  <!-- Bulk Actions Toolbar -->
+  <div
+    class="bg-primary/10 border border-primary/30 p-3 flex items-center justify-between hidden transition-all"
+    id="bulk-toolbar"
+  >
+    <div class="flex items-center gap-4">
+      <span class="font-mono-label text-[11px] text-primary" id="selected-count-label"
+        >00 ITEMS_SELECTED</span
+      >
+      <div class="h-4 w-[1px] bg-primary/30"></div>
+      <div class="flex gap-2">
+        <button
+          class="px-3 py-1 border border-primary/50 text-primary font-mono-label text-[10px] hover:bg-primary/20 cursor-pointer"
+          id="bulk-publish-btn">PUBLISH</button
+        >
+        <button
+          class="px-3 py-1 border border-primary/50 text-primary font-mono-label text-[10px] hover:bg-primary/20 cursor-pointer"
+          id="bulk-draft-btn">MARK_DRAFT</button
+        >
+        <button
+          class="px-3 py-1 border border-primary/50 text-primary font-mono-label text-[10px] hover:bg-primary/20 cursor-pointer"
+          id="bulk-update-pricing-btn">UPDATE_PRICING</button
+        >
+      </div>
+    </div>
+    <button
+      class="material-symbols-outlined text-primary text-[20px] cursor-pointer"
+      data-icon="close"
+      id="close-bulk-toolbar-btn">close</button
+    >
+  </div>
+
+  <!-- Filters & Actions -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+    <div
+      class="lg:col-span-10 grid grid-cols-1 md:grid-cols-4 gap-4 bg-surface-container-low p-4 border border-outline-variant"
+    >
+      <div class="space-y-1">
+        <label
+          for="filter-fabric"
+          class="font-mono-label text-[11px] text-on-surface-variant uppercase"
+          >Fabric Technology</label
+        >
+        <select
+          class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface"
+          id="filter-fabric"
+        >
+          <option value="ALL">ALL_VARIANTS</option>
+          <option value="GORE-PRO">GORE-TEX_PRO</option>
+          <option value="DYNEEMA">DYNEEMA_COMPOSITE</option>
+          <option value="VENTILE">VENTILE</option>
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label
+          for="filter-collection"
+          class="font-mono-label text-[11px] text-on-surface-variant uppercase"
+          >Medusa Collection</label
+        >
+        <select
+          class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface"
+          id="filter-collection"
+        >
+          <option value="ALL">ALL_COLLECTIONS</option>
+          <option value="CYBER_SHELTER">CYBER_SHELTER_2024</option>
+          <option value="URBAN_SURVIVAL">URBAN_SURVIVAL</option>
+          <option value="TECH_ACCESSORIES">TECH_ACCESSORIES</option>
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label
+          for="filter-climate"
+          class="font-mono-label text-[11px] text-on-surface-variant uppercase">Climate Class</label
+        >
+        <select
+          class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface"
+          id="filter-climate"
+        >
+          <option value="ALL">ALL_STATIONS</option>
+          <option value="CLASS-IV">ARCTIC_ZONE_IV</option>
+          <option value="CLASS-II">CLASS_II</option>
+          <option value="CLASS-I">TROPIC_ZONE_I</option>
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label
+          for="filter-status"
+          class="font-mono-label text-[11px] text-on-surface-variant uppercase">Status</label
+        >
+        <select
+          class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface"
+          id="filter-status"
+        >
+          <option value="ALL">ALL_STATUS</option>
+          <option value="PUBLISHED">PUBLISHED</option>
+          <option value="DRAFT">DRAFT</option>
+          <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
+        </select>
+      </div>
+    </div>
+    <div class="lg:col-span-2 h-full">
+      <button
+        class="w-full h-full min-h-[64px] bg-primary text-on-primary font-mono-label text-[11px] font-bold flex items-center justify-center gap-3 hover:brightness-110 active:opacity-80 transition-all cursor-pointer"
+        id="create-product-btn"
+      >
+        <span class="material-symbols-outlined">add_box</span>
+        CREATE_NEW
+      </button>
+    </div>
+  </div>
+
+  <!-- Technical Data Grid -->
+  <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
+    <div class="overflow-x-auto custom-scrollbar">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-surface-container-low border-b border-outline-variant">
+          <tr>
+            <th class="p-4 w-10">
+              <input
+                class="bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer"
+                type="checkbox"
+                id="select-all-checkbox"
+              />
+            </th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">PRODUCT_ID</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">SKU_REF</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">NAME</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant"
+              >FABRIC_SYSTEM</th
+            >
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant text-right"
+              >STOCK</th
+            >
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant text-right"
+              >BASE_PRICE</th
+            >
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">STATUS</th>
+            <th class="p-4 font-mono-label text-mono-label text-on-surface-variant text-center"
+              >CMD</th
+            >
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/30" id="product-rows-container">
+          {
+            displayProducts.map((prod) => (
+              <tr
+                class="hover:bg-surface-bright/20 transition-colors group cursor-pointer product-row"
+                data-id={prod.id}
+                data-sku={prod.sku}
+                data-title={prod.title}
+                data-fabric={prod.fabric}
+                data-climate={prod.climate}
+                data-stock={prod.stock}
+                data-price={prod.price}
+                data-status={prod.status}
+                data-material={prod.material}
+                data-weight={prod.weight}
+                data-breathability={prod.breathability}
+                data-images={JSON.stringify(prod.images)}
+                data-seller-email={prod.seller_email}
+              >
+                <td class="p-4">
+                  <input
+                    class="bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 row-checkbox cursor-pointer"
+                    type="checkbox"
+                  />
+                </td>
+                <td class="p-4 font-mono-data text-[13px] text-on-surface-variant product-id-cell">
+                  {prod.id.slice(0, 10)}
+                </td>
+                <td class="p-4 font-mono-data text-[13px] product-sku">{prod.sku}</td>
+                <td class="p-4 font-body-sm text-sm font-bold product-name">{prod.title}</td>
+                <td class="p-4">
+                  <div class="flex gap-2">
+                    <span class="px-2 py-0.5 border border-primary text-primary text-[9px] font-mono-label">
+                      {prod.fabric}
+                    </span>
+                    <span class="px-2 py-0.5 border border-outline-variant text-on-surface-variant text-[9px] font-mono-label">
+                      {prod.climate}
+                    </span>
+                  </div>
+                </td>
+                <td class="p-4 text-right">
+                  <div class="flex flex-col items-end">
+                    <span
+                      class={`font-mono-data text-[13px] product-stock ${prod.stock === 0 ? "text-error" : "text-primary"}`}
+                    >
+                      {prod.stock}
+                    </span>
+                    <div class="w-16 h-1 bg-surface-container-highest mt-1">
+                      <div
+                        class={`h-full ${prod.stock === 0 ? "bg-error" : "bg-primary"}`}
+                        style={"width: " + Math.min(100, (prod.stock / 500) * 100) + "%"}
+                      />
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 text-right font-mono-data text-[13px] product-price">
+                  ${prod.price.toFixed(2)}
+                </td>
+                <td class="p-4 product-status-cell">
+                  {prod.status === "PUBLISHED" && (
+                    <span class="flex items-center gap-2 text-primary font-mono-label text-[10px]">
+                      <span class="w-1.5 h-1.5 bg-primary rounded-none" /> PUBLISHED
+                    </span>
+                  )}
+                  {prod.status === "OUT_OF_STOCK" && (
+                    <span class="flex items-center gap-2 text-error font-mono-label text-[10px]">
+                      <span class="w-1.5 h-1.5 bg-error rounded-none animate-pulse" /> OUT_OF_STOCK
+                    </span>
+                  )}
+                  {prod.status === "DRAFT" && (
+                    <span class="flex items-center gap-2 text-on-surface-variant font-mono-label text-[10px] italic">
+                      <span class="w-1.5 h-1.5 bg-on-surface-variant rounded-none opacity-40" />{" "}
+                      DRAFT
+                    </span>
+                  )}
+                </td>
+                <td class="p-4 text-center">
+                  <button
+                    class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
+                    data-icon="edit_square"
+                  >
+                    edit_square
+                  </button>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="p-4 bg-surface-container-low border-t border-outline-variant flex justify-between items-center"
+    >
+      <span
+        class="font-mono-data text-[13px] text-on-surface-variant opacity-60 uppercase"
+        id="query-result-label">QUERY_RESULT: 1-{totalSKUs} OF {totalSKUs} RECORDS</span
+      >
+      <div class="flex gap-1">
+        <button
+          class="p-2 border border-outline-variant text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
+          ><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span
+          ></button
+        >
+        <button class="p-2 border border-primary text-primary font-mono-data text-[13px]">01</button
+        >
+        <button
+          class="p-2 border border-outline-variant text-on-surface-variant hover:text-primary transition-colors font-mono-data text-[13px] cursor-pointer"
+          >02</button
+        >
+        <button
+          class="p-2 border border-outline-variant text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
+          ><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span
+          ></button
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- System Intelligence Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div
+      class="col-span-1 md:col-span-2 bg-surface-container border border-outline-variant p-6 relative overflow-hidden group"
+    >
+      <div
+        class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+      </div>
+      <div class="relative z-10">
+        <h3 class="font-mono-label text-[11px] text-primary mb-2 uppercase">
+          Bulk_Manifest_Processor
+        </h3>
+        <p class="text-sm text-on-surface-variant mb-4 font-display">
+          Synchronize local manifest with global SKU database.
+        </p>
+        <button
+          class="px-4 py-2 border border-primary text-primary font-mono-label text-[11px] hover:bg-primary/10 transition-colors uppercase cursor-pointer"
+          >Upload_SKU_CSV</button
+        >
+      </div>
+    </div>
+    <div class="bg-surface-container border border-outline-variant p-6">
+      <h3 class="font-mono-label text-[11px] text-primary mb-2 uppercase">Critical_Alerts</h3>
+      <div class="space-y-3">
+        <div class="flex items-start gap-2">
+          <span class="material-symbols-outlined text-error text-[18px]" data-icon="warning"
+            >warning</span
+          >
+          <span class="font-mono-data text-[11px] leading-tight">STOCK_CRITICAL: WS-901-Y</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="material-symbols-outlined text-primary text-[18px]" data-icon="info"
+            >info</span
+          >
+          <span class="font-mono-data text-[11px] leading-tight">MEDUSA_HOOK: SYNC_COMPLETE</span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="bg-surface-container border border-outline-variant p-6 flex flex-col justify-between"
+    >
+      <h3 class="font-mono-label text-[11px] text-primary uppercase">Engine_Health</h3>
+      <div class="mt-4 flex items-center justify-between">
+        <span class="font-mono-data text-2xl font-bold" id="db-health-status">99.9%</span>
+        <span
+          class="material-symbols-outlined text-primary text-[32px] status-pulse"
+          data-icon="database">database</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Edit Panel (New Side-Panel) -->
+  <div class="fixed inset-0 bg-background/80 overlay-blur z-[60] hidden" id="edit-panel-overlay">
+  </div>
+  <aside
+    class="fixed right-0 top-0 h-full w-full lg:w-[600px] bg-surface-container border-l border-outline-variant z-[70] translate-x-full panel-transition flex flex-col overflow-hidden shadow-2xl"
+    id="edit-panel"
+  >
+    <header
+      class="p-6 border-b border-outline-variant flex items-center justify-between bg-surface"
+    >
+      <div>
+        <h3 class="font-display text-lg font-bold text-primary" id="edit-panel-title">
+          EDIT_PRODUCT // WS-882-X
+        </h3>
+        <p class="font-mono-label text-[11px] text-on-surface-variant uppercase">
+          Matrix Entry Management
+        </p>
+      </div>
+      <button
+        class="p-2 hover:bg-surface-variant transition-colors cursor-pointer"
+        id="close-edit-panel-btn"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </header>
+    <div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8 pb-32">
+      <!-- Media Management -->
+      <section class="space-y-4">
+        <h4
+          class="font-mono-label text-[11px] text-primary border-b border-outline-variant pb-1 uppercase"
+        >
+          Media_Management
+        </h4>
+        <div class="grid grid-cols-3 gap-2" id="media-grid">
+          <div
+            class="aspect-square bg-surface border border-outline-variant flex items-center justify-center relative group"
+            id="media-img-1-wrapper"
+          >
+            <img
+              alt="Product View 1"
+              class="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+              id="media-img-1"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1fUpjAFtDqmLc5bac4eZ0Oxwm-IMdfFcyNreeGFsEcAx4lahEIo6EP2j8LyAMxROgf1xRG3KPHIuVZFWAskq1BASmAxkmTbMZPkY0z4DLiq1hx1XWjkSjjDukygew0Sd8QEZmgt3gFaZk7RrRoQ7F5kEGsTSuyFAh2hOeDSsDORcUC6c1ywP_bIJWR_ZF_jp-sDExnDj6mgcaNiiyY1pQ6rRYq5oo4VGdRkp0-vP3F2DLhIL53-cnnSwLl0kLsVwXPSc9a2sUjbtN"
+            />
+            <div
+              class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center gap-2"
+            >
+              <button class="p-1 bg-surface-variant cursor-pointer"
+                ><span class="material-symbols-outlined text-[18px]">delete</span></button
+              >
+            </div>
+          </div>
+          <div
+            class="aspect-square bg-surface border border-outline-variant flex items-center justify-center relative group"
+            id="media-img-2-wrapper"
+          >
+            <img
+              alt="Product View 2"
+              class="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+              id="media-img-2"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP0_QnQ91FEBCcioy_EYfkwbmsR2DKrLUjmlWNvD-OiYibbxpKfmWJRnUwTC1_DAmK_JWG7Ve3kQZbn8BoUU0W8ZpQe5jPfNRMlsW1qcZEY8Lv-dznKKVl7LjRKwlYLztWUFXqfj86dfEMaFOqq19d7avDsd6hWMwJQS5eotPCKMG8GDlwPdCiRGqhEskT1gUneEC3CGmoSrqYIE7hR-jhQFJZd7Sqt6Qrz3n2s3ML9v3BITlJbbbEjpTDXBNPbceDCiDIGezNIaIk"
+            />
+            <div
+              class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center gap-2"
+            >
+              <button class="p-1 bg-surface-variant cursor-pointer"
+                ><span class="material-symbols-outlined text-[18px]">delete</span></button
+              >
+            </div>
+          </div>
+          <button
+            class="aspect-square border-2 border-dashed border-outline-variant flex flex-col items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-all cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-[32px]">add_photo_alternate</span>
+            <span class="font-mono-label text-[10px] mt-2 uppercase">Upload_Asset</span>
+          </button>
+        </div>
+      </section>
+      <!-- Technical Specifications -->
+      <section class="space-y-4">
+        <h4
+          class="font-mono-label text-[11px] text-primary border-b border-outline-variant pb-1 uppercase"
+        >
+          Technical_Specifications
+        </h4>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label
+              for="edit-material"
+              class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+              >Base_Material</label
+            >
+            <input
+              class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary focus:border-primary"
+              type="text"
+              id="edit-material"
+              value="3L GORE-TEX PRO"
+            />
+          </div>
+          <div class="space-y-1">
+            <label
+              for="edit-weight"
+              class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+              >Weight_Grammage</label
+            >
+            <input
+              class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary focus:border-primary"
+              type="text"
+              id="edit-weight"
+              value="480g"
+            />
+          </div>
+          <div class="space-y-1">
+            <label
+              for="edit-climate"
+              class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+              >Climate_Rating</label
+            >
+            <select
+              class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary"
+              id="edit-climate"
+            >
+              <option value="CLASS-IV">ARCTIC_IV</option>
+              <option value="CLASS-II">CLASS_II</option>
+              <option value="CLASS-I">ALPINE_III</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label
+              for="edit-breathability"
+              class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+              >Breathability</label
+            >
+            <input
+              class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary focus:border-primary"
+              type="text"
+              id="edit-breathability"
+              value="RET < 6"
+            />
+          </div>
+        </div>
+      </section>
+      <!-- Medusa Backend Integration -->
+      <section class="space-y-4">
+        <h4
+          class="font-mono-label text-[11px] text-primary border-b border-outline-variant pb-1 uppercase"
+        >
+          Medusa_Backend_Sync
+        </h4>
+        <div class="space-y-4 bg-surface p-4 border border-outline-variant">
+          <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
+            <span class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+              >SKU_Registry</span
+            >
+            <span class="font-mono-data text-[10px] text-primary" id="edit-sku-label"
+              >WS-SLL-01-V3-ALPHA</span
+            >
+          </div>
+          <div class="grid grid-cols-2 gap-4">
             <div class="space-y-1">
-                <label for="filter-fabric" class="font-mono-label text-[11px] text-on-surface-variant uppercase">Fabric Technology</label>
-                <select class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface" id="filter-fabric">
-                    <option value="ALL">ALL_VARIANTS</option>
-                    <option value="GORE-PRO">GORE-TEX_PRO</option>
-                    <option value="DYNEEMA">DYNEEMA_COMPOSITE</option>
-                    <option value="VENTILE">VENTILE</option>
-                </select>
+              <label
+                for="edit-price"
+                class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+                >Variant_Pricing (USD)</label
+              >
+              <input
+                class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary"
+                type="number"
+                step="0.01"
+                id="edit-price"
+                value="595.00"
+              />
             </div>
             <div class="space-y-1">
-                <label for="filter-collection" class="font-mono-label text-[11px] text-on-surface-variant uppercase">Medusa Collection</label>
-                <select class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface" id="filter-collection">
-                    <option value="ALL">ALL_COLLECTIONS</option>
-                    <option value="CYBER_SHELTER">CYBER_SHELTER_2024</option>
-                    <option value="URBAN_SURVIVAL">URBAN_SURVIVAL</option>
-                    <option value="TECH_ACCESSORIES">TECH_ACCESSORIES</option>
-                </select>
+              <label
+                for="edit-stock"
+                class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+                >Current_Stock</label
+              >
+              <input
+                class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary"
+                type="number"
+                id="edit-stock"
+                value="412"
+              />
             </div>
-            <div class="space-y-1">
-                <label for="filter-climate" class="font-mono-label text-[11px] text-on-surface-variant uppercase">Climate Class</label>
-                <select class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface" id="filter-climate">
-                    <option value="ALL">ALL_STATIONS</option>
-                    <option value="CLASS-IV">ARCTIC_ZONE_IV</option>
-                    <option value="CLASS-II">CLASS_II</option>
-                    <option value="CLASS-I">TROPIC_ZONE_I</option>
-                </select>
-            </div>
-            <div class="space-y-1">
-                <label for="filter-status" class="font-mono-label text-[11px] text-on-surface-variant uppercase">Status</label>
-                <select class="w-full bg-surface border-0 border-b border-outline-variant font-mono-data text-[13px] py-2 focus:ring-0 focus:border-primary text-on-surface" id="filter-status">
-                    <option value="ALL">ALL_STATUS</option>
-                    <option value="PUBLISHED">PUBLISHED</option>
-                    <option value="DRAFT">DRAFT</option>
-                    <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
-                </select>
-            </div>
-        </div>
-        <div class="lg:col-span-2 h-full">
-            <button class="w-full h-full min-h-[64px] bg-primary text-on-primary font-mono-label text-[11px] font-bold flex items-center justify-center gap-3 hover:brightness-110 active:opacity-80 transition-all cursor-pointer" id="create-product-btn">
-                <span class="material-symbols-outlined">add_box</span>
-                CREATE_NEW
-            </button>
-        </div>
-    </div>
-
-    <!-- Technical Data Grid -->
-    <div class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-surface-container-low border-b border-outline-variant">
-                    <tr>
-                        <th class="p-4 w-10">
-                            <input class="bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer" type="checkbox" id="select-all-checkbox">
-                        </th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">PRODUCT_ID</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">SKU_REF</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">NAME</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">FABRIC_SYSTEM</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant text-right">STOCK</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant text-right">BASE_PRICE</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant">STATUS</th>
-                        <th class="p-4 font-mono-label text-mono-label text-on-surface-variant text-center">CMD</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-outline-variant/30" id="product-rows-container">
-                    {displayProducts.map((prod) => (
-                        <tr class="hover:bg-surface-bright/20 transition-colors group cursor-pointer product-row" 
-                            data-id={prod.id} 
-                            data-sku={prod.sku} 
-                            data-title={prod.title} 
-                            data-fabric={prod.fabric} 
-                            data-climate={prod.climate} 
-                            data-stock={prod.stock} 
-                            data-price={prod.price} 
-                            data-status={prod.status}
-                            data-material={prod.material}
-                            data-weight={prod.weight}
-                            data-breathability={prod.breathability}
-                            data-images={JSON.stringify(prod.images)}
-                            data-seller-email={prod.seller_email}>
-                            <td class="p-4"><input class="bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 row-checkbox cursor-pointer" type="checkbox"></td>
-                            <td class="p-4 font-mono-data text-[13px] text-on-surface-variant product-id-cell">{prod.id.slice(0, 10)}</td>
-                            <td class="p-4 font-mono-data text-[13px] product-sku">{prod.sku}</td>
-                            <td class="p-4 font-body-sm text-sm font-bold product-name">{prod.title}</td>
-                            <td class="p-4">
-                                <div class="flex gap-2">
-                                    <span class="px-2 py-0.5 border border-primary text-primary text-[9px] font-mono-label">{prod.fabric}</span>
-                                    <span class="px-2 py-0.5 border border-outline-variant text-on-surface-variant text-[9px] font-mono-label">{prod.climate}</span>
-                                </div>
-                            </td>
-                            <td class="p-4 text-right">
-                                <div class="flex flex-col items-end">
-                                    <span class={`font-mono-data text-[13px] product-stock ${prod.stock === 0 ? 'text-error' : 'text-primary'}`}>{prod.stock}</span>
-                                    <div class="w-16 h-1 bg-surface-container-highest mt-1">
-                                        <div class={`h-full ${prod.stock === 0 ? 'bg-error' : 'bg-primary'}`} style={"width: " + Math.min(100, (prod.stock / 500) * 100) + "%"}></div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-4 text-right font-mono-data text-[13px] product-price">${prod.price.toFixed(2)}</td>
-                            <td class="p-4 product-status-cell">
-                                {prod.status === "PUBLISHED" && (
-                                    <span class="flex items-center gap-2 text-primary font-mono-label text-[10px]">
-                                        <span class="w-1.5 h-1.5 bg-primary rounded-none"></span> PUBLISHED
-                                    </span>
-                                )}
-                                {prod.status === "OUT_OF_STOCK" && (
-                                    <span class="flex items-center gap-2 text-error font-mono-label text-[10px]">
-                                        <span class="w-1.5 h-1.5 bg-error rounded-none animate-pulse"></span> OUT_OF_STOCK
-                                    </span>
-                                )}
-                                {prod.status === "DRAFT" && (
-                                    <span class="flex items-center gap-2 text-on-surface-variant font-mono-label text-[10px] italic">
-                                        <span class="w-1.5 h-1.5 bg-on-surface-variant rounded-none opacity-40"></span> DRAFT
-                                    </span>
-                                )}
-                            </td>
-                            <td class="p-4 text-center">
-                                <button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer" data-icon="edit_square">edit_square</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-        <div class="p-4 bg-surface-container-low border-t border-outline-variant flex justify-between items-center">
-            <span class="font-mono-data text-[13px] text-on-surface-variant opacity-60 uppercase" id="query-result-label">QUERY_RESULT: 1-{totalSKUs} OF {totalSKUs} RECORDS</span>
-            <div class="flex gap-1">
-                <button class="p-2 border border-outline-variant text-on-surface-variant hover:text-primary transition-colors cursor-pointer"><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span></button>
-                <button class="p-2 border border-primary text-primary font-mono-data text-[13px]">01</button>
-                <button class="p-2 border border-outline-variant text-on-surface-variant hover:text-primary transition-colors font-mono-data text-[13px] cursor-pointer">02</button>
-                <button class="p-2 border border-outline-variant text-on-surface-variant hover:text-primary transition-colors cursor-pointer"><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- System Intelligence Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="col-span-1 md:col-span-2 bg-surface-container border border-outline-variant p-6 relative overflow-hidden group">
-            <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div class="relative z-10">
-                <h3 class="font-mono-label text-[11px] text-primary mb-2 uppercase">Bulk_Manifest_Processor</h3>
-                <p class="text-sm text-on-surface-variant mb-4 font-display">Synchronize local manifest with global SKU database.</p>
-                <button class="px-4 py-2 border border-primary text-primary font-mono-label text-[11px] hover:bg-primary/10 transition-colors uppercase cursor-pointer">Upload_SKU_CSV</button>
-            </div>
-        </div>
-        <div class="bg-surface-container border border-outline-variant p-6">
-            <h3 class="font-mono-label text-[11px] text-primary mb-2 uppercase">Critical_Alerts</h3>
-            <div class="space-y-3">
-                <div class="flex items-start gap-2">
-                    <span class="material-symbols-outlined text-error text-[18px]" data-icon="warning">warning</span>
-                    <span class="font-mono-data text-[11px] leading-tight">STOCK_CRITICAL: WS-901-Y</span>
-                </div>
-                <div class="flex items-start gap-2">
-                    <span class="material-symbols-outlined text-primary text-[18px]" data-icon="info">info</span>
-                    <span class="font-mono-data text-[11px] leading-tight">MEDUSA_HOOK: SYNC_COMPLETE</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-surface-container border border-outline-variant p-6 flex flex-col justify-between">
-            <h3 class="font-mono-label text-[11px] text-primary uppercase">Engine_Health</h3>
-            <div class="mt-4 flex items-center justify-between">
-                <span class="font-mono-data text-2xl font-bold" id="db-health-status">99.9%</span>
-                <span class="material-symbols-outlined text-primary text-[32px] status-pulse" data-icon="database">database</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Edit Panel (New Side-Panel) -->
-    <div class="fixed inset-0 bg-background/80 overlay-blur z-[60] hidden" id="edit-panel-overlay"></div>
-    <aside class="fixed right-0 top-0 h-full w-full lg:w-[600px] bg-surface-container border-l border-outline-variant z-[70] translate-x-full panel-transition flex flex-col overflow-hidden shadow-2xl" id="edit-panel">
-        <header class="p-6 border-b border-outline-variant flex items-center justify-between bg-surface">
-            <div>
-                <h3 class="font-display text-lg font-bold text-primary" id="edit-panel-title">EDIT_PRODUCT // WS-882-X</h3>
-                <p class="font-mono-label text-[11px] text-on-surface-variant uppercase">Matrix Entry Management</p>
-            </div>
-            <button class="p-2 hover:bg-surface-variant transition-colors cursor-pointer" id="close-edit-panel-btn">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </header>
-        <div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8 pb-32">
-            <!-- Media Management -->
-            <section class="space-y-4">
-                <h4 class="font-mono-label text-[11px] text-primary border-b border-outline-variant pb-1 uppercase">Media_Management</h4>
-                <div class="grid grid-cols-3 gap-2" id="media-grid">
-                    <div class="aspect-square bg-surface border border-outline-variant flex items-center justify-center relative group" id="media-img-1-wrapper">
-                        <img alt="Product View 1" class="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all" id="media-img-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1fUpjAFtDqmLc5bac4eZ0Oxwm-IMdfFcyNreeGFsEcAx4lahEIo6EP2j8LyAMxROgf1xRG3KPHIuVZFWAskq1BASmAxkmTbMZPkY0z4DLiq1hx1XWjkSjjDukygew0Sd8QEZmgt3gFaZk7RrRoQ7F5kEGsTSuyFAh2hOeDSsDORcUC6c1ywP_bIJWR_ZF_jp-sDExnDj6mgcaNiiyY1pQ6rRYq5oo4VGdRkp0-vP3F2DLhIL53-cnnSwLl0kLsVwXPSc9a2sUjbtN">
-                        <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center gap-2">
-                            <button class="p-1 bg-surface-variant cursor-pointer"><span class="material-symbols-outlined text-[18px]">delete</span></button>
-                        </div>
-                    </div>
-                    <div class="aspect-square bg-surface border border-outline-variant flex items-center justify-center relative group" id="media-img-2-wrapper">
-                        <img alt="Product View 2" class="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all" id="media-img-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP0_QnQ91FEBCcioy_EYfkwbmsR2DKrLUjmlWNvD-OiYibbxpKfmWJRnUwTC1_DAmK_JWG7Ve3kQZbn8BoUU0W8ZpQe5jPfNRMlsW1qcZEY8Lv-dznKKVl7LjRKwlYLztWUFXqfj86dfEMaFOqq19d7avDsd6hWMwJQS5eotPCKMG8GDlwPdCiRGqhEskT1gUneEC3CGmoSrqYIE7hR-jhQFJZd7Sqt6Qrz3n2s3ML9v3BITlJbbbEjpTDXBNPbceDCiDIGezNIaIk">
-                        <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center gap-2">
-                            <button class="p-1 bg-surface-variant cursor-pointer"><span class="material-symbols-outlined text-[18px]">delete</span></button>
-                        </div>
-                    </div>
-                    <button class="aspect-square border-2 border-dashed border-outline-variant flex flex-col items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-all cursor-pointer">
-                        <span class="material-symbols-outlined text-[32px]">add_photo_alternate</span>
-                        <span class="font-mono-label text-[10px] mt-2 uppercase">Upload_Asset</span>
-                    </button>
-                </div>
-            </section>
-            <!-- Technical Specifications -->
-            <section class="space-y-4">
-                <h4 class="font-mono-label text-[11px] text-primary border-b border-outline-variant pb-1 uppercase">Technical_Specifications</h4>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label for="edit-material" class="font-mono-label text-[10px] text-on-surface-variant uppercase">Base_Material</label>
-                        <input class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary focus:border-primary" type="text" id="edit-material" value="3L GORE-TEX PRO">
-                    </div>
-                    <div class="space-y-1">
-                        <label for="edit-weight" class="font-mono-label text-[10px] text-on-surface-variant uppercase">Weight_Grammage</label>
-                        <input class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary focus:border-primary" type="text" id="edit-weight" value="480g">
-                    </div>
-                    <div class="space-y-1">
-                        <label for="edit-climate" class="font-mono-label text-[10px] text-on-surface-variant uppercase">Climate_Rating</label>
-                        <select class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary" id="edit-climate">
-                            <option value="CLASS-IV">ARCTIC_IV</option>
-                            <option value="CLASS-II">CLASS_II</option>
-                            <option value="CLASS-I">ALPINE_III</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label for="edit-breathability" class="font-mono-label text-[10px] text-on-surface-variant uppercase">Breathability</label>
-                        <input class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary focus:border-primary" type="text" id="edit-breathability" value="RET < 6">
-                    </div>
-                </div>
-            </section>
-            <!-- Medusa Backend Integration -->
-            <section class="space-y-4">
-                <h4 class="font-mono-label text-[11px] text-primary border-b border-outline-variant pb-1 uppercase">Medusa_Backend_Sync</h4>
-                <div class="space-y-4 bg-surface p-4 border border-outline-variant">
-                    <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
-                        <span class="font-mono-label text-[10px] text-on-surface-variant uppercase">SKU_Registry</span>
-                        <span class="font-mono-data text-[10px] text-primary" id="edit-sku-label">WS-SLL-01-V3-ALPHA</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label for="edit-price" class="font-mono-label text-[10px] text-on-surface-variant uppercase">Variant_Pricing (USD)</label>
-                            <input class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary" type="number" step="0.01" id="edit-price" value="595.00">
-                        </div>
-                        <div class="space-y-1">
-                            <label for="edit-stock" class="font-mono-label text-[10px] text-on-surface-variant uppercase">Current_Stock</label>
-                            <input class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[13px] text-on-surface p-2 focus:ring-1 focus:ring-primary" type="number" id="edit-stock" value="412">
-                        </div>
-                    </div>
-                    <div class="space-y-1">
-                        <label for="edit-metadata" class="font-mono-label text-[10px] text-on-surface-variant uppercase">Metadata_JSON</label>
-                        <textarea class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[11px] text-on-surface p-2 h-24" readonly id="edit-metadata">{`{
+          </div>
+          <div class="space-y-1">
+            <label
+              for="edit-metadata"
+              class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+              >Metadata_JSON</label
+            >
+            <textarea
+              class="w-full bg-surface-container-high border border-outline-variant font-mono-data text-[11px] text-on-surface p-2 h-24"
+              readonly
+              id="edit-metadata"
+              >{
+                `{
   "hook_id": "md_8921_x",
   "legacy_ref": "v2_alpha_09",
   "warranty": "lifetime_core"
-}`}</textarea>
-                    </div>
-                </div>
-            </section>
+}`
+              }</textarea
+            >
+          </div>
         </div>
-        <footer class="absolute bottom-0 left-0 right-0 p-6 bg-surface-container border-t border-outline-variant grid grid-cols-2 gap-4">
-            <button class="py-3 border border-outline-variant text-on-surface-variant font-mono-label text-[11px] hover:bg-surface-variant uppercase cursor-pointer" id="cancel-changes-btn">Cancel_Changes</button>
-            <button class="py-3 bg-primary text-on-primary font-mono-label text-[11px] hover:brightness-110 uppercase cursor-pointer" id="commit-changes-btn">Commit_to_Medusa</button>
-        </footer>
-    </aside>
+      </section>
+    </div>
+    <footer
+      class="absolute bottom-0 left-0 right-0 p-6 bg-surface-container border-t border-outline-variant grid grid-cols-2 gap-4"
+    >
+      <button
+        class="py-3 border border-outline-variant text-on-surface-variant font-mono-label text-[11px] hover:bg-surface-variant uppercase cursor-pointer"
+        id="cancel-changes-btn">Cancel_Changes</button
+      >
+      <button
+        class="py-3 bg-primary text-on-primary font-mono-label text-[11px] hover:brightness-110 uppercase cursor-pointer"
+        id="commit-changes-btn">Commit_to_Medusa</button
+      >
+    </footer>
+  </aside>
 
-    <script is:inline>
-        let selectedRowElement = null;
+  <script is:inline>
+    let selectedRowElement = null;
 
-        function toggleEditPanel(show) {
-            const panel = document.getElementById('edit-panel');
-            const overlay = document.getElementById('edit-panel-overlay');
-            if (show) {
-                panel.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-            } else {
-                panel.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-            }
+    function toggleEditPanel(show) {
+      const panel = document.getElementById("edit-panel");
+      const overlay = document.getElementById("edit-panel-overlay");
+      if (show) {
+        panel.classList.remove("translate-x-full");
+        overlay.classList.remove("hidden");
+      } else {
+        panel.classList.add("translate-x-full");
+        overlay.classList.add("hidden");
+      }
+    }
+
+    // Bulk Actions bar visibility logic
+    function toggleBulkToolbar(show) {
+      const toolbar = document.getElementById("bulk-toolbar");
+      if (show) {
+        toolbar.classList.remove("hidden");
+      } else {
+        toolbar.classList.add("hidden");
+      }
+    }
+
+    // Select All rows logic
+    const selectAllCheckbox = document.getElementById("select-all-checkbox");
+    const rowCheckboxes = document.querySelectorAll(".row-checkbox");
+
+    selectAllCheckbox?.addEventListener("change", (e) => {
+      const isChecked = e.target.checked;
+      rowCheckboxes.forEach((cb) => (cb.checked = isChecked));
+
+      const selectedCount = isChecked ? rowCheckboxes.length : 0;
+      document.getElementById("selected-count-label").textContent =
+        `${selectedCount.toString().padStart(2, "0")} ITEMS_SELECTED`;
+      toggleBulkToolbar(isChecked && selectedCount > 0);
+    });
+
+    rowCheckboxes.forEach((cb) => {
+      cb.addEventListener("change", () => {
+        const checkedBoxes = document.querySelectorAll(".row-checkbox:checked");
+        document.getElementById("selected-count-label").textContent =
+          `${checkedBoxes.length.toString().padStart(2, "0")} ITEMS_SELECTED`;
+        toggleBulkToolbar(checkedBoxes.length > 0);
+
+        if (selectAllCheckbox) {
+          selectAllCheckbox.checked = checkedBoxes.length === rowCheckboxes.length;
+        }
+      });
+    });
+
+    document.getElementById("close-bulk-toolbar-btn")?.addEventListener("click", () => {
+      rowCheckboxes.forEach((cb) => (cb.checked = false));
+      if (selectAllCheckbox) selectAllCheckbox.checked = false;
+      toggleBulkToolbar(false);
+    });
+
+    // Retrieve API config injected from server
+    const apiConfig = document.getElementById("api-config");
+    const API = apiConfig ? apiConfig.getAttribute("data-url") : "http://localhost:9000";
+    const PK = apiConfig ? apiConfig.getAttribute("data-key") : "";
+
+    // If wanna_auth_email is not in localStorage, fetch it from backend asynchronously
+    if (!localStorage.getItem("wanna_auth_email") && localStorage.getItem("wanna_auth_token")) {
+      fetch(`${API}/store/customers/me`, {
+        headers: {
+          "Content-Type": "application/json",
+          "x-publishable-api-key": PK,
+          Authorization: `Bearer ${localStorage.getItem("wanna_auth_token")}`,
+        },
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const customer = data.customer || data;
+          if (customer && customer.email) {
+            localStorage.setItem("wanna_auth_email", customer.email);
+            filterProducts();
+          }
+        })
+        .catch((err) => console.error("Error fetching profile email:", err));
+    }
+
+    // Search & Filter product items locally
+    const searchInput = document.getElementById("query-db");
+    const filterFabric = document.getElementById("filter-fabric");
+    const filterCollection = document.getElementById("filter-collection");
+    const filterClimate = document.getElementById("filter-climate");
+    const filterStatus = document.getElementById("filter-status");
+
+    function filterProducts() {
+      const loggedInEmail = localStorage.getItem("wanna_auth_email") || "wannasingh.khan@gmail.com";
+
+      const query = searchInput ? searchInput.value.toLowerCase() : "";
+      const fabric = filterFabric ? filterFabric.value : "ALL";
+      const collection = filterCollection ? filterCollection.value : "ALL";
+      const climate = filterClimate ? filterClimate.value : "ALL";
+      const status = filterStatus ? filterStatus.value : "ALL";
+
+      const rows = document.querySelectorAll(".product-row");
+      let visibleCount = 0;
+
+      rows.forEach((row) => {
+        const rowId = row.getAttribute("data-id").toLowerCase();
+        const rowSku = row.getAttribute("data-sku").toLowerCase();
+        const rowTitle = row.getAttribute("data-title").toLowerCase();
+        const rowFabric = row.getAttribute("data-fabric");
+        const rowClimate = row.getAttribute("data-climate");
+        const rowStatus = row.getAttribute("data-status");
+        const rowSellerEmail = row.getAttribute("data-seller-email") || "wannasingh.khan@gmail.com";
+
+        // Check text query
+        const matchesQuery =
+          rowId.includes(query) || rowSku.includes(query) || rowTitle.includes(query);
+
+        // Check select filters
+        const matchesFabric = fabric === "ALL" || rowFabric === fabric;
+        const matchesClimate = climate === "ALL" || rowClimate === climate;
+        const matchesStatus = status === "ALL" || rowStatus === status;
+
+        // Note: Collection is stubbed here for simplicity since defaults don't map it directly
+        const matchesCollection = true;
+
+        // Pre-filter: only show products owned by this seller
+        const matchesSeller = rowSellerEmail.toLowerCase() === loggedInEmail.toLowerCase();
+
+        if (
+          matchesSeller &&
+          matchesQuery &&
+          matchesFabric &&
+          matchesClimate &&
+          matchesStatus &&
+          matchesCollection
+        ) {
+          row.classList.remove("hidden");
+          visibleCount++;
+        } else {
+          row.classList.add("hidden");
+        }
+      });
+
+      const resultLabel = document.getElementById("query-result-label");
+      if (resultLabel) {
+        resultLabel.textContent = `QUERY_RESULT: 1-${visibleCount} OF ${rows.length} RECORDS`;
+      }
+      const badge = document.getElementById("total-sku-badge");
+      if (badge) {
+        badge.textContent = visibleCount.toString();
+      }
+    }
+
+    // Run initial pre-filter on load
+    filterProducts();
+
+    searchInput?.addEventListener("input", filterProducts);
+    filterFabric?.addEventListener("change", filterProducts);
+    filterCollection?.addEventListener("change", filterProducts);
+    filterClimate?.addEventListener("change", filterProducts);
+    filterStatus?.addEventListener("change", filterProducts);
+
+    // Edit Drawer Panel populator
+    const productRows = document.querySelectorAll(".product-row");
+    productRows.forEach((row) => {
+      row.addEventListener("click", (e) => {
+        // If user clicked input or button, skip trigger
+        if (
+          e.target.tagName === "INPUT" ||
+          e.target.tagName === "BUTTON" ||
+          e.target.closest("button")
+        ) {
+          return;
         }
 
-        // Bulk Actions bar visibility logic
-        function toggleBulkToolbar(show) {
-            const toolbar = document.getElementById('bulk-toolbar');
-            if (show) {
-                toolbar.classList.remove('hidden');
-            } else {
-                toolbar.classList.add('hidden');
-            }
+        selectedRowElement = row;
+        const id = row.getAttribute("data-id");
+        const sku = row.getAttribute("data-sku");
+        const title = row.getAttribute("data-title");
+        const material = row.getAttribute("data-material");
+        const weight = row.getAttribute("data-weight");
+        const climate = row.getAttribute("data-climate");
+        const breathability = row.getAttribute("data-breathability");
+        const price = parseFloat(row.getAttribute("data-price")).toFixed(2);
+        const stock = parseInt(row.getAttribute("data-stock"));
+        const images = JSON.parse(row.getAttribute("data-images") || "[]");
+
+        // Populate form
+        document.getElementById("edit-panel-title").textContent = `EDIT_PRODUCT // ${id}`;
+        document.getElementById("edit-sku-label").textContent = sku;
+        document.getElementById("edit-material").value = material;
+        document.getElementById("edit-weight").value = weight;
+        document.getElementById("edit-climate").value = climate;
+        document.getElementById("edit-breathability").value = breathability;
+        document.getElementById("edit-price").value = price;
+        document.getElementById("edit-stock").value = stock;
+
+        // Handle images
+        const img1 = document.getElementById("media-img-1");
+        const img2 = document.getElementById("media-img-2");
+        if (images && images.length > 0) {
+          if (img1) {
+            img1.src = images[0];
+            document.getElementById("media-img-1-wrapper")?.classList.remove("hidden");
+          }
+          if (images.length > 1 && img2) {
+            img2.src = images[1];
+            document.getElementById("media-img-2-wrapper")?.classList.remove("hidden");
+          } else {
+            document.getElementById("media-img-2-wrapper")?.classList.add("hidden");
+          }
+        } else {
+          document.getElementById("media-img-1-wrapper")?.classList.add("hidden");
+          document.getElementById("media-img-2-wrapper")?.classList.add("hidden");
         }
 
-        // Select All rows logic
-        const selectAllCheckbox = document.getElementById('select-all-checkbox');
-        const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-        
-        selectAllCheckbox?.addEventListener('change', (e) => {
-            const isChecked = e.target.checked;
-            rowCheckboxes.forEach(cb => cb.checked = isChecked);
-            
-            const selectedCount = isChecked ? rowCheckboxes.length : 0;
-            document.getElementById('selected-count-label').textContent = `${selectedCount.toString().padStart(2, '0')} ITEMS_SELECTED`;
-            toggleBulkToolbar(isChecked && selectedCount > 0);
-        });
+        toggleEditPanel(true);
+      });
+    });
 
-        rowCheckboxes.forEach(cb => {
-            cb.addEventListener('change', () => {
-                const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
-                document.getElementById('selected-count-label').textContent = `${checkedBoxes.length.toString().padStart(2, '0')} ITEMS_SELECTED`;
-                toggleBulkToolbar(checkedBoxes.length > 0);
-                
-                if (selectAllCheckbox) {
-                    selectAllCheckbox.checked = checkedBoxes.length === rowCheckboxes.length;
-                }
-            });
-        });
+    document
+      .getElementById("close-edit-panel-btn")
+      ?.addEventListener("click", () => toggleEditPanel(false));
+    document
+      .getElementById("edit-panel-overlay")
+      ?.addEventListener("click", () => toggleEditPanel(false));
+    document
+      .getElementById("cancel-changes-btn")
+      ?.addEventListener("click", () => toggleEditPanel(false));
 
-        document.getElementById('close-bulk-toolbar-btn')?.addEventListener('click', () => {
-            rowCheckboxes.forEach(cb => cb.checked = false);
-            if (selectAllCheckbox) selectAllCheckbox.checked = false;
-            toggleBulkToolbar(false);
-        });
+    // Commit Changes
+    document.getElementById("commit-changes-btn")?.addEventListener("click", () => {
+      if (!selectedRowElement) return;
 
-        // Retrieve API config injected from server
-        const apiConfig = document.getElementById('api-config');
-        const API = apiConfig ? apiConfig.getAttribute('data-url') : 'http://localhost:9000';
-        const PK  = apiConfig ? apiConfig.getAttribute('data-key') : '';
+      const newPrice = parseFloat(document.getElementById("edit-price").value).toFixed(2);
+      const newStock = parseInt(document.getElementById("edit-stock").value);
+      const newMaterial = document.getElementById("edit-material").value;
+      const newWeight = document.getElementById("edit-weight").value;
+      const newBreathability = document.getElementById("edit-breathability").value;
 
-        // If wanna_auth_email is not in localStorage, fetch it from backend asynchronously
-        if (!localStorage.getItem('wanna_auth_email') && localStorage.getItem('wanna_auth_token')) {
-            fetch(`${API}/store/customers/me`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-publishable-api-key': PK,
-                    'Authorization': `Bearer ${localStorage.getItem('wanna_auth_token')}`
-                },
-                credentials: 'include'
-            })
-            .then(res => res.json())
-            .then(data => {
-                const customer = data.customer || data;
-                if (customer && customer.email) {
-                    localStorage.setItem('wanna_auth_email', customer.email);
-                    filterProducts();
-                }
-            })
-            .catch(err => console.error("Error fetching profile email:", err));
+      // Update selected row attributes and cells
+      selectedRowElement.setAttribute("data-price", newPrice);
+      selectedRowElement.setAttribute("data-stock", newStock);
+      selectedRowElement.setAttribute("data-material", newMaterial);
+      selectedRowElement.setAttribute("data-weight", newWeight);
+      selectedRowElement.setAttribute("data-breathability", newBreathability);
+
+      const priceCell = selectedRowElement.querySelector(".product-price");
+      if (priceCell) priceCell.textContent = `$${newPrice}`;
+
+      const stockCell = selectedRowElement.querySelector(".product-stock");
+      if (stockCell) {
+        stockCell.textContent = newStock;
+        if (newStock === 0) {
+          stockCell.className = "font-mono-data text-[13px] product-stock text-error";
+          selectedRowElement.setAttribute("data-status", "OUT_OF_STOCK");
+          const statusCell = selectedRowElement.querySelector(".product-status-cell");
+          if (statusCell) {
+            statusCell.innerHTML = `<span class="flex items-center gap-2 text-error font-mono-label text-[10px]"><span class="w-1.5 h-1.5 bg-error rounded-none animate-pulse"></span> OUT_OF_STOCK</span>`;
+          }
+        } else {
+          stockCell.className = "font-mono-data text-[13px] product-stock text-primary";
+          const currentStatus = selectedRowElement.getAttribute("data-status");
+          if (currentStatus === "OUT_OF_STOCK") {
+            selectedRowElement.setAttribute("data-status", "PUBLISHED");
+            const statusCell = selectedRowElement.querySelector(".product-status-cell");
+            if (statusCell) {
+              statusCell.innerHTML = `<span class="flex items-center gap-2 text-primary font-mono-label text-[10px]"><span class="w-1.5 h-1.5 bg-primary rounded-none"></span> PUBLISHED</span>`;
+            }
+          }
         }
+      }
 
-        // Search & Filter product items locally
-        const searchInput = document.getElementById('query-db');
-        const filterFabric = document.getElementById('filter-fabric');
-        const filterCollection = document.getElementById('filter-collection');
-        const filterClimate = document.getElementById('filter-climate');
-        const filterStatus = document.getElementById('filter-status');
+      // Show commit feedback simulation
+      const origBtnText = document.getElementById("commit-changes-btn").textContent;
+      document.getElementById("commit-changes-btn").textContent = "SYNCING_WITH_MEDUSA...";
+      document.getElementById("commit-changes-btn").disabled = true;
 
-        function filterProducts() {
-            const loggedInEmail = localStorage.getItem('wanna_auth_email') || 'wannasingh.khan@gmail.com';
+      setTimeout(() => {
+        document.getElementById("commit-changes-btn").textContent = "SYNC_COMPLETE!";
+        setTimeout(() => {
+          document.getElementById("commit-changes-btn").textContent = origBtnText;
+          document.getElementById("commit-changes-btn").disabled = false;
+          toggleEditPanel(false);
+        }, 1000);
+      }, 1200);
+    });
 
-            const query = searchInput ? searchInput.value.toLowerCase() : '';
-            const fabric = filterFabric ? filterFabric.value : 'ALL';
-            const collection = filterCollection ? filterCollection.value : 'ALL';
-            const climate = filterClimate ? filterClimate.value : 'ALL';
-            const status = filterStatus ? filterStatus.value : 'ALL';
-
-            const rows = document.querySelectorAll('.product-row');
-            let visibleCount = 0;
-
-            rows.forEach((row) => {
-                const rowId = row.getAttribute('data-id').toLowerCase();
-                const rowSku = row.getAttribute('data-sku').toLowerCase();
-                const rowTitle = row.getAttribute('data-title').toLowerCase();
-                const rowFabric = row.getAttribute('data-fabric');
-                const rowClimate = row.getAttribute('data-climate');
-                const rowStatus = row.getAttribute('data-status');
-                const rowSellerEmail = row.getAttribute('data-seller-email') || 'wannasingh.khan@gmail.com';
-
-                // Check text query
-                const matchesQuery = rowId.includes(query) || rowSku.includes(query) || rowTitle.includes(query);
-                
-                // Check select filters
-                const matchesFabric = fabric === 'ALL' || rowFabric === fabric;
-                const matchesClimate = climate === 'ALL' || rowClimate === climate;
-                const matchesStatus = status === 'ALL' || rowStatus === status;
-                
-                // Note: Collection is stubbed here for simplicity since defaults don't map it directly
-                const matchesCollection = true; 
-
-                // Pre-filter: only show products owned by this seller
-                const matchesSeller = rowSellerEmail.toLowerCase() === loggedInEmail.toLowerCase();
-
-                if (matchesSeller && matchesQuery && matchesFabric && matchesClimate && matchesStatus && matchesCollection) {
-                    row.classList.remove('hidden');
-                    visibleCount++;
-                } else {
-                    row.classList.add('hidden');
-                }
-            });
-
-            const resultLabel = document.getElementById('query-result-label');
-            if (resultLabel) {
-                resultLabel.textContent = `QUERY_RESULT: 1-${visibleCount} OF ${rows.length} RECORDS`;
-            }
-            const badge = document.getElementById('total-sku-badge');
-            if (badge) {
-                badge.textContent = visibleCount.toString();
-            }
+    // Bulk Actions handler simulations
+    document.getElementById("bulk-publish-btn")?.addEventListener("click", async () => {
+      const selectedRows = document.querySelectorAll(".product-row:has(.row-checkbox:checked)");
+      selectedRows.forEach((row) => {
+        row.setAttribute("data-status", "PUBLISHED");
+        const cell = row.querySelector(".product-status-cell");
+        if (cell) {
+          cell.innerHTML = `<span class="flex items-center gap-2 text-primary font-mono-label text-[10px]"><span class="w-1.5 h-1.5 bg-primary rounded-none"></span> PUBLISHED</span>`;
         }
+      });
+      await window.showAetherAlert(
+        "Bulk Operation Success",
+        `Published ${selectedRows.length} products in local manifest registry.`,
+      );
+    });
 
-        // Run initial pre-filter on load
-        filterProducts();
+    document.getElementById("bulk-draft-btn")?.addEventListener("click", async () => {
+      const selectedRows = document.querySelectorAll(".product-row:has(.row-checkbox:checked)");
+      selectedRows.forEach((row) => {
+        row.setAttribute("data-status", "DRAFT");
+        const cell = row.querySelector(".product-status-cell");
+        if (cell) {
+          cell.innerHTML = `<span class="flex items-center gap-2 text-on-surface-variant font-mono-label text-[10px] italic"><span class="w-1.5 h-1.5 bg-on-surface-variant rounded-none opacity-40"></span> DRAFT</span>`;
+        }
+      });
+      await window.showAetherAlert(
+        "Bulk Operation Success",
+        `Drafted ${selectedRows.length} products in local manifest registry.`,
+      );
+    });
 
-        searchInput?.addEventListener('input', filterProducts);
-        filterFabric?.addEventListener('change', filterProducts);
-        filterCollection?.addEventListener('change', filterProducts);
-        filterClimate?.addEventListener('change', filterProducts);
-        filterStatus?.addEventListener('change', filterProducts);
-
-        // Edit Drawer Panel populator
-        const productRows = document.querySelectorAll('.product-row');
-        productRows.forEach(row => {
-            row.addEventListener('click', (e) => {
-                // If user clicked input or button, skip trigger
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.closest('button')) {
-                    return;
-                }
-
-                selectedRowElement = row;
-                const id = row.getAttribute('data-id');
-                const sku = row.getAttribute('data-sku');
-                const title = row.getAttribute('data-title');
-                const material = row.getAttribute('data-material');
-                const weight = row.getAttribute('data-weight');
-                const climate = row.getAttribute('data-climate');
-                const breathability = row.getAttribute('data-breathability');
-                const price = parseFloat(row.getAttribute('data-price')).toFixed(2);
-                const stock = parseInt(row.getAttribute('data-stock'));
-                const images = JSON.parse(row.getAttribute('data-images') || '[]');
-
-                // Populate form
-                document.getElementById('edit-panel-title').textContent = `EDIT_PRODUCT // ${id}`;
-                document.getElementById('edit-sku-label').textContent = sku;
-                document.getElementById('edit-material').value = material;
-                document.getElementById('edit-weight').value = weight;
-                document.getElementById('edit-climate').value = climate;
-                document.getElementById('edit-breathability').value = breathability;
-                document.getElementById('edit-price').value = price;
-                document.getElementById('edit-stock').value = stock;
-
-                // Handle images
-                const img1 = document.getElementById('media-img-1');
-                const img2 = document.getElementById('media-img-2');
-                if (images && images.length > 0) {
-                    if (img1) {
-                        img1.src = images[0];
-                        document.getElementById('media-img-1-wrapper')?.classList.remove('hidden');
-                    }
-                    if (images.length > 1 && img2) {
-                        img2.src = images[1];
-                        document.getElementById('media-img-2-wrapper')?.classList.remove('hidden');
-                    } else {
-                        document.getElementById('media-img-2-wrapper')?.classList.add('hidden');
-                    }
-                } else {
-                    document.getElementById('media-img-1-wrapper')?.classList.add('hidden');
-                    document.getElementById('media-img-2-wrapper')?.classList.add('hidden');
-                }
-
-                toggleEditPanel(true);
-            });
-        });
-
-        document.getElementById('close-edit-panel-btn')?.addEventListener('click', () => toggleEditPanel(false));
-        document.getElementById('edit-panel-overlay')?.addEventListener('click', () => toggleEditPanel(false));
-        document.getElementById('cancel-changes-btn')?.addEventListener('click', () => toggleEditPanel(false));
-
-        // Commit Changes
-        document.getElementById('commit-changes-btn')?.addEventListener('click', () => {
-            if (!selectedRowElement) return;
-
-            const newPrice = parseFloat(document.getElementById('edit-price').value).toFixed(2);
-            const newStock = parseInt(document.getElementById('edit-stock').value);
-            const newMaterial = document.getElementById('edit-material').value;
-            const newWeight = document.getElementById('edit-weight').value;
-            const newBreathability = document.getElementById('edit-breathability').value;
-
-            // Update selected row attributes and cells
-            selectedRowElement.setAttribute('data-price', newPrice);
-            selectedRowElement.setAttribute('data-stock', newStock);
-            selectedRowElement.setAttribute('data-material', newMaterial);
-            selectedRowElement.setAttribute('data-weight', newWeight);
-            selectedRowElement.setAttribute('data-breathability', newBreathability);
-
-            const priceCell = selectedRowElement.querySelector('.product-price');
-            if (priceCell) priceCell.textContent = `$${newPrice}`;
-
-            const stockCell = selectedRowElement.querySelector('.product-stock');
-            if (stockCell) {
-                stockCell.textContent = newStock;
-                if (newStock === 0) {
-                    stockCell.className = "font-mono-data text-[13px] product-stock text-error";
-                    selectedRowElement.setAttribute('data-status', 'OUT_OF_STOCK');
-                    const statusCell = selectedRowElement.querySelector('.product-status-cell');
-                    if (statusCell) {
-                        statusCell.innerHTML = `<span class="flex items-center gap-2 text-error font-mono-label text-[10px]"><span class="w-1.5 h-1.5 bg-error rounded-none animate-pulse"></span> OUT_OF_STOCK</span>`;
-                    }
-                } else {
-                    stockCell.className = "font-mono-data text-[13px] product-stock text-primary";
-                    const currentStatus = selectedRowElement.getAttribute('data-status');
-                    if (currentStatus === 'OUT_OF_STOCK') {
-                        selectedRowElement.setAttribute('data-status', 'PUBLISHED');
-                        const statusCell = selectedRowElement.querySelector('.product-status-cell');
-                        if (statusCell) {
-                            statusCell.innerHTML = `<span class="flex items-center gap-2 text-primary font-mono-label text-[10px]"><span class="w-1.5 h-1.5 bg-primary rounded-none"></span> PUBLISHED</span>`;
-                        }
-                    }
-                }
-            }
-
-            // Show commit feedback simulation
-            const origBtnText = document.getElementById('commit-changes-btn').textContent;
-            document.getElementById('commit-changes-btn').textContent = "SYNCING_WITH_MEDUSA...";
-            document.getElementById('commit-changes-btn').disabled = true;
-
-            setTimeout(() => {
-                document.getElementById('commit-changes-btn').textContent = "SYNC_COMPLETE!";
-                setTimeout(() => {
-                    document.getElementById('commit-changes-btn').textContent = origBtnText;
-                    document.getElementById('commit-changes-btn').disabled = false;
-                    toggleEditPanel(false);
-                }, 1000);
-            }, 1200);
-        });
-
-        // Bulk Actions handler simulations
-        document.getElementById('bulk-publish-btn')?.addEventListener('click', async () => {
-            const selectedRows = document.querySelectorAll('.product-row:has(.row-checkbox:checked)');
-            selectedRows.forEach(row => {
-                row.setAttribute('data-status', 'PUBLISHED');
-                const cell = row.querySelector('.product-status-cell');
-                if (cell) {
-                    cell.innerHTML = `<span class="flex items-center gap-2 text-primary font-mono-label text-[10px]"><span class="w-1.5 h-1.5 bg-primary rounded-none"></span> PUBLISHED</span>`;
-                }
-            });
-            await window.showAetherAlert('Bulk Operation Success', `Published ${selectedRows.length} products in local manifest registry.`);
-        });
-
-        document.getElementById('bulk-draft-btn')?.addEventListener('click', async () => {
-            const selectedRows = document.querySelectorAll('.product-row:has(.row-checkbox:checked)');
-            selectedRows.forEach(row => {
-                row.setAttribute('data-status', 'DRAFT');
-                const cell = row.querySelector('.product-status-cell');
-                if (cell) {
-                    cell.innerHTML = `<span class="flex items-center gap-2 text-on-surface-variant font-mono-label text-[10px] italic"><span class="w-1.5 h-1.5 bg-on-surface-variant rounded-none opacity-40"></span> DRAFT</span>`;
-                }
-            });
-            await window.showAetherAlert('Bulk Operation Success', `Drafted ${selectedRows.length} products in local manifest registry.`);
-        });
-
-        // Simulating health heartbeat update
-        const dbStatus = document.getElementById('db-health-status');
-        setInterval(() => {
-            const val = (99.8 + Math.random() * 0.15).toFixed(1);
-            if(dbStatus) dbStatus.textContent = `${val}%`;
-        }, 5000);
-    </script>
+    // Simulating health heartbeat update
+    const dbStatus = document.getElementById("db-health-status");
+    setInterval(() => {
+      const val = (99.8 + Math.random() * 0.15).toFixed(1);
+      if (dbStatus) dbStatus.textContent = `${val}%`;
+    }, 5000);
+  </script>
 </AdminLayout>

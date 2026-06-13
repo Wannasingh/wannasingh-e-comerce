@@ -57,7 +57,7 @@
   --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
   --color-on-tertiary-fixed: var(--on-tertiary-fixed);
   --color-on-tertiary-fixed-variant: var(--on-tertiary-fixed-variant);
-  
+
   /* Spacing aliases for Tailwind v4 */
   --spacing-margin-desktop: var(--margin-desktop);
   --spacing-margin-mobile: var(--margin-mobile);
@@ -199,7 +199,12 @@
   }
 
   /* Heading defaults */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: "Inter", system-ui, sans-serif;
     font-weight: 700;
     line-height: 1.1;
@@ -208,7 +213,11 @@
   }
 
   /* Mono elements */
-  code, kbd, samp, pre, .mono {
+  code,
+  kbd,
+  samp,
+  pre,
+  .mono {
     font-family: "JetBrains Mono", monospace;
     font-size: 0.875em;
   }
@@ -217,7 +226,11 @@
 /* ── Material Symbols ─────────────────────────────────────────────────────── */
 @layer base {
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 300,
+      "GRAD" 0,
+      "opsz" 24;
     line-height: 1;
     display: inline-block;
     vertical-align: middle;
@@ -343,8 +356,12 @@
 @layer utilities {
   /* Scanline sweep effect */
   @keyframes scanline {
-    0%   { transform: translateY(-100%); }
-    100% { transform: translateY(1200%); }
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(1200%);
+    }
   }
 
   .scanline-effect {
@@ -357,12 +374,7 @@
     inset: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(107, 56, 212, 0.15),
-      transparent
-    );
+    background: linear-gradient(to right, transparent, rgba(107, 56, 212, 0.15), transparent);
     animation: scanline 10s linear infinite;
     pointer-events: none;
     z-index: 5;
@@ -370,8 +382,14 @@
 
   /* Fade-in animation */
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .animate-fade-in {
     animation: fadeIn 0.6s ease-out forwards;
@@ -379,7 +397,11 @@
 
   /* Pulse dot */
   @keyframes ping {
-    75%, 100% { transform: scale(2); opacity: 0; }
+    75%,
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
   }
   .animate-ping {
     animation: ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
@@ -387,8 +409,12 @@
 
   /* Shimmer skeleton */
   @keyframes shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
   .shimmer {
     background: linear-gradient(
@@ -405,7 +431,9 @@
   .reveal {
     opacity: 0;
     transform: translateY(16px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
   }
   .reveal.visible {
     opacity: 1;

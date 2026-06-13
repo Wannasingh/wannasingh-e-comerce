@@ -13,11 +13,25 @@ import Layout from "../layouts/Layout.astro";
     class="fixed inset-0 z-[998] bg-[var(--background)] flex flex-col items-center justify-center gap-4 transition-all duration-300"
   >
     <div class="relative w-16 h-16 flex items-center justify-center">
-      <div class="absolute inset-0 border-t-2 border-r-2 border-[var(--secondary)] rounded-full animate-spin"></div>
-      <div class="absolute inset-2 border-b-2 border-l-2 border-[var(--primary)] rounded-full animate-spin" style="animation-direction: reverse; animation-duration: 1s;"></div>
-      <span class="material-symbols-outlined text-[var(--secondary)] animate-pulse" style="font-size: 24px;">fingerprint</span>
+      <div
+        class="absolute inset-0 border-t-2 border-r-2 border-[var(--secondary)] rounded-full animate-spin"
+      >
+      </div>
+      <div
+        class="absolute inset-2 border-b-2 border-l-2 border-[var(--primary)] rounded-full animate-spin"
+        style="animation-direction: reverse; animation-duration: 1s;"
+      >
+      </div>
+      <span
+        class="material-symbols-outlined text-[var(--secondary)] animate-pulse"
+        style="font-size: 24px;">fingerprint</span
+      >
     </div>
-    <p class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-[0.2em] animate-pulse">Initializing Aether Core...</p>
+    <p
+      class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-[0.2em] animate-pulse"
+    >
+      Initializing Aether Core...
+    </p>
   </div>
 
   <!-- Auth guard overlay (shown if not logged in) -->
@@ -26,12 +40,21 @@ import Layout from "../layouts/Layout.astro";
     class="fixed inset-0 z-[999] bg-[var(--background)] flex flex-col items-center justify-center gap-6 hidden"
   >
     <div class="w-16 h-16 border-2 border-[var(--secondary)] flex items-center justify-center">
-      <span class="material-symbols-outlined text-[var(--secondary)]" style="font-size: 32px;">lock</span>
+      <span class="material-symbols-outlined text-[var(--secondary)]" style="font-size: 32px;"
+        >lock</span
+      >
     </div>
     <div class="text-center">
-      <p class="font-data-label text-xs text-[var(--secondary)] tracking-widest uppercase mb-2">Access Denied</p>
-      <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-6">Authentication required to access your account.</p>
-      <a href="/auth" class="inline-flex items-center gap-3 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all no-underline">
+      <p class="font-data-label text-xs text-[var(--secondary)] tracking-widest uppercase mb-2">
+        Access Denied
+      </p>
+      <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-6">
+        Authentication required to access your account.
+      </p>
+      <a
+        href="/auth"
+        class="inline-flex items-center gap-3 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all no-underline"
+      >
         <span>SIGN IN</span>
         <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
       </a>
@@ -39,43 +62,71 @@ import Layout from "../layouts/Layout.astro";
   </div>
 
   <!-- Leaflet assets -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script
+    is:inline
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
 
   <div class="relative py-12 max-w-[1440px] mx-auto px-4 md:px-16">
     <div class="tech-grid absolute inset-0 pointer-events-none opacity-[0.04]"></div>
 
     <!-- ── Dashboard Header ──────────────────────────────────────────────── -->
-    <header class="relative mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--outline-variant)]/30 pb-8 reveal">
+    <header
+      class="relative mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--outline-variant)]/30 pb-8 reveal"
+    >
       <div class="space-y-2">
-        <p class="font-caption text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">Account / Profile</p>
-        <h1 class="font-display text-4xl md:text-5xl text-[var(--primary)] uppercase leading-none">My Account</h1>
+        <p class="font-caption text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">
+          Account / Profile
+        </p>
+        <h1 class="font-display text-4xl md:text-5xl text-[var(--primary)] uppercase leading-none">
+          My Account
+        </h1>
       </div>
       <div class="flex flex-col items-start md:items-end gap-2">
         <div class="px-4 py-1.5 border border-[var(--primary)] flex items-center gap-3">
           <span class="w-2 h-2 bg-[var(--secondary)] animate-pulse"></span>
-          <span id="user-tier" class="font-data-label text-xs uppercase tracking-wider text-[var(--primary)]">Level 01 Collector</span>
+          <span
+            id="user-tier"
+            class="font-data-label text-xs uppercase tracking-wider text-[var(--primary)]"
+            >Level 01 Collector</span
+          >
         </div>
-        <p id="user-operative-id" class="font-data-value text-xs text-[var(--on-surface-variant)]">Member ID: —</p>
+        <p id="user-operative-id" class="font-data-value text-xs text-[var(--on-surface-variant)]">
+          Member ID: —
+        </p>
       </div>
     </header>
 
     <!-- ── Tab Nav ────────────────────────────────────────────────────────── -->
-    <nav class="flex gap-0 mb-10 border-b border-[var(--outline-variant)] overflow-x-auto reveal" aria-label="Account sections">
-      {[
-        { id: "identity",  icon: "fingerprint", label: "PROFILE" },
-        { id: "addresses", icon: "location_on", label: "ADDRESSES" },
-        { id: "orders",    icon: "inventory_2", label: "ORDERS" },
-        { id: "security",  icon: "lock",        label: "SECURITY" },
-      ].map((t, i) => (
-        <button
-          data-tab={t.id}
-          class={`account-tab flex items-center gap-2 px-6 py-4 font-data-label text-[11px] uppercase tracking-widest transition-all cursor-pointer border-b-2 whitespace-nowrap ${i === 0 ? "text-[var(--primary)] border-[var(--primary)]" : "text-[var(--on-surface-variant)] border-transparent hover:text-[var(--primary)]"}`}
-        >
-          <span class="material-symbols-outlined" style="font-size: 16px;">{t.icon}</span>
-          {t.label}
-        </button>
-      ))}
+    <nav
+      class="flex gap-0 mb-10 border-b border-[var(--outline-variant)] overflow-x-auto reveal"
+      aria-label="Account sections"
+    >
+      {
+        [
+          { id: "identity", icon: "fingerprint", label: "PROFILE" },
+          { id: "addresses", icon: "location_on", label: "ADDRESSES" },
+          { id: "orders", icon: "inventory_2", label: "ORDERS" },
+          { id: "security", icon: "lock", label: "SECURITY" },
+        ].map((t, i) => (
+          <button
+            data-tab={t.id}
+            class={`account-tab flex items-center gap-2 px-6 py-4 font-data-label text-[11px] uppercase tracking-widest transition-all cursor-pointer border-b-2 whitespace-nowrap ${i === 0 ? "text-[var(--primary)] border-[var(--primary)]" : "text-[var(--on-surface-variant)] border-transparent hover:text-[var(--primary)]"}`}
+          >
+            <span class="material-symbols-outlined" style="font-size: 16px;">
+              {t.icon}
+            </span>
+            {t.label}
+          </button>
+        ))
+      }
       <div class="ml-auto flex items-center px-6 pb-3">
         <button
           id="logout-btn"
@@ -92,19 +143,24 @@ import Layout from "../layouts/Layout.astro";
     <!-- ══════════════════════════════════════════════════════════════════════ -->
     <section id="section-identity" class="account-section reveal">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
         <!-- Avatar + Quick Info -->
         <div class="lg:col-span-4 space-y-6">
-          <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 relative overflow-hidden scanline-effect">
+          <div
+            class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 relative overflow-hidden scanline-effect"
+          >
             <div class="flex justify-between items-start mb-8">
               <h2 class="font-headline-md text-lg uppercase font-bold">Profile</h2>
-              <span class="material-symbols-outlined text-[var(--outline)]" style="font-size: 22px;">fingerprint</span>
+              <span class="material-symbols-outlined text-[var(--outline)]" style="font-size: 22px;"
+                >fingerprint</span
+              >
             </div>
 
             <!-- Avatar upload -->
             <div class="flex flex-col items-center mb-8">
               <div class="relative group mb-4">
-                <div class="w-28 h-28 bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 overflow-hidden">
+                <div
+                  class="w-28 h-28 bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 overflow-hidden"
+                >
                   <img
                     id="avatar-preview"
                     alt="Profile Avatar"
@@ -116,37 +172,80 @@ import Layout from "../layouts/Layout.astro";
                   for="avatar-input"
                   class="absolute inset-0 flex items-center justify-center bg-[var(--primary)]/60 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                 >
-                  <span class="material-symbols-outlined text-white" style="font-size: 22px;">photo_camera</span>
+                  <span class="material-symbols-outlined text-white" style="font-size: 22px;"
+                    >photo_camera</span
+                  >
                 </label>
                 <input id="avatar-input" type="file" accept="image/*" class="hidden" />
               </div>
-              <p id="user-display-name" class="font-headline-md text-base font-bold text-[var(--primary)] uppercase text-center">—</p>
-              <p id="user-display-email" class="font-data-value text-xs text-[var(--outline)] mt-1">—</p>
+              <p
+                id="user-display-name"
+                class="font-headline-md text-base font-bold text-[var(--primary)] uppercase text-center"
+              >
+                —
+              </p>
+              <p id="user-display-email" class="font-data-value text-xs text-[var(--outline)] mt-1">
+                —
+              </p>
             </div>
 
             <!-- Quick stats -->
             <div class="space-y-3">
-              <div class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2">
-                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5">Location</span>
-                <span id="user-location" class="font-data-value text-xs text-right break-words max-w-[70%]">—</span>
+              <div
+                class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2"
+              >
+                <span
+                  class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5"
+                  >Location</span
+                >
+                <span
+                  id="user-location"
+                  class="font-data-value text-xs text-right break-words max-w-[70%]">—</span
+                >
               </div>
-              <div class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2">
-                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5">Phone</span>
-                <span id="user-phone" class="font-data-value text-xs text-right break-words max-w-[70%]">—</span>
+              <div
+                class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2"
+              >
+                <span
+                  class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5"
+                  >Phone</span
+                >
+                <span
+                  id="user-phone"
+                  class="font-data-value text-xs text-right break-words max-w-[70%]">—</span
+                >
               </div>
-              <div class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2">
-                <span class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5">Member Since</span>
-                <span id="user-since" class="font-data-value text-xs text-right break-words max-w-[70%]">—</span>
+              <div
+                class="flex justify-between items-start gap-4 border-b border-[var(--outline-variant)]/20 pb-2"
+              >
+                <span
+                  class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] shrink-0 pt-0.5"
+                  >Member Since</span
+                >
+                <span
+                  id="user-since"
+                  class="font-data-value text-xs text-right break-words max-w-[70%]">—</span
+                >
               </div>
             </div>
 
             <!-- Roles & Admin Actions -->
-            <div class="mt-6 pt-6 border-t border-[var(--outline-variant)]/20 space-y-3" id="admin-actions-box">
-              <a href="/admin" id="go-admin-btn" class="w-full bg-[var(--secondary)] text-white py-3 px-4 font-data-label text-[11px] tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 no-underline hidden">
+            <div
+              class="mt-6 pt-6 border-t border-[var(--outline-variant)]/20 space-y-3"
+              id="admin-actions-box"
+            >
+              <a
+                href="/admin"
+                id="go-admin-btn"
+                class="w-full bg-[var(--secondary)] text-white py-3 px-4 font-data-label text-[11px] tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 no-underline hidden"
+              >
                 <span class="material-symbols-outlined text-[16px]">terminal</span>
                 ADMIN CONTROL CORE
               </a>
-              <button id="request-seller-btn" class="w-full border border-[var(--primary)] text-[var(--primary)] py-3 px-4 font-data-label text-[11px] tracking-wider hover:bg-[var(--primary)] hover:text-[var(--surface)] transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <button
+                id="request-seller-btn"
+                class="w-full border border-[var(--primary)] text-[var(--primary)] py-3 px-4 font-data-label text-[11px] tracking-wider hover:bg-[var(--primary)] hover:text-[var(--surface)] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
                 <span class="material-symbols-outlined text-[16px]">storefront</span>
                 <span id="request-seller-text">REQUEST TO BE SELLER</span>
               </button>
@@ -156,78 +255,137 @@ import Layout from "../layouts/Layout.astro";
 
         <!-- Edit Profile Form -->
         <div class="lg:col-span-8">
-          <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+          <div
+            class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8"
+          >
             <div class="flex justify-between items-center mb-8">
               <h2 class="font-headline-md text-lg uppercase font-bold">Personal Info</h2>
-              <span class="font-caption text-xs text-[var(--secondary)] tracking-widest" id="profile-save-status"></span>
+              <span
+                class="font-caption text-xs text-[var(--secondary)] tracking-widest"
+                id="profile-save-status"></span>
             </div>
 
             <form id="profile-form" class="space-y-6" novalidate>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="field-group">
-                  <label for="prof-firstname" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
+                  <label
+                    for="prof-firstname"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >First Name</label
+                  >
                   <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                    <input id="prof-firstname" name="first_name" type="text" autocomplete="given-name"
+                    <input
+                      id="prof-firstname"
+                      name="first_name"
+                      type="text"
+                      autocomplete="given-name"
                       class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                      placeholder="First Name" />
+                      placeholder="First Name"
+                    />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
                 <div class="field-group">
-                  <label for="prof-lastname" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
+                  <label
+                    for="prof-lastname"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >Last Name</label
+                  >
                   <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                    <input id="prof-lastname" name="last_name" type="text" autocomplete="family-name"
+                    <input
+                      id="prof-lastname"
+                      name="last_name"
+                      type="text"
+                      autocomplete="family-name"
                       class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                      placeholder="Last Name" />
+                      placeholder="Last Name"
+                    />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
               </div>
 
               <div class="field-group">
-                <label for="prof-email" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Email Address</label>
+                <label
+                  for="prof-email"
+                  class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                  >Email Address</label
+                >
                 <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                  <input id="prof-email" name="email" type="email" autocomplete="email"
+                  <input
+                    id="prof-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
                     class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                    placeholder="your@email.com" />
+                    placeholder="your@email.com"
+                  />
                 </div>
                 <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="field-group">
-                  <label for="prof-phone" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Phone Number</label>
+                  <label
+                    for="prof-phone"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >Phone Number</label
+                  >
                   <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                    <input id="prof-phone" name="phone" type="tel" autocomplete="tel"
+                    <input
+                      id="prof-phone"
+                      name="phone"
+                      type="tel"
+                      autocomplete="tel"
                       class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                      placeholder="+1 000 000 0000" />
+                      placeholder="+1 000 000 0000"
+                    />
                   </div>
                 </div>
                 <div class="field-group">
-                  <label for="prof-company" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Company (Optional)</label>
+                  <label
+                    for="prof-company"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >Company (Optional)</label
+                  >
                   <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                    <input id="prof-company" name="company_name" type="text"
+                    <input
+                      id="prof-company"
+                      name="company_name"
+                      type="text"
                       class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                      placeholder="Company name" />
+                      placeholder="Company name"
+                    />
                   </div>
                 </div>
               </div>
 
               <div class="pt-4 flex gap-4">
-                <button type="submit"
-                  class="flex-1 md:flex-none bg-[var(--primary)] text-[var(--on-primary)] py-4 px-10 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex items-center justify-center gap-3 group cursor-pointer">
+                <button
+                  type="submit"
+                  class="flex-1 md:flex-none bg-[var(--primary)] text-[var(--on-primary)] py-4 px-10 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex items-center justify-center gap-3 group cursor-pointer"
+                >
                   <span class="btn-label">SAVE CHANGES</span>
                   <span class="btn-loader hidden">
                     <span class="inline-flex gap-1">
-                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:0ms;"></span>
-                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:150ms;"></span>
-                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:300ms;"></span>
+                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:0ms;"
+                      ></span>
+                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:150ms;"
+                      ></span>
+                      <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:300ms;"
+                      ></span>
                     </span>
                   </span>
-                  <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" style="font-size:16px;">save</span>
+                  <span
+                    class="material-symbols-outlined transition-transform group-hover:translate-x-1"
+                    style="font-size:16px;">save</span
+                  >
                 </button>
-                <button type="button" id="profile-reset"
-                  class="py-4 px-6 border border-[var(--outline)] text-[var(--primary)] font-data-label text-xs tracking-[0.2em] hover:border-[var(--primary)] transition-all cursor-pointer">
+                <button
+                  type="button"
+                  id="profile-reset"
+                  class="py-4 px-6 border border-[var(--outline)] text-[var(--primary)] font-data-label text-xs tracking-[0.2em] hover:border-[var(--primary)] transition-all cursor-pointer"
+                >
                   RESET
                 </button>
               </div>
@@ -246,10 +404,14 @@ import Layout from "../layouts/Layout.astro";
       <div class="flex justify-between items-center mb-8">
         <div>
           <h2 class="font-headline-md text-lg uppercase font-bold mb-1">Saved Addresses</h2>
-          <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">Manage your shipping and billing addresses.</p>
+          <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">
+            Manage your shipping and billing addresses.
+          </p>
         </div>
-        <button id="add-address-btn"
-          class="flex items-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 font-data-label text-[11px] tracking-widest hover:bg-[var(--secondary)] transition-all cursor-pointer">
+        <button
+          id="add-address-btn"
+          class="flex items-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 font-data-label text-[11px] tracking-widest hover:bg-[var(--secondary)] transition-all cursor-pointer"
+        >
           <span class="material-symbols-outlined" style="font-size:16px;">add</span>
           ADD ADDRESS
         </button>
@@ -258,126 +420,287 @@ import Layout from "../layouts/Layout.astro";
       <!-- Address cards grid -->
       <div id="addresses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Populated by JS -->
-        <div class="col-span-full py-16 flex flex-col items-center gap-4 border border-dashed border-[var(--outline-variant)] text-center" id="addresses-empty">
-          <span class="material-symbols-outlined text-[var(--outline-variant)]" style="font-size:40px;">location_off</span>
-          <p class="font-data-label text-xs text-[var(--outline)] uppercase tracking-widest">No addresses saved yet</p>
-          <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">Add your first shipping address to proceed to checkout faster.</p>
+        <div
+          class="col-span-full py-16 flex flex-col items-center gap-4 border border-dashed border-[var(--outline-variant)] text-center"
+          id="addresses-empty"
+        >
+          <span
+            class="material-symbols-outlined text-[var(--outline-variant)]"
+            style="font-size:40px;">location_off</span
+          >
+          <p class="font-data-label text-xs text-[var(--outline)] uppercase tracking-widest">
+            No addresses saved yet
+          </p>
+          <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">
+            Add your first shipping address to proceed to checkout faster.
+          </p>
         </div>
       </div>
 
       <!-- Address form modal -->
       <div id="address-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <div class="absolute inset-0 bg-[var(--primary)]/50 backdrop-blur-sm" id="address-modal-backdrop"></div>
-        <div class="relative bg-[var(--surface)] border border-[var(--outline-variant)] p-6 md:p-8 w-full max-w-4xl mx-4 z-10 flex flex-col md:flex-row gap-8 max-h-[95vh] overflow-y-auto md:overflow-visible">
+        <div
+          class="absolute inset-0 bg-[var(--primary)]/50 backdrop-blur-sm"
+          id="address-modal-backdrop"
+        >
+        </div>
+        <div
+          class="relative bg-[var(--surface)] border border-[var(--outline-variant)] p-6 md:p-8 w-full max-w-4xl mx-4 z-10 flex flex-col md:flex-row gap-8 max-h-[95vh] overflow-y-auto md:overflow-visible"
+        >
           <!-- Close button -->
-          <button id="address-modal-close" class="absolute top-4 right-4 material-symbols-outlined text-[var(--outline)] hover:text-[var(--primary)] cursor-pointer z-20" style="font-size:20px;">close</button>
-          
+          <button
+            id="address-modal-close"
+            class="absolute top-4 right-4 material-symbols-outlined text-[var(--outline)] hover:text-[var(--primary)] cursor-pointer z-20"
+            style="font-size:20px;">close</button
+          >
+
           <!-- Left Column: Form -->
           <div class="flex-1 min-w-0">
-            <h3 id="address-modal-title" class="font-headline-md text-base uppercase font-bold mb-6">New Address</h3>
+            <h3
+              id="address-modal-title"
+              class="font-headline-md text-base uppercase font-bold mb-6"
+            >
+              New Address
+            </h3>
             <form id="address-form" class="space-y-4" novalidate>
               <input type="hidden" name="address_id" id="addr-id" />
               <div class="grid grid-cols-2 gap-4">
                 <div class="field-group">
-                  <label for="addr-first-name" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">First Name</label>
+                  <label
+                    for="addr-first-name"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >First Name</label
+                  >
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="first_name" id="addr-first-name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="First Name" />
+                    <input
+                      name="first_name"
+                      id="addr-first-name"
+                      type="text"
+                      required
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="First Name"
+                    />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
                 <div class="field-group">
-                  <label for="addr-last-name" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Last Name</label>
+                  <label
+                    for="addr-last-name"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >Last Name</label
+                  >
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="last_name" id="addr-last-name" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Last Name" />
+                    <input
+                      name="last_name"
+                      id="addr-last-name"
+                      type="text"
+                      required
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="Last Name"
+                    />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
               </div>
               <div class="field-group">
-                <label for="addr-address-1" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 1</label>
+                <label
+                  for="addr-address-1"
+                  class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                  >Address Line 1</label
+                >
                 <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="address_1" id="addr-address-1" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Street address" />
+                  <input
+                    name="address_1"
+                    id="addr-address-1"
+                    type="text"
+                    required
+                    class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                    placeholder="Street address"
+                  />
                 </div>
                 <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
               </div>
               <div class="field-group">
-                <label for="addr-address-2" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Address Line 2 (Optional)</label>
+                <label
+                  for="addr-address-2"
+                  class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                  >Address Line 2 (Optional)</label
+                >
                 <div class="border-b border-[var(--outline-variant)] pb-1">
-                  <input name="address_2" id="addr-address-2" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Apartment, suite, unit, etc." />
+                  <input
+                    name="address_2"
+                    id="addr-address-2"
+                    type="text"
+                    class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                    placeholder="Apartment, suite, unit, etc."
+                  />
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div class="field-group">
-                  <label for="addr-city" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">City</label>
+                  <label
+                    for="addr-city"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >City</label
+                  >
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="city" id="addr-city" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="City" />
+                    <input
+                      name="city"
+                      id="addr-city"
+                      type="text"
+                      required
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="City"
+                    />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
                 <div class="field-group">
-                  <label for="addr-province" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">State / Province</label>
+                  <label
+                    for="addr-province"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >State / Province</label
+                  >
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="province" id="addr-province" type="text" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="State / Province" />
+                    <input
+                      name="province"
+                      id="addr-province"
+                      type="text"
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="State / Province"
+                    />
                   </div>
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div class="field-group">
-                  <label for="addr-postal-code" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Postal Code</label>
+                  <label
+                    for="addr-postal-code"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >Postal Code</label
+                  >
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="postal_code" id="addr-postal-code" type="text" required class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Postal / Zip Code" />
+                    <input
+                      name="postal_code"
+                      id="addr-postal-code"
+                      type="text"
+                      required
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="Postal / Zip Code"
+                    />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
                 <div class="field-group">
-                  <label for="addr-country-code" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Country Code</label>
+                  <label
+                    for="addr-country-code"
+                    class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                    >Country Code</label
+                  >
                   <div class="border-b border-[var(--outline-variant)] pb-1">
-                    <input name="country_code" id="addr-country-code" type="text" required maxlength="2" class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none" placeholder="Country code (e.g. US)" />
+                    <input
+                      name="country_code"
+                      id="addr-country-code"
+                      type="text"
+                      required
+                      maxlength="2"
+                      class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
+                      placeholder="Country code (e.g. US)"
+                    />
                   </div>
                   <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
                 </div>
               </div>
               <label class="flex items-center gap-3 cursor-pointer select-none">
-                <input type="checkbox" name="is_default" class="w-3.5 h-3.5 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer" />
-                <span class="font-caption text-xs uppercase tracking-wider text-[var(--on-surface-variant)]">Set as Default Address</span>
+                <input
+                  type="checkbox"
+                  name="is_default"
+                  class="w-3.5 h-3.5 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer"
+                />
+                <span
+                  class="font-caption text-xs uppercase tracking-wider text-[var(--on-surface-variant)]"
+                  >Set as Default Address</span
+                >
               </label>
               <div class="flex gap-4 pt-2">
-                <button type="submit" class="flex-1 bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all cursor-pointer">
+                <button
+                  type="submit"
+                  class="flex-1 bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all cursor-pointer"
+                >
                   SAVE ADDRESS
                 </button>
-                <button type="button" id="addr-cancel" class="py-4 px-6 border border-[var(--outline)] font-data-label text-xs tracking-widest hover:border-[var(--primary)] transition-all cursor-pointer">
+                <button
+                  type="button"
+                  id="addr-cancel"
+                  class="py-4 px-6 border border-[var(--outline)] font-data-label text-xs tracking-widest hover:border-[var(--primary)] transition-all cursor-pointer"
+                >
                   CANCEL
                 </button>
               </div>
               <p class="addr-form-error font-caption text-xs text-[var(--error)] hidden"></p>
             </form>
           </div>
-          
+
           <!-- Right Column: Map Helper -->
-          <div class="flex-1 min-w-0 flex flex-col border-t md:border-t-0 md:border-l border-[var(--outline-variant)]/30 pt-6 md:pt-0 md:pl-8">
-            <h4 class="font-data-label text-xs text-[var(--outline)] uppercase tracking-wider mb-2">Location Map Helper</h4>
-            <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-4">Click/Tap on the map or search to auto-fill the address details.</p>
-            
+          <div
+            class="flex-1 min-w-0 flex flex-col border-t md:border-t-0 md:border-l border-[var(--outline-variant)]/30 pt-6 md:pt-0 md:pl-8"
+          >
+            <h4 class="font-data-label text-xs text-[var(--outline)] uppercase tracking-wider mb-2">
+              Location Map Helper
+            </h4>
+            <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-4">
+              Click/Tap on the map or search to auto-fill the address details.
+            </p>
+
             <!-- Map Search Box -->
             <div class="flex gap-2 mb-3">
               <div class="flex-1 border-b border-[var(--outline-variant)] pb-1">
-                <input id="map-search-input" type="text" class="w-full bg-transparent border-none font-body-md text-xs py-1.5 focus:outline-none text-[var(--on-surface)]" placeholder="Search address/landmark..." />
+                <input
+                  id="map-search-input"
+                  type="text"
+                  class="w-full bg-transparent border-none font-body-md text-xs py-1.5 focus:outline-none text-[var(--on-surface)]"
+                  placeholder="Search address/landmark..."
+                />
               </div>
-              <button type="button" id="map-search-btn" class="bg-[var(--primary)] text-[var(--on-primary)] px-3 py-1 font-data-label text-[10px] tracking-wider hover:bg-[var(--secondary)] transition-all cursor-pointer">SEARCH</button>
+              <button
+                type="button"
+                id="map-search-btn"
+                class="bg-[var(--primary)] text-[var(--on-primary)] px-3 py-1 font-data-label text-[10px] tracking-wider hover:bg-[var(--secondary)] transition-all cursor-pointer"
+                >SEARCH</button
+              >
             </div>
-            
+
             <!-- Map container -->
-            <div id="address-map" class="w-full bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/30 relative min-h-[220px] md:min-h-[260px] h-[220px] md:h-[260px]">
-              <div id="map-loading-overlay" class="absolute inset-0 bg-[var(--surface)]/80 flex items-center justify-center z-[1000] hidden">
-                <p class="font-data-label text-[10px] text-[var(--secondary)] tracking-widest uppercase animate-pulse">Reverse Geocoding...</p>
+            <div
+              id="address-map"
+              class="w-full bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/30 relative min-h-[220px] md:min-h-[260px] h-[220px] md:h-[260px]"
+            >
+              <div
+                id="map-loading-overlay"
+                class="absolute inset-0 bg-[var(--surface)]/80 flex items-center justify-center z-[1000] hidden"
+              >
+                <p
+                  class="font-data-label text-[10px] text-[var(--secondary)] tracking-widest uppercase animate-pulse"
+                >
+                  Reverse Geocoding...
+                </p>
               </div>
             </div>
 
             <!-- Nearby Suggestions Section -->
             <div class="mt-4 flex-1 flex flex-col min-h-0">
-              <h5 class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider mb-2">Nearby Places / Address Variations</h5>
-              <div id="map-suggestions" class="grid grid-cols-1 gap-1.5 max-h-[120px] overflow-y-auto pr-1">
-                <p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic">Click/search on the map to see suggestions...</p>
+              <h5
+                class="font-data-label text-[10px] text-[var(--outline)] uppercase tracking-wider mb-2"
+              >
+                Nearby Places / Address Variations
+              </h5>
+              <div
+                id="map-suggestions"
+                class="grid grid-cols-1 gap-1.5 max-h-[120px] overflow-y-auto pr-1"
+              >
+                <p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic">
+                  Click/search on the map to see suggestions...
+                </p>
               </div>
             </div>
           </div>
@@ -391,19 +714,23 @@ import Layout from "../layouts/Layout.astro";
     <section id="section-orders" class="account-section hidden reveal">
       <div class="mb-8">
         <h2 class="font-headline-md text-lg uppercase font-bold mb-1">Order History</h2>
-        <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">All confirmed and past orders.</p>
+        <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">
+          All confirmed and past orders.
+        </p>
       </div>
 
       <!-- Filter bar -->
       <div class="flex flex-wrap gap-3 mb-6">
-        {["ALL", "DELIVERED", "PROCESSING", "RETURNED"].map((f, i) => (
-          <button
-            data-filter={f.toLowerCase()}
-            class={`order-filter font-data-label text-[10px] tracking-widest px-4 py-2 border transition-all cursor-pointer uppercase ${i === 0 ? "border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5" : "border-[var(--outline-variant)] text-[var(--on-surface-variant)] hover:border-[var(--primary)]"}`}
-          >
-            {f}
-          </button>
-        ))}
+        {
+          ["ALL", "DELIVERED", "PROCESSING", "RETURNED"].map((f, i) => (
+            <button
+              data-filter={f.toLowerCase()}
+              class={`order-filter font-data-label text-[10px] tracking-widest px-4 py-2 border transition-all cursor-pointer uppercase ${i === 0 ? "border-[var(--primary)] text-[var(--primary)] bg-[var(--primary)]/5" : "border-[var(--outline-variant)] text-[var(--on-surface-variant)] hover:border-[var(--primary)]"}`}
+            >
+              {f}
+            </button>
+          ))
+        }
         <div class="ml-auto">
           <input
             id="order-search"
@@ -416,15 +743,30 @@ import Layout from "../layouts/Layout.astro";
 
       <div id="orders-list" class="space-y-4">
         <!-- Skeleton placeholders -->
-        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24"></div>
-        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24"></div>
-        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24"></div>
+        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24">
+        </div>
+        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24">
+        </div>
+        <div class="order-skeleton border border-[var(--outline-variant)]/30 p-6 shimmer h-24">
+        </div>
       </div>
 
-      <div id="orders-empty" class="hidden py-16 flex flex-col items-center gap-4 border border-dashed border-[var(--outline-variant)] text-center">
-        <span class="material-symbols-outlined text-[var(--outline-variant)]" style="font-size:40px;">inventory</span>
-        <p class="font-data-label text-xs text-[var(--outline)] uppercase tracking-widest">No orders found</p>
-        <a href="/shop" class="font-caption text-[11px] text-[var(--secondary)] hover:underline underline-offset-2 no-underline">Browse the Shop →</a>
+      <div
+        id="orders-empty"
+        class="hidden py-16 flex flex-col items-center gap-4 border border-dashed border-[var(--outline-variant)] text-center"
+      >
+        <span
+          class="material-symbols-outlined text-[var(--outline-variant)]"
+          style="font-size:40px;">inventory</span
+        >
+        <p class="font-data-label text-xs text-[var(--outline)] uppercase tracking-widest">
+          No orders found
+        </p>
+        <a
+          href="/shop"
+          class="font-caption text-[11px] text-[var(--secondary)] hover:underline underline-offset-2 no-underline"
+          >Browse the Shop →</a
+        >
       </div>
     </section>
 
@@ -433,52 +775,109 @@ import Layout from "../layouts/Layout.astro";
     <!-- ══════════════════════════════════════════════════════════════════════ -->
     <section id="section-security" class="account-section hidden reveal">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
         <!-- Change password -->
-        <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+        <div
+          class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8"
+        >
           <div class="flex justify-between items-start mb-8">
             <h2 class="font-headline-md text-lg uppercase font-bold">Change Password</h2>
-            <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:22px;">key</span>
+            <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:22px;"
+              >key</span
+            >
           </div>
           <form id="change-password-form" class="space-y-6" novalidate>
             <div class="field-group">
-              <label for="current-password" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Current Password</label>
+              <label
+                for="current-password"
+                class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                >Current Password</label
+              >
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                <input name="current_password" id="current-password" type="password" autocomplete="current-password" required
+                <input
+                  name="current_password"
+                  id="current-password"
+                  type="password"
+                  autocomplete="current-password"
+                  required
                   class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 pr-8 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                  placeholder="••••••••••••" />
-                <button type="button" class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors">
-                  <span class="material-symbols-outlined" style="font-size:16px;">visibility_off</span>
+                  placeholder="••••••••••••"
+                />
+                <button
+                  type="button"
+                  class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors"
+                >
+                  <span class="material-symbols-outlined" style="font-size:16px;"
+                    >visibility_off</span
+                  >
                 </button>
               </div>
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
             </div>
             <div class="field-group">
-              <label for="new-password" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">New Password</label>
+              <label
+                for="new-password"
+                class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                >New Password</label
+              >
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                <input name="new_password" id="new-password" type="password" autocomplete="new-password" required
+                <input
+                  name="new_password"
+                  id="new-password"
+                  type="password"
+                  autocomplete="new-password"
+                  required
                   class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 pr-8 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                  placeholder="At least 8 characters" />
-                <button type="button" class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors">
-                  <span class="material-symbols-outlined" style="font-size:16px;">visibility_off</span>
+                  placeholder="At least 8 characters"
+                />
+                <button
+                  type="button"
+                  class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors"
+                >
+                  <span class="material-symbols-outlined" style="font-size:16px;"
+                    >visibility_off</span
+                  >
                 </button>
               </div>
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
             </div>
             <div class="field-group">
-              <label for="confirm-password" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Confirm Password</label>
+              <label
+                for="confirm-password"
+                class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                >Confirm Password</label
+              >
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
-                <input name="confirm_password" id="confirm-password" type="password" autocomplete="new-password" required
+                <input
+                  name="confirm_password"
+                  id="confirm-password"
+                  type="password"
+                  autocomplete="new-password"
+                  required
                   class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
-                  placeholder="Re-enter password" />
+                  placeholder="Re-enter password"
+                />
               </div>
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
             </div>
-            <button type="submit"
-              class="w-full bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex justify-between items-center px-8 group cursor-pointer">
+            <button
+              type="submit"
+              class="w-full bg-[var(--primary)] text-[var(--on-primary)] py-4 font-data-label text-xs tracking-[0.2em] hover:bg-[var(--secondary)] transition-all flex justify-between items-center px-8 group cursor-pointer"
+            >
               <span class="btn-label">UPDATE PASSWORD</span>
-              <span class="btn-loader hidden"><span class="inline-flex gap-1"><span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:0ms;"></span><span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:150ms;"></span><span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:300ms;"></span></span></span>
-              <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" style="font-size:16px;">lock_reset</span>
+              <span class="btn-loader hidden"
+                ><span class="inline-flex gap-1"
+                  ><span class="w-1 h-1 bg-white animate-bounce" style="animation-delay:0ms;"
+                  ></span><span
+                    class="w-1 h-1 bg-white animate-bounce"
+                    style="animation-delay:150ms;"></span><span
+                    class="w-1 h-1 bg-white animate-bounce"
+                    style="animation-delay:300ms;"></span></span
+                ></span
+              >
+              <span
+                class="material-symbols-outlined transition-transform group-hover:translate-x-1"
+                style="font-size:16px;">lock_reset</span
+              >
             </button>
             <p id="pw-change-msg" class="font-caption text-[11px] hidden text-center"></p>
           </form>
@@ -486,47 +885,83 @@ import Layout from "../layouts/Layout.astro";
 
         <!-- Network preferences -->
         <div class="space-y-6">
-          <div class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8">
+          <div
+            class="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8"
+          >
             <div class="flex justify-between items-start mb-8">
               <h2 class="font-headline-md text-lg uppercase font-bold">Preferences</h2>
-              <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:22px;">settings</span>
+              <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:22px;"
+                >settings</span
+              >
             </div>
             <div class="space-y-6">
-              {[
-                { id: "pref-newsletter", label: "Email Newsletter", desc: "Get notified about new drops, collections and stories.", defaultOn: true },
-                { id: "pref-2fa",        label: "Two-Factor Auth",  desc: "Enhanced account security layer",  defaultOn: true },
-                { id: "pref-public",     label: "Public Profile",   desc: "Make profile visible to community",    defaultOn: false },
-                { id: "pref-marketing",  label: "Exclusive Drop Alerts",   desc: "Get early access and notifications for limited releases.", defaultOn: true },
-              ].map(p => (
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="font-caption text-xs font-semibold uppercase text-[var(--primary)]">{p.label}</p>
-                    <p class="font-caption text-[10px] text-[var(--on-surface-variant)] mt-0.5">{p.desc}</p>
+              {
+                [
+                  {
+                    id: "pref-newsletter",
+                    label: "Email Newsletter",
+                    desc: "Get notified about new drops, collections and stories.",
+                    defaultOn: true,
+                  },
+                  {
+                    id: "pref-2fa",
+                    label: "Two-Factor Auth",
+                    desc: "Enhanced account security layer",
+                    defaultOn: true,
+                  },
+                  {
+                    id: "pref-public",
+                    label: "Public Profile",
+                    desc: "Make profile visible to community",
+                    defaultOn: false,
+                  },
+                  {
+                    id: "pref-marketing",
+                    label: "Exclusive Drop Alerts",
+                    desc: "Get early access and notifications for limited releases.",
+                    defaultOn: true,
+                  },
+                ].map((p) => (
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="font-caption text-xs font-semibold uppercase text-[var(--primary)]">
+                        {p.label}
+                      </p>
+                      <p class="font-caption text-[10px] text-[var(--on-surface-variant)] mt-0.5">
+                        {p.desc}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      class="toggle-switch w-11 h-6 flex items-center px-1 cursor-pointer transition-colors"
+                      style={`background: ${p.defaultOn ? "var(--secondary)" : "var(--outline-variant)"}`}
+                      data-state={p.defaultOn ? "on" : "off"}
+                      id={p.id}
+                    >
+                      <div
+                        class="w-4 h-4 bg-white transition-all"
+                        style={p.defaultOn ? "margin-left: auto;" : ""}
+                      />
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    class="toggle-switch w-11 h-6 flex items-center px-1 cursor-pointer transition-colors"
-                    style={`background: ${p.defaultOn ? "var(--secondary)" : "var(--outline-variant)"}`}
-                    data-state={p.defaultOn ? "on" : "off"}
-                    id={p.id}
-                  >
-                    <div
-                      class="w-4 h-4 bg-white transition-all"
-                      style={p.defaultOn ? "margin-left: auto;" : ""}
-                    ></div>
-                  </button>
-                </div>
-              ))}
+                ))
+              }
             </div>
           </div>
 
           <!-- Danger zone -->
           <div class="bg-[var(--surface-container-lowest)] border border-[var(--error)]/20 p-8">
             <div class="flex justify-between items-start mb-6">
-              <h2 class="font-headline-md text-lg uppercase font-bold text-[var(--error)]">Danger Zone</h2>
-              <span class="material-symbols-outlined text-[var(--error)]" style="font-size:22px;">warning</span>
+              <h2 class="font-headline-md text-lg uppercase font-bold text-[var(--error)]">
+                Danger Zone
+              </h2>
+              <span class="material-symbols-outlined text-[var(--error)]" style="font-size:22px;"
+                >warning</span
+              >
             </div>
-            <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-6">Permanently delete your account and all associated data. This action cannot be undone.</p>
+            <p class="font-caption text-[11px] text-[var(--on-surface-variant)] mb-6">
+              Permanently delete your account and all associated data. This action cannot be undone.
+            </p>
             <button
               id="delete-account-btn"
               type="button"
@@ -538,19 +973,18 @@ import Layout from "../layouts/Layout.astro";
         </div>
       </div>
     </section>
-
   </div>
 
   <!-- Toast notification -->
-  <div
-    id="toast"
-    class="fixed bottom-8 right-8 z-[100] hidden"
-    style="min-width: 280px;"
-  >
+  <div id="toast" class="fixed bottom-8 right-8 z-[100] hidden" style="min-width: 280px;">
     <div id="toast-inner" class="border p-4 flex items-center gap-3 shadow-xl">
       <span id="toast-icon" class="material-symbols-outlined" style="font-size: 20px;"></span>
       <p id="toast-msg" class="font-data-label text-xs tracking-wider uppercase flex-1"></p>
-      <button onclick="document.getElementById('toast').classList.add('hidden')" class="material-symbols-outlined text-current cursor-pointer opacity-60 hover:opacity-100" style="font-size:16px;">close</button>
+      <button
+        onclick="document.getElementById('toast').classList.add('hidden')"
+        class="material-symbols-outlined text-current cursor-pointer opacity-60 hover:opacity-100"
+        style="font-size:16px;">close</button
+      >
     </div>
   </div>
 
@@ -570,35 +1004,70 @@ import Layout from "../layouts/Layout.astro";
     }
 
     @keyframes scan {
-      0%   { top: 0; opacity: 0; }
-      15%  { opacity: 0.35; }
-      85%  { opacity: 0.35; }
-      100% { top: 100%; opacity: 0; }
+      0% {
+        top: 0;
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.35;
+      }
+      85% {
+        opacity: 0.35;
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
     }
 
     .shimmer {
-      background: linear-gradient(90deg, var(--surface-container) 25%, var(--surface-container-high) 50%, var(--surface-container) 75%);
+      background: linear-gradient(
+        90deg,
+        var(--surface-container) 25%,
+        var(--surface-container-high) 50%,
+        var(--surface-container) 75%
+      );
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite linear;
     }
 
     @keyframes shimmer {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 0;
+      }
     }
 
     /* Address card hover */
-    .address-card:hover { border-color: var(--secondary); }
+    .address-card:hover {
+      border-color: var(--secondary);
+    }
 
     /* Order expanded content */
-    .order-details { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-    .order-details.open { max-height: 600px; }
+    .order-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .order-details.open {
+      max-height: 600px;
+    }
 
     /* Toast animation */
-    #toast.show { animation: toast-in 0.3s ease-out both; }
+    #toast.show {
+      animation: toast-in 0.3s ease-out both;
+    }
     @keyframes toast-in {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Leaflet monochrome/AETHER styling */
@@ -629,27 +1098,31 @@ import Layout from "../layouts/Layout.astro";
   </style>
 
   <script>
-    import { decryptPayload } from '../lib/crypto';
+    import { decryptPayload } from "../lib/crypto";
 
     /* ── Constants ──────────────────────────────────────────────────────────── */
-    const API = (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string) || 'http://localhost:9000';
-    const PK  = (import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY as string) || '';
+    const API = (import.meta.env.PUBLIC_MEDUSA_BACKEND_URL as string) || "http://localhost:9000";
+    const PK = (import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY as string) || "";
 
     /* ── Helpers ────────────────────────────────────────────────────────────── */
     function getToken(): string | null {
-      return localStorage.getItem('wanna_auth_token');
+      return localStorage.getItem("wanna_auth_token");
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async function apiRequest(path: string, options: RequestInit = {}): Promise<any> {
       const token = getToken();
-      const headers: Record<string,string> = {
-        'Content-Type': 'application/json',
-        'x-publishable-api-key': PK,
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+        "x-publishable-api-key": PK,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       };
-      const res = await fetch(`${API}${path}`, { ...options, headers: { ...headers, ...(options.headers as Record<string,string> || {}) }, credentials: 'include' });
-      
+      const res = await fetch(`${API}${path}`, {
+        ...options,
+        headers: { ...headers, ...((options.headers as Record<string, string>) || {}) },
+        credentials: "include",
+      });
+
       const encryptedData = await res.json().catch(() => ({}));
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const body: any = await decryptPayload(encryptedData);
@@ -660,141 +1133,166 @@ import Layout from "../layouts/Layout.astro";
       return body;
     }
 
-    function showToast(msg: string, type: 'success' | 'error' | 'info' = 'success') {
-      const toast     = document.getElementById('toast')!;
-      const inner     = document.getElementById('toast-inner')!;
-      const iconEl    = document.getElementById('toast-icon')!;
-      const msgEl     = document.getElementById('toast-msg')!;
-      const colorMap  = { success: 'var(--secondary)', error: 'var(--error)', info: 'var(--outline)' };
-      const iconMap   = { success: 'check_circle', error: 'error', info: 'info' };
+    function showToast(msg: string, type: "success" | "error" | "info" = "success") {
+      const toast = document.getElementById("toast")!;
+      const inner = document.getElementById("toast-inner")!;
+      const iconEl = document.getElementById("toast-icon")!;
+      const msgEl = document.getElementById("toast-msg")!;
+      const colorMap = {
+        success: "var(--secondary)",
+        error: "var(--error)",
+        info: "var(--outline)",
+      };
+      const iconMap = { success: "check_circle", error: "error", info: "info" };
 
       inner.style.borderColor = colorMap[type];
-      inner.style.background  = 'var(--surface-container-lowest)';
-      iconEl.textContent       = iconMap[type];
-      iconEl.style.color       = colorMap[type];
-      msgEl.textContent        = msg;
+      inner.style.background = "var(--surface-container-lowest)";
+      iconEl.textContent = iconMap[type];
+      iconEl.style.color = colorMap[type];
+      msgEl.textContent = msg;
 
-      toast.classList.remove('hidden', 'show');
-      requestAnimationFrame(() => toast.classList.add('show'));
-      setTimeout(() => toast.classList.add('hidden'), 4000);
+      toast.classList.remove("hidden", "show");
+      requestAnimationFrame(() => toast.classList.add("show"));
+      setTimeout(() => toast.classList.add("hidden"), 4000);
     }
 
     function setLoading(form: HTMLElement, loading: boolean) {
-      const btn    = form.querySelector<HTMLButtonElement>('[type=submit]');
+      const btn = form.querySelector<HTMLButtonElement>("[type=submit]");
       if (!btn) return;
-      const label  = btn.querySelector<HTMLElement>('.btn-label');
-      const loader = btn.querySelector<HTMLElement>('.btn-loader');
+      const label = btn.querySelector<HTMLElement>(".btn-label");
+      const loader = btn.querySelector<HTMLElement>(".btn-loader");
       btn.disabled = loading;
-      label?.classList.toggle('hidden', loading);
-      loader?.classList.toggle('hidden', !loading);
+      label?.classList.toggle("hidden", loading);
+      loader?.classList.toggle("hidden", !loading);
     }
 
     function showFieldError(group: Element, msg: string) {
-      const err = group.querySelector<HTMLElement>('.field-error');
-      if (err) { err.textContent = msg; err.classList.remove('hidden'); }
+      const err = group.querySelector<HTMLElement>(".field-error");
+      if (err) {
+        err.textContent = msg;
+        err.classList.remove("hidden");
+      }
     }
     function clearFieldErrors(form: Element) {
-      form.querySelectorAll('.field-error').forEach(e => { (e as HTMLElement).textContent = ''; e.classList.add('hidden'); });
+      form.querySelectorAll(".field-error").forEach((e) => {
+        (e as HTMLElement).textContent = "";
+        e.classList.add("hidden");
+      });
     }
 
     function hideLoader() {
-      const loader = document.getElementById('aether-loader');
+      const loader = document.getElementById("aether-loader");
       if (loader) {
-        loader.classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => loader.classList.add('hidden'), 300);
+        loader.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => loader.classList.add("hidden"), 300);
       }
     }
 
     /* ── Auth guard ─────────────────────────────────────────────────────────── */
     const token = getToken();
     if (!token) {
-      document.getElementById('auth-guard')!.classList.remove('hidden');
+      document.getElementById("auth-guard")!.classList.remove("hidden");
       hideLoader();
     }
 
-    document.getElementById('logout-btn')?.addEventListener('click', () => {
-      localStorage.removeItem('wanna_auth_token');
-      localStorage.removeItem('wanna_auth_role');
-      localStorage.removeItem('wanna_seller_requested');
-      showToast('Signing out. Redirecting…', 'info');
-      setTimeout(() => { window.location.href = '/auth'; }, 1200);
+    document.getElementById("logout-btn")?.addEventListener("click", () => {
+      localStorage.removeItem("wanna_auth_token");
+      localStorage.removeItem("wanna_auth_role");
+      localStorage.removeItem("wanna_seller_requested");
+      showToast("Signing out. Redirecting…", "info");
+      setTimeout(() => {
+        window.location.href = "/auth";
+      }, 1200);
     });
 
     /* ── Delete account confirm ─────────────────────────────────────────────── */
-    document.getElementById('delete-account-btn')?.addEventListener('click', async () => {
-      const confirmed = await (window as any).showAetherConfirm('CONFIRM DELETE ACCOUNT', 'This will permanently delete your account and all data. This cannot be undone.');
+    document.getElementById("delete-account-btn")?.addEventListener("click", async () => {
+      const confirmed = await (window as any).showAetherConfirm(
+        "CONFIRM DELETE ACCOUNT",
+        "This will permanently delete your account and all data. This cannot be undone.",
+      );
       if (!confirmed) return;
-      apiRequest('/store/customers/me', { method: 'DELETE' })
+      apiRequest("/store/customers/me", { method: "DELETE" })
         .then(() => {
-          localStorage.removeItem('wanna_auth_token');
-          showToast('Account deleted.', 'info');
-          setTimeout(() => { window.location.href = '/'; }, 1500);
+          localStorage.removeItem("wanna_auth_token");
+          showToast("Account deleted.", "info");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1500);
         })
-        .catch(err => showToast(err.message, 'error'));
+        .catch((err) => showToast(err.message, "error"));
     });
 
     /* ── Tab switching ──────────────────────────────────────────────────────── */
-    const tabs     = document.querySelectorAll<HTMLElement>('.account-tab');
-    const sections = document.querySelectorAll<HTMLElement>('.account-section');
+    const tabs = document.querySelectorAll<HTMLElement>(".account-tab");
+    const sections = document.querySelectorAll<HTMLElement>(".account-section");
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
         const target = tab.dataset.tab;
-        tabs.forEach(t => {
-          t.classList.remove('text-[var(--primary)]', 'border-[var(--primary)]');
-          t.classList.add('text-[var(--on-surface-variant)]', 'border-transparent');
+        tabs.forEach((t) => {
+          t.classList.remove("text-[var(--primary)]", "border-[var(--primary)]");
+          t.classList.add("text-[var(--on-surface-variant)]", "border-transparent");
         });
-        tab.classList.add('text-[var(--primary)]', 'border-[var(--primary)]');
-        tab.classList.remove('text-[var(--on-surface-variant)]', 'border-transparent');
+        tab.classList.add("text-[var(--primary)]", "border-[var(--primary)]");
+        tab.classList.remove("text-[var(--on-surface-variant)]", "border-transparent");
 
-        sections.forEach(s => {
-          s.classList.toggle('hidden', s.id !== `section-${target}`);
+        sections.forEach((s) => {
+          s.classList.toggle("hidden", s.id !== `section-${target}`);
         });
 
         // Lazy load orders when switching to orders tab
-        if (target === 'orders') loadOrders();
+        if (target === "orders") loadOrders();
       });
     });
 
     /* ── Field focus effects ────────────────────────────────────────────────── */
     function initFieldEffects(root: Element = document.body) {
-      root.querySelectorAll<HTMLInputElement>('.field-input').forEach(input => {
-        const group  = input.closest('.field-group');
-        const border = input.closest('.relative, .border-b') as HTMLElement;
-        const label  = group?.querySelector<HTMLElement>('.field-label');
+      root.querySelectorAll<HTMLInputElement>(".field-input").forEach((input) => {
+        const group = input.closest(".field-group");
+        const border = input.closest(".relative, .border-b") as HTMLElement;
+        const label = group?.querySelector<HTMLElement>(".field-label");
 
-        input.addEventListener('focus', () => {
-          if (border) { border.style.borderColor = 'var(--secondary)'; }
-          if (label)  { label.style.color = 'var(--secondary)'; }
+        input.addEventListener("focus", () => {
+          if (border) {
+            border.style.borderColor = "var(--secondary)";
+          }
+          if (label) {
+            label.style.color = "var(--secondary)";
+          }
         });
-        input.addEventListener('blur', () => {
-          if (border) { border.style.borderColor = ''; }
-          if (label)  { label.style.color = ''; }
+        input.addEventListener("blur", () => {
+          if (border) {
+            border.style.borderColor = "";
+          }
+          if (label) {
+            label.style.color = "";
+          }
         });
       });
 
       // Password toggles
-      root.querySelectorAll<HTMLButtonElement>('.pw-toggle').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const pw   = btn.previousElementSibling as HTMLInputElement;
-          const icon = btn.querySelector('.material-symbols-outlined')!;
-          const isText = pw.type === 'text';
-          pw.type = isText ? 'password' : 'text';
-          icon.textContent = isText ? 'visibility_off' : 'visibility';
+      root.querySelectorAll<HTMLButtonElement>(".pw-toggle").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pw = btn.previousElementSibling as HTMLInputElement;
+          const icon = btn.querySelector(".material-symbols-outlined")!;
+          const isText = pw.type === "text";
+          pw.type = isText ? "password" : "text";
+          icon.textContent = isText ? "visibility_off" : "visibility";
         });
       });
     }
     initFieldEffects();
 
     /* ── Toggle switches ────────────────────────────────────────────────────── */
-    document.querySelectorAll<HTMLElement>('.toggle-switch').forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const isOn  = toggle.dataset.state === 'on';
-        const handle = toggle.querySelector('div') as HTMLElement;
-        toggle.dataset.state = isOn ? 'off' : 'on';
-        toggle.style.background = isOn ? 'var(--outline-variant)' : 'var(--secondary)';
-        handle.style.marginLeft = isOn ? '' : 'auto';
-        showToast(isOn ? 'Setting disabled' : 'Setting enabled', 'info');
+    document.querySelectorAll<HTMLElement>(".toggle-switch").forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const isOn = toggle.dataset.state === "on";
+        const handle = toggle.querySelector("div") as HTMLElement;
+        toggle.dataset.state = isOn ? "off" : "on";
+        toggle.style.background = isOn ? "var(--outline-variant)" : "var(--secondary)";
+        handle.style.marginLeft = isOn ? "" : "auto";
+        showToast(isOn ? "Setting disabled" : "Setting enabled", "info");
       });
     });
 
@@ -803,23 +1301,33 @@ import Layout from "../layouts/Layout.astro";
 
     async function loadCustomer() {
       try {
-        const data = await apiRequest('/store/customers/me');
+        const data = await apiRequest("/store/customers/me");
         customerData = data.customer || data;
         fillProfile(customerData);
         hideLoader();
       } catch {
         // Not authenticated or API down — populate with demo data
         customerData = {
-          id: 'demo-001',
-          first_name: 'ELIAS',
-          last_name: 'VANCE',
-          email: 'vance.e@wannasingh.io',
-          phone: '+1 212 555 0142',
-          company_name: 'TAC-OPS',
-          created_at: '2022-03-15T00:00:00Z',
+          id: "demo-001",
+          first_name: "ELIAS",
+          last_name: "VANCE",
+          email: "vance.e@wannasingh.io",
+          phone: "+1 212 555 0142",
+          company_name: "TAC-OPS",
+          created_at: "2022-03-15T00:00:00Z",
           addresses: [
-            { id: 'addr-1', address_1: '42 SECTOR BLVD', city: 'NEW YORK', province: 'NY', postal_code: '10001', country_code: 'US', first_name: 'Elias', last_name: 'Vance', is_default_billing: true },
-          ]
+            {
+              id: "addr-1",
+              address_1: "42 SECTOR BLVD",
+              city: "NEW YORK",
+              province: "NY",
+              postal_code: "10001",
+              country_code: "US",
+              first_name: "Elias",
+              last_name: "Vance",
+              is_default_billing: true,
+            },
+          ],
         };
         fillProfile(customerData);
         hideLoader();
@@ -827,70 +1335,79 @@ import Layout from "../layouts/Layout.astro";
     }
 
     function fillProfile(c: any) {
-      const name = `${c.first_name || ''} ${c.last_name || ''}`.trim();
-      (document.getElementById('user-display-name') as HTMLElement).textContent = name || '—';
-      (document.getElementById('user-display-email') as HTMLElement).textContent = c.email || '—';
+      const name = `${c.first_name || ""} ${c.last_name || ""}`.trim();
+      (document.getElementById("user-display-name") as HTMLElement).textContent = name || "—";
+      (document.getElementById("user-display-email") as HTMLElement).textContent = c.email || "—";
       if (c.email) {
-        localStorage.setItem('wanna_auth_email', c.email);
+        localStorage.setItem("wanna_auth_email", c.email);
       }
-      (document.getElementById('user-operative-id') as HTMLElement).textContent = `Member ID: ${c.id?.slice(0,12).toUpperCase() || '—'}`;
-      (document.getElementById('user-phone') as HTMLElement).textContent = c.phone || '—';
-      (document.getElementById('user-location') as HTMLElement).textContent = c.addresses?.[0]?.city ? `${c.addresses[0].city}, ${c.addresses[0].country_code?.toUpperCase()}` : '—';
-      (document.getElementById('user-since') as HTMLElement).textContent = c.created_at ? new Date(c.created_at).getFullYear().toString() : '—';
+      (document.getElementById("user-operative-id") as HTMLElement).textContent =
+        `Member ID: ${c.id?.slice(0, 12).toUpperCase() || "—"}`;
+      (document.getElementById("user-phone") as HTMLElement).textContent = c.phone || "—";
+      (document.getElementById("user-location") as HTMLElement).textContent = c.addresses?.[0]?.city
+        ? `${c.addresses[0].city}, ${c.addresses[0].country_code?.toUpperCase()}`
+        : "—";
+      (document.getElementById("user-since") as HTMLElement).textContent = c.created_at
+        ? new Date(c.created_at).getFullYear().toString()
+        : "—";
 
       // Dynamic Admin/Seller check
-      const userTier = document.getElementById('user-tier');
-      const goAdminBtn = document.getElementById('go-admin-btn');
-      const requestSellerBtn = document.getElementById('request-seller-btn') as HTMLButtonElement | null;
-      const requestSellerText = document.getElementById('request-seller-text');
+      const userTier = document.getElementById("user-tier");
+      const goAdminBtn = document.getElementById("go-admin-btn");
+      const requestSellerBtn = document.getElementById(
+        "request-seller-btn",
+      ) as HTMLButtonElement | null;
+      const requestSellerText = document.getElementById("request-seller-text");
 
-      const isSeller = c.metadata?.seller_approved === 'true';
-      const isAdmin = c.email === 'wannasingh.khan@gmail.com';
+      const isSeller = c.metadata?.seller_approved === "true";
+      const isAdmin = c.email === "wannasingh.khan@gmail.com";
 
       if (isAdmin) {
-        if (userTier) userTier.textContent = 'SUPER ADMIN';
-        if (goAdminBtn) goAdminBtn.classList.remove('hidden');
-        localStorage.setItem('wanna_auth_role', 'admin');
+        if (userTier) userTier.textContent = "SUPER ADMIN";
+        if (goAdminBtn) goAdminBtn.classList.remove("hidden");
+        localStorage.setItem("wanna_auth_role", "admin");
       } else if (isSeller) {
-        if (userTier) userTier.textContent = 'SELLER';
-        if (goAdminBtn) goAdminBtn.classList.remove('hidden');
-        localStorage.setItem('wanna_auth_role', 'seller');
+        if (userTier) userTier.textContent = "SELLER";
+        if (goAdminBtn) goAdminBtn.classList.remove("hidden");
+        localStorage.setItem("wanna_auth_role", "seller");
       } else {
-        if (userTier) userTier.textContent = 'Level 01 Collector';
-        if (goAdminBtn) goAdminBtn.classList.add('hidden');
-        localStorage.setItem('wanna_auth_role', 'customer');
+        if (userTier) userTier.textContent = "Level 01 Collector";
+        if (goAdminBtn) goAdminBtn.classList.add("hidden");
+        localStorage.setItem("wanna_auth_role", "customer");
       }
 
       // Set seller request button state
       if (requestSellerBtn && requestSellerText) {
-        if (c.metadata?.seller_approved === 'true') {
+        if (c.metadata?.seller_approved === "true") {
           requestSellerBtn.disabled = true;
-          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
-          requestSellerText.textContent = 'SELLER STATUS ACTIVE';
-        } else if (c.metadata?.seller_requested === 'true') {
+          requestSellerBtn.classList.add("opacity-50", "cursor-not-allowed");
+          requestSellerText.textContent = "SELLER STATUS ACTIVE";
+        } else if (c.metadata?.seller_requested === "true") {
           requestSellerBtn.disabled = true;
-          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
-          requestSellerText.textContent = 'SELLER REQUEST PENDING';
+          requestSellerBtn.classList.add("opacity-50", "cursor-not-allowed");
+          requestSellerText.textContent = "SELLER REQUEST PENDING";
         } else {
           requestSellerBtn.disabled = false;
-          requestSellerBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-          requestSellerText.textContent = 'REQUEST TO BE SELLER';
+          requestSellerBtn.classList.remove("opacity-50", "cursor-not-allowed");
+          requestSellerText.textContent = "REQUEST TO BE SELLER";
         }
       }
 
       // Set Avatar URL if present in metadata
-      const avatarPreview = document.getElementById('avatar-preview') as HTMLImageElement;
+      const avatarPreview = document.getElementById("avatar-preview") as HTMLImageElement;
       if (avatarPreview) {
-        avatarPreview.src = c.metadata?.avatar_url || "https://lh3.googleusercontent.com/aida-public/AB6AXuANyrq4RmJ5SKFvabKt5uPsrCGV-E3dfJ-UmYeDLnaTqPuBGGAB4tATktPxBnKwxxhmGsiNSNt63FPTB2DO3_ktmiIABUk3RC-O97au5whs6jBGjrMHYzx5tszS8I9ybnmrr5XS2-VaPDItG0g1qpXj9bPBaUQ2y8aLyYaYr9KfYvOY9sC8IZ-6UkXJh9kTcePZPg5evqLk4hrdjY_QRIMqLf-dOiK9BlVrE8Qj8voXV7jfyxqbY4_wHylTFcTVVru38j2V6958uEHo";
+        avatarPreview.src =
+          c.metadata?.avatar_url ||
+          "https://lh3.googleusercontent.com/aida-public/AB6AXuANyrq4RmJ5SKFvabKt5uPsrCGV-E3dfJ-UmYeDLnaTqPuBGGAB4tATktPxBnKwxxhmGsiNSNt63FPTB2DO3_ktmiIABUk3RC-O97au5whs6jBGjrMHYzx5tszS8I9ybnmrr5XS2-VaPDItG0g1qpXj9bPBaUQ2y8aLyYaYr9KfYvOY9sC8IZ-6UkXJh9kTcePZPg5evqLk4hrdjY_QRIMqLf-dOiK9BlVrE8Qj8voXV7jfyxqbY4_wHylTFcTVVru38j2V6958uEHo";
       }
 
       // Fill profile form
-      const f = document.getElementById('profile-form') as HTMLFormElement;
-      (f.querySelector('[name=first_name]') as HTMLInputElement).value  = c.first_name || '';
-      (f.querySelector('[name=last_name]') as HTMLInputElement).value   = c.last_name  || '';
-      (f.querySelector('[name=email]') as HTMLInputElement).value       = c.email      || '';
-      (f.querySelector('[name=phone]') as HTMLInputElement).value       = c.phone      || '';
-      (f.querySelector('[name=company_name]') as HTMLInputElement).value = c.company_name || '';
+      const f = document.getElementById("profile-form") as HTMLFormElement;
+      (f.querySelector("[name=first_name]") as HTMLInputElement).value = c.first_name || "";
+      (f.querySelector("[name=last_name]") as HTMLInputElement).value = c.last_name || "";
+      (f.querySelector("[name=email]") as HTMLInputElement).value = c.email || "";
+      (f.querySelector("[name=phone]") as HTMLInputElement).value = c.phone || "";
+      (f.querySelector("[name=company_name]") as HTMLInputElement).value = c.company_name || "";
 
       // Addresses
       renderAddresses(c.addresses || []);
@@ -899,97 +1416,104 @@ import Layout from "../layouts/Layout.astro";
     loadCustomer();
 
     /* ── Profile form ────────────────────────────────────────────────────────── */
-    const profileForm = document.getElementById('profile-form') as HTMLFormElement;
-    const profileStatus = document.getElementById('profile-save-status')!;
+    const profileForm = document.getElementById("profile-form") as HTMLFormElement;
+    const profileStatus = document.getElementById("profile-save-status")!;
 
-
-    profileForm.addEventListener('input', () => {
-      profileStatus.textContent = 'UNSAVED CHANGES';
-      profileStatus.style.color = 'var(--outline)';
+    profileForm.addEventListener("input", () => {
+      profileStatus.textContent = "UNSAVED CHANGES";
+      profileStatus.style.color = "var(--outline)";
     });
 
-    document.getElementById('profile-reset')?.addEventListener('click', () => {
+    document.getElementById("profile-reset")?.addEventListener("click", () => {
       if (customerData) {
         fillProfile(customerData);
-        profileStatus.textContent = 'RESTORED';
-        profileStatus.style.color = 'var(--secondary)';
-        setTimeout(() => { profileStatus.textContent = ''; }, 2000);
+        profileStatus.textContent = "RESTORED";
+        profileStatus.style.color = "var(--secondary)";
+        setTimeout(() => {
+          profileStatus.textContent = "";
+        }, 2000);
       }
     });
 
-    profileForm.addEventListener('submit', async (e) => {
+    profileForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearFieldErrors(profileForm);
 
       const fd = new FormData(profileForm);
-      const email = fd.get('email') as string;
+      const email = fd.get("email") as string;
 
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        const g = (profileForm.querySelector('[name=email]') as HTMLElement).closest('.field-group')!;
-        showFieldError(g, 'Valid email required');
+        const g = (profileForm.querySelector("[name=email]") as HTMLElement).closest(
+          ".field-group",
+        )!;
+        showFieldError(g, "Valid email required");
         return;
       }
 
       setLoading(profileForm, true);
-      profileStatus.textContent = 'SAVING…';
-      profileStatus.style.color = 'var(--outline)';
+      profileStatus.textContent = "SAVING…";
+      profileStatus.style.color = "var(--outline)";
 
       try {
-        const payload: Record<string,string> = {};
-        fd.forEach((v, k) => { payload[k] = v as string; });
+        const payload: Record<string, string> = {};
+        fd.forEach((v, k) => {
+          payload[k] = v as string;
+        });
 
-        await apiRequest('/store/customers/me', {
-          method: 'POST',
+        await apiRequest("/store/customers/me", {
+          method: "POST",
           body: JSON.stringify(payload),
         });
 
         customerData = { ...customerData, ...payload };
         fillProfile(customerData);
-        profileStatus.textContent = 'CHANGES SAVED';
-        profileStatus.style.color = 'var(--secondary)';
-        showToast('Profile updated', 'success');
-        setTimeout(() => { profileStatus.textContent = ''; }, 3000);
+        profileStatus.textContent = "CHANGES SAVED";
+        profileStatus.style.color = "var(--secondary)";
+        showToast("Profile updated", "success");
+        setTimeout(() => {
+          profileStatus.textContent = "";
+        }, 3000);
       } catch (err: any) {
-        profileStatus.textContent = 'SAVE FAILED';
-        profileStatus.style.color = 'var(--error)';
-        showToast(err.message || 'Update failed', 'error');
+        profileStatus.textContent = "SAVE FAILED";
+        profileStatus.style.color = "var(--error)";
+        showToast(err.message || "Update failed", "error");
       } finally {
         setLoading(profileForm, false);
       }
     });
 
     /* ── Avatar upload ───────────────────────────────────────────────────────── */
-    document.getElementById('avatar-input')?.addEventListener('change', (e) => {
+    document.getElementById("avatar-input")?.addEventListener("change", (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = async (ev) => {
         const base64Data = ev.target?.result as string;
-        
+
         try {
           // Set preview locally first for visual responsiveness
-          const preview = document.getElementById('avatar-preview') as HTMLImageElement;
+          const preview = document.getElementById("avatar-preview") as HTMLImageElement;
           if (preview) preview.src = base64Data;
-          
-          showToast('Uploading avatar...', 'info');
+
+          showToast("Uploading avatar...", "info");
 
           // POST to backend API
-          const response = await apiRequest('/store/customers/me/avatar', {
-            method: 'POST',
-            body: JSON.stringify({ avatar: base64Data })
+          const response = await apiRequest("/store/customers/me/avatar", {
+            method: "POST",
+            body: JSON.stringify({ avatar: base64Data }),
           });
 
           if (response?.customer) {
             customerData = response.customer;
             fillProfile(customerData);
-            showToast('Avatar uploaded successfully', 'success');
+            showToast("Avatar uploaded successfully", "success");
           } else {
             throw new Error("Invalid response payload");
           }
         } catch (err: any) {
           console.error("Failed to upload avatar:", err);
-          showToast(err.message || 'Avatar upload failed', 'error');
+          showToast(err.message || "Avatar upload failed", "error");
           // Reset avatar preview to original value
           if (customerData) fillProfile(customerData);
         }
@@ -999,26 +1523,27 @@ import Layout from "../layouts/Layout.astro";
 
     /* ── Addresses ───────────────────────────────────────────────────────────── */
     function renderAddresses(addresses: any[]) {
-      const grid  = document.getElementById('addresses-grid')!;
-      const empty = document.getElementById('addresses-empty')!;
+      const grid = document.getElementById("addresses-grid")!;
+      const empty = document.getElementById("addresses-empty")!;
       // Remove old cards (keep empty placeholder)
-      grid.querySelectorAll('.address-card').forEach(c => c.remove());
+      grid.querySelectorAll(".address-card").forEach((c) => c.remove());
 
       if (addresses.length === 0) {
-        empty.classList.remove('hidden');
+        empty.classList.remove("hidden");
         return;
       }
-      empty.classList.add('hidden');
+      empty.classList.add("hidden");
 
       addresses.forEach((addr) => {
-        const card = document.createElement('div');
-        card.className = 'address-card border border-[var(--outline-variant)]/30 p-6 relative transition-colors';
+        const card = document.createElement("div");
+        card.className =
+          "address-card border border-[var(--outline-variant)]/30 p-6 relative transition-colors";
         card.dataset.addressId = addr.id;
         card.innerHTML = `
           <div class="flex justify-between items-start mb-4">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-[var(--outline)]" style="font-size:18px;">location_on</span>
-              <span class="font-caption text-xs uppercase tracking-widest text-[var(--primary)]">${(addr.is_default_billing || addr.metadata?.is_default) ? 'DEFAULT ADDRESS' : 'SAVED ADDRESS'}</span>
+              <span class="font-caption text-xs uppercase tracking-widest text-[var(--primary)]">${addr.is_default_billing || addr.metadata?.is_default ? "DEFAULT ADDRESS" : "SAVED ADDRESS"}</span>
             </div>
             <div class="flex gap-2">
               <button class="addr-edit-btn material-symbols-outlined text-[var(--outline)] hover:text-[var(--secondary)] cursor-pointer transition-colors" style="font-size:16px;" data-id="${addr.id}">edit</button>
@@ -1026,33 +1551,36 @@ import Layout from "../layouts/Layout.astro";
             </div>
           </div>
           <p class="font-body-md text-sm font-semibold text-[var(--primary)]">${addr.first_name} ${addr.last_name}</p>
-          <p class="font-data-value text-xs text-[var(--on-surface-variant)] mt-1">${addr.address_1}${addr.address_2 ? ', ' + addr.address_2 : ''}</p>
-          <p class="font-data-value text-xs text-[var(--on-surface-variant)]">${addr.city}${addr.province ? ', ' + addr.province : ''} ${addr.postal_code}</p>
+          <p class="font-data-value text-xs text-[var(--on-surface-variant)] mt-1">${addr.address_1}${addr.address_2 ? ", " + addr.address_2 : ""}</p>
+          <p class="font-data-value text-xs text-[var(--on-surface-variant)]">${addr.city}${addr.province ? ", " + addr.province : ""} ${addr.postal_code}</p>
           <p class="font-data-value text-xs text-[var(--on-surface-variant)] uppercase">${addr.country_code}</p>
         `;
         grid.appendChild(card);
       });
 
       // Edit/delete handlers
-      grid.querySelectorAll<HTMLButtonElement>('.addr-edit-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+      grid.querySelectorAll<HTMLButtonElement>(".addr-edit-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
           const id = btn.dataset.id;
           const addr = customerData?.addresses?.find((a: any) => a.id === id);
           if (addr) openAddressModal(addr);
         });
       });
-      grid.querySelectorAll<HTMLButtonElement>('.addr-delete-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
+      grid.querySelectorAll<HTMLButtonElement>(".addr-delete-btn").forEach((btn) => {
+        btn.addEventListener("click", async () => {
           const id = btn.dataset.id;
-          const confirmed = await (window as any).showAetherConfirm('Remove Address', 'Are you sure you want to remove this address?');
+          const confirmed = await (window as any).showAetherConfirm(
+            "Remove Address",
+            "Are you sure you want to remove this address?",
+          );
           if (!confirmed) return;
           try {
-            await apiRequest(`/store/customers/me/addresses/${id}`, { method: 'DELETE' });
+            await apiRequest(`/store/customers/me/addresses/${id}`, { method: "DELETE" });
             customerData.addresses = customerData.addresses?.filter((a: any) => a.id !== id) || [];
             renderAddresses(customerData.addresses);
-            showToast('Address removed', 'success');
+            showToast("Address removed", "success");
           } catch (err: any) {
-            showToast(err.message, 'error');
+            showToast(err.message, "error");
           }
         });
       });
@@ -1066,33 +1594,33 @@ import Layout from "../layouts/Layout.astro";
     function initMap() {
       if (map) return;
 
-      const mapContainer = document.getElementById('address-map');
+      const mapContainer = document.getElementById("address-map");
       if (!mapContainer) return;
 
       // Default to Bangkok center
       const defaultLatLng = [13.7563, 100.5018];
 
       // @ts-ignore
-      if (typeof L === 'undefined') {
+      if (typeof L === "undefined") {
         console.error("Leaflet is not loaded yet.");
         return;
       }
 
       // @ts-ignore
-      map = L.map('address-map', {
+      map = L.map("address-map", {
         zoomControl: true,
-        attributionControl: false
+        attributionControl: false,
       }).setView(defaultLatLng, 13);
 
       // @ts-ignore
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
       }).addTo(map);
 
       // Custom pin design (Electric Violet themed, sharp diamond style)
       // @ts-ignore
       customPin = L.divIcon({
-        className: 'custom-map-pin',
+        className: "custom-map-pin",
         html: `<div style="
           width: 16px; 
           height: 16px; 
@@ -1107,26 +1635,28 @@ import Layout from "../layouts/Layout.astro";
           <div style="width: 5px; height: 5px; background: var(--secondary);"></div>
         </div>`,
         iconSize: [24, 24],
-        iconAnchor: [12, 12]
+        iconAnchor: [12, 12],
       });
 
       // Click on map to place pin and reverse-geocode
-      map.on('click', async (e: any) => {
+      map.on("click", async (e: any) => {
         const { lat, lng } = e.latlng;
         placeMarker(lat, lng);
         await reverseGeocode(lat, lng);
       });
 
       // Search button click handler
-      const searchInput = document.getElementById('map-search-input') as HTMLInputElement;
-      const searchBtn = document.getElementById('map-search-btn');
+      const searchInput = document.getElementById("map-search-input") as HTMLInputElement;
+      const searchBtn = document.getElementById("map-search-btn");
 
       const performSearch = async () => {
         const query = searchInput.value.trim();
         if (!query) return;
 
         try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
+          );
           const results = await res.json();
           if (results && results.length > 0) {
             const { lat, lon } = results[0];
@@ -1144,9 +1674,9 @@ import Layout from "../layouts/Layout.astro";
         }
       };
 
-      searchBtn?.addEventListener('click', performSearch);
-      searchInput?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
+      searchBtn?.addEventListener("click", performSearch);
+      searchInput?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
           e.preventDefault();
           performSearch();
         }
@@ -1154,16 +1684,19 @@ import Layout from "../layouts/Layout.astro";
 
       // Try geolocating user's position initially
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
-          const { latitude, longitude } = pos.coords;
-          map.setView([latitude, longitude], 15);
-          if (!marker) {
-            placeMarker(latitude, longitude);
-            reverseGeocode(latitude, longitude);
-          }
-        }, () => {
-          // ignore, stay at default
-        });
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const { latitude, longitude } = pos.coords;
+            map.setView([latitude, longitude], 15);
+            if (!marker) {
+              placeMarker(latitude, longitude);
+              reverseGeocode(latitude, longitude);
+            }
+          },
+          () => {
+            // ignore, stay at default
+          },
+        );
       }
     }
 
@@ -1174,9 +1707,9 @@ import Layout from "../layouts/Layout.astro";
       } else {
         // @ts-ignore
         marker = L.marker([lat, lng], { icon: customPin, draggable: true }).addTo(map);
-        
+
         // Handle dragging behavior
-        marker.on('dragend', async (event: any) => {
+        marker.on("dragend", async (event: any) => {
           const position = event.target.getLatLng();
           await reverseGeocode(position.lat, position.lng);
         });
@@ -1186,43 +1719,44 @@ import Layout from "../layouts/Layout.astro";
     function getShortAddressName(item: any): string {
       const addr = item.address || {};
       if (item.name) return item.name;
-      
+
       const parts = [
         addr.house_number,
-        addr.road || addr.pedestrian || addr.suburb || addr.neighbourhood
+        addr.road || addr.pedestrian || addr.suburb || addr.neighbourhood,
       ].filter(Boolean);
-      
-      if (parts.length > 0) return parts.join(' ');
-      return item.display_name.split(',')[0] || 'Unknown Place';
+
+      if (parts.length > 0) return parts.join(" ");
+      return item.display_name.split(",")[0] || "Unknown Place";
     }
 
     function autofillFormFromAddress(addr: any, displayName?: string) {
       if (!addr) return;
-      const form = document.getElementById('address-form') as HTMLFormElement;
+      const form = document.getElementById("address-form") as HTMLFormElement;
       if (!form) return;
 
-      const road = addr.road || addr.suburb || addr.neighbourhood || '';
-      const houseNumber = addr.house_number || '';
-      const address1 = [houseNumber, road].filter(Boolean).join(' ') || displayName || '';
+      const road = addr.road || addr.suburb || addr.neighbourhood || "";
+      const houseNumber = addr.house_number || "";
+      const address1 = [houseNumber, road].filter(Boolean).join(" ") || displayName || "";
 
-      const city = addr.city || addr.town || addr.municipality || addr.state_district || '';
-      const province = addr.state || addr.province || addr.region || '';
-      const postalCode = addr.postcode || '';
-      const countryCode = (addr.country_code || '').toUpperCase();
+      const city = addr.city || addr.town || addr.municipality || addr.state_district || "";
+      const province = addr.state || addr.province || addr.region || "";
+      const postalCode = addr.postcode || "";
+      const countryCode = (addr.country_code || "").toUpperCase();
 
       // Fill inputs
-      (form.querySelector('[name=address_1]') as HTMLInputElement).value = address1;
-      (form.querySelector('[name=city]') as HTMLInputElement).value = city;
-      (form.querySelector('[name=province]') as HTMLInputElement).value = province;
-      (form.querySelector('[name=postal_code]') as HTMLInputElement).value = postalCode;
-      (form.querySelector('[name=country_code]') as HTMLInputElement).value = countryCode;
+      (form.querySelector("[name=address_1]") as HTMLInputElement).value = address1;
+      (form.querySelector("[name=city]") as HTMLInputElement).value = city;
+      (form.querySelector("[name=province]") as HTMLInputElement).value = province;
+      (form.querySelector("[name=postal_code]") as HTMLInputElement).value = postalCode;
+      (form.querySelector("[name=country_code]") as HTMLInputElement).value = countryCode;
     }
 
     async function fetchNearbySuggestions(lat: number, lng: number) {
-      const suggestionsContainer = document.getElementById('map-suggestions');
+      const suggestionsContainer = document.getElementById("map-suggestions");
       if (!suggestionsContainer) return;
 
-      suggestionsContainer.innerHTML = '<p class="font-data-label text-[10px] text-[var(--outline)] tracking-widest uppercase animate-pulse py-1">Searching nearby...</p>';
+      suggestionsContainer.innerHTML =
+        '<p class="font-data-label text-[10px] text-[var(--outline)] tracking-widest uppercase animate-pulse py-1">Searching nearby...</p>';
 
       try {
         const delta = 0.003;
@@ -1236,18 +1770,21 @@ import Layout from "../layouts/Layout.astro";
         const results = await res.json();
 
         if (results && results.length > 0) {
-          suggestionsContainer.innerHTML = '';
-          
+          suggestionsContainer.innerHTML = "";
+
           const seen = new Set();
-          const uniqueResults = results.filter((item: any) => {
-            const shortName = getShortAddressName(item);
-            if (!shortName || seen.has(shortName)) return false;
-            seen.add(shortName);
-            return true;
-          }).slice(0, 5);
+          const uniqueResults = results
+            .filter((item: any) => {
+              const shortName = getShortAddressName(item);
+              if (!shortName || seen.has(shortName)) return false;
+              seen.add(shortName);
+              return true;
+            })
+            .slice(0, 5);
 
           if (uniqueResults.length === 0) {
-            suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic py-1">No local suggestions found.</p>';
+            suggestionsContainer.innerHTML =
+              '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic py-1">No local suggestions found.</p>';
             return;
           }
 
@@ -1257,16 +1794,17 @@ import Layout from "../layouts/Layout.astro";
             const itemLat = parseFloat(item.lat);
             const itemLng = parseFloat(item.lon);
 
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'w-full text-left p-2 border border-[var(--outline-variant)]/20 hover:border-[var(--secondary)] hover:bg-[var(--secondary)]/5 transition-all text-xs flex flex-col gap-0.5 group cursor-pointer';
-            btn.style.borderRadius = '0px';
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className =
+              "w-full text-left p-2 border border-[var(--outline-variant)]/20 hover:border-[var(--secondary)] hover:bg-[var(--secondary)]/5 transition-all text-xs flex flex-col gap-0.5 group cursor-pointer";
+            btn.style.borderRadius = "0px";
             btn.innerHTML = `
               <span class="font-body-md text-xs font-semibold text-[var(--primary)] group-hover:text-[var(--secondary)] transition-colors">${shortName}</span>
               <span class="font-caption text-[10px] text-[var(--on-surface-variant)] truncate w-full">${fullAddress}</span>
             `;
 
-            btn.addEventListener('click', () => {
+            btn.addEventListener("click", () => {
               if (map) {
                 map.setView([itemLat, itemLng], 17);
               }
@@ -1278,70 +1816,87 @@ import Layout from "../layouts/Layout.astro";
             suggestionsContainer.appendChild(btn);
           });
         } else {
-          suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic py-1">No local suggestions found.</p>';
+          suggestionsContainer.innerHTML =
+            '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic py-1">No local suggestions found.</p>';
         }
       } catch (err) {
         console.error("Failed to fetch suggestions:", err);
-        suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--error)] italic py-1">Failed to load suggestions.</p>';
+        suggestionsContainer.innerHTML =
+          '<p class="font-caption text-[10px] text-[var(--error)] italic py-1">Failed to load suggestions.</p>';
       }
     }
 
     async function reverseGeocode(lat: number, lng: number) {
-      const loader = document.getElementById('map-loading-overlay');
-      loader?.classList.remove('hidden');
+      const loader = document.getElementById("map-loading-overlay");
+      loader?.classList.remove("hidden");
 
       try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
+        );
         const data = await res.json();
 
         if (data && data.address) {
-          autofillFormFromAddress(data.address, data.name || '');
+          autofillFormFromAddress(data.address, data.name || "");
           showToast("Address loaded from map", "success");
         }
-        
+
         await fetchNearbySuggestions(lat, lng);
       } catch (err) {
         console.error("Reverse geocoding request failed:", err);
       } finally {
-        loader?.classList.add('hidden');
+        loader?.classList.add("hidden");
       }
     }
 
     function openAddressModal(addr?: any) {
-      const modal  = document.getElementById('address-modal')!;
-      const title  = document.getElementById('address-modal-title')!;
-      const form   = document.getElementById('address-form') as HTMLFormElement;
+      const modal = document.getElementById("address-modal")!;
+      const title = document.getElementById("address-modal-title")!;
+      const form = document.getElementById("address-form") as HTMLFormElement;
 
-      title.textContent = addr ? 'Edit Address' : 'New Address';
+      title.textContent = addr ? "Edit Address" : "New Address";
       form.reset();
 
       // Reset search input
-      const searchInput = document.getElementById('map-search-input') as HTMLInputElement;
-      if (searchInput) searchInput.value = '';
+      const searchInput = document.getElementById("map-search-input") as HTMLInputElement;
+      if (searchInput) searchInput.value = "";
 
       if (addr) {
-        ['first_name','last_name','address_1','address_2','city','province','postal_code','country_code'].forEach(field => {
+        [
+          "first_name",
+          "last_name",
+          "address_1",
+          "address_2",
+          "city",
+          "province",
+          "postal_code",
+          "country_code",
+        ].forEach((field) => {
           const input = form.querySelector<HTMLInputElement>(`[name=${field}]`);
-          if (input) input.value = addr[field] || '';
+          if (input) input.value = addr[field] || "";
         });
-        (form.querySelector('[name=is_default]') as HTMLInputElement).checked = !!(addr.is_default_billing || addr.metadata?.is_default);
-        (form.querySelector('[name=address_id]') as HTMLInputElement).value = addr.id;
+        (form.querySelector("[name=is_default]") as HTMLInputElement).checked = !!(
+          addr.is_default_billing || addr.metadata?.is_default
+        );
+        (form.querySelector("[name=address_id]") as HTMLInputElement).value = addr.id;
       }
 
-      modal.classList.remove('hidden');
+      modal.classList.remove("hidden");
 
       // Initialize map & size correction
       initMap();
       setTimeout(() => {
         if (map) {
           map.invalidateSize();
-          
+
           // Geocode existing address if editing
           if (addr && addr.address_1 && addr.city) {
-            const query = `${addr.address_1}, ${addr.city}, ${addr.province || ''}, ${addr.country_code || ''}`;
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
-              .then(res => res.json())
-              .then(results => {
+            const query = `${addr.address_1}, ${addr.city}, ${addr.province || ""}, ${addr.country_code || ""}`;
+            fetch(
+              `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
+            )
+              .then((res) => res.json())
+              .then((results) => {
                 if (results && results.length > 0 && map) {
                   const { lat, lon } = results[0];
                   const latFloat = parseFloat(lat);
@@ -1350,7 +1905,8 @@ import Layout from "../layouts/Layout.astro";
                   placeMarker(latFloat, lngFloat);
                   fetchNearbySuggestions(latFloat, lngFloat);
                 }
-              }).catch(err => console.error("Initial address geocoding failed:", err));
+              })
+              .catch((err) => console.error("Initial address geocoding failed:", err));
           } else {
             // Clear previous marker for new address
             if (marker) {
@@ -1358,61 +1914,75 @@ import Layout from "../layouts/Layout.astro";
               marker = null;
             }
             // Clear suggestions list
-            const suggestionsContainer = document.getElementById('map-suggestions');
+            const suggestionsContainer = document.getElementById("map-suggestions");
             if (suggestionsContainer) {
-              suggestionsContainer.innerHTML = '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic">Click/search on the map to see suggestions...</p>';
+              suggestionsContainer.innerHTML =
+                '<p class="font-caption text-[10px] text-[var(--on-surface-variant)]/50 italic">Click/search on the map to see suggestions...</p>';
             }
           }
         }
       }, 200);
     }
 
-    document.getElementById('add-address-btn')?.addEventListener('click', () => openAddressModal());
-    document.getElementById('address-modal-close')?.addEventListener('click', () => {
-      document.getElementById('address-modal')!.classList.add('hidden');
+    document.getElementById("add-address-btn")?.addEventListener("click", () => openAddressModal());
+    document.getElementById("address-modal-close")?.addEventListener("click", () => {
+      document.getElementById("address-modal")!.classList.add("hidden");
     });
-    document.getElementById('address-modal-backdrop')?.addEventListener('click', () => {
-      document.getElementById('address-modal')!.classList.add('hidden');
+    document.getElementById("address-modal-backdrop")?.addEventListener("click", () => {
+      document.getElementById("address-modal")!.classList.add("hidden");
     });
-    document.getElementById('addr-cancel')?.addEventListener('click', () => {
-      document.getElementById('address-modal')!.classList.add('hidden');
+    document.getElementById("addr-cancel")?.addEventListener("click", () => {
+      document.getElementById("address-modal")!.classList.add("hidden");
     });
 
-    document.getElementById('address-form')?.addEventListener('submit', async (e) => {
+    document.getElementById("address-form")?.addEventListener("submit", async (e) => {
       e.preventDefault();
       const form = e.target as HTMLFormElement;
       clearFieldErrors(form);
       const fd = new FormData(form);
-      const id = fd.get('address_id') as string;
-      const required = ['first_name', 'last_name', 'address_1', 'city', 'postal_code', 'country_code'];
+      const id = fd.get("address_id") as string;
+      const required = [
+        "first_name",
+        "last_name",
+        "address_1",
+        "city",
+        "postal_code",
+        "country_code",
+      ];
       let valid = true;
-      required.forEach(field => {
+      required.forEach((field) => {
         if (!(fd.get(field) as string)?.trim()) {
-          const g = (form.querySelector(`[name=${field}]`) as HTMLElement)?.closest('.field-group');
-          if (g) showFieldError(g, 'Required');
+          const g = (form.querySelector(`[name=${field}]`) as HTMLElement)?.closest(".field-group");
+          if (g) showFieldError(g, "Required");
           valid = false;
         }
       });
       if (!valid) return;
 
-      const payload: Record<string,any> = {};
+      const payload: Record<string, any> = {};
       fd.forEach((v, k) => {
-        if (k === 'address_id' || k === 'is_default') return;
+        if (k === "address_id" || k === "is_default") return;
         payload[k] = v;
       });
 
-      const isDefaultCheckbox = form.querySelector('[name=is_default]') as HTMLInputElement;
+      const isDefaultCheckbox = form.querySelector("[name=is_default]") as HTMLInputElement;
       const isDefault = !!isDefaultCheckbox?.checked;
       payload.metadata = {
-        is_default: isDefault
+        is_default: isDefault,
       };
 
       try {
         let newId = id;
         if (id) {
-          await apiRequest(`/store/customers/me/addresses/${id}`, { method: 'POST', body: JSON.stringify(payload) });
+          await apiRequest(`/store/customers/me/addresses/${id}`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
         } else {
-          const res = await apiRequest('/store/customers/me/addresses', { method: 'POST', body: JSON.stringify(payload) });
+          const res = await apiRequest("/store/customers/me/addresses", {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
           newId = res.address?.id || res.id;
         }
 
@@ -1432,10 +2002,13 @@ import Layout from "../layouts/Layout.astro";
                 country_code: otherAddr.country_code,
                 metadata: {
                   ...otherAddr.metadata,
-                  is_default: false
-                }
+                  is_default: false,
+                },
               };
-              await apiRequest(`/store/customers/me/addresses/${otherAddr.id}`, { method: 'POST', body: JSON.stringify(cleanPayload) }).catch(err => {
+              await apiRequest(`/store/customers/me/addresses/${otherAddr.id}`, {
+                method: "POST",
+                body: JSON.stringify(cleanPayload),
+              }).catch((err) => {
                 console.error("Failed to unset default on other address:", otherAddr.id, err);
               });
             }
@@ -1443,28 +2016,29 @@ import Layout from "../layouts/Layout.astro";
         }
 
         await loadCustomer();
-        document.getElementById('address-modal')!.classList.add('hidden');
-        showToast(id ? 'Address updated' : 'Address added', 'success');
+        document.getElementById("address-modal")!.classList.add("hidden");
+        showToast(id ? "Address updated" : "Address added", "success");
       } catch (err: any) {
-        const errEl = document.querySelector<HTMLElement>('.addr-form-error')!;
+        const errEl = document.querySelector<HTMLElement>(".addr-form-error")!;
         errEl.textContent = err.message;
-        errEl.classList.remove('hidden');
+        errEl.classList.remove("hidden");
       }
     });
 
     /* ── Orders ──────────────────────────────────────────────────────────────── */
     let ordersLoaded = false;
     let allOrders: any[] = [];
-    let currentFilter = 'all';
-
+    let currentFilter = "all";
 
     async function loadOrders() {
       if (ordersLoaded) return;
       try {
-        const data = await apiRequest('/store/orders?fields=id,status,fulfillment_status,display_id,total,currency_code,created_at,items.*,shipping_address.*');
+        const data = await apiRequest(
+          "/store/orders?fields=id,status,fulfillment_status,display_id,total,currency_code,created_at,items.*,shipping_address.*",
+        );
         allOrders = data.orders || [];
       } catch (err) {
-        console.error('Failed to load orders from API:', err);
+        console.error("Failed to load orders from API:", err);
         allOrders = [];
       }
       ordersLoaded = true;
@@ -1472,56 +2046,63 @@ import Layout from "../layouts/Layout.astro";
     }
 
     function statusLabel(order: any): { label: string; color: string } {
-      const s = (order.fulfillment_status || order.status || '').toLowerCase();
-      if (s.includes('ship') || s === 'completed') return { label: 'DELIVERED', color: 'var(--secondary)' };
-      if (s.includes('return')) return { label: 'RETURNED', color: 'var(--error)' };
-      if (s.includes('cancel')) return { label: 'CANCELLED', color: 'var(--error)' };
-      return { label: 'PROCESSING', color: 'var(--outline)' };
+      const s = (order.fulfillment_status || order.status || "").toLowerCase();
+      if (s.includes("ship") || s === "completed")
+        return { label: "DELIVERED", color: "var(--secondary)" };
+      if (s.includes("return")) return { label: "RETURNED", color: "var(--error)" };
+      if (s.includes("cancel")) return { label: "CANCELLED", color: "var(--error)" };
+      return { label: "PROCESSING", color: "var(--outline)" };
     }
 
     function formatPrice(amount: number, currency: string): string {
-      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.toUpperCase() }).format(amount / 100);
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency.toUpperCase(),
+      }).format(amount / 100);
     }
 
     function renderOrders() {
-      const list  = document.getElementById('orders-list')!;
-      const empty = document.getElementById('orders-empty')!;
-      const search = (document.getElementById('order-search') as HTMLInputElement).value.toLowerCase();
+      const list = document.getElementById("orders-list")!;
+      const empty = document.getElementById("orders-empty")!;
+      const search = (
+        document.getElementById("order-search") as HTMLInputElement
+      ).value.toLowerCase();
 
       // Remove skeletons
-      list.querySelectorAll('.order-skeleton').forEach(s => s.remove());
-      list.querySelectorAll('.order-item').forEach(s => s.remove());
+      list.querySelectorAll(".order-skeleton").forEach((s) => s.remove());
+      list.querySelectorAll(".order-item").forEach((s) => s.remove());
 
-      let filtered = allOrders.filter(o => {
+      let filtered = allOrders.filter((o) => {
         const { label } = statusLabel(o);
-        const matchFilter = currentFilter === 'all' || label.toLowerCase() === currentFilter;
+        const matchFilter = currentFilter === "all" || label.toLowerCase() === currentFilter;
         const matchSearch = !search || o.display_id?.toLowerCase().includes(search);
         return matchFilter && matchSearch;
       });
 
       if (filtered.length === 0) {
-        empty.classList.remove('hidden');
+        empty.classList.remove("hidden");
         return;
       }
-      empty.classList.add('hidden');
+      empty.classList.add("hidden");
 
-      filtered.forEach(order => {
+      filtered.forEach((order) => {
         const { label, color } = statusLabel(order);
-        const el = document.createElement('div');
-        el.className = 'order-item border border-[var(--outline-variant)]/30 hover:border-[var(--outline-variant)] transition-colors';
+        const el = document.createElement("div");
+        el.className =
+          "order-item border border-[var(--outline-variant)]/30 hover:border-[var(--outline-variant)] transition-colors";
         el.innerHTML = `
           <div class="p-6 flex flex-col md:flex-row justify-between gap-6 cursor-pointer order-header" data-order-id="${order.id}">
             <div class="flex items-start gap-6">
               <div>
                 <span class="font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Order #${order.display_id || order.id?.slice(-8).toUpperCase()}</span>
-                <h3 class="font-headline-md text-base font-bold uppercase">${order.items?.[0]?.title || 'ORDER'}</h3>
-                ${order.items?.length > 1 ? `<span class="font-data-label text-[10px] text-[var(--on-surface-variant)]">+${order.items.length - 1} more item(s)</span>` : ''}
+                <h3 class="font-headline-md text-base font-bold uppercase">${order.items?.[0]?.title || "ORDER"}</h3>
+                ${order.items?.length > 1 ? `<span class="font-data-label text-[10px] text-[var(--on-surface-variant)]">+${order.items.length - 1} more item(s)</span>` : ""}
               </div>
             </div>
             <div class="flex md:flex-col items-center md:items-end justify-between gap-4">
               <div class="text-right">
-                <p class="font-data-value text-base font-bold">${formatPrice(order.total, order.currency_code || 'usd')}</p>
-                <p class="font-data-label text-[10px] mt-1" style="color: ${color};">${label} // ${new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</p>
+                <p class="font-data-value text-base font-bold">${formatPrice(order.total, order.currency_code || "usd")}</p>
+                <p class="font-data-label text-[10px] mt-1" style="color: ${color};">${label} // ${new Date(order.created_at).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" })}</p>
               </div>
               <span class="material-symbols-outlined text-[var(--outline)] order-chevron transition-transform" style="font-size: 20px;">expand_more</span>
             </div>
@@ -1529,20 +2110,24 @@ import Layout from "../layouts/Layout.astro";
           <div class="order-details border-t border-[var(--outline-variant)]/20">
             <div class="p-6 space-y-4">
               <h4 class="font-caption text-xs uppercase tracking-widest text-[var(--secondary)] font-semibold">Order Items</h4>
-              ${(order.items || []).map((item: any) => `
+              ${(order.items || [])
+                .map(
+                  (item: any) => `
                 <div class="flex justify-between items-center border-b border-[var(--outline-variant)]/15 pb-3">
                   <div>
                     <p class="font-body-md text-sm font-semibold uppercase">${item.title}</p>
                     <p class="font-data-value text-xs text-[var(--on-surface-variant)]">QTY: ${item.quantity}</p>
                   </div>
-                  <p class="font-data-value text-sm">${formatPrice(item.unit_price * item.quantity, order.currency_code || 'usd')}</p>
+                  <p class="font-data-value text-sm">${formatPrice(item.unit_price * item.quantity, order.currency_code || "usd")}</p>
                 </div>
-              `).join('')}
+              `,
+                )
+                .join("")}
               <div class="grid grid-cols-2 gap-4 pt-2">
                 <div>
                   <p class="font-caption text-xs text-[var(--outline)] uppercase mb-1">Shipping Address</p>
-                  <p class="font-data-value text-xs">${order.shipping_address?.address_1 || '—'}</p>
-                  <p class="font-data-value text-xs">${order.shipping_address?.city || ''} ${(order.shipping_address?.country_code || '').toUpperCase()}</p>
+                  <p class="font-data-value text-xs">${order.shipping_address?.address_1 || "—"}</p>
+                  <p class="font-data-value text-xs">${order.shipping_address?.city || ""} ${(order.shipping_address?.country_code || "").toUpperCase()}</p>
                 </div>
                 <div>
                   <p class="font-caption text-xs text-[var(--outline)] uppercase mb-1">Status</p>
@@ -1553,7 +2138,7 @@ import Layout from "../layouts/Layout.astro";
                 <button class="border border-[var(--outline)] text-[var(--primary)] py-2 px-5 font-caption text-xs uppercase tracking-widest hover:border-[var(--secondary)] hover:text-[var(--secondary)] transition-all cursor-pointer">
                   VIEW ORDER
                 </button>
-                ${label === 'DELIVERED' ? `<button class="border border-[var(--outline)] text-[var(--primary)] py-2 px-5 font-caption text-xs uppercase tracking-widest hover:border-[var(--error)] hover:text-[var(--error)] transition-all cursor-pointer">REQUEST RETURN</button>` : ''}
+                ${label === "DELIVERED" ? `<button class="border border-[var(--outline)] text-[var(--primary)] py-2 px-5 font-caption text-xs uppercase tracking-widest hover:border-[var(--error)] hover:text-[var(--error)] transition-all cursor-pointer">REQUEST RETURN</button>` : ""}
               </div>
             </div>
           </div>
@@ -1561,128 +2146,161 @@ import Layout from "../layouts/Layout.astro";
         list.appendChild(el);
 
         // Expand/collapse
-        const header  = el.querySelector('.order-header')!;
-        const details = el.querySelector('.order-details')!;
-        const chevron = el.querySelector('.order-chevron')!;
-        header.addEventListener('click', () => {
-          details.classList.toggle('open');
-          (chevron as HTMLElement).style.transform = details.classList.contains('open') ? 'rotate(180deg)' : '';
+        const header = el.querySelector(".order-header")!;
+        const details = el.querySelector(".order-details")!;
+        const chevron = el.querySelector(".order-chevron")!;
+        header.addEventListener("click", () => {
+          details.classList.toggle("open");
+          (chevron as HTMLElement).style.transform = details.classList.contains("open")
+            ? "rotate(180deg)"
+            : "";
         });
       });
     }
 
     // Filter buttons
-    document.querySelectorAll<HTMLElement>('.order-filter').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.order-filter').forEach(b => {
-          b.classList.remove('border-[var(--primary)]', 'text-[var(--primary)]', 'bg-[var(--primary)]/5');
-          b.classList.add('border-[var(--outline-variant)]', 'text-[var(--on-surface-variant)]');
+    document.querySelectorAll<HTMLElement>(".order-filter").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".order-filter").forEach((b) => {
+          b.classList.remove(
+            "border-[var(--primary)]",
+            "text-[var(--primary)]",
+            "bg-[var(--primary)]/5",
+          );
+          b.classList.add("border-[var(--outline-variant)]", "text-[var(--on-surface-variant)]");
         });
-        btn.classList.add('border-[var(--primary)]', 'text-[var(--primary)]', 'bg-[var(--primary)]/5');
-        btn.classList.remove('border-[var(--outline-variant)]', 'text-[var(--on-surface-variant)]');
-        currentFilter = btn.dataset.filter || 'all';
+        btn.classList.add(
+          "border-[var(--primary)]",
+          "text-[var(--primary)]",
+          "bg-[var(--primary)]/5",
+        );
+        btn.classList.remove("border-[var(--outline-variant)]", "text-[var(--on-surface-variant)]");
+        currentFilter = btn.dataset.filter || "all";
         if (ordersLoaded) renderOrders();
       });
     });
 
-    document.getElementById('order-search')?.addEventListener('input', () => {
+    document.getElementById("order-search")?.addEventListener("input", () => {
       if (ordersLoaded) renderOrders();
     });
 
     /* ── Change password form ────────────────────────────────────────────────── */
-    const changePwForm = document.getElementById('change-password-form') as HTMLFormElement;
-    const pwChangeMsg  = document.getElementById('pw-change-msg')!;
+    const changePwForm = document.getElementById("change-password-form") as HTMLFormElement;
+    const pwChangeMsg = document.getElementById("pw-change-msg")!;
 
-    changePwForm?.addEventListener('submit', async (e) => {
+    changePwForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearFieldErrors(changePwForm);
-      const fd          = new FormData(changePwForm);
-      const current     = fd.get('current_password') as string;
-      const newPw       = fd.get('new_password') as string;
-      const confirm     = fd.get('confirm_password') as string;
+      const fd = new FormData(changePwForm);
+      const current = fd.get("current_password") as string;
+      const newPw = fd.get("new_password") as string;
+      const confirm = fd.get("confirm_password") as string;
       let valid = true;
 
       if (!current) {
-        showFieldError(changePwForm.querySelector('[name=current_password]')!.closest('.field-group')!, 'Required');
+        showFieldError(
+          changePwForm.querySelector("[name=current_password]")!.closest(".field-group")!,
+          "Required",
+        );
         valid = false;
       }
       if (!newPw || newPw.length < 8) {
-        showFieldError(changePwForm.querySelector('[name=new_password]')!.closest('.field-group')!, 'Password must be at least 8 characters');
+        showFieldError(
+          changePwForm.querySelector("[name=new_password]")!.closest(".field-group")!,
+          "Password must be at least 8 characters",
+        );
         valid = false;
       }
       if (newPw !== confirm) {
-        showFieldError(changePwForm.querySelector('[name=confirm_password]')!.closest('.field-group')!, 'Passwords do not match');
+        showFieldError(
+          changePwForm.querySelector("[name=confirm_password]")!.closest(".field-group")!,
+          "Passwords do not match",
+        );
         valid = false;
       }
       if (!valid) return;
 
       setLoading(changePwForm, true);
-      pwChangeMsg.classList.add('hidden');
+      pwChangeMsg.classList.add("hidden");
 
       try {
-        await apiRequest('/store/customers/me', {
-          method: 'POST',
+        await apiRequest("/store/customers/me", {
+          method: "POST",
           body: JSON.stringify({ password: newPw }),
         });
-        pwChangeMsg.textContent = '✓ Password updated successfully';
-        pwChangeMsg.style.color = 'var(--secondary)';
-        pwChangeMsg.classList.remove('hidden');
+        pwChangeMsg.textContent = "✓ Password updated successfully";
+        pwChangeMsg.style.color = "var(--secondary)";
+        pwChangeMsg.classList.remove("hidden");
         changePwForm.reset();
-        showToast('Password updated', 'success');
+        showToast("Password updated", "success");
       } catch (err: any) {
-        pwChangeMsg.textContent = err.message || 'Update failed';
-        pwChangeMsg.style.color = 'var(--error)';
-        pwChangeMsg.classList.remove('hidden');
+        pwChangeMsg.textContent = err.message || "Update failed";
+        pwChangeMsg.style.color = "var(--error)";
+        pwChangeMsg.classList.remove("hidden");
       } finally {
         setLoading(changePwForm, false);
       }
     });
 
     // Seller request button handler
-    const requestSellerBtn = document.getElementById('request-seller-btn') as HTMLButtonElement | null;
-    const requestSellerText = document.getElementById('request-seller-text');
+    const requestSellerBtn = document.getElementById(
+      "request-seller-btn",
+    ) as HTMLButtonElement | null;
+    const requestSellerText = document.getElementById("request-seller-text");
 
-    const hasRequestedCookie = document.cookie.split('; ').find(row => row.startsWith('wanna_seller_requested='))?.split('=')[1] === 'true';
-    if (localStorage.getItem('wanna_seller_requested') === 'true' || hasRequestedCookie) {
+    const hasRequestedCookie =
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("wanna_seller_requested="))
+        ?.split("=")[1] === "true";
+    if (localStorage.getItem("wanna_seller_requested") === "true" || hasRequestedCookie) {
       if (requestSellerBtn && requestSellerText) {
         requestSellerBtn.disabled = true;
-        requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        requestSellerText.textContent = 'SELLER REQUEST PENDING';
+        requestSellerBtn.classList.add("opacity-50", "cursor-not-allowed");
+        requestSellerText.textContent = "SELLER REQUEST PENDING";
       }
     }
 
-    requestSellerBtn?.addEventListener('click', async () => {
+    requestSellerBtn?.addEventListener("click", async () => {
       if (requestSellerText && requestSellerBtn) {
-        requestSellerText.textContent = 'SUBMITTING REQUEST...';
+        requestSellerText.textContent = "SUBMITTING REQUEST...";
         requestSellerBtn.disabled = true;
-        
+
         try {
-          const emailInput = document.getElementById('prof-email') as HTMLInputElement | null;
-          const userEmail = emailInput?.value || 'sarankhtn@gmail.com';
+          const emailInput = document.getElementById("prof-email") as HTMLInputElement | null;
+          const userEmail = emailInput?.value || "sarankhtn@gmail.com";
 
           // Call Medusa Backend custom route to persist in database!
-          await apiRequest('/store/customers/me/request-seller', { method: 'POST' });
-          
-          localStorage.setItem('wanna_seller_requested', 'true');
+          await apiRequest("/store/customers/me/request-seller", { method: "POST" });
+
+          localStorage.setItem("wanna_seller_requested", "true");
           document.cookie = "wanna_seller_requested=true; path=/; max-age=86400";
           document.cookie = `wanna_seller_requested_email=${encodeURIComponent(userEmail)}; path=/; max-age=86400`;
-          
-          requestSellerText.textContent = 'SELLER REQUEST PENDING';
-          requestSellerBtn.classList.add('opacity-50', 'cursor-not-allowed');
-          showToast('Seller request submitted successfully!', 'success');
+
+          requestSellerText.textContent = "SELLER REQUEST PENDING";
+          requestSellerBtn.classList.add("opacity-50", "cursor-not-allowed");
+          showToast("Seller request submitted successfully!", "success");
         } catch (err: any) {
           console.error("Failed to submit seller request:", err);
-          showToast(err.message || 'Failed to submit seller request. Please try again.', 'error');
-          requestSellerText.textContent = 'REQUEST TO BE SELLER';
+          showToast(err.message || "Failed to submit seller request. Please try again.", "error");
+          requestSellerText.textContent = "REQUEST TO BE SELLER";
           requestSellerBtn.disabled = false;
         }
       }
     });
 
     /* ── Scroll reveal ───────────────────────────────────────────────────────── */
-    const ro = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+    const ro = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            ro.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08 },
+    );
+    document.querySelectorAll(".reveal").forEach((el) => ro.observe(el));
   </script>
 </Layout>

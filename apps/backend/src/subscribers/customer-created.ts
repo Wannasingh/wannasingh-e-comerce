@@ -28,7 +28,8 @@ export default async function customerCreatedHandler({
       return;
     }
 
-    const customerName = [customer.first_name, customer.last_name].filter(Boolean).join(" ") || "Network User";
+    const customerName =
+      [customer.first_name, customer.last_name].filter(Boolean).join(" ") || "Network User";
 
     const emailHtml = `<!DOCTYPE html>
 <html>
@@ -80,7 +81,7 @@ export default async function customerCreatedHandler({
           <!-- Action Button -->
           <tr>
             <td style="padding-bottom: 40px;">
-              <a href="${process.env.STORE_CORS ?? 'http://localhost:4321'}/auth?tab=login" style="display: block; text-align: center; background-color: #ffffff; color: #131313; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-decoration: none; padding: 18px 24px; text-transform: uppercase; border: 1px solid #ffffff; transition: all 0.3s ease;">
+              <a href="${process.env.STORE_CORS ?? "http://localhost:4321"}/auth?tab=login" style="display: block; text-align: center; background-color: #ffffff; color: #131313; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-decoration: none; padding: 18px 24px; text-transform: uppercase; border: 1px solid #ffffff; transition: all 0.3s ease;">
                 GO TO STOREFRONT LOGIN →
               </a>
             </td>
@@ -128,7 +129,7 @@ export default async function customerCreatedHandler({
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${resendApiKey}`,
+        Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

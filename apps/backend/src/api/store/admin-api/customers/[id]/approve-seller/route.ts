@@ -1,4 +1,3 @@
-/* eslint-disable */
 import type { AuthenticatedMedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 
 export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse): Promise<void> {
@@ -16,15 +15,17 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
 
   try {
     const customerService = req.scope.resolve("customer");
-    
+
     // Verify caller is admin
-    const caller = await customerService.retrieveCustomer(callerId);
-    if (!caller || caller.email !== "wannasingh.khan@gmail.com") {
+    const caller = (await customerService.retrieveCustomer(callerId)) as { email?: string } | null;
+    if (caller?.email !== "wannasingh.khan@gmail.com") {
       res.status(403).json({ message: "Forbidden: Caller is not authorized as system admin" });
       return;
     }
 
-    const customer = await customerService.retrieveCustomer(id);
+    const customer = (await customerService.retrieveCustomer(id)) as {
+      metadata?: Record<string, unknown>;
+    } | null;
     if (!customer) {
       res.status(404).json({ message: "Customer not found" });
       return;
@@ -39,8 +40,9 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     });
 
     res.status(200).json({ customer: updatedCustomer });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error in approve-seller API route:", err);
-    res.status(500).json({ message: err.message || "An error occurred during seller approval" });
+    const message = err instanceof Error ? err.message : "An error occurred during seller approval";
+    res.status(500).json({ message });
   }
 }

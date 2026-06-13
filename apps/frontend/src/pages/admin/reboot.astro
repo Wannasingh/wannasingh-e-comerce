@@ -4,138 +4,177 @@ import AdminLayout from "../../layouts/AdminLayout.astro";
 
 export const prerender = false;
 ---
+
 <AdminLayout title="WANNASINGH COMMAND CORE - KERNEL REBOOT" activeTab="reboot">
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <div class="w-2 h-2 bg-error status-pulse"></div>
+        <span class="font-mono-label text-[11px] text-error tracking-widest uppercase"
+          >System Power Matrix</span
+        >
+      </div>
+      <h2 class="font-display text-4xl font-bold">KERNEL_REBOOT</h2>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Control Panel -->
+    <div class="bg-surface-container-low border border-outline-variant p-6 md:col-span-2 space-y-6">
+      <h3
+        class="font-mono-label text-[12px] text-primary uppercase border-b border-outline-variant/30 pb-2"
+      >
+        Reboot Operations
+      </h3>
+      <p class="font-body-sm text-on-surface-variant leading-relaxed">
+        Initiate a complete restart of the Medusa v2 Kernel core. This operation will flush the
+        Redis cache, disconnect active server sockets, and reload environment registries. Active
+        checkout sessions will be preserved in DB session layers.
+      </p>
+
+      <div class="bg-error/10 border border-error/30 p-4 flex gap-4 items-start">
+        <span class="material-symbols-outlined text-error text-[24px] shrink-0">warning</span>
         <div>
-            <div class="flex items-center gap-2 mb-1">
-                <div class="w-2 h-2 bg-error status-pulse"></div>
-                <span class="font-mono-label text-[11px] text-error tracking-widest uppercase">System Power Matrix</span>
-            </div>
-            <h2 class="font-display text-4xl font-bold">KERNEL_REBOOT</h2>
+          <h4 class="font-mono-label text-[11px] text-error uppercase font-bold">
+            WARNING: System Interruption
+          </h4>
+          <p class="font-mono-data text-[11px] text-on-surface-variant mt-1">
+            Est. downtime: 12.4 seconds. Please ensure all database migrations are finalized before
+            rebooting.
+          </p>
         </div>
+      </div>
+
+      <div class="pt-4 flex gap-4">
+        <button
+          id="trigger-reboot-btn"
+          class="bg-error text-on-error font-mono-label text-xs tracking-widest px-8 py-4 hover:brightness-110 active:opacity-80 transition-all cursor-pointer flex items-center gap-2 font-bold"
+        >
+          <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+          INITIATE_REBOOT_SEQUENCE
+        </button>
+      </div>
     </div>
 
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Control Panel -->
-        <div class="bg-surface-container-low border border-outline-variant p-6 md:col-span-2 space-y-6">
-            <h3 class="font-mono-label text-[12px] text-primary uppercase border-b border-outline-variant/30 pb-2">Reboot Operations</h3>
-            <p class="font-body-sm text-on-surface-variant leading-relaxed">
-                Initiate a complete restart of the Medusa v2 Kernel core. This operation will flush the Redis cache, disconnect active server sockets, and reload environment registries. Active checkout sessions will be preserved in DB session layers.
-            </p>
-
-            <div class="bg-error/10 border border-error/30 p-4 flex gap-4 items-start">
-                <span class="material-symbols-outlined text-error text-[24px] shrink-0">warning</span>
-                <div>
-                    <h4 class="font-mono-label text-[11px] text-error uppercase font-bold">WARNING: System Interruption</h4>
-                    <p class="font-mono-data text-[11px] text-on-surface-variant mt-1">
-                        Est. downtime: 12.4 seconds. Please ensure all database migrations are finalized before rebooting.
-                    </p>
-                </div>
-            </div>
-
-            <div class="pt-4 flex gap-4">
-                <button id="trigger-reboot-btn" class="bg-error text-on-error font-mono-label text-xs tracking-widest px-8 py-4 hover:brightness-110 active:opacity-80 transition-all cursor-pointer flex items-center gap-2 font-bold">
-                    <span class="material-symbols-outlined text-[16px]">restart_alt</span>
-                    INITIATE_REBOOT_SEQUENCE
-                </button>
-            </div>
+    <!-- System Status Telemetry -->
+    <div class="bg-surface-container-low border border-outline-variant p-6 space-y-4">
+      <h3
+        class="font-mono-label text-[12px] text-primary uppercase border-b border-outline-variant/30 pb-2"
+      >
+        State Telemetry
+      </h3>
+      <div class="space-y-3">
+        <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+          <span class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+            >CPU Core Temp</span
+          >
+          <span class="font-mono-data text-xs text-primary">48.2°C</span>
         </div>
-
-        <!-- System Status Telemetry -->
-        <div class="bg-surface-container-low border border-outline-variant p-6 space-y-4">
-            <h3 class="font-mono-label text-[12px] text-primary uppercase border-b border-outline-variant/30 pb-2">State Telemetry</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
-                    <span class="font-mono-label text-[10px] text-on-surface-variant uppercase">CPU Core Temp</span>
-                    <span class="font-mono-data text-xs text-primary">48.2°C</span>
-                </div>
-                <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
-                    <span class="font-mono-label text-[10px] text-on-surface-variant uppercase">Storage Array</span>
-                    <span class="font-mono-data text-xs text-on-surface">Optimal</span>
-                </div>
-                <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
-                    <span class="font-mono-label text-[10px] text-on-surface-variant uppercase">Redis Cache size</span>
-                    <span class="font-mono-data text-xs text-on-surface">1,892 Keys</span>
-                </div>
-            </div>
+        <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+          <span class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+            >Storage Array</span
+          >
+          <span class="font-mono-data text-xs text-on-surface">Optimal</span>
         </div>
+        <div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+          <span class="font-mono-label text-[10px] text-on-surface-variant uppercase"
+            >Redis Cache size</span
+          >
+          <span class="font-mono-data text-xs text-on-surface">1,892 Keys</span>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Reboot Terminal Overlay -->
-    <div id="reboot-terminal" class="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center hidden p-6">
-        <div class="w-full max-w-3xl bg-surface-container-lowest border border-outline-variant p-6 font-mono-data text-[13px] text-primary space-y-4">
-            <div class="flex justify-between border-b border-outline-variant/30 pb-2">
-                <span class="text-error uppercase font-bold tracking-widest flex items-center gap-2"><span class="w-2.5 h-2.5 bg-error rounded-full animate-ping"></span> REBOOT_IN_PROGRESS</span>
-                <span class="text-on-surface-variant" id="reboot-timer">12.4s</span>
-            </div>
-            <div class="h-80 overflow-y-auto space-y-1 select-none custom-scrollbar" id="reboot-console">
-                <p class="text-outline">[SYSTEM] Reboot sequence authorized by root ADMIN_01...</p>
-            </div>
-        </div>
+  <!-- Reboot Terminal Overlay -->
+  <div
+    id="reboot-terminal"
+    class="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center hidden p-6"
+  >
+    <div
+      class="w-full max-w-3xl bg-surface-container-lowest border border-outline-variant p-6 font-mono-data text-[13px] text-primary space-y-4"
+    >
+      <div class="flex justify-between border-b border-outline-variant/30 pb-2">
+        <span class="text-error uppercase font-bold tracking-widest flex items-center gap-2"
+          ><span class="w-2.5 h-2.5 bg-error rounded-full animate-ping"></span> REBOOT_IN_PROGRESS</span
+        >
+        <span class="text-on-surface-variant" id="reboot-timer">12.4s</span>
+      </div>
+      <div class="h-80 overflow-y-auto space-y-1 select-none custom-scrollbar" id="reboot-console">
+        <p class="text-outline">[SYSTEM] Reboot sequence authorized by root ADMIN_01...</p>
+      </div>
     </div>
+  </div>
 
-    <script is:inline>
-        const rebootBtn = document.getElementById('trigger-reboot-btn');
-        const terminal = document.getElementById('reboot-terminal');
-        const consoleEl = document.getElementById('reboot-console');
-        const timerEl = document.getElementById('reboot-timer');
+  <script is:inline>
+    const rebootBtn = document.getElementById("trigger-reboot-btn");
+    const terminal = document.getElementById("reboot-terminal");
+    const consoleEl = document.getElementById("reboot-console");
+    const timerEl = document.getElementById("reboot-timer");
 
-        const logs = [
-            "[SYSTEM] Shutting down active WebSocket connection listeners...",
-            "[SYSTEM] Socket array terminated successfully.",
-            "[SYSTEM] Flushing Redis cache segments...",
-            "[SYSTEM] Redis cache flushed. (0B memory overhead)",
-            "[SYSTEM] Syncing DB connections queue to thread locks...",
-            "[SYSTEM] Closing DB transaction channels...",
-            "[KERNEL] Unlinking stable modules...",
-            "[KERNEL] Stopping core thread schedulers...",
-            "[KERNEL] System entering offline power down sequence...",
-            "[REBOOT] Initializing POST (Power On Self Test)...",
-            "[REBOOT] CPU, Memory, PCI controllers: OK.",
-            "[REBOOT] Mounting storage array...",
-            "[REBOOT] Cache layers initialized.",
-            "[REBOOT] Restoring database transaction pipeline...",
-            "[REBOOT] Syncing Medusa Cache indexes...",
-            "[REBOOT] Restored 1,284 product SKU references.",
-            "[REBOOT] Opening API port 4321...",
-            "[SYSTEM] Engine core state: OPTIMAL.",
-            "[SYSTEM] Redirecting to System Overview..."
-        ];
+    const logs = [
+      "[SYSTEM] Shutting down active WebSocket connection listeners...",
+      "[SYSTEM] Socket array terminated successfully.",
+      "[SYSTEM] Flushing Redis cache segments...",
+      "[SYSTEM] Redis cache flushed. (0B memory overhead)",
+      "[SYSTEM] Syncing DB connections queue to thread locks...",
+      "[SYSTEM] Closing DB transaction channels...",
+      "[KERNEL] Unlinking stable modules...",
+      "[KERNEL] Stopping core thread schedulers...",
+      "[KERNEL] System entering offline power down sequence...",
+      "[REBOOT] Initializing POST (Power On Self Test)...",
+      "[REBOOT] CPU, Memory, PCI controllers: OK.",
+      "[REBOOT] Mounting storage array...",
+      "[REBOOT] Cache layers initialized.",
+      "[REBOOT] Restoring database transaction pipeline...",
+      "[REBOOT] Syncing Medusa Cache indexes...",
+      "[REBOOT] Restored 1,284 product SKU references.",
+      "[REBOOT] Opening API port 4321...",
+      "[SYSTEM] Engine core state: OPTIMAL.",
+      "[SYSTEM] Redirecting to System Overview...",
+    ];
 
-        rebootBtn?.addEventListener('click', async () => {
-            const confirmed = await window.showAetherConfirm('SYSTEM REBOOT SEQUENCE', 'Are you sure you want to reboot the system kernel? This will temporarily interrupt connections.');
-            if (!confirmed) return;
-            terminal?.classList.remove('hidden');
+    rebootBtn?.addEventListener("click", async () => {
+      const confirmed = await window.showAetherConfirm(
+        "SYSTEM REBOOT SEQUENCE",
+        "Are you sure you want to reboot the system kernel? This will temporarily interrupt connections.",
+      );
+      if (!confirmed) return;
+      terminal?.classList.remove("hidden");
 
-            let delay = 0;
-            let currentLogIndex = 0;
-            let timeRemaining = 12.4;
+      let delay = 0;
+      let currentLogIndex = 0;
+      let timeRemaining = 12.4;
 
-            // Timer interval
-            const timer = setInterval(() => {
-                timeRemaining = Math.max(0, timeRemaining - 0.1);
-                timerEl.textContent = timeRemaining.toFixed(1) + 's';
-            }, 100);
+      // Timer interval
+      const timer = setInterval(() => {
+        timeRemaining = Math.max(0, timeRemaining - 0.1);
+        timerEl.textContent = timeRemaining.toFixed(1) + "s";
+      }, 100);
 
-            // Log insertion interval
-            const logger = setInterval(() => {
-                if (currentLogIndex < logs.length) {
-                    const p = document.createElement('p');
-                    p.className = logs[currentLogIndex].includes('[SYSTEM]') ? 'text-primary' : logs[currentLogIndex].includes('[ERROR]') ? 'text-error' : 'text-outline';
-                    p.textContent = logs[currentLogIndex];
-                    consoleEl.appendChild(p);
-                    consoleEl.scrollTop = consoleEl.scrollHeight;
-                    currentLogIndex++;
-                } else {
-                    clearInterval(logger);
-                    clearInterval(timer);
-                    setTimeout(() => {
-                        window.location.href = '/admin';
-                    }, 1000);
-                }
-            }, 500);
-        });
-    </script>
+      // Log insertion interval
+      const logger = setInterval(() => {
+        if (currentLogIndex < logs.length) {
+          const p = document.createElement("p");
+          p.className = logs[currentLogIndex].includes("[SYSTEM]")
+            ? "text-primary"
+            : logs[currentLogIndex].includes("[ERROR]")
+              ? "text-error"
+              : "text-outline";
+          p.textContent = logs[currentLogIndex];
+          consoleEl.appendChild(p);
+          consoleEl.scrollTop = consoleEl.scrollHeight;
+          currentLogIndex++;
+        } else {
+          clearInterval(logger);
+          clearInterval(timer);
+          setTimeout(() => {
+            window.location.href = "/admin";
+          }, 1000);
+        }
+      }, 500);
+    });
+  </script>
 </AdminLayout>

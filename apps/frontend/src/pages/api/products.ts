@@ -112,14 +112,14 @@ export const GET: APIRoute = async ({ url }) => {
     // Apply category filter
     if (category) {
       processedProducts = processedProducts.filter(
-        (p) => p.category.toLowerCase() === category.toLowerCase()
+        (p) => p.category.toLowerCase() === category.toLowerCase(),
       );
     }
 
     // Apply Technical Performance filters
     if (perfFilters.length > 0) {
       processedProducts = processedProducts.filter((p) => {
-        const rawP = medusaProducts.find(rm => rm.id === p.id);
+        const rawP = medusaProducts.find((rm) => rm.id === p.id);
         if (!rawP) return false;
 
         const specs = rawP.metadata?.specs ?? [];
@@ -129,25 +129,76 @@ export const GET: APIRoute = async ({ url }) => {
         return perfFilters.every((filterVal) => {
           const filter = filterVal.toUpperCase();
           if (filter === "WATERPROOF") {
-            const hasWaterproofSpec = specs.some((s) => s.label.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("waterproof") || s.value.toLowerCase().includes("mm"));
-            const hasWaterproofFeature = features.some((f) => f.title.toLowerCase().includes("waterproof") || f.desc.toLowerCase().includes("waterproof") || f.title.toLowerCase().includes("water"));
-            const hasWaterproofMaterial = materials.some((m) => m.value.toLowerCase().includes("waterproof") || m.value.toLowerCase().includes("membrane") || m.value.toLowerCase().includes("gore-tex"));
+            const hasWaterproofSpec = specs.some(
+              (s) =>
+                s.label.toLowerCase().includes("waterproof") ||
+                s.value.toLowerCase().includes("waterproof") ||
+                s.value.toLowerCase().includes("mm"),
+            );
+            const hasWaterproofFeature = features.some(
+              (f) =>
+                f.title.toLowerCase().includes("waterproof") ||
+                f.desc.toLowerCase().includes("waterproof") ||
+                f.title.toLowerCase().includes("water"),
+            );
+            const hasWaterproofMaterial = materials.some(
+              (m) =>
+                m.value.toLowerCase().includes("waterproof") ||
+                m.value.toLowerCase().includes("membrane") ||
+                m.value.toLowerCase().includes("gore-tex"),
+            );
             return hasWaterproofSpec || hasWaterproofFeature || hasWaterproofMaterial;
           }
           if (filter === "WINDPROOF") {
-            const hasWindproofSpec = specs.some((s) => s.label.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("windproof") || s.value.toLowerCase().includes("blocked"));
-            const hasWindproofFeature = features.some((f) => f.title.toLowerCase().includes("windproof") || f.desc.toLowerCase().includes("windproof") || f.title.toLowerCase().includes("wind"));
+            const hasWindproofSpec = specs.some(
+              (s) =>
+                s.label.toLowerCase().includes("windproof") ||
+                s.value.toLowerCase().includes("windproof") ||
+                s.value.toLowerCase().includes("blocked"),
+            );
+            const hasWindproofFeature = features.some(
+              (f) =>
+                f.title.toLowerCase().includes("windproof") ||
+                f.desc.toLowerCase().includes("windproof") ||
+                f.title.toLowerCase().includes("wind"),
+            );
             return hasWindproofSpec || hasWindproofFeature;
           }
           if (filter === "BREATHABLE") {
-            const hasBreathableSpec = specs.some((s) => s.label.toLowerCase().includes("breathability") || s.value.toLowerCase().includes("ret") || s.value.toLowerCase().includes("breathable"));
-            const hasBreathableFeature = features.some((f) => f.title.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("breathable") || f.desc.toLowerCase().includes("moisture"));
+            const hasBreathableSpec = specs.some(
+              (s) =>
+                s.label.toLowerCase().includes("breathability") ||
+                s.value.toLowerCase().includes("ret") ||
+                s.value.toLowerCase().includes("breathable"),
+            );
+            const hasBreathableFeature = features.some(
+              (f) =>
+                f.title.toLowerCase().includes("breathable") ||
+                f.desc.toLowerCase().includes("breathable") ||
+                f.desc.toLowerCase().includes("moisture"),
+            );
             return hasBreathableSpec || hasBreathableFeature;
           }
           if (filter === "INSULATED") {
-            const hasInsulatedSpec = specs.some((s) => s.label.toLowerCase().includes("warmth") || s.value.toLowerCase().includes("clo") || s.value.toLowerCase().includes("insulated"));
-            const hasInsulatedFeature = features.some((f) => f.title.toLowerCase().includes("insulated") || f.title.toLowerCase().includes("insulation") || f.desc.toLowerCase().includes("warmth") || f.title.toLowerCase().includes("thermal"));
-            const hasInsulatedMaterial = materials.some((m) => m.value.toLowerCase().includes("primaloft") || m.value.toLowerCase().includes("insulation") || m.value.toLowerCase().includes("fleece"));
+            const hasInsulatedSpec = specs.some(
+              (s) =>
+                s.label.toLowerCase().includes("warmth") ||
+                s.value.toLowerCase().includes("clo") ||
+                s.value.toLowerCase().includes("insulated"),
+            );
+            const hasInsulatedFeature = features.some(
+              (f) =>
+                f.title.toLowerCase().includes("insulated") ||
+                f.title.toLowerCase().includes("insulation") ||
+                f.desc.toLowerCase().includes("warmth") ||
+                f.title.toLowerCase().includes("thermal"),
+            );
+            const hasInsulatedMaterial = materials.some(
+              (m) =>
+                m.value.toLowerCase().includes("primaloft") ||
+                m.value.toLowerCase().includes("insulation") ||
+                m.value.toLowerCase().includes("fleece"),
+            );
             return hasInsulatedSpec || hasInsulatedFeature || hasInsulatedMaterial;
           }
           return true;
@@ -158,7 +209,7 @@ export const GET: APIRoute = async ({ url }) => {
     // Apply Fabric Technology filters
     if (fabricFilters.length > 0) {
       processedProducts = processedProducts.filter((p) => {
-        const rawP = medusaProducts.find(rm => rm.id === p.id);
+        const rawP = medusaProducts.find((rm) => rm.id === p.id);
         if (!rawP) return false;
 
         const specs = rawP.metadata?.specs ?? [];
@@ -167,13 +218,25 @@ export const GET: APIRoute = async ({ url }) => {
         return fabricFilters.every((filterVal) => {
           const filter = filterVal.toUpperCase();
           if (filter === "GORE-TEX PRO") {
-            return materials.some((m) => m.value.toUpperCase().includes("GORE-TEX") || m.value.toUpperCase().includes("GORE-PRO")) || specs.some((s) => s.value.toUpperCase().includes("GORE-TEX"));
+            return (
+              materials.some(
+                (m) =>
+                  m.value.toUpperCase().includes("GORE-TEX") ||
+                  m.value.toUpperCase().includes("GORE-PRO"),
+              ) || specs.some((s) => s.value.toUpperCase().includes("GORE-TEX"))
+            );
           }
           if (filter === "DYNEEMA® BLEND") {
-            return materials.some((m) => m.value.toUpperCase().includes("DYNEEMA")) || specs.some((s) => s.value.toUpperCase().includes("DYNEEMA"));
+            return (
+              materials.some((m) => m.value.toUpperCase().includes("DYNEEMA")) ||
+              specs.some((s) => s.value.toUpperCase().includes("DYNEEMA"))
+            );
           }
           if (filter === "3L CORDURA®") {
-            return materials.some((m) => m.value.toUpperCase().includes("CORDURA")) || specs.some((s) => s.value.toUpperCase().includes("CORDURA"));
+            return (
+              materials.some((m) => m.value.toUpperCase().includes("CORDURA")) ||
+              specs.some((s) => s.value.toUpperCase().includes("CORDURA"))
+            );
           }
           return true;
         });
@@ -183,15 +246,13 @@ export const GET: APIRoute = async ({ url }) => {
     // Apply search filter (q)
     if (q) {
       processedProducts = processedProducts.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.subtitle.toLowerCase().includes(q)
+        (p) => p.name.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q),
       );
     }
 
     // Apply price range filter
     processedProducts = processedProducts.filter(
-      (p) => p.priceRaw >= minPrice && p.priceRaw <= maxPrice
+      (p) => p.priceRaw >= minPrice && p.priceRaw <= maxPrice,
     );
 
     // Apply sorting
@@ -214,13 +275,13 @@ export const GET: APIRoute = async ({ url }) => {
         products: paginatedProducts,
         total: totalCount,
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    return new Response(
-      JSON.stringify({ error: message }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };

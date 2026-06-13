@@ -1,25 +1,31 @@
-/* eslint-disable */
 import { defineMiddlewares, authenticate } from "@medusajs/medusa";
 
 import { encryptPayload } from "./api-encryption";
 
-const encryptionKey = process.env.API_ENCRYPTION_KEY || "default_super_secret_encryption_key_32bytes";
+import type { MedusaRequest, MedusaResponse, MedusaNextFunction } from "@medusajs/framework/http";
 
-const encryptionMiddleware = (_req: any, res: any, next: any) => {
+const encryptionKey =
+  process.env.API_ENCRYPTION_KEY ?? "default_super_secret_encryption_key_32bytes";
+
+export const encryptionMiddleware = (
+  _req: MedusaRequest,
+  res: MedusaResponse,
+  next: MedusaNextFunction,
+): void => {
   const originalSend = res.send;
 
-  res.send = function (body: any) {
+  res.send = function (this: MedusaResponse, body: unknown): MedusaResponse {
     const contentType = res.get("Content-Type");
-    const isJson = contentType?.includes("application/json");
+    const isJson = typeof contentType === "string" && contentType.includes("application/json");
 
     if (isJson && body) {
       try {
         const bodyStr = typeof body === "string" ? body : JSON.stringify(body);
-        
+
         // Only encrypt if it's not already encrypted (e.g. doesn't have iv and data structure)
         let isAlreadyEncrypted = false;
         try {
-          const parsed = JSON.parse(bodyStr);
+          const parsed = JSON.parse(bodyStr) as { iv?: unknown; data?: unknown } | null;
           if (parsed?.iv && parsed.data && Object.keys(parsed).length === 2) {
             isAlreadyEncrypted = true;
           }
@@ -30,7 +36,7 @@ const encryptionMiddleware = (_req: any, res: any, next: any) => {
         if (!isAlreadyEncrypted) {
           const encrypted = encryptPayload(bodyStr, encryptionKey);
           const encryptedBody = JSON.stringify(encrypted);
-          
+
           res.set("Content-Type", "application/json");
           return originalSend.call(this, encryptedBody);
         }
@@ -52,31 +58,19 @@ export default defineMiddlewares({
       bodyParser: {
         sizeLimit: "15mb",
       },
-      middlewares: [
-        authenticate("customer", ["session", "bearer"]),
-        encryptionMiddleware,
-      ],
+      middlewares: [authenticate("customer", ["session", "bearer"]), encryptionMiddleware],
     },
     {
       matcher: "/store/customers/me/request-seller",
-      middlewares: [
-        authenticate("customer", ["session", "bearer"]),
-        encryptionMiddleware,
-      ],
+      middlewares: [authenticate("customer", ["session", "bearer"]), encryptionMiddleware],
     },
     {
       matcher: "/store/admin-api/customers/*/approve-seller",
-      middlewares: [
-        authenticate("customer", ["session", "bearer"]),
-        encryptionMiddleware,
-      ],
+      middlewares: [authenticate("customer", ["session", "bearer"]), encryptionMiddleware],
     },
     {
       matcher: "/store/admin-api/customers/*/reject-seller",
-      middlewares: [
-        authenticate("customer", ["session", "bearer"]),
-        encryptionMiddleware,
-      ],
+      middlewares: [authenticate("customer", ["session", "bearer"]), encryptionMiddleware],
     },
     {
       matcher: "/store/*",
