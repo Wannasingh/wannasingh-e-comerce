@@ -32,8 +32,8 @@ pipeline {
     // SLACK_WEBHOOK_URL = credentials("slack-webhook-token") // uncomment if using webhook directly
 
     // Staging and Production URLs
-    STAGING_URL      = "https://staging.wannasingh.com"
-    PRODUCTION_URL   = "https://wannasingh.com"
+    STAGING_URL      = "https://e-commerce.wannasingh.dev"
+    PRODUCTION_URL   = "https://e-commerce.wannasingh.dev"
 
     // Node.js / pnpm Setup
     NODE_VERSION     = "20"
@@ -318,25 +318,19 @@ pipeline {
         stage("E2E Integration (Cypress)") {
           steps {
             echo "🧪 Running Cypress End-to-End Tests against Staging..."
-            // สคริปต์จำลองผู้ใช้งานจริง
-            // sh "pnpm cypress run --config baseUrl=${STAGING_URL}"
-            echo "Cypress E2E tests successfully validated basic customer checkout flow."
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:140.245.116.220 -v \${WORKSPACE}:/e2e -w /e2e cypress/included:13.12.0 --config baseUrl=https://e-commerce.wannasingh.dev"
           }
         }
         stage("Performance / Load Testing") {
           steps {
-            echo "📈 Running Load Testing (k6 / JMeter)..."
-            // จำลองคนใช้เข้ามาใช้งานเยอะๆ เพื่อดู Performance
-            // sh "k6 run scripts/load-tests.js --env TARGET_URL=${STAGING_URL}"
-            echo "Performance tests completed. Response times under load are within limits (<200ms)."
+            echo "📈 Running Load Testing (k6)..."
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:140.245.116.220 -v \${WORKSPACE}:/apps -w /apps grafana/k6 run scripts/load-tests.js --env TARGET_URL=https://e-commerce.wannasingh.dev"
           }
         }
         stage("Dynamic Application Security Testing (DAST)") {
           steps {
             echo "🔥 Running DAST Scan (OWASP ZAP) against Staging URL..."
-            // สแกนเจาะระบบตอนแอปพลิเคชันกำลังทำงานอยู่จริงๆ
-            // sh "docker run --rm -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t ${STAGING_URL} || true"
-            echo "DAST scan completed. No critical injection or path traversal vulnerabilities detected."
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:140.245.116.220 -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://e-commerce.wannasingh.dev || true"
           }
         }
       }
@@ -389,9 +383,9 @@ pipeline {
         echo "🔬 Running Production Smoke Tests..."
         sh """
           sleep 15
-          STATUS_CODE=\$(curl -s -o /dev/null -w "%{http_code}" http://140.245.116.220:4321 || echo "000")
+          STATUS_CODE=\$(curl -s -k -o /dev/null -w "%{http_code}" -H "Host: e-commerce.wannasingh.dev" https://140.245.116.220 || echo "000")
           if [ "\$STATUS_CODE" -eq 200 ] || [ "\$STATUS_CODE" -eq 301 ] || [ "\$STATUS_CODE" -eq 302 ]; then
-            echo "✅ Smoke test passed! Production URL http://140.245.116.220:4321 is active and healthy."
+            echo "✅ Smoke test passed! Production URL https://e-commerce.wannasingh.dev is active and healthy."
           else
             echo "❌ Smoke test failed! Status code received: \$STATUS_CODE"
             exit 1
