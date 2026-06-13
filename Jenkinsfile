@@ -89,6 +89,25 @@ pipeline {
       }
     }
 
+    stage("Diagnostics: Apps VM") {
+      steps {
+        echo "🔍 Fetching status and logs from Apps VM..."
+        withCredentials([sshUserPrivateKey(credentialsId: 'apps-ssh-key', keyFileVariable: 'APPS_KEY', usernameVariable: 'APPS_USER')]) {
+          sh """
+            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@140.245.116.220 "
+              cd /home/ubuntu
+              echo '=== Docker Containers ==='
+              docker compose ps
+              echo '=== Backend Logs ==='
+              docker compose logs backend --no-log-prefix --tail 100
+              echo '=== Frontend Logs ==='
+              docker compose logs frontend --no-log-prefix --tail 100
+            " || true
+          """
+        }
+      }
+    }
+
     // ── Stage 2: Install Dependencies ───────────────────────────────────────
     stage("Install Dependencies") {
       steps {
