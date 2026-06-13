@@ -1,6 +1,6 @@
-import type { UserConfig } from "vitest/config";
+import { defineConfig } from "vitest/config";
 
-const config: UserConfig = {
+export default defineConfig({
   test: {
     environment: "node",
     coverage: {
@@ -10,6 +10,4 @@ const config: UserConfig = {
       include: ["src/api/**/*.ts"],
     },
   },
-};
-
-export default config;
+});
