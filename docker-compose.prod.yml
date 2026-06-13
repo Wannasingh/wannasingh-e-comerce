@@ -21,9 +21,9 @@ services:
     container_name: wannasingh-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: wannasingh_ecommerce
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
@@ -43,9 +43,9 @@ services:
     restart: unless-stopped
     command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongo/keyfile"]
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-      MONGO_INITDB_DATABASE: wannasingh_ecommerce
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
     volumes:
       - mongo-data:/data/db
       - ./docker/mongo/keyfile:/etc/mongo/keyfile:ro
@@ -57,7 +57,7 @@ services:
     healthcheck:
       test: |
         mongosh --quiet --eval "db.adminCommand('ping').ok" \
-          --username root --password rootpassword --authenticationDatabase admin
+          --username $$MONGO_INITDB_ROOT_USERNAME --password $$MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin
       interval: 10s
       timeout: 5s
       retries: 5
@@ -75,7 +75,7 @@ services:
       - app-network
     command: >
       mongosh --host mongo:27017
-        --username root --password rootpassword
+        --username ${MONGO_ROOT_USER} --password ${MONGO_ROOT_PASSWORD}
         --authenticationDatabase admin
         --eval "
           try {
@@ -116,11 +116,11 @@ services:
         condition: service_started
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/wannasingh_ecommerce
-      MONGODB_URI_LOCAL: mongodb://root:rootpassword@mongo:27017/wannasingh_ecommerce?authSource=admin&replicaSet=rs0
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      MONGODB_URI_LOCAL: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017/${MONGO_DB}?authSource=admin&replicaSet=rs0
       REDIS_URL: redis://redis:6379
-      JWT_SECRET: dev-jwt-secret-change-in-production
-      COOKIE_SECRET: dev-cookie-secret-change-in-production
+      JWT_SECRET: ${JWT_SECRET}
+      COOKIE_SECRET: ${COOKIE_SECRET}
       MEDUSA_BACKEND_URL: https://e-commerce-api.wannasingh.dev
       STORE_CORS: https://e-commerce.wannasingh.dev,http://e-commerce.wannasingh.dev
       ADMIN_CORS: https://admin-e-commerce.wannasingh.dev,http://admin-e-commerce.wannasingh.dev
