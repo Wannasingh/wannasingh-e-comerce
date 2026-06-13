@@ -36,6 +36,8 @@ pipeline {
     PRODUCTION_URL   = "https://e-commerce.wannasingh.dev"
     PUBLIC_MEDUSA_BACKEND_URL = "https://e-commerce-api.wannasingh.dev"
     PUBLIC_SITE_URL           = "https://e-commerce.wannasingh.dev"
+    PUBLIC_MEDUSA_PUBLISHABLE_KEY = "pk_24ac29671572814e41a2fa14da37b2911551474f700bc4e9fdc0fa9149d37bb0"
+    PUBLIC_STRIPE_PUBLISHABLE_KEY = "mk_1Syps9IN6qyEpihncVTCcKHT"
 
     // Node.js / pnpm Setup
     NODE_VERSION     = "20"
@@ -229,6 +231,8 @@ pipeline {
                     --build-arg PNPM_VERSION=${PNPM_VERSION} \
                     --build-arg PUBLIC_MEDUSA_BACKEND_URL=\${PUBLIC_MEDUSA_BACKEND_URL:-https://api.wannasingh.com} \
                     --build-arg PUBLIC_SITE_URL=\${PUBLIC_SITE_URL:-https://wannasingh.com} \
+                    --build-arg PUBLIC_MEDUSA_PUBLISHABLE_KEY=\${PUBLIC_MEDUSA_PUBLISHABLE_KEY} \
+                    --build-arg PUBLIC_STRIPE_PUBLISHABLE_KEY=\${PUBLIC_STRIPE_PUBLISHABLE_KEY} \
                     --cache-from ${IMAGE_FRONTEND}:latest \
                     --label "org.opencontainers.image.source=\$(git remote get-url origin)" \
                     --label "org.opencontainers.image.revision=\$(git rev-parse HEAD)" \
