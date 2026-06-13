@@ -69,10 +69,15 @@ WORKDIR /repo/apps/backend
 COPY --from=builder --chown=medusa:medusa /repo/apps/backend/dist ./dist
 COPY --from=builder --chown=medusa:medusa /repo/apps/backend/package.json ./package.json
 COPY --from=builder --chown=medusa:medusa /repo/apps/backend/dist/medusa-config.js ./medusa-config.js
+COPY --from=builder --chown=medusa:medusa /repo/apps/backend/.medusa ./.medusa
 
 # Copy production node_modules and root node_modules virtual store
 COPY --from=builder --chown=medusa:medusa /repo/apps/backend/node_modules ./node_modules
 COPY --from=builder --chown=medusa:medusa /repo/node_modules /repo/node_modules
+
+# Ensure /repo/apps/backend is owned by medusa and symlink public folder
+RUN chown -R medusa:medusa /repo/apps/backend && \
+    ln -s /repo/apps/backend/dist/public /repo/apps/backend/public
 
 USER medusa
 
