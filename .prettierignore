@@ -1,0 +1,10 @@
+node_modules/
+.pnpm/
+.scannerwork/
+dist/
+.astro/
+.medusa/
+noop.js
+eslint-report.json
+coverage/
+pnpm-lock.yaml

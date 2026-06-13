@@ -39,20 +39,63 @@ const IMG = [
 ];
 
 // Build collections from actual product categories
-const categoryDescriptions: Record<string, { title: string; desc: string; status: string; statusColor: string }> = {
-  "Outerwear": { title: "OUTERWEAR // SHELL SYSTEMS", desc: "Engineered for high-stakes urban navigation and extreme environmental adaptability. Features modular shell structures, waterproof membranes, and wind-barrier technologies.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
-  "Mid-Layer": { title: "MID-LAYERS // THERMAL CORE", desc: "Active insulation and thermal regulation systems. From PrimaLoft hybrid construction to Polartec stretch fleece, calibrated for dynamic temperature management.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
-  "Bottoms": { title: "BOTTOMS // MOBILITY SYSTEM", desc: "Articulated tactical trousers and technical joggers. Ripstop construction with reinforced knee panels and modular pocket architecture.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
-  "Base Layer": { title: "BASE LAYERS // CORE SYSTEM", desc: "Next-to-skin performance fabrics. Merino blends and synthetic moisture-management systems for temperature regulation and odor control.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
-  "Accessories": { title: "ACCESSORIES // UTILITY MODULES", desc: "Tactical utility accessories from balaclavas to chest rigs. MOLLE-compatible, weather-sealed, and built from military-specification materials.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
-  "Vests": { title: "VESTS // CARRY SYSTEMS", desc: "Modular load-carry architecture. Tactical chest rigs and utility vests with multi-point MOLLE attachment systems and ergonomic harness geometry.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
-  "Footwear": { title: "FOOTWEAR // GROUND SYSTEM", desc: "Technical footwear engineered for all-terrain performance. GORE-TEX linings, Vibram outsoles, and reinforced toe protection.", status: "ACTIVE OPERATIONAL", statusColor: "var(--secondary)" },
+const categoryDescriptions: Record<
+  string,
+  { title: string; desc: string; status: string; statusColor: string }
+> = {
+  Outerwear: {
+    title: "OUTERWEAR // SHELL SYSTEMS",
+    desc: "Engineered for high-stakes urban navigation and extreme environmental adaptability. Features modular shell structures, waterproof membranes, and wind-barrier technologies.",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+  },
+  "Mid-Layer": {
+    title: "MID-LAYERS // THERMAL CORE",
+    desc: "Active insulation and thermal regulation systems. From PrimaLoft hybrid construction to Polartec stretch fleece, calibrated for dynamic temperature management.",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+  },
+  Bottoms: {
+    title: "BOTTOMS // MOBILITY SYSTEM",
+    desc: "Articulated tactical trousers and technical joggers. Ripstop construction with reinforced knee panels and modular pocket architecture.",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+  },
+  "Base Layer": {
+    title: "BASE LAYERS // CORE SYSTEM",
+    desc: "Next-to-skin performance fabrics. Merino blends and synthetic moisture-management systems for temperature regulation and odor control.",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+  },
+  Accessories: {
+    title: "ACCESSORIES // UTILITY MODULES",
+    desc: "Tactical utility accessories from balaclavas to chest rigs. MOLLE-compatible, weather-sealed, and built from military-specification materials.",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+  },
+  Vests: {
+    title: "VESTS // CARRY SYSTEMS",
+    desc: "Modular load-carry architecture. Tactical chest rigs and utility vests with multi-point MOLLE attachment systems and ergonomic harness geometry.",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+  },
+  Footwear: {
+    title: "FOOTWEAR // GROUND SYSTEM",
+    desc: "Technical footwear engineered for all-terrain performance. GORE-TEX linings, Vibram outsoles, and reinforced toe protection.",
+    status: "ACTIVE OPERATIONAL",
+    statusColor: "var(--secondary)",
+  },
 };
 
 const collections = Object.entries(categoryMap)
   .sort((a, b) => b[1] - a[1])
   .map(([cat, count], i) => {
-    const info = categoryDescriptions[cat] || { title: `${cat.toUpperCase()} // SYSTEM`, desc: `High-performance ${cat.toLowerCase()} collection.`, status: "ACTIVE", statusColor: "var(--secondary)" };
+    const info = categoryDescriptions[cat] || {
+      title: `${cat.toUpperCase()} // SYSTEM`,
+      desc: `High-performance ${cat.toLowerCase()} collection.`,
+      status: "ACTIVE",
+      statusColor: "var(--secondary)",
+    };
     return {
       id: cat.toLowerCase().replace(/\s+/g, "-"),
       title: info.title,
@@ -66,78 +109,106 @@ const collections = Object.entries(categoryMap)
   });
 ---
 
-<Layout title="AETHER | COLLECTIONS ARCHIVE" description="Browse seasonal systems, techwear collections, and legacy operational gear from Wannasingh.">
+<Layout
+  title="AETHER | COLLECTIONS ARCHIVE"
+  description="Browse seasonal systems, techwear collections, and legacy operational gear from Wannasingh."
+>
   <div class="py-12 px-6 md:px-16 max-w-[1440px] mx-auto reveal">
-    
     <!-- Header -->
-    <header class="relative mb-16 border-b border-[var(--outline-variant)]/30 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+    <header
+      class="relative mb-16 border-b border-[var(--outline-variant)]/30 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-6"
+    >
       <div>
-        <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">Active Systems / Collections</p>
-        <h1 class="font-display text-4xl text-[var(--primary)] uppercase leading-none mt-1">Collections</h1>
+        <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">
+          Active Systems / Collections
+        </p>
+        <h1 class="font-display text-4xl text-[var(--primary)] uppercase leading-none mt-1">
+          Collections
+        </h1>
       </div>
-      <p class="font-data-value text-xs text-[var(--on-surface-variant)] max-w-xs md:text-right leading-relaxed">
-        {totalProducts} PRODUCTS ACROSS {collections.length} PERFORMANCE CATEGORIES. DOCUMENTING THE EVOLUTION OF WANNASINGH SYSTEMS.
+      <p
+        class="font-data-value text-xs text-[var(--on-surface-variant)] max-w-xs md:text-right leading-relaxed"
+      >
+        {totalProducts} PRODUCTS ACROSS {collections.length} PERFORMANCE CATEGORIES. DOCUMENTING THE EVOLUTION
+        OF WANNASINGH SYSTEMS.
       </p>
     </header>
 
     <!-- Collections List -->
     <div class="space-y-16">
-      {collections.map((col, index) => {
-        const isEven = index % 2 === 0;
-        return (
-          <div class={`flex flex-col lg:flex-row gap-12 items-center ${isEven ? '' : 'lg:flex-row-reverse'}`}>
-            {/* Image Panel */}
-            <div class="w-full lg:w-1/2 aspect-[16/10] bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 overflow-hidden relative group">
-              <img 
-                class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700" 
-                alt={col.title}
-                src={col.image}
-              />
-              <div class="absolute top-4 left-4 bg-[var(--surface)]/90 backdrop-blur-md px-3 py-1.5 border border-[var(--outline-variant)]/20 font-data-label text-[10px] text-[var(--primary)] uppercase">
-                RELEASE: {col.release}
-              </div>
-            </div>
-            
-            {/* Description Panel */}
-            <div class="w-full lg:w-1/2 space-y-6">
-              <div class="flex items-center gap-3">
-                <span class="w-2 h-2 rounded-none animate-pulse" style={`background-color: ${col.statusColor}`}></span>
-                <span class="font-data-label text-xs tracking-wider" style={`color: ${col.statusColor}`}>{col.status}</span>
-              </div>
-              
-              <h2 class="font-headline-lg text-2xl font-bold uppercase text-[var(--primary)] tracking-tight">
-                {col.title}
-              </h2>
-              
-              <p class="font-body-md text-sm text-[var(--on-surface-variant)] leading-relaxed">
-                {col.desc}
-              </p>
-              
-              <div class="flex items-center gap-8 pt-4 border-t border-[var(--outline-variant)]/20">
-                <div>
-                  <span class="block font-data-label text-[9px] text-[var(--outline)] uppercase">SYSTEM SCALE</span>
-                  <span class="font-data-value text-sm text-[var(--primary)]">{col.itemsCount}</span>
-                </div>
-                <div>
-                  <span class="block font-data-label text-[9px] text-[var(--outline)] uppercase">OPERATIONAL DEPTH</span>
-                  <span class="font-data-value text-sm text-[var(--primary)]">100% SECURE</span>
+      {
+        collections.map((col, index) => {
+          const isEven = index % 2 === 0;
+          return (
+            <div
+              class={`flex flex-col lg:flex-row gap-12 items-center ${isEven ? "" : "lg:flex-row-reverse"}`}
+            >
+              {/* Image Panel */}
+              <div class="w-full lg:w-1/2 aspect-[16/10] bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/30 overflow-hidden relative group">
+                <img
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700"
+                  alt={col.title}
+                  src={col.image}
+                />
+                <div class="absolute top-4 left-4 bg-[var(--surface)]/90 backdrop-blur-md px-3 py-1.5 border border-[var(--outline-variant)]/20 font-data-label text-[10px] text-[var(--primary)] uppercase">
+                  RELEASE: {col.release}
                 </div>
               </div>
-              
-              <div class="pt-6">
-                <a 
-                  href="/shop"
-                  class="inline-flex items-center gap-3 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-widest hover:bg-[var(--secondary)] transition-all no-underline uppercase"
-                >
-                  EXPLORE UNITS
-                  <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                </a>
+
+              {/* Description Panel */}
+              <div class="w-full lg:w-1/2 space-y-6">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="w-2 h-2 rounded-none animate-pulse"
+                    style={`background-color: ${col.statusColor}`}
+                  />
+                  <span
+                    class="font-data-label text-xs tracking-wider"
+                    style={`color: ${col.statusColor}`}
+                  >
+                    {col.status}
+                  </span>
+                </div>
+
+                <h2 class="font-headline-lg text-2xl font-bold uppercase text-[var(--primary)] tracking-tight">
+                  {col.title}
+                </h2>
+
+                <p class="font-body-md text-sm text-[var(--on-surface-variant)] leading-relaxed">
+                  {col.desc}
+                </p>
+
+                <div class="flex items-center gap-8 pt-4 border-t border-[var(--outline-variant)]/20">
+                  <div>
+                    <span class="block font-data-label text-[9px] text-[var(--outline)] uppercase">
+                      SYSTEM SCALE
+                    </span>
+                    <span class="font-data-value text-sm text-[var(--primary)]">
+                      {col.itemsCount}
+                    </span>
+                  </div>
+                  <div>
+                    <span class="block font-data-label text-[9px] text-[var(--outline)] uppercase">
+                      OPERATIONAL DEPTH
+                    </span>
+                    <span class="font-data-value text-sm text-[var(--primary)]">100% SECURE</span>
+                  </div>
+                </div>
+
+                <div class="pt-6">
+                  <a
+                    href="/shop"
+                    class="inline-flex items-center gap-3 bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-widest hover:bg-[var(--secondary)] transition-all no-underline uppercase"
+                  >
+                    EXPLORE UNITS
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      }
     </div>
-    
   </div>
 </Layout>

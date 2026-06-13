@@ -3,18 +3,34 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="AETHER | TECHNICAL SPECS ARCHIVE" description="Browse raw technical datasheets, composition metrics, and laboratory stress test results for Wannasingh materials.">
+<Layout
+  title="AETHER | TECHNICAL SPECS ARCHIVE"
+  description="Browse raw technical datasheets, composition metrics, and laboratory stress test results for Wannasingh materials."
+>
   <div class="reveal">
     <!-- Hero Header -->
-    <header class="px-6 md:px-16 max-w-[1440px] mx-auto py-12 border-b border-[var(--outline-variant)]/20">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 border-l-2 border-[var(--primary)] pl-8">
+    <header
+      class="px-6 md:px-16 max-w-[1440px] mx-auto py-12 border-b border-[var(--outline-variant)]/20"
+    >
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-8 border-l-2 border-[var(--primary)] pl-8"
+      >
         <div>
-          <p class="font-data-label text-xs text-[var(--secondary)] uppercase mb-2">SYSTEM_STATUS: OPERATIONAL // DB_v4.2</p>
-          <h1 class="font-display text-4xl md:text-5xl uppercase leading-none text-[var(--primary)]">SPECS ARCHIVE</h1>
+          <p class="font-data-label text-xs text-[var(--secondary)] uppercase mb-2">
+            SYSTEM_STATUS: OPERATIONAL // DB_v4.2
+          </p>
+          <h1
+            class="font-display text-4xl md:text-5xl uppercase leading-none text-[var(--primary)]"
+          >
+            SPECS ARCHIVE
+          </h1>
         </div>
         <div class="text-right">
-          <p class="font-data-value text-xs text-[var(--on-surface-variant)] max-w-xs md:ml-auto leading-relaxed">
-            TECHNICAL DATASHEETS AND MATERIAL COMPOSITION METRICS FOR WANNASINGH PERFORMANCE SYSTEMS.
+          <p
+            class="font-data-value text-xs text-[var(--on-surface-variant)] max-w-xs md:ml-auto leading-relaxed"
+          >
+            TECHNICAL DATASHEETS AND MATERIAL COMPOSITION METRICS FOR WANNASINGH PERFORMANCE
+            SYSTEMS.
           </p>
         </div>
       </div>
@@ -22,38 +38,42 @@ import Layout from "../layouts/Layout.astro";
 
     <!-- Technical Filter Bar -->
     <section class="px-6 md:px-16 max-w-[1440px] mx-auto mt-12 mb-12">
-      <div class="flex flex-wrap items-center gap-4 border-y border-[var(--outline-variant)]/10 py-6">
-        <button 
+      <div
+        class="flex flex-wrap items-center gap-4 border-y border-[var(--outline-variant)]/10 py-6"
+      >
+        <button
           type="button"
           class="filter-btn px-4 py-2 border border-[var(--primary)] bg-[var(--primary)] text-[var(--on-primary)] font-data-label text-xs cursor-pointer select-none"
           data-filter="all"
         >
           ALL_MATERIALS
         </button>
-        <button 
+        <button
           type="button"
           class="filter-btn px-4 py-2 border border-[var(--outline-variant)]/30 text-[var(--on-surface-variant)] hover:border-[var(--primary)] hover:text-[var(--primary)] font-data-label text-xs cursor-pointer select-none"
           data-filter="hard_shell"
         >
           HARD_SHELL
         </button>
-        <button 
+        <button
           type="button"
           class="filter-btn px-4 py-2 border border-[var(--outline-variant)]/30 text-[var(--on-surface-variant)] hover:border-[var(--primary)] hover:text-[var(--primary)] font-data-label text-xs cursor-pointer select-none"
           data-filter="insulation"
         >
           INSULATION
         </button>
-        <button 
+        <button
           type="button"
           class="filter-btn px-4 py-2 border border-[var(--outline-variant)]/30 text-[var(--on-surface-variant)] hover:border-[var(--primary)] hover:text-[var(--primary)] font-data-label text-xs cursor-pointer select-none"
           data-filter="composites"
         >
           COMPOSITES
         </button>
-        
-        <div class="ml-auto flex items-center gap-2 font-data-label text-xs text-[var(--on-surface-variant)]">
-          <span class="material-symbols-outlined" style="font-size: 16px;">filter_list</span> 
+
+        <div
+          class="ml-auto flex items-center gap-2 font-data-label text-xs text-[var(--on-surface-variant)]"
+        >
+          <span class="material-symbols-outlined" style="font-size: 16px;">filter_list</span>
           SORT: CHRONOLOGICAL
         </div>
       </div>
@@ -62,19 +82,22 @@ import Layout from "../layouts/Layout.astro";
     <!-- Material Specifications Grid -->
     <section class="px-6 md:px-16 max-w-[1440px] mx-auto mb-20">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8" id="specs-grid">
-        
         <!-- Entry 01: GORE-TEX PRO -->
-        <article 
+        <article
           class="spec-card md:col-span-8 bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 flex flex-col gap-8 relative overflow-hidden transition-all duration-300"
           data-category="hard_shell"
         >
-          <div class="absolute top-0 right-0 p-4 font-data-value text-[10px] text-[var(--on-surface-variant)]/40">ID: GT-3L-PRO</div>
+          <div
+            class="absolute top-0 right-0 p-4 font-data-value text-[10px] text-[var(--on-surface-variant)]/40"
+          >
+            ID: GT-3L-PRO
+          </div>
           <div class="flex flex-col md:flex-row gap-12">
             <div class="w-full md:w-1/2">
               <div class="aspect-square bg-[var(--surface-dim)] overflow-hidden relative">
-                <img 
-                  class="w-full h-full object-cover grayscale contrast-125" 
-                  alt="Microscopic fiber mesh structure" 
+                <img
+                  class="w-full h-full object-cover grayscale contrast-125"
+                  alt="Microscopic fiber mesh structure"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzx4qXkeFbWPNP3e_sQlaq8iX8zlzzutndGTv5bV04NzPFpGQqG8DE1CWfBnetPIhwCbU8mByOjk1ce5s1DtGYowSEVuy8g73fN8SQ_UZFMfts8P0mFjMvuPgxOtHgXU7_gYy3-EkWL1H_F1trdBhjl1xQh-09sHQHT67noV9vkyOMJGa_Cvft3BbXlxYWwbhkVAP1DZ4-oR8lC3S3SZfWQ2Z7-NI5502hDq5BVTeGISUN6_cKHHthsfvN2kFxmGrIo5v1SfhDR-y0"
                 />
                 <div class="absolute inset-0 border border-white/20"></div>
@@ -82,61 +105,102 @@ import Layout from "../layouts/Layout.astro";
             </div>
             <div class="w-full md:w-1/2 flex flex-col justify-between">
               <div>
-                <h2 class="font-headline-lg text-2xl mb-4 text-[var(--primary)] uppercase">GORE-TEX® PRO</h2>
-                <p class="font-body-md text-sm text-[var(--on-surface-variant)] leading-relaxed mb-6">
-                  Optimized for extreme ruggedness and extended use in the harshest conditions. Engineered with added durability to withstand abrasion and frequent washing.
+                <h2 class="font-headline-lg text-2xl mb-4 text-[var(--primary)] uppercase">
+                  GORE-TEX® PRO
+                </h2>
+                <p
+                  class="font-body-md text-sm text-[var(--on-surface-variant)] leading-relaxed mb-6"
+                >
+                  Optimized for extreme ruggedness and extended use in the harshest conditions.
+                  Engineered with added durability to withstand abrasion and frequent washing.
                 </p>
               </div>
               <div class="space-y-4">
                 <div class="flex justify-between border-b border-[var(--outline-variant)]/10 pb-2">
-                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">BREATHABILITY</span>
-                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold">RET &lt; 6 [m²Pa/W]</span>
+                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]"
+                    >BREATHABILITY</span
+                  >
+                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold"
+                    >RET &lt; 6 [m²Pa/W]</span
+                  >
                 </div>
                 <div class="flex justify-between border-b border-[var(--outline-variant)]/10 pb-2">
-                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">WATERPROOFNESS</span>
-                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold">28,000 MM</span>
+                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]"
+                    >WATERPROOFNESS</span
+                  >
+                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold"
+                    >28,000 MM</span
+                  >
                 </div>
                 <div class="flex justify-between border-b border-[var(--outline-variant)]/10 pb-2">
-                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">WINDPROOFNESS</span>
-                  <span class="font-data-value text-xs text-[var(--secondary)] font-semibold">100% BLOCKED</span>
+                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]"
+                    >WINDPROOFNESS</span
+                  >
+                  <span class="font-data-value text-xs text-[var(--secondary)] font-semibold"
+                    >100% BLOCKED</span
+                  >
                 </div>
               </div>
             </div>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
-            <div class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]">
-              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">Impact_Resist</p>
+            <div
+              class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]"
+            >
+              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">
+                Impact_Resist
+              </p>
               <p class="font-data-value text-lg font-bold text-[var(--primary)]">88.4%</p>
             </div>
-            <div class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]">
-              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">Thermal_Ret</p>
+            <div
+              class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]"
+            >
+              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">
+                Thermal_Ret
+              </p>
               <p class="font-data-value text-lg font-bold text-[var(--primary)]">14.2k</p>
             </div>
-            <div class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]">
-              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">Flex_Rating</p>
+            <div
+              class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]"
+            >
+              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">
+                Flex_Rating
+              </p>
               <p class="font-data-value text-lg font-bold text-[var(--primary)]">Grade_A</p>
             </div>
-            <div class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]">
-              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">UV_Exposure</p>
+            <div
+              class="p-4 border border-[var(--outline-variant)]/30 bg-[var(--surface-container-low)]"
+            >
+              <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase">
+                UV_Exposure
+              </p>
               <p class="font-data-value text-lg font-bold text-[var(--primary)]">350hr+</p>
             </div>
           </div>
         </article>
 
         <!-- Entry 02: DYNEEMA COMPOSITE -->
-        <article 
+        <article
           class="spec-card md:col-span-4 bg-[var(--primary)] text-[var(--on-primary)] p-8 flex flex-col justify-between border border-[var(--primary)] relative overflow-hidden transition-all duration-300"
           data-category="composites"
         >
           <div class="relative z-10">
-            <p class="font-data-label text-xs text-[var(--secondary-container)] mb-2 tracking-widest">ID: DY-CT-2.5</p>
-            <h2 class="font-headline-lg text-2xl text-white mb-6 uppercase leading-tight">DYNEEMA®<br />COMPOSITE</h2>
-            
+            <p
+              class="font-data-label text-xs text-[var(--secondary-container)] mb-2 tracking-widest"
+            >
+              ID: DY-CT-2.5
+            </p>
+            <h2 class="font-headline-lg text-2xl text-white mb-6 uppercase leading-tight">
+              DYNEEMA®<br />COMPOSITE
+            </h2>
+
             <div class="mb-12 space-y-2">
               <div class="w-full h-1 bg-white/10"></div>
-              <p class="font-data-label text-[9px] text-white/50 tracking-wider">REAL-TIME MOLECULAR STRESS SIMULATION ACTIVE</p>
+              <p class="font-data-label text-[9px] text-white/50 tracking-wider">
+                REAL-TIME MOLECULAR STRESS SIMULATION ACTIVE
+              </p>
             </div>
-            
+
             <div class="space-y-6">
               <div>
                 <p class="font-data-label text-xs uppercase text-white/70">Tensile Strength</p>
@@ -152,7 +216,7 @@ import Layout from "../layouts/Layout.astro";
               </div>
             </div>
           </div>
-          <button 
+          <button
             type="button"
             id="view-full-specs-btn"
             class="mt-8 border border-white/30 text-white hover:border-white hover:bg-white hover:text-black px-6 py-3 font-data-label text-xs transition-colors uppercase tracking-widest text-center cursor-pointer"
@@ -165,26 +229,34 @@ import Layout from "../layouts/Layout.astro";
         </article>
 
         <!-- Entry 03: CORDURA BALLISTIC -->
-        <article 
+        <article
           class="spec-card md:col-span-6 bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 flex flex-col justify-between transition-all duration-300"
           data-category="hard_shell"
         >
           <div>
             <div class="flex items-center justify-between mb-8">
-              <h2 class="font-headline-md text-xl text-[var(--primary)] uppercase font-bold">CORDURA® BALLISTIC</h2>
-              <span class="font-data-value text-[10px] bg-[var(--surface-container)] text-[var(--primary)] px-2 py-1 uppercase tracking-wider font-semibold">HEAVY_DUTY</span>
+              <h2 class="font-headline-md text-xl text-[var(--primary)] uppercase font-bold">
+                CORDURA® BALLISTIC
+              </h2>
+              <span
+                class="font-data-value text-[10px] bg-[var(--surface-container)] text-[var(--primary)] px-2 py-1 uppercase tracking-wider font-semibold"
+                >HEAVY_DUTY</span
+              >
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div class="aspect-video bg-[var(--surface-dim)] overflow-hidden">
-                <img 
-                  class="w-full h-full object-cover grayscale brightness-90" 
-                  alt="Cordura ballistic fabric close up" 
+                <img
+                  class="w-full h-full object-cover grayscale brightness-90"
+                  alt="Cordura ballistic fabric close up"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiCS0lrorHJdswtKyt4h9zoN6D2IZ042up-9PCVnGIMzsTXV9v4cYZtahSRrzmpWvN5H9bUaCI5PSwrZkmeEPlqNQODnSfcVEOpbmILA6H0OocdgC1WgEl6yh6ST39YsHdJt7srxjD0pOzPx2sfAnS1PYqyeHVkhztpUyrutXEMP9JhTkQLMRjHr0ULr7jTqNeeE4WMD2DDl-Ti_VuMHAAp7p5k6AtbMkv3ccLkPgN6P2fyc5b4G4bgLmNmVVOt2tHje0uiSw4fcp8"
                 />
               </div>
               <div class="flex flex-col justify-center">
-                <p class="font-data-value text-xs text-[var(--on-surface-variant)] leading-relaxed mb-4">
-                  Originally designed for military body armor, this dense, rugged weave offers maximum resistance to punctures, tears, and abrasions.
+                <p
+                  class="font-data-value text-xs text-[var(--on-surface-variant)] leading-relaxed mb-4"
+                >
+                  Originally designed for military body armor, this dense, rugged weave offers
+                  maximum resistance to punctures, tears, and abrasions.
                 </p>
                 <ul class="font-data-label text-xs space-y-2 text-[var(--primary)]">
                   <li class="flex items-center gap-2">
@@ -203,22 +275,35 @@ import Layout from "../layouts/Layout.astro";
         </article>
 
         <!-- Entry 04: PRIMALOFT GOLD INSULATION -->
-        <article 
+        <article
           class="spec-card md:col-span-6 bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 p-8 flex flex-col justify-between transition-all duration-300"
           data-category="insulation"
         >
           <div>
             <div class="flex items-center justify-between mb-8">
-              <h2 class="font-headline-md text-xl text-[var(--primary)] uppercase font-bold">PRIMALOFT® GOLD ACTIVE</h2>
-              <span class="font-data-value text-[10px] bg-[var(--surface-container)] text-[var(--primary)] px-2 py-1 uppercase tracking-wider font-semibold">THERMAL</span>
+              <h2 class="font-headline-md text-xl text-[var(--primary)] uppercase font-bold">
+                PRIMALOFT® GOLD ACTIVE
+              </h2>
+              <span
+                class="font-data-value text-[10px] bg-[var(--surface-container)] text-[var(--primary)] px-2 py-1 uppercase tracking-wider font-semibold"
+                >THERMAL</span
+              >
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div class="aspect-video bg-[var(--surface-dim)] overflow-hidden flex items-center justify-center border border-[var(--outline-variant)]/10">
-                <span class="material-symbols-outlined text-[var(--secondary)] animate-pulse" style="font-size: 48px;">thermostat</span>
+              <div
+                class="aspect-video bg-[var(--surface-dim)] overflow-hidden flex items-center justify-center border border-[var(--outline-variant)]/10"
+              >
+                <span
+                  class="material-symbols-outlined text-[var(--secondary)] animate-pulse"
+                  style="font-size: 48px;">thermostat</span
+                >
               </div>
               <div class="flex flex-col justify-center">
-                <p class="font-data-value text-xs text-[var(--on-surface-variant)] leading-relaxed mb-4">
-                  High-performance synthetic insulation offering superior warmth-to-weight ratio, hydrophobic performance, and 4-way stretch mapping for kinetic utility.
+                <p
+                  class="font-data-value text-xs text-[var(--on-surface-variant)] leading-relaxed mb-4"
+                >
+                  High-performance synthetic insulation offering superior warmth-to-weight ratio,
+                  hydrophobic performance, and 4-way stretch mapping for kinetic utility.
                 </p>
                 <ul class="font-data-label text-xs space-y-2 text-[var(--primary)]">
                   <li class="flex items-center gap-2">
@@ -237,15 +322,23 @@ import Layout from "../layouts/Layout.astro";
         </article>
 
         <!-- Laboratory Results / Bento Chart -->
-        <article class="md:col-span-12 bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/30 p-8 overflow-hidden">
-          <h2 class="font-data-label text-xs uppercase text-[var(--primary)] mb-6 flex items-center gap-2 tracking-wider">
+        <article
+          class="md:col-span-12 bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/30 p-8 overflow-hidden"
+        >
+          <h2
+            class="font-data-label text-xs uppercase text-[var(--primary)] mb-6 flex items-center gap-2 tracking-wider"
+          >
             <span class="material-symbols-outlined" style="font-size: 16px;">biotech</span> Laboratory_Test_Results
           </h2>
-          
+
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div class="space-y-6">
               <div class="grid grid-cols-12 gap-4 items-center">
-                <div class="col-span-3 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Thermal_Map</div>
+                <div
+                  class="col-span-3 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]"
+                >
+                  Thermal_Map
+                </div>
                 <div class="col-span-9 h-10 flex gap-1">
                   <div class="flex-1 bg-black"></div>
                   <div class="flex-1 bg-black/80"></div>
@@ -256,31 +349,42 @@ import Layout from "../layouts/Layout.astro";
                 </div>
               </div>
               <div class="grid grid-cols-12 gap-4 items-center">
-                <div class="col-span-3 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Stress_Load</div>
+                <div
+                  class="col-span-3 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]"
+                >
+                  Stress_Load
+                </div>
                 <div class="col-span-9 h-2 bg-[var(--outline-variant)]/30 relative">
                   <div class="absolute top-0 left-0 h-full bg-[var(--primary)] w-3/4"></div>
                   <div class="absolute -top-1 left-3/4 w-1.5 h-4 bg-[var(--error)]"></div>
                 </div>
               </div>
             </div>
-            
-            <div class="grid grid-cols-3 gap-4 border-t lg:border-t-0 lg:border-l border-[var(--outline-variant)]/20 pt-6 lg:pt-0 lg:pl-12">
+
+            <div
+              class="grid grid-cols-3 gap-4 border-t lg:border-t-0 lg:border-l border-[var(--outline-variant)]/20 pt-6 lg:pt-0 lg:pl-12"
+            >
               <div>
-                <p class="font-data-value text-[10px] text-[var(--on-surface-variant)] uppercase">TEST_ID</p>
+                <p class="font-data-value text-[10px] text-[var(--on-surface-variant)] uppercase">
+                  TEST_ID
+                </p>
                 <p class="font-headline-md text-xl text-[var(--primary)] font-bold">#0932</p>
               </div>
               <div>
-                <p class="font-data-value text-[10px] text-[var(--on-surface-variant)] uppercase">FAILURE_PT</p>
+                <p class="font-data-value text-[10px] text-[var(--on-surface-variant)] uppercase">
+                  FAILURE_PT
+                </p>
                 <p class="font-headline-md text-xl text-[var(--primary)] font-bold">1.28kN</p>
               </div>
               <div>
-                <p class="font-data-value text-[10px] text-[var(--on-surface-variant)] uppercase">STATUS</p>
+                <p class="font-data-value text-[10px] text-[var(--on-surface-variant)] uppercase">
+                  STATUS
+                </p>
                 <p class="font-headline-md text-xl text-[var(--secondary)] font-bold">PASS</p>
               </div>
             </div>
           </div>
         </article>
-
       </div>
     </section>
 
@@ -289,22 +393,25 @@ import Layout from "../layouts/Layout.astro";
       <div class="bg-[var(--primary)] text-[var(--on-primary)] p-12 relative overflow-hidden">
         <!-- Subtle background grid pattern -->
         <div class="absolute inset-0 tech-grid pointer-events-none opacity-10"></div>
-        
+
         <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div class="space-y-6">
-            <h2 class="font-display text-3xl md:text-4xl text-white leading-tight uppercase">THE FABRIC OF PERFORMANCE.</h2>
+            <h2 class="font-display text-3xl md:text-4xl text-white leading-tight uppercase">
+              THE FABRIC OF PERFORMANCE.
+            </h2>
             <p class="font-body-lg text-sm text-white/70 max-w-md leading-relaxed">
-              Access our complete technical database via API for manufacturing and integration specifications. Every fiber is documented, every weave is tested.
+              Access our complete technical database via API for manufacturing and integration
+              specifications. Every fiber is documented, every weave is tested.
             </p>
             <div class="flex flex-wrap gap-4 pt-2">
-              <button 
+              <button
                 type="button"
                 id="request-api-btn"
                 class="bg-[var(--secondary)] text-white px-8 py-4 font-data-label text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-all cursor-pointer"
               >
                 REQUEST_API_ACCESS
               </button>
-              <button 
+              <button
                 type="button"
                 id="download-pdf-btn"
                 class="border border-white text-white px-8 py-4 font-data-label text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-all cursor-pointer"
@@ -313,17 +420,23 @@ import Layout from "../layouts/Layout.astro";
               </button>
             </div>
           </div>
-          
+
           <div class="hidden md:block">
-            <div class="aspect-video border border-white/20 relative flex flex-col justify-between p-6 bg-white/5 backdrop-blur-sm">
-              <div class="font-data-value text-[10px] text-white/50">CROSS_SECTION_RENDER_V2.0 // DEEP CARBON</div>
+            <div
+              class="aspect-video border border-white/20 relative flex flex-col justify-between p-6 bg-white/5 backdrop-blur-sm"
+            >
+              <div class="font-data-value text-[10px] text-white/50">
+                CROSS_SECTION_RENDER_V2.0 // DEEP CARBON
+              </div>
               <div class="flex justify-between items-end">
                 <div class="font-data-label text-[10px] text-white/60 leading-relaxed">
                   X: 12.049<br />
                   Y: 44.201<br />
                   Z: 0.003
                 </div>
-                <div class="font-data-label text-[var(--secondary-container)] text-lg font-bold animate-pulse tracking-widest">
+                <div
+                  class="font-data-label text-[var(--secondary-container)] text-lg font-bold animate-pulse tracking-widest"
+                >
                   SYNCING...
                 </div>
               </div>
@@ -332,14 +445,14 @@ import Layout from "../layouts/Layout.astro";
         </div>
       </div>
     </section>
-
   </div>
 
   <style>
     /* Technical Grid background pattern */
     .tech-grid {
-      background-image: linear-gradient(var(--outline) 1px, transparent 1px), 
-                        linear-gradient(90deg, var(--outline) 1px, transparent 1px);
+      background-image:
+        linear-gradient(var(--outline) 1px, transparent 1px),
+        linear-gradient(90deg, var(--outline) 1px, transparent 1px);
       background-size: 40px 40px;
       background-position: center;
     }
@@ -347,37 +460,40 @@ import Layout from "../layouts/Layout.astro";
 
   <script>
     // Filter tags logic
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.spec-card');
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".spec-card");
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
         // Active buttons state
-        filterBtns.forEach(b => {
-          b.classList.remove('bg-[var(--primary)]', 'text-[var(--on-primary)]');
-          b.classList.add('border-[var(--outline-variant)]/30', 'text-[var(--on-surface-variant)]');
+        filterBtns.forEach((b) => {
+          b.classList.remove("bg-[var(--primary)]", "text-[var(--on-primary)]");
+          b.classList.add("border-[var(--outline-variant)]/30", "text-[var(--on-surface-variant)]");
         });
-        
-        btn.classList.add('bg-[var(--primary)]', 'text-[var(--on-primary)]');
-        btn.classList.remove('border-[var(--outline-variant)]/30', 'text-[var(--on-surface-variant)]');
 
-        const filter = btn.getAttribute('data-filter');
+        btn.classList.add("bg-[var(--primary)]", "text-[var(--on-primary)]");
+        btn.classList.remove(
+          "border-[var(--outline-variant)]/30",
+          "text-[var(--on-surface-variant)]",
+        );
 
-        cards.forEach(card => {
-          const category = card.getAttribute('data-category');
-          if (filter === 'all' || category === filter) {
-            (card as HTMLElement).style.display = '';
+        const filter = btn.getAttribute("data-filter");
+
+        cards.forEach((card) => {
+          const category = card.getAttribute("data-category");
+          if (filter === "all" || category === filter) {
+            (card as HTMLElement).style.display = "";
             // animate entry
             setTimeout(() => {
-              (card as HTMLElement).style.opacity = '1';
-              (card as HTMLElement).style.transform = 'scale(1)';
+              (card as HTMLElement).style.opacity = "1";
+              (card as HTMLElement).style.transform = "scale(1)";
             }, 10);
           } else {
-            (card as HTMLElement).style.opacity = '0';
-            (card as HTMLElement).style.transform = 'scale(0.95)';
+            (card as HTMLElement).style.opacity = "0";
+            (card as HTMLElement).style.transform = "scale(0.95)";
             // Hide after transition
             setTimeout(() => {
-              (card as HTMLElement).style.display = 'none';
+              (card as HTMLElement).style.display = "none";
             }, 300);
           }
         });
@@ -385,36 +501,43 @@ import Layout from "../layouts/Layout.astro";
     });
 
     // Hover interactive translations
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        (card as HTMLElement).style.transform = 'translateY(-6px)';
-        (card as HTMLElement).style.boxShadow = '0 12px 24px -10px rgba(0, 0, 0, 0.05)';
+    cards.forEach((card) => {
+      card.addEventListener("mouseenter", () => {
+        (card as HTMLElement).style.transform = "translateY(-6px)";
+        (card as HTMLElement).style.boxShadow = "0 12px 24px -10px rgba(0, 0, 0, 0.05)";
       });
-      card.addEventListener('mouseleave', () => {
-        (card as HTMLElement).style.transform = 'translateY(0)';
-        (card as HTMLElement).style.boxShadow = '';
+      card.addEventListener("mouseleave", () => {
+        (card as HTMLElement).style.transform = "translateY(0)";
+        (card as HTMLElement).style.boxShadow = "";
       });
     });
     // Button interactions
-    document.getElementById('view-full-specs-btn')?.addEventListener('click', () => {
-      window.location.href = '/shop';
+    document.getElementById("view-full-specs-btn")?.addEventListener("click", () => {
+      window.location.href = "/shop";
     });
 
-    document.getElementById('request-api-btn')?.addEventListener('click', (e) => {
+    document.getElementById("request-api-btn")?.addEventListener("click", (e) => {
       const btn = e.target as HTMLButtonElement;
       const orig = btn.textContent;
-      btn.textContent = 'REQUEST SUBMITTED ✓';
-      btn.style.background = 'var(--secondary)';
-      btn.style.color = 'white';
+      btn.textContent = "REQUEST SUBMITTED ✓";
+      btn.style.background = "var(--secondary)";
+      btn.style.color = "white";
       btn.disabled = true;
-      setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; }, 3000);
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.disabled = false;
+        btn.style.background = "";
+        btn.style.color = "";
+      }, 3000);
     });
 
-    document.getElementById('download-pdf-btn')?.addEventListener('click', (e) => {
+    document.getElementById("download-pdf-btn")?.addEventListener("click", (e) => {
       const btn = e.target as HTMLButtonElement;
       const orig = btn.textContent;
-      btn.textContent = 'COMING SOON — Q3 2025';
-      setTimeout(() => { btn.textContent = orig; }, 3000);
+      btn.textContent = "COMING SOON — Q3 2025";
+      setTimeout(() => {
+        btn.textContent = orig;
+      }, 3000);
     });
   </script>
 </Layout>

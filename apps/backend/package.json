@@ -8,7 +8,8 @@
     "start": "medusa start",
     "seed": "medusa exec ./src/scripts/seed.ts",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --max-warnings 0"
+    "lint": "eslint src --max-warnings 0",
+    "test": "vitest run --coverage"
   },
   "dependencies": {
     "@medusajs/admin-sdk": "^2.15.5",
@@ -29,8 +30,10 @@
     "@types/node": "^20.17.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@vitest/coverage-v8": "^2.1.8",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.8"
   },
   "engines": {
     "node": ">=20.0.0"

@@ -116,7 +116,6 @@ let similarProducts: SimilarProduct[] = [];
 try {
   const products = (await getCachedProducts()) as MedusaProduct[];
   if (products.length > 0) {
-
     const matchedProduct = products.find((p) => p.handle === handle);
 
     if (matchedProduct) {
@@ -132,9 +131,10 @@ try {
       }
 
       // Extract sizes from options or variants
-      const sizes: string[] = p.options?.find((o) => o.title === "Size")?.values?.map((v) => typeof v === 'string' ? v : v.value) 
-        || p.variants?.map((v) => v.title ?? "") 
-        || ["S", "M", "L", "XL"];
+      const sizes: string[] = p.options
+        ?.find((o) => o.title === "Size")
+        ?.values?.map((v) => (typeof v === "string" ? v : v.value)) ||
+        p.variants?.map((v) => v.title ?? "") || ["S", "M", "L", "XL"];
 
       // Extract SKU prefix from first variant
       const sku = firstVariant?.sku?.replace(/-[SMLX]+$/, "") ?? "";
@@ -208,267 +208,405 @@ const siteDescription = currentProduct.subtitle;
 
 <Layout title={siteTitle} description={siteDescription}>
   <div class="reveal">
-    
     <!-- Hero Gallery Section -->
-    <section class="max-w-container-max mx-auto px-margin-desktop py-12 grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-      
+    <section
+      class="max-w-container-max mx-auto px-margin-desktop py-12 grid grid-cols-1 lg:grid-cols-12 gap-gutter"
+    >
       <!-- Left Column: Image Gallery -->
       <div class="lg:col-span-8 flex flex-col gap-6">
         <div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
-          <img 
-            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" 
-            alt={currentProduct.name} 
-            src={currentProduct.images.main} 
+          <img
+            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+            alt={currentProduct.name}
+            src={currentProduct.images.main}
           />
         </div>
         <div class="grid grid-cols-2 gap-6">
           <div class="aspect-square bg-surface-container overflow-hidden">
-            <img 
-              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" 
+            <img
+              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               alt={`${currentProduct.name} detail view 1`}
-              src={currentProduct.images.detail1} 
+              src={currentProduct.images.detail1}
             />
           </div>
           <div class="aspect-square bg-surface-container overflow-hidden">
-            <img 
-              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" 
+            <img
+              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               alt={`${currentProduct.name} detail view 2`}
-              src={currentProduct.images.detail2} 
+              src={currentProduct.images.detail2}
             />
           </div>
         </div>
       </div>
-      
+
       <!-- Right Column: Product Details & Add to Cart -->
       <div class="lg:col-span-4 lg:sticky lg:top-32 h-fit space-y-10">
         <div class="space-y-2">
-          <span class="font-data-label text-data-label text-secondary tracking-widest uppercase block">{currentProduct.series}</span>
-          <h1 class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)]">{currentProduct.name}</h1>
-          <p class="font-data-value text-body-md text-on-surface-variant max-w-sm leading-relaxed">{currentProduct.subtitle}</p>
+          <span
+            class="font-data-label text-data-label text-secondary tracking-widest uppercase block"
+            >{currentProduct.series}</span
+          >
+          <h1
+            class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)]"
+          >
+            {currentProduct.name}
+          </h1>
+          <p class="font-data-value text-body-md text-on-surface-variant max-w-sm leading-relaxed">
+            {currentProduct.subtitle}
+          </p>
         </div>
-        <div class="font-data-label text-headline-md font-bold text-primary">{currentProduct.price}</div>
-        
+        <div class="font-data-label text-headline-md font-bold text-primary">
+          {currentProduct.price}
+        </div>
+
         <!-- Specs Grid -->
-        <div class="border-y border-outline-variant py-6 space-y-4 transition-all duration-700 opacity-100 translate-y-0">
-          {currentProduct.quickSpecs.map((spec) => (
-            <div class="flex justify-between items-center">
-              <span class="font-data-label text-data-label uppercase text-on-surface-variant">{spec.label}</span>
-              <span class="font-data-value text-data-label uppercase text-[var(--primary)] font-semibold">{spec.value}</span>
-            </div>
-          ))}
+        <div
+          class="border-y border-outline-variant py-6 space-y-4 transition-all duration-700 opacity-100 translate-y-0"
+        >
+          {
+            currentProduct.quickSpecs.map((spec) => (
+              <div class="flex justify-between items-center">
+                <span class="font-data-label text-data-label uppercase text-on-surface-variant">
+                  {spec.label}
+                </span>
+                <span class="font-data-value text-data-label uppercase text-[var(--primary)] font-semibold">
+                  {spec.value}
+                </span>
+              </div>
+            ))
+          }
         </div>
-        
+
         <!-- Size Selector -->
         <div class="space-y-4 transition-all duration-700 opacity-100 translate-y-0">
           <div class="flex justify-between font-data-label text-data-label">
             <span class="uppercase">Select Size</span>
-            <button type="button" id="size-guide-btn" class="underline hover:text-secondary transition-colors cursor-pointer text-xs select-none">Size Guide</button>
+            <button
+              type="button"
+              id="size-guide-btn"
+              class="underline hover:text-secondary transition-colors cursor-pointer text-xs select-none"
+              >Size Guide</button
+            >
           </div>
           <div class="grid grid-cols-4 gap-2" id="size-grid">
-            {currentProduct.sizes.map((size) => (
-              <button 
-                type="button" 
-                class={`size-btn border py-3 font-data-label text-data-label hover:border-primary transition-all cursor-pointer select-none
+            {
+              currentProduct.sizes.map((size) => (
+                <button
+                  type="button"
+                  class={`size-btn border py-3 font-data-label text-data-label hover:border-primary transition-all cursor-pointer select-none
                   ${size === "M" ? "border-primary bg-primary text-on-primary font-bold" : "border-outline-variant text-[var(--primary)]"}`}
-                data-size={size}
-              >
-                {size}
-              </button>
-            ))}
+                  data-size={size}
+                >
+                  {size}
+                </button>
+              ))
+            }
           </div>
         </div>
-        
+
         <!-- Add to Cart Button -->
-        <button 
-          class="group relative w-full bg-primary text-on-primary py-6 px-8 flex items-center justify-between overflow-hidden transition-all duration-500 hover:bg-secondary cursor-pointer" 
+        <button
+          class="group relative w-full bg-primary text-on-primary py-6 px-8 flex items-center justify-between overflow-hidden transition-all duration-500 hover:bg-secondary cursor-pointer"
           id="add-to-cart"
           data-product-id={handle}
           data-product-name={currentProduct.name}
           data-product-price={currentProduct.price}
           data-product-image={currentProduct.images.main}
         >
-          <span class="font-data-label text-data-label uppercase tracking-widest relative z-10">Deploy to Cart</span>
-          <span class="material-symbols-outlined relative z-10 transition-transform duration-500 group-hover:translate-x-2">arrow_forward</span>
-          <div class="absolute top-0 -left-full w-1/2 h-full bg-white/10 skew-x-12 transition-all duration-1000" id="btn-shine"></div>
+          <span class="font-data-label text-data-label uppercase tracking-widest relative z-10"
+            >Deploy to Cart</span
+          >
+          <span
+            class="material-symbols-outlined relative z-10 transition-transform duration-500 group-hover:translate-x-2"
+            >arrow_forward</span
+          >
+          <div
+            class="absolute top-0 -left-full w-1/2 h-full bg-white/10 skew-x-12 transition-all duration-1000"
+            id="btn-shine"
+          >
+          </div>
         </button>
-
       </div>
-
     </section>
 
     <!-- Technical Deep-Dive -->
     <section class="bg-primary text-on-primary py-32 mt-20 relative overflow-hidden">
-      <div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-        
+      <div
+        class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-20 items-center"
+      >
         <div class="space-y-12 relative z-10">
-          <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg tracking-tighter uppercase text-white">ENGINEERED<br>FOR ANOMALY</h2>
+          <h2
+            class="font-display-lg text-display-lg-mobile md:text-display-lg tracking-tighter uppercase text-white"
+          >
+            ENGINEERED<br />FOR ANOMALY
+          </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {currentProduct.features.map((feat) => (
-              <div class="space-y-4">
-                <span class="material-symbols-outlined text-secondary text-4xl">{feat.icon}</span>
-                <h3 class="font-headline-md text-headline-md text-white uppercase">{feat.title}</h3>
-                <p class="font-body-md text-on-primary-container text-sm text-white/70 leading-relaxed">{feat.desc}</p>
-              </div>
-            ))}
+            {
+              currentProduct.features.map((feat) => (
+                <div class="space-y-4">
+                  <span class="material-symbols-outlined text-secondary text-4xl">{feat.icon}</span>
+                  <h3 class="font-headline-md text-headline-md text-white uppercase">
+                    {feat.title}
+                  </h3>
+                  <p class="font-body-md text-on-primary-container text-sm text-white/70 leading-relaxed">
+                    {feat.desc}
+                  </p>
+                </div>
+              ))
+            }
           </div>
         </div>
 
         <div class="relative group">
-          <div class="absolute -inset-10 bg-secondary/20 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-          <img 
-            class="w-full aspect-[4/5] object-cover grayscale brightness-75 relative z-10" 
+          <div
+            class="absolute -inset-10 bg-secondary/20 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"
+          >
+          </div>
+          <img
+            class="w-full aspect-[4/5] object-cover grayscale brightness-75 relative z-10"
             alt={`${currentProduct.name} cross section view`}
-            src={currentProduct.images.darkSection} 
+            src={currentProduct.images.darkSection}
           />
         </div>
-
       </div>
     </section>
 
     <!-- Material Composition Table -->
-    <section class="max-w-container-max mx-auto px-margin-desktop py-32 grid grid-cols-1 md:grid-cols-2 gap-gutter border-b border-outline-variant">
+    <section
+      class="max-w-container-max mx-auto px-margin-desktop py-32 grid grid-cols-1 md:grid-cols-2 gap-gutter border-b border-outline-variant"
+    >
       <div class="space-y-6">
-        <h2 class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)]">MATERIAL ARCHITECTURE</h2>
-        <p class="font-body-md text-on-surface-variant max-w-md">{currentProduct.materialsDescription}</p>
+        <h2
+          class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)]"
+        >
+          MATERIAL ARCHITECTURE
+        </h2>
+        <p class="font-body-md text-on-surface-variant max-w-md">
+          {currentProduct.materialsDescription}
+        </p>
       </div>
       <div class="space-y-4">
-        {currentProduct.materials.map((mat) => (
-          <div class="flex justify-between items-baseline border-b border-outline-variant/30 pb-4">
-            <span class="font-data-label text-data-label uppercase text-[var(--on-surface-variant)]">{mat.label}</span>
-            <span class="font-data-value text-data-label text-[var(--primary)] font-semibold">{mat.value}</span>
-          </div>
-        ))}
+        {
+          currentProduct.materials.map((mat) => (
+            <div class="flex justify-between items-baseline border-b border-outline-variant/30 pb-4">
+              <span class="font-data-label text-data-label uppercase text-[var(--on-surface-variant)]">
+                {mat.label}
+              </span>
+              <span class="font-data-value text-data-label text-[var(--primary)] font-semibold">
+                {mat.value}
+              </span>
+            </div>
+          ))
+        }
       </div>
     </section>
 
     <!-- Recommended Products Section -->
-    {similarProducts.length > 0 && (
-      <section class="max-w-container-max mx-auto px-margin-desktop py-24 border-t border-outline-variant/30">
-        <h2 class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)] mb-12">
-          RECOMMENDED SYSTEM ARCHITECTURE
-        </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {similarProducts.map((p) => (
-            <a href={`/shop/${p.handle}`} class="group no-underline block">
-              <div class="aspect-[3/4] bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10 overflow-hidden mb-4 relative">
-                {p.image ? (
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="w-full h-full flex items-center justify-center">
-                    <span class="font-data-label text-[var(--outline)] text-[10px]">NO IMAGE</span>
-                  </div>
-                )}
-              </div>
-              <div class="flex justify-between items-start">
-                <div>
-                  <h3 class="font-headline-md text-sm text-[var(--primary)] uppercase font-bold group-hover:text-secondary transition-colors duration-300">
-                    {p.name}
-                  </h3>
-                  <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase mt-0.5">
-                    {p.subtitle}
-                  </p>
+    {
+      similarProducts.length > 0 && (
+        <section class="max-w-container-max mx-auto px-margin-desktop py-24 border-t border-outline-variant/30">
+          <h2 class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)] mb-12">
+            RECOMMENDED SYSTEM ARCHITECTURE
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {similarProducts.map((p) => (
+              <a href={`/shop/${p.handle}`} class="group no-underline block">
+                <div class="aspect-[3/4] bg-[var(--surface-container-low)] border border-[var(--outline-variant)]/10 overflow-hidden mb-4 relative">
+                  {p.image ? (
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center">
+                      <span class="font-data-label text-[var(--outline)] text-[10px]">
+                        NO IMAGE
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <span class="font-data-value text-sm text-[var(--primary)] font-semibold shrink-0">
-                  {p.price}
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-    )}
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-headline-md text-sm text-[var(--primary)] uppercase font-bold group-hover:text-secondary transition-colors duration-300">
+                      {p.name}
+                    </h3>
+                    <p class="font-data-label text-[10px] text-[var(--on-surface-variant)] uppercase mt-0.5">
+                      {p.subtitle}
+                    </p>
+                  </div>
+                  <span class="font-data-value text-sm text-[var(--primary)] font-semibold shrink-0">
+                    {p.price}
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <!-- Repair Program & Circular Permanence -->
     <section class="max-w-container-max mx-auto px-margin-desktop py-32 text-center space-y-12">
       <div class="max-w-2xl mx-auto space-y-6">
         <span class="material-symbols-outlined text-6xl text-secondary">handyman</span>
-        <h2 class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)]">Circular Permanence</h2>
+        <h2
+          class="font-headline-lg text-headline-lg font-bold tracking-tighter uppercase text-[var(--primary)]"
+        >
+          Circular Permanence
+        </h2>
         <p class="font-body-lg text-on-surface-variant leading-relaxed">
-          The {currentProduct.name} is built to outlast your adventures. Through our WANNASINGH Repair Program, we provide free restoration services for the life of the garment. If it fails, we fix it. If it’s beyond repair, we recycle it into new components.
+          The {currentProduct.name} is built to outlast your adventures. Through our WANNASINGH Repair
+          Program, we provide free restoration services for the life of the garment. If it fails, we fix
+          it. If it’s beyond repair, we recycle it into new components.
         </p>
         <div class="pt-8">
-          <a class="inline-block border border-primary px-12 py-4 font-data-label text-data-label uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all duration-300 no-underline text-[var(--primary)]" href="/repair">Explore Repair Program</a>
+          <a
+            class="inline-block border border-primary px-12 py-4 font-data-label text-data-label uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all duration-300 no-underline text-[var(--primary)]"
+            href="/repair">Explore Repair Program</a
+          >
         </div>
       </div>
     </section>
-
   </div>
 
   <!-- Size Guide Modal -->
-  <div id="size-guide-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="size-guide-title">
+  <div
+    id="size-guide-modal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="size-guide-title"
+  >
     <div id="size-guide-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-    <div class="relative z-10 bg-[var(--surface)] border border-[var(--outline-variant)] max-w-3xl w-[95%] max-h-[90vh] overflow-y-auto p-8 md:p-12 shadow-2xl">
+    <div
+      class="relative z-10 bg-[var(--surface)] border border-[var(--outline-variant)] max-w-3xl w-[95%] max-h-[90vh] overflow-y-auto p-8 md:p-12 shadow-2xl"
+    >
       <div class="flex justify-between items-center mb-8">
-        <h2 id="size-guide-title" class="font-headline-lg text-xl font-bold uppercase text-[var(--primary)] tracking-tight">Size Guide</h2>
-        <button type="button" id="size-guide-close" class="w-10 h-10 flex items-center justify-center border border-[var(--outline-variant)] hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-colors cursor-pointer">
+        <h2
+          id="size-guide-title"
+          class="font-headline-lg text-xl font-bold uppercase text-[var(--primary)] tracking-tight"
+        >
+          Size Guide
+        </h2>
+        <button
+          type="button"
+          id="size-guide-close"
+          class="w-10 h-10 flex items-center justify-center border border-[var(--outline-variant)] hover:bg-[var(--primary)] hover:text-[var(--on-primary)] transition-colors cursor-pointer"
+        >
           <span class="material-symbols-outlined" style="font-size: 20px;">close</span>
         </button>
       </div>
       <p class="font-data-value text-xs text-[var(--on-surface-variant)] mb-6 leading-relaxed">
-        All measurements are in centimeters (inches). Measure your body with arms relaxed at your sides. If you are between sizes, we recommend sizing up for outerwear and sizing down for base layers.
+        All measurements are in centimeters (inches). Measure your body with arms relaxed at your
+        sides. If you are between sizes, we recommend sizing up for outerwear and sizing down for
+        base layers.
       </p>
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="border-b-2 border-[var(--primary)]">
-              <th class="font-data-label text-[10px] uppercase text-[var(--primary)] py-3 pr-4 tracking-widest">Measurement</th>
-              <th class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider">XS</th>
-              <th class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider">S</th>
-              <th class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider">M</th>
-              <th class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider">L</th>
-              <th class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider">XL</th>
-              <th class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider">2XL</th>
-              <th class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider">3XL</th>
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--primary)] py-3 pr-4 tracking-widest"
+                >Measurement</th
+              >
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider"
+                >XS</th
+              >
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider"
+                >S</th
+              >
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider"
+                >M</th
+              >
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider"
+                >L</th
+              >
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider"
+                >XL</th
+              >
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider"
+                >2XL</th
+              >
+              <th
+                class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] py-3 px-3 text-center tracking-wider"
+                >3XL</th
+              >
             </tr>
           </thead>
           <tbody class="font-data-value text-xs text-[var(--primary)]">
             <tr class="border-b border-[var(--outline-variant)]/30">
-              <td class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Chest (cm)</td>
+              <td
+                class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]"
+                >Chest (cm)</td
+              >
               <td class="py-3 px-3 text-center">86-91</td>
               <td class="py-3 px-3 text-center">91-96</td>
-              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]">96-101</td>
+              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]"
+                >96-101</td
+              >
               <td class="py-3 px-3 text-center">101-106</td>
               <td class="py-3 px-3 text-center">106-112</td>
               <td class="py-3 px-3 text-center">112-118</td>
               <td class="py-3 px-3 text-center">118-124</td>
             </tr>
             <tr class="border-b border-[var(--outline-variant)]/30">
-              <td class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Chest (in)</td>
+              <td
+                class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]"
+                >Chest (in)</td
+              >
               <td class="py-3 px-3 text-center">34-36</td>
               <td class="py-3 px-3 text-center">36-38</td>
-              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]">38-40</td>
+              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]"
+                >38-40</td
+              >
               <td class="py-3 px-3 text-center">40-42</td>
               <td class="py-3 px-3 text-center">42-44</td>
               <td class="py-3 px-3 text-center">44-46</td>
               <td class="py-3 px-3 text-center">46-49</td>
             </tr>
             <tr class="border-b border-[var(--outline-variant)]/30">
-              <td class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Waist (cm)</td>
+              <td
+                class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]"
+                >Waist (cm)</td
+              >
               <td class="py-3 px-3 text-center">71-76</td>
               <td class="py-3 px-3 text-center">76-81</td>
-              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]">81-86</td>
+              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]"
+                >81-86</td
+              >
               <td class="py-3 px-3 text-center">86-91</td>
               <td class="py-3 px-3 text-center">91-97</td>
               <td class="py-3 px-3 text-center">97-102</td>
               <td class="py-3 px-3 text-center">102-107</td>
             </tr>
             <tr class="border-b border-[var(--outline-variant)]/30">
-              <td class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Hips (cm)</td>
+              <td
+                class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]"
+                >Hips (cm)</td
+              >
               <td class="py-3 px-3 text-center">86-91</td>
               <td class="py-3 px-3 text-center">91-96</td>
-              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]">96-101</td>
+              <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]"
+                >96-101</td
+              >
               <td class="py-3 px-3 text-center">101-106</td>
               <td class="py-3 px-3 text-center">106-112</td>
               <td class="py-3 px-3 text-center">112-118</td>
               <td class="py-3 px-3 text-center">118-124</td>
             </tr>
             <tr>
-              <td class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]">Sleeve (cm)</td>
+              <td
+                class="py-3 pr-4 font-data-label text-[10px] uppercase text-[var(--on-surface-variant)]"
+                >Sleeve (cm)</td
+              >
               <td class="py-3 px-3 text-center">62</td>
               <td class="py-3 px-3 text-center">64</td>
               <td class="py-3 px-3 text-center font-bold bg-[var(--surface-container-low)]">66</td>
@@ -481,9 +619,17 @@ const siteDescription = currentProduct.subtitle;
         </table>
       </div>
       <div class="mt-8 pt-6 border-t border-[var(--outline-variant)]/30">
-        <p class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] tracking-widest mb-2">Fit Notes</p>
-        <ul class="font-data-value text-xs text-[var(--on-surface-variant)] space-y-1 list-disc pl-4">
-          <li>Outerwear: Size up for layering. Our shells are designed to accommodate mid-layers.</li>
+        <p
+          class="font-data-label text-[10px] uppercase text-[var(--on-surface-variant)] tracking-widest mb-2"
+        >
+          Fit Notes
+        </p>
+        <ul
+          class="font-data-value text-xs text-[var(--on-surface-variant)] space-y-1 list-disc pl-4"
+        >
+          <li>
+            Outerwear: Size up for layering. Our shells are designed to accommodate mid-layers.
+          </li>
           <li>Base Layers: True to size or size down for compression fit.</li>
           <li>Bottoms: Waist measurement at natural waistline. Inseam is standard 32".</li>
         </ul>
@@ -516,7 +662,9 @@ const siteDescription = currentProduct.subtitle;
     sizeGuideBtn?.addEventListener("click", openSizeGuide);
     sizeGuideClose?.addEventListener("click", closeSizeGuide);
     sizeGuideBackdrop?.addEventListener("click", closeSizeGuide);
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSizeGuide(); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeSizeGuide();
+    });
 
     // ── Size Selector ──────────────────────────────────────────────────────
     const sizeBtns = document.querySelectorAll(".size-btn");
@@ -540,7 +688,14 @@ const siteDescription = currentProduct.subtitle;
     const label = cartBtn?.querySelector("span:first-child") as HTMLElement | null;
     const cartBadge = document.getElementById("cart-count");
 
-    function getCart(): Array<{id: string; name: string; price: string; size: string; qty: number; image?: string}> {
+    function getCart(): Array<{
+      id: string;
+      name: string;
+      price: string;
+      size: string;
+      qty: number;
+      image?: string;
+    }> {
       try {
         return JSON.parse(localStorage.getItem("wanna_cart") || "[]");
       } catch {
@@ -583,7 +738,9 @@ const siteDescription = currentProduct.subtitle;
           if (shine) {
             shine.style.transition = "none";
             shine.style.left = "-100%";
-            setTimeout(() => { if (shine) shine.style.transition = "all 1000ms"; }, 10);
+            setTimeout(() => {
+              if (shine) shine.style.transition = "all 1000ms";
+            }, 10);
           }
         }, 1000);
       }
@@ -600,17 +757,24 @@ const siteDescription = currentProduct.subtitle;
       }
 
       // First click → add item to cart
-      const productName  = cartBtn.dataset.productName  || "Unknown Product";
+      const productName = cartBtn.dataset.productName || "Unknown Product";
       const productPrice = cartBtn.dataset.productPrice || "$0.00";
-      const productId    = cartBtn.dataset.productId    || "unknown";
+      const productId = cartBtn.dataset.productId || "unknown";
       const productImage = cartBtn.dataset.productImage || "";
 
       const cart = getCart();
-      const existing = cart.find(item => item.id === productId && item.size === selectedSize);
+      const existing = cart.find((item) => item.id === productId && item.size === selectedSize);
       if (existing) {
         existing.qty += 1;
       } else {
-        cart.push({ id: productId, name: productName, price: productPrice, size: selectedSize, qty: 1, image: productImage });
+        cart.push({
+          id: productId,
+          name: productName,
+          price: productPrice,
+          size: selectedSize,
+          qty: 1,
+          image: productImage,
+        });
       }
       saveCart(cart);
       updateBadge();
@@ -631,4 +795,3 @@ const siteDescription = currentProduct.subtitle;
     });
   </script>
 </Layout>
-

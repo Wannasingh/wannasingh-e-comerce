@@ -3,33 +3,46 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="AETHER | ENVIRONMENTAL IMPACT" description="Circular permanence, carbon offset tracking, and sustainable materials standard. Decades, not seasons.">
+<Layout
+  title="AETHER | ENVIRONMENTAL IMPACT"
+  description="Circular permanence, carbon offset tracking, and sustainable materials standard. Decades, not seasons."
+>
   <div class="reveal">
     <!-- Hero Section -->
-    <section class="relative min-h-[500px] flex flex-col justify-center px-6 md:px-16 py-20 overflow-hidden">
+    <section
+      class="relative min-h-[500px] flex flex-col justify-center px-6 md:px-16 py-20 overflow-hidden"
+    >
       <!-- Subtle background grid -->
       <div class="absolute inset-0 z-0 opacity-10 tech-grid pointer-events-none"></div>
-      
+
       <div class="relative z-10 max-w-4xl mx-auto w-full">
         <div class="mb-6 flex items-center gap-4">
-          <span class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]">Environmental Impact Report 2024</span>
+          <span class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-[0.2em]"
+            >Environmental Impact Report 2024</span
+          >
           <div class="h-[1px] flex-1 bg-[var(--outline-variant)]/20"></div>
         </div>
-        <h1 class="font-display text-5xl md:text-6xl mb-8 leading-none text-[var(--primary)] uppercase">
-          THE PROTOCOL OF <br /> 
+        <h1
+          class="font-display text-5xl md:text-6xl mb-8 leading-none text-[var(--primary)] uppercase"
+        >
+          THE PROTOCOL OF <br />
           <span class="italic text-[var(--outline)]">CIRCULAR PERMANENCE.</span>
         </h1>
-        <p class="font-body-lg text-lg max-w-2xl text-[var(--on-surface-variant)] leading-relaxed mb-12">
-          In an industry defined by obsolescence, WANNASINGH engineering prioritizes the infinite. We don't just build for the elements; we build for the era. Our commitment to sustainability is measured in decades, not seasons.
+        <p
+          class="font-body-lg text-lg max-w-2xl text-[var(--on-surface-variant)] leading-relaxed mb-12"
+        >
+          In an industry defined by obsolescence, WANNASINGH engineering prioritizes the infinite.
+          We don't just build for the elements; we build for the era. Our commitment to
+          sustainability is measured in decades, not seasons.
         </p>
         <div class="flex flex-wrap gap-4">
-          <button 
+          <button
             type="button"
             class="bg-[var(--primary)] text-[var(--on-primary)] px-8 py-4 font-data-label text-xs tracking-widest hover:bg-[var(--secondary)] transition-all cursor-pointer"
           >
             VIEW FULL DATA
           </button>
-          <button 
+          <button
             type="button"
             class="border border-[var(--outline)] text-[var(--primary)] px-8 py-4 font-data-label text-xs tracking-widest hover:bg-[var(--surface-container)] hover:border-[var(--primary)] transition-colors cursor-pointer"
           >
@@ -40,47 +53,67 @@ import Layout from "../layouts/Layout.astro";
     </section>
 
     <!-- Bento Grid: Lifecycle Analysis -->
-    <section class="px-6 md:px-16 py-24 bg-[var(--surface-container-lowest)] border-t border-b border-[var(--outline-variant)]/20">
+    <section
+      class="px-6 md:px-16 py-24 bg-[var(--surface-container-lowest)] border-t border-b border-[var(--outline-variant)]/20"
+    >
       <div class="max-w-[1440px] mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-          
           <!-- Large Card: Circular Permanence Image & Description -->
-          <div class="md:col-span-8 group relative aspect-video md:aspect-auto md:h-[600px] overflow-hidden bg-black">
-            <img 
-              class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0" 
-              alt="Circular fabric weave under macro magnification" 
+          <div
+            class="md:col-span-8 group relative aspect-video md:aspect-auto md:h-[600px] overflow-hidden bg-black"
+          >
+            <img
+              class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0"
+              alt="Circular fabric weave under macro magnification"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr35mVZOip-IBICvWYlpp3LupQHKzYFaUHIaQv3-rhoeJ1mSRVikp66LaTNP8h84y5fKfbKDp4kCb8LYKRxmWlvo4Spwhb_vX0m-RgYg_7hRx7D3exdboA1lwRPy-tRU0eDhCFtFo0zAd49L2MK5G7drc_rnWOvY2tXtiNr2YCN4fM3BAsBHQGuiVdEdoecvj7GdNjy7XzoNsCxytQP8QMB0541RHOKtV6WGrfUHOXURMCgasGP8tISAbryMwt_HpYrXId6cgCahV_"
             />
-            <div class="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
-              <h2 class="font-headline-lg text-2xl text-white mb-4 uppercase">CIRCULAR PERMANENCE</h2>
+            <div
+              class="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent"
+            >
+              <h2 class="font-headline-lg text-2xl text-white mb-4 uppercase">
+                CIRCULAR PERMANENCE
+              </h2>
               <p class="font-body-md text-sm text-white/70 max-w-md leading-relaxed">
-                Our closed-loop system ensures that every WANNASINGH garment can be disassembled, depolymerized, and reborn without quality degradation.
+                Our closed-loop system ensures that every WANNASINGH garment can be disassembled,
+                depolymerized, and reborn without quality degradation.
               </p>
             </div>
           </div>
 
           <!-- Technical Stats Column -->
           <div class="md:col-span-4 flex flex-col gap-6">
-            <div class="border border-[var(--outline-variant)]/30 p-8 flex-1 flex flex-col justify-between bg-[var(--surface)]">
+            <div
+              class="border border-[var(--outline-variant)]/30 p-8 flex-1 flex flex-col justify-between bg-[var(--surface)]"
+            >
               <div>
-                <span class="font-data-label text-xs text-[var(--secondary)] block mb-2">REPAIR INDEX</span>
+                <span class="font-data-label text-xs text-[var(--secondary)] block mb-2"
+                  >REPAIR INDEX</span
+                >
                 <div class="text-5xl font-display text-[var(--primary)] font-bold">9.8/10</div>
               </div>
               <div class="pt-6 border-t border-[var(--outline-variant)]/10">
-                <p class="font-caption text-[10px] text-[var(--on-surface-variant)] uppercase mb-2">Modular architecture for field replacement</p>
+                <p class="font-caption text-[10px] text-[var(--on-surface-variant)] uppercase mb-2">
+                  Modular architecture for field replacement
+                </p>
                 <div class="w-full h-1.5 bg-[var(--surface-container)] overflow-hidden">
                   <div class="h-full bg-[var(--secondary)] w-[98%]"></div>
                 </div>
               </div>
             </div>
-            
-            <div class="border border-[var(--outline-variant)]/30 p-8 flex-1 flex flex-col justify-between bg-[var(--surface)]">
+
+            <div
+              class="border border-[var(--outline-variant)]/30 p-8 flex-1 flex flex-col justify-between bg-[var(--surface)]"
+            >
               <div>
-                <span class="font-data-label text-xs text-[var(--secondary)] block mb-2">CARBON OFFSET</span>
+                <span class="font-data-label text-xs text-[var(--secondary)] block mb-2"
+                  >CARBON OFFSET</span
+                >
                 <div class="text-5xl font-display text-[var(--primary)] font-bold">124%</div>
               </div>
               <div class="pt-6 border-t border-[var(--outline-variant)]/10">
-                <p class="font-caption text-[10px] text-[var(--on-surface-variant)] uppercase mb-2">Net-negative manufacturing target 2026</p>
+                <p class="font-caption text-[10px] text-[var(--on-surface-variant)] uppercase mb-2">
+                  Net-negative manufacturing target 2026
+                </p>
                 <div class="w-full h-1.5 bg-[var(--surface-container)] overflow-hidden">
                   <div class="h-full bg-[var(--primary)] w-full animate-pulse"></div>
                 </div>
@@ -89,38 +122,73 @@ import Layout from "../layouts/Layout.astro";
           </div>
 
           <!-- Lifecycle Analysis Chart Area -->
-          <div class="md:col-span-12 border border-[var(--outline-variant)]/30 p-12 bg-[var(--surface)] flex flex-col md:flex-row items-center gap-16 overflow-hidden">
+          <div
+            class="md:col-span-12 border border-[var(--outline-variant)]/30 p-12 bg-[var(--surface)] flex flex-col md:flex-row items-center gap-16 overflow-hidden"
+          >
             <div class="w-full md:w-1/3 space-y-6">
-              <h3 class="font-headline-md text-2xl uppercase text-[var(--primary)]">LIFECYCLE ANALYSIS</h3>
+              <h3 class="font-headline-md text-2xl uppercase text-[var(--primary)]">
+                LIFECYCLE ANALYSIS
+              </h3>
               <ul class="space-y-4">
                 <li class="flex justify-between border-b border-[var(--outline-variant)]/15 pb-2">
-                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">Sourcing</span>
-                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold">BIO-RECOVERED</span>
+                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]"
+                    >Sourcing</span
+                  >
+                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold"
+                    >BIO-RECOVERED</span
+                  >
                 </li>
                 <li class="flex justify-between border-b border-[var(--outline-variant)]/15 pb-2">
-                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">Assembly</span>
-                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold">ZERO-WASTE CUT</span>
+                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]"
+                    >Assembly</span
+                  >
+                  <span class="font-data-value text-xs text-[var(--primary)] font-semibold"
+                    >ZERO-WASTE CUT</span
+                  >
                 </li>
                 <li class="flex justify-between border-b border-[var(--outline-variant)]/15 pb-2">
-                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">Usage</span>
+                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">Usage</span
+                  >
                   <span class="font-data-value text-xs text-[var(--primary)]">30-YEAR AVG</span>
                 </li>
                 <li class="flex justify-between border-b border-[var(--outline-variant)]/15 pb-2">
-                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]">End-of-life</span>
-                  <span class="font-data-value text-xs text-[var(--secondary)] font-semibold">MOLECULAR RECYCLING</span>
+                  <span class="font-data-label text-xs text-[var(--on-surface-variant)]"
+                    >End-of-life</span
+                  >
+                  <span class="font-data-value text-xs text-[var(--secondary)] font-semibold"
+                    >MOLECULAR RECYCLING</span
+                  >
                 </li>
               </ul>
             </div>
-            
+
             <div class="flex-1 flex justify-center">
               <svg class="w-64 h-64" viewBox="0 0 200 200">
-                <circle class="stroke-[var(--outline-variant)]/20" cx="100" cy="100" fill="none" r="90" stroke-width="1"></circle>
-                <circle class="stroke-[var(--secondary)] circular-path" cx="100" cy="100" fill="none" r="90" stroke-linecap="round" stroke-width="3.5"></circle>
-                <text class="font-data-label fill-[var(--primary)] text-xs font-medium" style="font-size: 9px;" text-anchor="middle" x="100" y="104">PERPETUAL FLOW</text>
+                <circle
+                  class="stroke-[var(--outline-variant)]/20"
+                  cx="100"
+                  cy="100"
+                  fill="none"
+                  r="90"
+                  stroke-width="1"></circle>
+                <circle
+                  class="stroke-[var(--secondary)] circular-path"
+                  cx="100"
+                  cy="100"
+                  fill="none"
+                  r="90"
+                  stroke-linecap="round"
+                  stroke-width="3.5"></circle>
+                <text
+                  class="font-data-label fill-[var(--primary)] text-xs font-medium"
+                  style="font-size: 9px;"
+                  text-anchor="middle"
+                  x="100"
+                  y="104">PERPETUAL FLOW</text
+                >
               </svg>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -130,10 +198,16 @@ import Layout from "../layouts/Layout.astro";
       <div class="px-6 md:px-16 max-w-[1440px] mx-auto">
         <div class="flex flex-col md:flex-row gap-20 items-end mb-20">
           <div class="md:w-1/2 space-y-6">
-            <span class="font-data-label text-xs text-[var(--secondary-container)] block uppercase tracking-widest">Global Carbon Dashboard</span>
-            <h2 class="font-display text-4xl md:text-5xl text-white leading-none">REAL-TIME FOOTPRINT <br /> TRACKING.</h2>
+            <span
+              class="font-data-label text-xs text-[var(--secondary-container)] block uppercase tracking-widest"
+              >Global Carbon Dashboard</span
+            >
+            <h2 class="font-display text-4xl md:text-5xl text-white leading-none">
+              REAL-TIME FOOTPRINT <br /> TRACKING.
+            </h2>
             <p class="font-body-md text-sm text-white/70 max-w-md leading-relaxed">
-              Every SKU we produce features a live carbon ledger. Scan your garment's internal NFC chip to view its specific atmospheric contribution and offset status.
+              Every SKU we produce features a live carbon ledger. Scan your garment's internal NFC
+              chip to view its specific atmospheric contribution and offset status.
             </p>
           </div>
           <div class="md:w-1/2 flex flex-col gap-6 w-full">
@@ -143,19 +217,28 @@ import Layout from "../layouts/Layout.astro";
             </div>
             <div class="flex justify-between items-baseline border-b border-white/20 pb-4">
               <span class="font-headline-md text-2xl text-white font-bold">-45,200 MT</span>
-              <span class="font-data-label text-xs text-[var(--secondary-container)]">2024 OFFSET</span>
+              <span class="font-data-label text-xs text-[var(--secondary-container)]"
+                >2024 OFFSET</span
+              >
             </div>
           </div>
         </div>
 
         <!-- Supply Chain Telemetry Data Stripe -->
-        <div class="relative h-64 overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center">
+        <div
+          class="relative h-64 overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center"
+        >
           <!-- Horizontal matrix code lines back layer -->
           <div class="absolute inset-0 opacity-10 tech-grid pointer-events-none"></div>
           <div class="text-center space-y-2 relative z-10 px-4">
-            <div class="font-data-label text-xs uppercase tracking-[0.6em] text-white/70">Encrypted Supply Chain Data Ledger</div>
-            <div class="font-data-value text-[10px] text-[var(--secondary-container)] tracking-wider">
-              IP://77.21.09.11 // STATUS: OFFSET_ACTIVE // SECTOR: METRIC_REV_0411 // SIGNATURE: WANNA-SYS-SECURE
+            <div class="font-data-label text-xs uppercase tracking-[0.6em] text-white/70">
+              Encrypted Supply Chain Data Ledger
+            </div>
+            <div
+              class="font-data-value text-[10px] text-[var(--secondary-container)] tracking-wider"
+            >
+              IP://77.21.09.11 // STATUS: OFFSET_ACTIVE // SECTOR: METRIC_REV_0411 // SIGNATURE:
+              WANNA-SYS-SECURE
             </div>
           </div>
         </div>
@@ -166,68 +249,87 @@ import Layout from "../layouts/Layout.astro";
     <section class="px-6 md:px-16 py-24">
       <div class="max-w-[1440px] mx-auto">
         <div class="mb-16">
-          <h3 class="font-display text-4xl md:text-5xl uppercase mb-4 text-[var(--primary)]">The Material <span class="text-[var(--secondary)] italic font-light">Standard</span></h3>
+          <h3 class="font-display text-4xl md:text-5xl uppercase mb-4 text-[var(--primary)]">
+            The Material <span class="text-[var(--secondary)] italic font-light">Standard</span>
+          </h3>
           <div class="h-[2px] w-24 bg-[var(--primary)]"></div>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <!-- Material 1 -->
           <div class="group space-y-6">
             <div class="aspect-[3/4] overflow-hidden bg-[var(--surface-container)]">
-              <img 
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0" 
-                alt="Neo-recovery Nylon testing" 
+              <img
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0"
+                alt="Neo-recovery Nylon testing"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuGMJxdf4LkOzTvj1adeNvhadiGg_inJoEDEtJs2ibm5bA5j2vtRv6xdFQ6ICSbJ-iDDWalPUCoKUJRw4-50qULdYDfkAKygXFP3nmoL-RTyYaVcUntCdE9Lg1-2WIaBGN1Y9qchQi1UFMN6zNtA6ruln6jLasQ-uqcc_-vGXtlcd6OkvXb5e1p5wj2438zdhvtj8qeCNYXP8IcZJmD9cB5q1lnVUWAATtfCWx-3XwkdbLvqR1pNrbp8xB15Vdul2z1APGTTBpmhmP"
               />
             </div>
             <div class="flex justify-between items-start gap-4">
               <div>
-                <h4 class="font-headline-md text-base uppercase text-[var(--primary)]">NEO-RECOVERY NYLON</h4>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] uppercase mt-1">Sourced from abandoned fishing nets</p>
+                <h4 class="font-headline-md text-base uppercase text-[var(--primary)]">
+                  NEO-RECOVERY NYLON
+                </h4>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] uppercase mt-1">
+                  Sourced from abandoned fishing nets
+                </p>
               </div>
-              <span class="font-data-label text-xs text-[var(--secondary)] whitespace-nowrap">0.4kg CO2</span>
+              <span class="font-data-label text-xs text-[var(--secondary)] whitespace-nowrap"
+                >0.4kg CO2</span
+              >
             </div>
           </div>
-          
+
           <!-- Material 2 -->
           <div class="group space-y-6">
             <div class="aspect-[3/4] overflow-hidden bg-[var(--surface-container)]">
-              <img 
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0" 
-                alt="Biotic Shell fibers close up" 
+              <img
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0"
+                alt="Biotic Shell fibers close up"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTN1_Fcb6PwYOInYIqwlmayfOsA7YV-_qDUutm9n3GQ62MXmMnwgD8z-sHlfOc0QlRuOu-10cSZN9SQEGg1CFjFcG7NFW7wa1yYvkat4bjO-QXUrVjy3TaIh45fMZopYaYLvK43XMaCzGifrfZKz4D0JMVygZscB5qiffAHiVedLDIISJE0QtlJLkNs2i9-pm9gHL2InS19stgKgB0ZoqlnmazFXSEwLcZJlTybmv46OlL765Zk4K8bkFMP9THn2QOqxJeFCtiTPbI"
               />
             </div>
             <div class="flex justify-between items-start gap-4">
               <div>
-                <h4 class="font-headline-md text-base uppercase text-[var(--primary)]">BIOTIC SHELL</h4>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] uppercase mt-1">100% Compostable structure</p>
+                <h4 class="font-headline-md text-base uppercase text-[var(--primary)]">
+                  BIOTIC SHELL
+                </h4>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] uppercase mt-1">
+                  100% Compostable structure
+                </p>
               </div>
-              <span class="font-data-label text-xs text-[var(--secondary)] whitespace-nowrap">0.1kg CO2</span>
+              <span class="font-data-label text-xs text-[var(--secondary)] whitespace-nowrap"
+                >0.1kg CO2</span
+              >
             </div>
           </div>
-          
+
           <!-- Material 3 -->
           <div class="group space-y-6">
             <div class="aspect-[3/4] overflow-hidden bg-[var(--surface-container)]">
-              <img 
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0" 
-                alt="Re-steel trim metallic hardware details" 
+              <img
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0"
+                alt="Re-steel trim metallic hardware details"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZOIY-jaLRLLL6tHD6xcOUw-8WQhcGAcUOcDI1ezJaxJvK6h9ygs_J4gQsURwGwnPEFldOd1zpbwxWzqUDsLabqHK9_7n8-R_3209sfz2D6ThE7WQ2CHEJff4MGJBjoEYzPIcyA0RCEUnmiXDzP0hjO7lBoDTNdavLVoc8401AQWcmEQmfC7eJ5DqsM4hcc8t7UWJtyo5_tzs8i7eqwIVpdD1h-b_-S4y4c-oP7AQlmeiC_03Rfqk3dgfE06slB3mf34CgCZKaK5v1"
               />
             </div>
             <div class="flex justify-between items-start gap-4">
               <div>
-                <h4 class="font-headline-md text-base uppercase text-[var(--primary)]">RE-STEEL TRIM</h4>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] uppercase mt-1">Infinite recycle hardware</p>
+                <h4 class="font-headline-md text-base uppercase text-[var(--primary)]">
+                  RE-STEEL TRIM
+                </h4>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)] uppercase mt-1">
+                  Infinite recycle hardware
+                </p>
               </div>
-              <span class="font-data-label text-xs text-[var(--secondary)] whitespace-nowrap">0.7kg CO2</span>
+              <span class="font-data-label text-xs text-[var(--secondary)] whitespace-nowrap"
+                >0.7kg CO2</span
+              >
             </div>
           </div>
         </div>
       </div>
     </section>
-
   </div>
 
   <style>
@@ -243,9 +345,11 @@ import Layout from "../layouts/Layout.astro";
       stroke-dashoffset: 1000;
       animation: dash 5s linear infinite;
     }
-    
+
     @keyframes dash {
-      to { stroke-dashoffset: 0; }
+      to {
+        stroke-dashoffset: 0;
+      }
     }
   </style>
 </Layout>

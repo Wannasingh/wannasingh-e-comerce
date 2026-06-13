@@ -20,11 +20,13 @@ const defaultTab = tabParam === "register" ? "register" : "login";
     <div
       class="absolute top-1/4 -left-20 w-96 h-96 pointer-events-none"
       style="background: radial-gradient(circle, rgba(107,56,212,0.12), transparent 70%); filter: blur(40px);"
-    ></div>
+    >
+    </div>
     <div
       class="absolute bottom-1/4 -right-20 w-96 h-96 pointer-events-none"
       style="background: radial-gradient(circle, rgba(0,0,0,0.05), transparent 70%); filter: blur(40px);"
-    ></div>
+    >
+    </div>
 
     <!-- Auth Container -->
     <div
@@ -40,7 +42,9 @@ const defaultTab = tabParam === "register" ? "register" : "login";
         style="min-height: 560px;"
       >
         <!-- Background image overlay -->
-        <div class="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none overflow-hidden">
+        <div
+          class="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none overflow-hidden"
+        >
           <img
             alt="WANNASINGH high-tech server infrastructure"
             class="w-full h-full object-cover grayscale transition-transform duration-[8s] group-hover:scale-110"
@@ -49,35 +53,52 @@ const defaultTab = tabParam === "register" ? "register" : "login";
         </div>
 
         <!-- Decorative vertical grid lines -->
-        <div class="absolute inset-0 pointer-events-none" style="background: repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 80px);"></div>
+        <div
+          class="absolute inset-0 pointer-events-none"
+          style="background: repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 80px);"
+        >
+        </div>
 
         <!-- Top content -->
         <div class="relative z-10">
           <!-- Status badge -->
-          <div class="inline-flex items-center gap-2 border border-[var(--on-primary)]/20 px-3 py-1.5 mb-10">
+          <div
+            class="inline-flex items-center gap-2 border border-[var(--on-primary)]/20 px-3 py-1.5 mb-10"
+          >
             <span class="w-1.5 h-1.5 bg-[var(--secondary)] animate-pulse"></span>
-            <span class="font-data-label text-[10px] tracking-[0.2em] uppercase">NETWORK STATUS: ACTIVE</span>
+            <span class="font-data-label text-[10px] tracking-[0.2em] uppercase"
+              >NETWORK STATUS: ACTIVE</span
+            >
           </div>
 
           <h2 class="font-headline-lg text-4xl leading-none tracking-tighter uppercase mb-4">
             WANNASINGH<br />NETWORK
           </h2>
-          <p class="font-body-md text-sm text-[var(--on-primary)]/65 max-w-xs leading-relaxed mb-10">
-            Access the next generation of performance systems. Join the private network for early prototype drops and tactical technical specs.
+          <p
+            class="font-body-md text-sm text-[var(--on-primary)]/65 max-w-xs leading-relaxed mb-10"
+          >
+            Access the next generation of performance systems. Join the private network for early
+            prototype drops and tactical technical specs.
           </p>
 
           <!-- Features list -->
           <ul class="space-y-4">
-            {[
-              { icon: "inventory_2", label: "EARLY ACCESS TO NEW DROPS" },
-              { icon: "bolt", label: "ORDER TRACKING & HISTORY" },
-              { icon: "lock", label: "SECURE CHECKOUT" },
-            ].map(item => (
-              <li class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-[var(--secondary)] text-base">{item.icon}</span>
-                <span class="font-data-label text-[10px] tracking-widest text-[var(--on-primary)]/80 uppercase">{item.label}</span>
-              </li>
-            ))}
+            {
+              [
+                { icon: "inventory_2", label: "EARLY ACCESS TO NEW DROPS" },
+                { icon: "bolt", label: "ORDER TRACKING & HISTORY" },
+                { icon: "lock", label: "SECURE CHECKOUT" },
+              ].map((item) => (
+                <li class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-[var(--secondary)] text-base">
+                    {item.icon}
+                  </span>
+                  <span class="font-data-label text-[10px] tracking-widest text-[var(--on-primary)]/80 uppercase">
+                    {item.label}
+                  </span>
+                </li>
+              ))
+            }
           </ul>
         </div>
 
@@ -85,11 +106,15 @@ const defaultTab = tabParam === "register" ? "register" : "login";
         <div class="relative z-10">
           <div class="border-t border-[var(--on-primary)]/15 pt-6 flex justify-between items-end">
             <div>
-              <span class="block font-data-label text-[9px] opacity-40 mb-1 uppercase">CURRENT REV</span>
+              <span class="block font-data-label text-[9px] opacity-40 mb-1 uppercase"
+                >CURRENT REV</span
+              >
               <span class="font-data-value text-[10px] opacity-70">V2.04 // OPS-SYS</span>
             </div>
             <div class="text-right">
-              <span class="block font-data-label text-[9px] opacity-40 mb-1 uppercase">ESTABLISHED</span>
+              <span class="block font-data-label text-[9px] opacity-40 mb-1 uppercase"
+                >ESTABLISHED</span
+              >
               <span class="font-data-value text-[10px] opacity-70">2024.11.02</span>
             </div>
           </div>
@@ -141,11 +166,22 @@ const defaultTab = tabParam === "register" ? "register" : "login";
 
           <!-- Success state (hidden by default) -->
           <div id="login-success" class="hidden">
-            <div class="border border-[var(--secondary)]/30 bg-[var(--secondary)]/5 p-6 flex items-start gap-4">
-              <span class="material-symbols-outlined text-[var(--secondary)] mt-0.5" style="font-size: 20px;">check_circle</span>
+            <div
+              class="border border-[var(--secondary)]/30 bg-[var(--secondary)]/5 p-6 flex items-start gap-4"
+            >
+              <span
+                class="material-symbols-outlined text-[var(--secondary)] mt-0.5"
+                style="font-size: 20px;">check_circle</span
+              >
               <div>
-                <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-wider mb-1">Signed in successfully</p>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">Redirecting to your account…</p>
+                <p
+                  class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-wider mb-1"
+                >
+                  Signed in successfully
+                </p>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">
+                  Redirecting to your account…
+                </p>
               </div>
             </div>
           </div>
@@ -169,7 +205,10 @@ const defaultTab = tabParam === "register" ? "register" : "login";
                   placeholder="your@email.com"
                   class="field-input w-full bg-transparent border-none font-body-md text-sm py-2 px-0 placeholder:text-[var(--outline-variant)]/40 focus:outline-none"
                 />
-                <span class="field-icon material-symbols-outlined absolute right-0 bottom-2 text-[var(--outline-variant)] hidden" style="font-size:16px;">check</span>
+                <span
+                  class="field-icon material-symbols-outlined absolute right-0 bottom-2 text-[var(--outline-variant)] hidden"
+                  style="font-size:16px;">check</span
+                >
               </div>
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
             </div>
@@ -197,7 +236,9 @@ const defaultTab = tabParam === "register" ? "register" : "login";
                   class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors"
                   aria-label="Toggle password visibility"
                 >
-                  <span class="material-symbols-outlined" style="font-size:16px;">visibility_off</span>
+                  <span class="material-symbols-outlined" style="font-size:16px;"
+                    >visibility_off</span
+                  >
                 </button>
               </div>
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
@@ -212,12 +253,16 @@ const defaultTab = tabParam === "register" ? "register" : "login";
                   name="remember"
                   class="w-3.5 h-3.5 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer"
                 />
-                <span class="font-caption text-[11px] text-[var(--on-surface-variant)] group-hover/check:text-[var(--primary)] transition-colors">Keep me signed in</span>
+                <span
+                  class="font-caption text-[11px] text-[var(--on-surface-variant)] group-hover/check:text-[var(--primary)] transition-colors"
+                  >Keep me signed in</span
+                >
               </label>
               <a
                 href="/auth/forgot-password"
                 class="font-caption text-[11px] text-[var(--secondary)] hover:underline underline-offset-4 no-underline"
-              >Forgot password?</a>
+                >Forgot password?</a
+              >
             </div>
 
             <!-- Submit -->
@@ -229,21 +274,35 @@ const defaultTab = tabParam === "register" ? "register" : "login";
               <span class="btn-label">SIGN IN</span>
               <span class="btn-loader hidden">
                 <span class="inline-flex gap-1 items-center">
-                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 0ms;"></span>
-                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 150ms;"></span>
-                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 300ms;"></span>
+                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 0ms;"
+                  ></span>
+                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 150ms;"
+                  ></span>
+                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 300ms;"
+                  ></span>
                 </span>
               </span>
-              <span class="material-symbols-outlined transition-transform group-hover:translate-x-2" style="font-size:20px;">arrow_forward</span>
+              <span
+                class="material-symbols-outlined transition-transform group-hover:translate-x-2"
+                style="font-size:20px;">arrow_forward</span
+              >
             </button>
 
             <!-- General error -->
-            <p id="login-error" class="font-caption text-[11px] text-[var(--error)] text-center hidden"></p>
+            <p
+              id="login-error"
+              class="font-caption text-[11px] text-[var(--error)] text-center hidden"
+            >
+            </p>
           </form>
 
           <p class="font-caption text-[11px] text-[var(--on-surface-variant)] text-center">
             New to WANNASINGH?
-            <button id="switch-to-register" class="text-[var(--secondary)] hover:underline underline-offset-2 cursor-pointer ml-1 bg-transparent border-none font-inherit p-0">Create an account →</button>
+            <button
+              id="switch-to-register"
+              class="text-[var(--secondary)] hover:underline underline-offset-2 cursor-pointer ml-1 bg-transparent border-none font-inherit p-0"
+              >Create an account →</button
+            >
           </p>
         </div>
 
@@ -253,7 +312,9 @@ const defaultTab = tabParam === "register" ? "register" : "login";
           class:list={["auth-panel space-y-8", defaultTab !== "register" && "hidden"]}
         >
           <div>
-            <h1 class="font-headline-md text-2xl uppercase tracking-tight mb-1">Create Your Account</h1>
+            <h1 class="font-headline-md text-2xl uppercase tracking-tight mb-1">
+              Create Your Account
+            </h1>
             <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">
               Join WANNASINGH to track orders, save favourites, and get early access.
             </p>
@@ -261,11 +322,22 @@ const defaultTab = tabParam === "register" ? "register" : "login";
 
           <!-- Success state -->
           <div id="register-success" class="hidden">
-            <div class="border border-[var(--secondary)]/30 bg-[var(--secondary)]/5 p-6 flex items-start gap-4">
-              <span class="material-symbols-outlined text-[var(--secondary)] mt-0.5" style="font-size: 20px;">mark_email_read</span>
+            <div
+              class="border border-[var(--secondary)]/30 bg-[var(--secondary)]/5 p-6 flex items-start gap-4"
+            >
+              <span
+                class="material-symbols-outlined text-[var(--secondary)] mt-0.5"
+                style="font-size: 20px;">mark_email_read</span
+              >
               <div>
-                <p class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-wider mb-1">Account created!</p>
-                <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">Please verify your email address to get started.</p>
+                <p
+                  class="font-data-label text-xs text-[var(--secondary)] uppercase tracking-wider mb-1"
+                >
+                  Account created!
+                </p>
+                <p class="font-caption text-[11px] text-[var(--on-surface-variant)]">
+                  Please verify your email address to get started.
+                </p>
               </div>
             </div>
           </div>
@@ -273,7 +345,11 @@ const defaultTab = tabParam === "register" ? "register" : "login";
           <form id="register-form" class="space-y-5" novalidate>
             <!-- Full Name -->
             <div class="field-group">
-              <label for="reg-name" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Full Name</label>
+              <label
+                for="reg-name"
+                class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                >Full Name</label
+              >
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
                 <input
                   id="reg-name"
@@ -290,7 +366,11 @@ const defaultTab = tabParam === "register" ? "register" : "login";
 
             <!-- Email -->
             <div class="field-group">
-              <label for="reg-email" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Email Address</label>
+              <label
+                for="reg-email"
+                class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                >Email Address</label
+              >
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
                 <input
                   id="reg-email"
@@ -307,7 +387,11 @@ const defaultTab = tabParam === "register" ? "register" : "login";
 
             <!-- Password -->
             <div class="field-group">
-              <label for="reg-password" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Password</label>
+              <label
+                for="reg-password"
+                class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                >Password</label
+              >
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
                 <input
                   id="reg-password"
@@ -323,23 +407,45 @@ const defaultTab = tabParam === "register" ? "register" : "login";
                   class="pw-toggle absolute right-0 bottom-2 text-[var(--outline)] hover:text-[var(--primary)] transition-colors"
                   aria-label="Toggle password visibility"
                 >
-                  <span class="material-symbols-outlined" style="font-size:16px;">visibility_off</span>
+                  <span class="material-symbols-outlined" style="font-size:16px;"
+                    >visibility_off</span
+                  >
                 </button>
               </div>
               <!-- Password strength meter -->
               <div id="pw-strength-bar" class="mt-2 flex gap-1">
-                <div class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"></div>
-                <div class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"></div>
-                <div class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"></div>
-                <div class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"></div>
+                <div
+                  class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"
+                >
+                </div>
+                <div
+                  class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"
+                >
+                </div>
+                <div
+                  class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"
+                >
+                </div>
+                <div
+                  class="pw-segment h-0.5 flex-1 bg-[var(--outline-variant)] transition-colors duration-300"
+                >
+                </div>
               </div>
-              <p id="pw-strength-label" class="font-caption text-[10px] text-[var(--outline)] mt-1 uppercase tracking-widest"></p>
+              <p
+                id="pw-strength-label"
+                class="font-caption text-[10px] text-[var(--outline)] mt-1 uppercase tracking-widest"
+              >
+              </p>
               <p class="field-error font-caption text-xs text-[var(--error)] mt-1 hidden"></p>
             </div>
 
             <!-- Confirm password -->
             <div class="field-group">
-              <label for="reg-confirm" class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1">Confirm Password</label>
+              <label
+                for="reg-confirm"
+                class="field-label font-caption text-xs text-[var(--outline)] uppercase tracking-wider block mb-1"
+                >Confirm Password</label
+              >
               <div class="relative border-b border-[var(--outline-variant)] pb-1">
                 <input
                   id="reg-confirm"
@@ -362,7 +468,9 @@ const defaultTab = tabParam === "register" ? "register" : "login";
                 name="terms"
                 class="mt-0.5 w-3.5 h-3.5 border-[var(--outline-variant)] text-[var(--secondary)] focus:ring-[var(--secondary)] cursor-pointer flex-shrink-0"
               />
-              <span class="font-caption text-[10px] text-[var(--on-surface-variant)]/70 leading-relaxed">
+              <span
+                class="font-caption text-[10px] text-[var(--on-surface-variant)]/70 leading-relaxed"
+              >
                 BY CREATING AN ACCOUNT, YOU AGREE TO OUR TERMS & CONDITIONS AND PRIVACY POLICY.
               </span>
             </label>
@@ -377,20 +485,34 @@ const defaultTab = tabParam === "register" ? "register" : "login";
               <span class="btn-label">CREATE ACCOUNT</span>
               <span class="btn-loader hidden">
                 <span class="inline-flex gap-1 items-center">
-                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 0ms;"></span>
-                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 150ms;"></span>
-                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 300ms;"></span>
+                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 0ms;"
+                  ></span>
+                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 150ms;"
+                  ></span>
+                  <span class="w-1 h-1 bg-white animate-bounce" style="animation-delay: 300ms;"
+                  ></span>
                 </span>
               </span>
-              <span class="material-symbols-outlined transition-transform group-hover:translate-x-2" style="font-size:20px;">send</span>
+              <span
+                class="material-symbols-outlined transition-transform group-hover:translate-x-2"
+                style="font-size:20px;">send</span
+              >
             </button>
 
-            <p id="register-error" class="font-caption text-[11px] text-[var(--error)] text-center hidden"></p>
+            <p
+              id="register-error"
+              class="font-caption text-[11px] text-[var(--error)] text-center hidden"
+            >
+            </p>
           </form>
 
           <p class="font-caption text-[11px] text-[var(--on-surface-variant)] text-center">
             Already have an account?
-            <button id="switch-to-login" class="text-[var(--secondary)] hover:underline underline-offset-2 cursor-pointer ml-1 bg-transparent border-none font-inherit p-0">Sign In →</button>
+            <button
+              id="switch-to-login"
+              class="text-[var(--secondary)] hover:underline underline-offset-2 cursor-pointer ml-1 bg-transparent border-none font-inherit p-0"
+              >Sign In →</button
+            >
           </p>
         </div>
       </div>
@@ -417,10 +539,20 @@ const defaultTab = tabParam === "register" ? "register" : "login";
     }
 
     @keyframes auth-scan {
-      0%   { top: 0%;   opacity: 0; }
-      10%  { opacity: 0.25; }
-      90%  { opacity: 0.25; }
-      100% { top: 100%; opacity: 0; }
+      0% {
+        top: 0%;
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.25;
+      }
+      90% {
+        opacity: 0.25;
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
     }
 
     .auth-panel {
@@ -428,8 +560,14 @@ const defaultTab = tabParam === "register" ? "register" : "login";
     }
 
     @keyframes panel-in {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Active field border via JS */
@@ -448,280 +586,310 @@ const defaultTab = tabParam === "register" ? "register" : "login";
   </style>
 
   <script>
-    import { decryptPayload } from '../../lib/crypto';
+    import { decryptPayload } from "../../lib/crypto";
 
     /* ── DOM refs ──────────────────────────────────────────────────────────── */
-    const tabLogin    = document.getElementById('tab-login')!;
-    const tabRegister = document.getElementById('tab-register')!;
-    const formLogin   = document.getElementById('form-login')!;
-    const formRegister= document.getElementById('form-register')!;
+    const tabLogin = document.getElementById("tab-login")!;
+    const tabRegister = document.getElementById("tab-register")!;
+    const formLogin = document.getElementById("form-login")!;
+    const formRegister = document.getElementById("form-register")!;
 
-    const switchToRegister = document.getElementById('switch-to-register');
-    const switchToLogin    = document.getElementById('switch-to-login');
+    const switchToRegister = document.getElementById("switch-to-register");
+    const switchToLogin = document.getElementById("switch-to-login");
 
     /* ── Tab switching ─────────────────────────────────────────────────────── */
-    function activateTab(tab: 'login' | 'register') {
-      const isLogin = tab === 'login';
+    function activateTab(tab: "login" | "register") {
+      const isLogin = tab === "login";
 
-      formLogin.classList.toggle('hidden', !isLogin);
-      formRegister.classList.toggle('hidden', isLogin);
+      formLogin.classList.toggle("hidden", !isLogin);
+      formRegister.classList.toggle("hidden", isLogin);
 
       // active tab styles
-      [tabLogin, tabRegister].forEach(t => {
-        t.classList.remove('text-[var(--primary)]', 'border-[var(--primary)]');
-        t.classList.add('text-[var(--on-surface-variant)]', 'border-transparent');
+      [tabLogin, tabRegister].forEach((t) => {
+        t.classList.remove("text-[var(--primary)]", "border-[var(--primary)]");
+        t.classList.add("text-[var(--on-surface-variant)]", "border-transparent");
       });
       const activeTab = isLogin ? tabLogin : tabRegister;
-      activeTab.classList.add('text-[var(--primary)]', 'border-[var(--primary)]');
-      activeTab.classList.remove('text-[var(--on-surface-variant)]', 'border-transparent');
+      activeTab.classList.add("text-[var(--primary)]", "border-[var(--primary)]");
+      activeTab.classList.remove("text-[var(--on-surface-variant)]", "border-transparent");
 
       // Trigger animation on the revealed panel
       const panel = isLogin ? formLogin : formRegister;
-      panel.querySelectorAll('.auth-panel').forEach(p => {
-        (p as HTMLElement).style.animation = 'none';
+      panel.querySelectorAll(".auth-panel").forEach((p) => {
+        (p as HTMLElement).style.animation = "none";
         (p as HTMLElement).offsetHeight; // reflow
-        (p as HTMLElement).style.animation = '';
+        (p as HTMLElement).style.animation = "";
       });
     }
 
-    tabLogin.addEventListener('click', () => activateTab('login'));
-    tabRegister.addEventListener('click', () => activateTab('register'));
-    switchToRegister?.addEventListener('click', () => activateTab('register'));
-    switchToLogin?.addEventListener('click', () => activateTab('login'));
+    tabLogin.addEventListener("click", () => activateTab("login"));
+    tabRegister.addEventListener("click", () => activateTab("register"));
+    switchToRegister?.addEventListener("click", () => activateTab("register"));
+    switchToLogin?.addEventListener("click", () => activateTab("login"));
 
     /* ── Field focus effects ───────────────────────────────────────────────── */
-    document.querySelectorAll<HTMLInputElement>('.field-input').forEach(input => {
-      const group  = input.closest('.field-group')!;
-      const border = input.closest('.relative')!;
-      const label  = group.querySelector<HTMLElement>('.field-label')!;
+    document.querySelectorAll<HTMLInputElement>(".field-input").forEach((input) => {
+      const group = input.closest(".field-group")!;
+      const border = input.closest(".relative")!;
+      const label = group.querySelector<HTMLElement>(".field-label")!;
 
-      input.addEventListener('focus', () => {
-        border.classList.add('border-[var(--secondary)]');
-        border.classList.remove('border-[var(--outline-variant)]');
-        if (label) label.style.color = 'var(--secondary)';
+      input.addEventListener("focus", () => {
+        border.classList.add("border-[var(--secondary)]");
+        border.classList.remove("border-[var(--outline-variant)]");
+        if (label) label.style.color = "var(--secondary)";
       });
-      input.addEventListener('blur', () => {
-        border.classList.remove('border-[var(--secondary)]');
-        border.classList.add('border-[var(--outline-variant)]');
-        if (label) label.style.color = '';
+      input.addEventListener("blur", () => {
+        border.classList.remove("border-[var(--secondary)]");
+        border.classList.add("border-[var(--outline-variant)]");
+        if (label) label.style.color = "";
       });
     });
 
     /* ── Password visibility toggles ──────────────────────────────────────── */
-    document.querySelectorAll<HTMLButtonElement>('.pw-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
+    document.querySelectorAll<HTMLButtonElement>(".pw-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
         const pw = btn.previousElementSibling as HTMLInputElement;
-        const icon = btn.querySelector('.material-symbols-outlined')!;
-        const isText = pw.type === 'text';
-        pw.type = isText ? 'password' : 'text';
-        icon.textContent = isText ? 'visibility_off' : 'visibility';
+        const icon = btn.querySelector(".material-symbols-outlined")!;
+        const isText = pw.type === "text";
+        pw.type = isText ? "password" : "text";
+        icon.textContent = isText ? "visibility_off" : "visibility";
       });
     });
 
     /* ── Password strength meter ───────────────────────────────────────────── */
-    const regPassword = document.getElementById('reg-password') as HTMLInputElement;
-    const segments    = document.querySelectorAll('#pw-strength-bar .pw-segment') as NodeListOf<HTMLElement>;
-    const strengthLabel = document.getElementById('pw-strength-label')!;
-    const STRENGTH_COLORS = ['var(--error)', '#f97316', '#eab308', 'var(--secondary)'];
-    const STRENGTH_LABELS = ['WEAK', 'FAIR', 'GOOD', 'STRONG'];
+    const regPassword = document.getElementById("reg-password") as HTMLInputElement;
+    const segments = document.querySelectorAll(
+      "#pw-strength-bar .pw-segment",
+    ) as NodeListOf<HTMLElement>;
+    const strengthLabel = document.getElementById("pw-strength-label")!;
+    const STRENGTH_COLORS = ["var(--error)", "#f97316", "#eab308", "var(--secondary)"];
+    const STRENGTH_LABELS = ["WEAK", "FAIR", "GOOD", "STRONG"];
 
     function calcStrength(pw: string): number {
       let score = 0;
-      if (pw.length >= 8)  score++;
+      if (pw.length >= 8) score++;
       if (pw.length >= 12) score++;
       if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
       if (/[0-9]/.test(pw)) score++;
       if (/[^A-Za-z0-9]/.test(pw)) score++;
-      return Math.min(4, Math.floor(score * 4 / 5));
+      return Math.min(4, Math.floor((score * 4) / 5));
     }
 
-    regPassword?.addEventListener('input', () => {
+    regPassword?.addEventListener("input", () => {
       const pw = regPassword.value;
-      const s  = pw.length === 0 ? -1 : calcStrength(pw);
+      const s = pw.length === 0 ? -1 : calcStrength(pw);
       segments.forEach((seg, i) => {
-        seg.style.backgroundColor = i <= s && s >= 0
-          ? (STRENGTH_COLORS[Math.max(0, s - 1)] ?? 'var(--outline-variant)')
-          : 'var(--outline-variant)';
+        seg.style.backgroundColor =
+          i <= s && s >= 0
+            ? (STRENGTH_COLORS[Math.max(0, s - 1)] ?? "var(--outline-variant)")
+            : "var(--outline-variant)";
       });
-      strengthLabel.textContent = pw.length === 0 ? '' : (STRENGTH_LABELS[Math.max(0, s - 1)] ?? '');
-      strengthLabel.style.color = s >= 0 ? (STRENGTH_COLORS[Math.max(0, s - 1)] ?? '') : '';
+      strengthLabel.textContent =
+        pw.length === 0 ? "" : (STRENGTH_LABELS[Math.max(0, s - 1)] ?? "");
+      strengthLabel.style.color = s >= 0 ? (STRENGTH_COLORS[Math.max(0, s - 1)] ?? "") : "";
     });
 
     /* ── Validation helpers ────────────────────────────────────────────────── */
     function showFieldError(group: Element, msg: string) {
-      const err = group.querySelector<HTMLElement>('.field-error')!;
+      const err = group.querySelector<HTMLElement>(".field-error")!;
       err.textContent = msg;
-      err.classList.remove('hidden');
-      group.classList.add('has-error');
+      err.classList.remove("hidden");
+      group.classList.add("has-error");
     }
     function clearFieldError(group: Element) {
-      const err = group.querySelector<HTMLElement>('.field-error');
-      if (err) { err.textContent = ''; err.classList.add('hidden'); }
-      group.classList.remove('has-error');
+      const err = group.querySelector<HTMLElement>(".field-error");
+      if (err) {
+        err.textContent = "";
+        err.classList.add("hidden");
+      }
+      group.classList.remove("has-error");
     }
 
     function setLoading(form: HTMLElement, loading: boolean) {
-      const btn   = form.querySelector<HTMLButtonElement>('[type=submit]')!;
-      const label = btn.querySelector<HTMLElement>('.btn-label')!;
-      const loader= btn.querySelector<HTMLElement>('.btn-loader')!;
+      const btn = form.querySelector<HTMLButtonElement>("[type=submit]")!;
+      const label = btn.querySelector<HTMLElement>(".btn-label")!;
+      const loader = btn.querySelector<HTMLElement>(".btn-loader")!;
       btn.disabled = loading;
-      label.classList.toggle('hidden', loading);
-      loader.classList.toggle('hidden', !loading);
+      label.classList.toggle("hidden", loading);
+      loader.classList.toggle("hidden", !loading);
     }
 
     /* ── LOGIN FORM submit ─────────────────────────────────────────────────── */
-    const loginForm = document.getElementById('login-form') as HTMLFormElement;
-    loginForm?.addEventListener('submit', async (e) => {
+    const loginForm = document.getElementById("login-form") as HTMLFormElement;
+    loginForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const emailField    = loginForm.querySelector<HTMLInputElement>('[name=email]')!;
-      const passwordField = loginForm.querySelector<HTMLInputElement>('[name=password]')!;
-      const errorEl       = document.getElementById('login-error')!;
-      const successEl     = document.getElementById('login-success')!;
+      const emailField = loginForm.querySelector<HTMLInputElement>("[name=email]")!;
+      const passwordField = loginForm.querySelector<HTMLInputElement>("[name=password]")!;
+      const errorEl = document.getElementById("login-error")!;
+      const successEl = document.getElementById("login-success")!;
       let valid = true;
 
       // Validate
-      loginForm.querySelectorAll('.field-group').forEach(g => clearFieldError(g));
+      loginForm.querySelectorAll(".field-group").forEach((g) => clearFieldError(g));
       if (!emailField.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
-        showFieldError(emailField.closest('.field-group')!, 'Valid email required');
+        showFieldError(emailField.closest(".field-group")!, "Valid email required");
         valid = false;
       }
       if (!passwordField.value || passwordField.value.length < 6) {
-        showFieldError(passwordField.closest('.field-group')!, 'Password must be at least 6 characters');
+        showFieldError(
+          passwordField.closest(".field-group")!,
+          "Password must be at least 6 characters",
+        );
         valid = false;
       }
       if (!valid) return;
 
       setLoading(loginForm, true);
-      errorEl.classList.add('hidden');
+      errorEl.classList.add("hidden");
 
       try {
         // Attempt Medusa customer login
-        const res = await fetch(`${import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/auth/customer/emailpass`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-publishable-api-key': import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || '' },
-          body: JSON.stringify({ email: emailField.value, password: passwordField.value }),
-          credentials: 'include',
-        });
+        const res = await fetch(
+          `${import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"}/auth/customer/emailpass`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-publishable-api-key": import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "",
+            },
+            body: JSON.stringify({ email: emailField.value, password: passwordField.value }),
+            credentials: "include",
+          },
+        );
 
         const encryptedData = await res.json().catch(() => ({}));
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data: any = await decryptPayload(encryptedData);
 
         if (!res.ok) {
-          throw new Error(data.message || 'Invalid credentials. Please try again.');
+          throw new Error(data.message || "Invalid credentials. Please try again.");
         }
 
         if (data.token) {
-          localStorage.setItem('wanna_auth_token', data.token);
-          localStorage.setItem('wanna_auth_email', emailField.value);
+          localStorage.setItem("wanna_auth_token", data.token);
+          localStorage.setItem("wanna_auth_email", emailField.value);
         }
 
         // Show success then redirect
-        successEl.classList.remove('hidden');
-        loginForm.classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => { window.location.href = '/account'; }, 1600);
+        successEl.classList.remove("hidden");
+        loginForm.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => {
+          window.location.href = "/account";
+        }, 1600);
       } catch (err: any) {
-        errorEl.textContent = err.message || 'Login failed. Please try again.';
-        errorEl.classList.remove('hidden');
+        errorEl.textContent = err.message || "Login failed. Please try again.";
+        errorEl.classList.remove("hidden");
         setLoading(loginForm, false);
       }
     });
 
     /* ── REGISTER FORM submit ──────────────────────────────────────────────── */
-    const registerForm = document.getElementById('register-form') as HTMLFormElement;
-    registerForm?.addEventListener('submit', async (e) => {
+    const registerForm = document.getElementById("register-form") as HTMLFormElement;
+    registerForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const nameField    = registerForm.querySelector<HTMLInputElement>('[name=name]')!;
-      const emailField   = registerForm.querySelector<HTMLInputElement>('[name=email]')!;
-      const pwField      = registerForm.querySelector<HTMLInputElement>('[name=password]')!;
-      const confField    = registerForm.querySelector<HTMLInputElement>('[name=confirm]')!;
-      const termsField   = registerForm.querySelector<HTMLInputElement>('[name=terms]')!;
-      const errorEl      = document.getElementById('register-error')!;
-      const termsErr     = document.getElementById('terms-error')!;
-      const successEl    = document.getElementById('register-success')!;
+      const nameField = registerForm.querySelector<HTMLInputElement>("[name=name]")!;
+      const emailField = registerForm.querySelector<HTMLInputElement>("[name=email]")!;
+      const pwField = registerForm.querySelector<HTMLInputElement>("[name=password]")!;
+      const confField = registerForm.querySelector<HTMLInputElement>("[name=confirm]")!;
+      const termsField = registerForm.querySelector<HTMLInputElement>("[name=terms]")!;
+      const errorEl = document.getElementById("register-error")!;
+      const termsErr = document.getElementById("terms-error")!;
+      const successEl = document.getElementById("register-success")!;
       let valid = true;
 
-      registerForm.querySelectorAll('.field-group').forEach(g => clearFieldError(g));
-      termsErr.classList.add('hidden');
+      registerForm.querySelectorAll(".field-group").forEach((g) => clearFieldError(g));
+      termsErr.classList.add("hidden");
 
       if (!nameField.value.trim()) {
-        showFieldError(nameField.closest('.field-group')!, 'Name is required');
+        showFieldError(nameField.closest(".field-group")!, "Name is required");
         valid = false;
       }
       if (!emailField.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
-        showFieldError(emailField.closest('.field-group')!, 'Valid email required');
+        showFieldError(emailField.closest(".field-group")!, "Valid email required");
         valid = false;
       }
       if (!pwField.value || pwField.value.length < 8) {
-        showFieldError(pwField.closest('.field-group')!, 'Password must be at least 8 characters');
+        showFieldError(pwField.closest(".field-group")!, "Password must be at least 8 characters");
         valid = false;
       }
       if (pwField.value !== confField.value) {
-        showFieldError(confField.closest('.field-group')!, 'Passwords do not match');
+        showFieldError(confField.closest(".field-group")!, "Passwords do not match");
         valid = false;
       }
       if (!termsField.checked) {
-        termsErr.textContent = 'You must agree to the Terms & Conditions and Privacy Policy to continue';
-        termsErr.classList.remove('hidden');
+        termsErr.textContent =
+          "You must agree to the Terms & Conditions and Privacy Policy to continue";
+        termsErr.classList.remove("hidden");
         valid = false;
       }
       if (!valid) return;
 
       setLoading(registerForm, true);
-      errorEl.classList.add('hidden');
+      errorEl.classList.add("hidden");
 
       try {
         // Step 1: Create auth identity
-        const regRes = await fetch(`${import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/auth/customer/emailpass/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-publishable-api-key': import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || '' },
-          body: JSON.stringify({
-            email:      emailField.value,
-            password:   pwField.value,
-          }),
-          credentials: 'include',
-        });
+        const regRes = await fetch(
+          `${import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"}/auth/customer/emailpass/register`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-publishable-api-key": import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "",
+            },
+            body: JSON.stringify({
+              email: emailField.value,
+              password: pwField.value,
+            }),
+            credentials: "include",
+          },
+        );
 
         const encryptedReg = await regRes.json().catch(() => ({}));
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const regData: any = await decryptPayload(encryptedReg);
 
         if (!regRes.ok) {
-          throw new Error(regData.message || 'Registration failed. Please try again.');
+          throw new Error(regData.message || "Registration failed. Please try again.");
         }
 
         const token = regData.token;
 
         // Step 2: Create customer record linked to auth identity
-        const custRes = await fetch(`${import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000'}/store/customers`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-publishable-api-key': import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-            'Authorization': `Bearer ${token}`
+        const custRes = await fetch(
+          `${import.meta.env.PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"}/store/customers`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-publishable-api-key": import.meta.env.PUBLIC_MEDUSA_PUBLISHABLE_KEY || "",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              first_name: nameField.value.trim().split(" ")[0] || nameField.value.trim(),
+              last_name: nameField.value.trim().split(" ").slice(1).join(" ") || "",
+              email: emailField.value,
+            }),
+            credentials: "include",
           },
-          body: JSON.stringify({
-            first_name: nameField.value.trim().split(' ')[0] || nameField.value.trim(),
-            last_name:  nameField.value.trim().split(' ').slice(1).join(' ') || '',
-            email:      emailField.value,
-          }),
-          credentials: 'include',
-        });
+        );
 
         const encryptedCust = await custRes.json().catch(() => ({}));
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const custData: any = await decryptPayload(encryptedCust);
 
         if (!custRes.ok) {
-          throw new Error(custData.message || 'Customer profile linking failed. Please try again.');
+          throw new Error(custData.message || "Customer profile linking failed. Please try again.");
         }
 
-        successEl.classList.remove('hidden');
-        registerForm.classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => { window.location.href = '/auth?tab=login'; }, 3000);
+        successEl.classList.remove("hidden");
+        registerForm.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => {
+          window.location.href = "/auth?tab=login";
+        }, 3000);
       } catch (err: any) {
-        errorEl.textContent = err.message || 'Registration failed. Please try again.';
-        errorEl.classList.remove('hidden');
+        errorEl.textContent = err.message || "Registration failed. Please try again.";
+        errorEl.classList.remove("hidden");
         setLoading(registerForm, false);
       }
     });

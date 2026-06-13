@@ -11,7 +11,7 @@ interface EncryptedPayload {
 
 export async function decryptPayload(
   encrypted: unknown,
-  keyString: string = (import.meta.env.PUBLIC_API_ENCRYPTION_KEY as string | undefined) ?? ""
+  keyString: string = (import.meta.env.PUBLIC_API_ENCRYPTION_KEY as string | undefined) ?? "",
 ): Promise<unknown> {
   // If the payload does not match the encrypted structure, return it directly
   if (!encrypted || typeof encrypted !== "object") {
@@ -27,7 +27,7 @@ export async function decryptPayload(
     // 1. Convert hex IV and hex data to Uint8Arrays
     const ivBytes = payload.iv.match(/.{1,2}/g);
     const dataBytes = payload.data.match(/.{1,2}/g);
-    
+
     if (!ivBytes || !dataBytes) {
       return encrypted;
     }
@@ -38,11 +38,11 @@ export async function decryptPayload(
     // 2. Hash keyString with SHA-256 to match backend key derivation
     const encoder = new TextEncoder();
     const keyData = encoder.encode(keyString);
-    
+
     // Support both browser and Node.js SSR environments for Web Crypto
     const webCrypto = globalThis.crypto;
     const subtle = webCrypto.subtle as SubtleCrypto | undefined;
-      
+
     if (!subtle) {
       throw new Error("Web Crypto API is not supported in this environment.");
     }
@@ -50,13 +50,9 @@ export async function decryptPayload(
     const keyHash = await subtle.digest("SHA-256", keyData);
 
     // 3. Import the derived key for AES-GCM
-    const cryptoKey = await subtle.importKey(
-      "raw",
-      keyHash,
-      { name: "AES-GCM" },
-      false,
-      ["decrypt"]
-    );
+    const cryptoKey = await subtle.importKey("raw", keyHash, { name: "AES-GCM" }, false, [
+      "decrypt",
+    ]);
 
     // 4. Decrypt the data
     const decryptedBuffer = await subtle.decrypt(
@@ -65,7 +61,7 @@ export async function decryptPayload(
         iv,
       },
       cryptoKey,
-      encryptedData
+      encryptedData,
     );
 
     // 5. Decode the decrypted bytes to string

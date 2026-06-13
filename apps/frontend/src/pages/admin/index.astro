@@ -17,231 +17,316 @@ const initialEvents = [
   { time: "23:55:18", type: "WARN", text: "Order #8892 transition: pending -> processing" },
   { time: "23:56:18", type: "WARN", text: "Identity provider token refreshed." },
   { time: "23:57:18", type: "WARN", text: "Identity provider token refreshed." },
-  { time: "23:58:18", type: "DEBUG", text: "DB Connection pool state: healthy (24/100)" }
+  { time: "23:58:18", type: "DEBUG", text: "DB Connection pool state: healthy (24/100)" },
 ];
 ---
+
 <AdminLayout title="WANNASINGH COMMAND CORE" activeTab="overview">
-    <!-- Dashboard Canvas -->
-    <div class="grid grid-cols-12 gap-6">
-        <!-- Global Stats Row -->
-        <section class="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-surface-container-low tech-border p-4">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="font-mono-label text-mono-label text-on-surface-variant">TOTAL_REVENUE</span>
-                    <span class="text-primary material-symbols-outlined">payments</span>
-                </div>
-                <div class="font-mono-data text-2xl text-primary font-bold">$1,240,582.00</div>
-                <div class="flex items-center gap-2 mt-2">
-                    <span class="bg-primary/10 text-primary px-1.5 py-0.5 font-mono-data text-[10px]">+12.4%</span>
-                    <span class="font-mono-label text-[10px] text-on-tertiary-fixed-variant">VS PREVIOUS_CYCLE</span>
-                </div>
-            </div>
-            <div class="bg-surface-container-low tech-border p-4">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="font-mono-label text-mono-label text-on-surface-variant">ACTIVE_SESSIONS</span>
-                    <span class="text-primary material-symbols-outlined">analytics</span>
-                </div>
-                <div class="font-mono-data text-2xl text-on-surface font-bold">4,892</div>
-                <div class="w-full bg-surface-variant h-1 mt-4">
-                    <div class="bg-primary h-full" style="width: 68%"></div>
-                </div>
-            </div>
-            <div class="bg-surface-container-low tech-border p-4">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="font-mono-label text-mono-label text-on-surface-variant">SERVER_HEALTH</span>
-                    <span class="text-primary material-symbols-outlined">dns</span>
-                </div>
-                <div class="font-mono-data text-2xl text-primary font-bold">99.9%</div>
-                <div class="flex items-center gap-1.5 mt-2">
-                    <div class="w-1.5 h-1.5 bg-primary rounded-full status-pulse"></div>
-                    <span class="font-mono-label text-[10px] text-on-surface">Uptime stable: 43d 12h</span>
-                </div>
-            </div>
-            <div class="bg-surface-container-low tech-border p-4">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="font-mono-label text-mono-label text-on-surface-variant">ORDER_VOL</span>
-                    <span class="text-primary material-symbols-outlined">shopping_cart</span>
-                </div>
-                <div class="font-mono-data text-2xl text-on-surface font-bold">12,401</div>
-                <div class="flex items-center gap-2 mt-2">
-                    <span class="text-error font-mono-data text-[10px]">-2.1%</span>
-                    <span class="font-mono-label text-[10px] text-on-tertiary-fixed-variant">PEAK_LOAD_WARN</span>
-                </div>
-            </div>
-        </section>
+  <!-- Dashboard Canvas -->
+  <div class="grid grid-cols-12 gap-6">
+    <!-- Global Stats Row -->
+    <section class="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-surface-container-low tech-border p-4">
+        <div class="flex justify-between items-start mb-2">
+          <span class="font-mono-label text-mono-label text-on-surface-variant">TOTAL_REVENUE</span>
+          <span class="text-primary material-symbols-outlined">payments</span>
+        </div>
+        <div class="font-mono-data text-2xl text-primary font-bold">$1,240,582.00</div>
+        <div class="flex items-center gap-2 mt-2">
+          <span class="bg-primary/10 text-primary px-1.5 py-0.5 font-mono-data text-[10px]"
+            >+12.4%</span
+          >
+          <span class="font-mono-label text-[10px] text-on-tertiary-fixed-variant"
+            >VS PREVIOUS_CYCLE</span
+          >
+        </div>
+      </div>
+      <div class="bg-surface-container-low tech-border p-4">
+        <div class="flex justify-between items-start mb-2">
+          <span class="font-mono-label text-mono-label text-on-surface-variant"
+            >ACTIVE_SESSIONS</span
+          >
+          <span class="text-primary material-symbols-outlined">analytics</span>
+        </div>
+        <div class="font-mono-data text-2xl text-on-surface font-bold">4,892</div>
+        <div class="w-full bg-surface-variant h-1 mt-4">
+          <div class="bg-primary h-full" style="width: 68%"></div>
+        </div>
+      </div>
+      <div class="bg-surface-container-low tech-border p-4">
+        <div class="flex justify-between items-start mb-2">
+          <span class="font-mono-label text-mono-label text-on-surface-variant">SERVER_HEALTH</span>
+          <span class="text-primary material-symbols-outlined">dns</span>
+        </div>
+        <div class="font-mono-data text-2xl text-primary font-bold">99.9%</div>
+        <div class="flex items-center gap-1.5 mt-2">
+          <div class="w-1.5 h-1.5 bg-primary rounded-full status-pulse"></div>
+          <span class="font-mono-label text-[10px] text-on-surface">Uptime stable: 43d 12h</span>
+        </div>
+      </div>
+      <div class="bg-surface-container-low tech-border p-4">
+        <div class="flex justify-between items-start mb-2">
+          <span class="font-mono-label text-mono-label text-on-surface-variant">ORDER_VOL</span>
+          <span class="text-primary material-symbols-outlined">shopping_cart</span>
+        </div>
+        <div class="font-mono-data text-2xl text-on-surface font-bold">12,401</div>
+        <div class="flex items-center gap-2 mt-2">
+          <span class="text-error font-mono-data text-[10px]">-2.1%</span>
+          <span class="font-mono-label text-[10px] text-on-tertiary-fixed-variant"
+            >PEAK_LOAD_WARN</span
+          >
+        </div>
+      </div>
+    </section>
 
-        <!-- Main Sales Chart Area -->
-        <section class="col-span-12 lg:col-span-8 bg-surface-container-low tech-border p-6">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="font-mono-label text-mono-label text-on-surface font-bold">GLOBAL_SALES_METRICS</h3>
-                    <p class="text-[10px] text-on-surface-variant font-mono-data">TIMESCALE: 24H_REALTIME</p>
-                </div>
-                <div class="flex gap-2">
-                    <button class="bg-surface-container-highest px-3 py-1 font-mono-label text-[10px] tech-border cursor-pointer text-on-surface">D</button>
-                    <button class="bg-primary/20 text-primary px-3 py-1 font-mono-label text-[10px] border border-primary/40 cursor-pointer">W</button>
-                    <button class="bg-surface-container-highest px-3 py-1 font-mono-label text-[10px] tech-border cursor-pointer text-on-surface">M</button>
-                </div>
-            </div>
-            <div class="h-64 w-full relative">
-                <!-- Virtual Chart Visualization -->
-                <div class="absolute inset-0 flex items-end gap-1 opacity-20">
-                    <div class="bg-primary w-full" style="height: 40%"></div>
-                    <div class="bg-primary w-full" style="height: 45%"></div>
-                    <div class="bg-primary w-full" style="height: 38%"></div>
-                    <div class="bg-primary w-full" style="height: 52%"></div>
-                    <div class="bg-primary w-full" style="height: 65%"></div>
-                    <div class="bg-primary w-full" style="height: 60%"></div>
-                    <div class="bg-primary w-full" style="height: 72%"></div>
-                    <div class="bg-primary w-full" style="height: 85%"></div>
-                    <div class="bg-primary w-full" style="height: 95%"></div>
-                    <div class="bg-primary w-full" style="height: 90%"></div>
-                    <div class="bg-primary w-full" style="height: 82%"></div>
-                    <div class="bg-primary w-full" style="height: 75%"></div>
-                </div>
+    <!-- Main Sales Chart Area -->
+    <section class="col-span-12 lg:col-span-8 bg-surface-container-low tech-border p-6">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h3 class="font-mono-label text-mono-label text-on-surface font-bold">
+            GLOBAL_SALES_METRICS
+          </h3>
+          <p class="text-[10px] text-on-surface-variant font-mono-data">TIMESCALE: 24H_REALTIME</p>
+        </div>
+        <div class="flex gap-2">
+          <button
+            class="bg-surface-container-highest px-3 py-1 font-mono-label text-[10px] tech-border cursor-pointer text-on-surface"
+            >D</button
+          >
+          <button
+            class="bg-primary/20 text-primary px-3 py-1 font-mono-label text-[10px] border border-primary/40 cursor-pointer"
+            >W</button
+          >
+          <button
+            class="bg-surface-container-highest px-3 py-1 font-mono-label text-[10px] tech-border cursor-pointer text-on-surface"
+            >M</button
+          >
+        </div>
+      </div>
+      <div class="h-64 w-full relative">
+        <!-- Virtual Chart Visualization -->
+        <div class="absolute inset-0 flex items-end gap-1 opacity-20">
+          <div class="bg-primary w-full" style="height: 40%"></div>
+          <div class="bg-primary w-full" style="height: 45%"></div>
+          <div class="bg-primary w-full" style="height: 38%"></div>
+          <div class="bg-primary w-full" style="height: 52%"></div>
+          <div class="bg-primary w-full" style="height: 65%"></div>
+          <div class="bg-primary w-full" style="height: 60%"></div>
+          <div class="bg-primary w-full" style="height: 72%"></div>
+          <div class="bg-primary w-full" style="height: 85%"></div>
+          <div class="bg-primary w-full" style="height: 95%"></div>
+          <div class="bg-primary w-full" style="height: 90%"></div>
+          <div class="bg-primary w-full" style="height: 82%"></div>
+          <div class="bg-primary w-full" style="height: 75%"></div>
+        </div>
 
-                <!-- Chart Overlay -->
-                <div class="absolute inset-0 flex flex-col justify-between py-2 border-l border-b border-outline-variant/30">
-                    <div class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"><span>100K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"></span></div>
-                    <div class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"><span>75K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"></span></div>
-                    <div class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"><span>50K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"></span></div>
-                    <div class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"><span>25K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"></span></div>
-                    <div class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"><span>0</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"></span></div>
-                </div>
+        <!-- Chart Overlay -->
+        <div
+          class="absolute inset-0 flex flex-col justify-between py-2 border-l border-b border-outline-variant/30"
+        >
+          <div
+            class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"
+          >
+            <span>100K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"
+            ></span>
+          </div>
+          <div
+            class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"
+          >
+            <span>75K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"
+            ></span>
+          </div>
+          <div
+            class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"
+          >
+            <span>50K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"
+            ></span>
+          </div>
+          <div
+            class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"
+          >
+            <span>25K</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"
+            ></span>
+          </div>
+          <div
+            class="text-[9px] font-mono-data text-on-surface-variant/50 w-full flex justify-between"
+          >
+            <span>0</span><span class="border-t border-outline-variant/10 flex-1 mx-2 mt-1.5"
+            ></span>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-6 mt-4 border-t border-outline-variant/20 pt-4 gap-4">
+        <div class="text-center">
+          <p class="font-mono-label text-[10px] text-on-surface-variant">PEAK_VAL</p>
+          <p class="font-mono-data text-[13px] text-primary">$94.2k</p>
+        </div>
+        <div class="text-center">
+          <p class="font-mono-label text-[10px] text-on-surface-variant">AVG_ORDER</p>
+          <p class="font-mono-data text-[13px] text-on-surface">$128.00</p>
+        </div>
+        <div class="text-center">
+          <p class="font-mono-label text-[10px] text-on-surface-variant">BOUNCE_RT</p>
+          <p class="font-mono-data text-[13px] text-on-surface">14.2%</p>
+        </div>
+        <div class="text-center">
+          <p class="font-mono-label text-[10px] text-on-surface-variant">LTV_EST</p>
+          <p class="font-mono-data text-[13px] text-on-surface">$2.1k</p>
+        </div>
+        <div class="text-center col-span-2 flex justify-end">
+          <div class="relative w-full h-full flex items-center justify-end px-4">
+            <span class="font-mono-label text-[10px] text-on-surface-variant mr-2">NODES:</span>
+            <div class="flex gap-1">
+              <div class="w-1.5 h-1.5 bg-primary"></div>
+              <div class="w-1.5 h-1.5 bg-primary"></div>
+              <div class="w-1.5 h-1.5 bg-primary/40"></div>
             </div>
-            <div class="grid grid-cols-6 mt-4 border-t border-outline-variant/20 pt-4 gap-4">
-                <div class="text-center">
-                    <p class="font-mono-label text-[10px] text-on-surface-variant">PEAK_VAL</p>
-                    <p class="font-mono-data text-[13px] text-primary">$94.2k</p>
-                </div>
-                <div class="text-center">
-                    <p class="font-mono-label text-[10px] text-on-surface-variant">AVG_ORDER</p>
-                    <p class="font-mono-data text-[13px] text-on-surface">$128.00</p>
-                </div>
-                <div class="text-center">
-                    <p class="font-mono-label text-[10px] text-on-surface-variant">BOUNCE_RT</p>
-                    <p class="font-mono-data text-[13px] text-on-surface">14.2%</p>
-                </div>
-                <div class="text-center">
-                    <p class="font-mono-label text-[10px] text-on-surface-variant">LTV_EST</p>
-                    <p class="font-mono-data text-[13px] text-on-surface">$2.1k</p>
-                </div>
-                <div class="text-center col-span-2 flex justify-end">
-                    <div class="relative w-full h-full flex items-center justify-end px-4">
-                        <span class="font-mono-label text-[10px] text-on-surface-variant mr-2">NODES:</span>
-                        <div class="flex gap-1">
-                            <div class="w-1.5 h-1.5 bg-primary"></div>
-                            <div class="w-1.5 h-1.5 bg-primary"></div>
-                            <div class="w-1.5 h-1.5 bg-primary/40"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Critical Alerts -->
-        <section class="col-span-12 lg:col-span-4 bg-surface-container-low tech-border flex flex-col h-full">
-            <div class="p-4 border-b border-outline-variant bg-error/5 flex items-center gap-2">
-                <span class="material-symbols-outlined text-error text-[20px]">warning</span>
-                <h3 class="font-mono-label text-[11px] text-error font-bold">CRITICAL_ALERTS (02)</h3>
-            </div>
-            <div class="flex-1 p-0 overflow-y-auto">
-                <div class="p-4 border-b border-outline-variant/30 bg-surface-container hover:bg-surface-variant transition-colors cursor-pointer group">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="font-mono-label text-[10px] text-error">SECURITY_BREACH_ATTEMPT</span>
-                        <span class="font-mono-data text-[10px] text-on-surface-variant">12:45:01</span>
-                    </div>
-                    <p class="text-[13px] text-on-surface leading-tight font-sans">Multiple failed login attempts from unrecognized IP range: 192.168.x.x</p>
-                    <div class="mt-3 flex justify-end">
-                        <button class="text-[10px] font-mono-label text-primary border border-primary/40 px-2 py-0.5 group-hover:bg-primary group-hover:text-on-primary cursor-pointer">INVESTIGATE</button>
-                    </div>
-                </div>
-                <div class="p-4 border-b border-outline-variant/30 hover:bg-surface-variant transition-colors cursor-pointer group">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="font-mono-label text-[10px] text-error">LATENCY_SPIKE</span>
-                        <span class="font-mono-data text-[10px] text-on-surface-variant">11:32:44</span>
-                    </div>
-                    <p class="text-[13px] text-on-surface leading-tight font-sans">API endpoint /v1/orders responding with 1500ms delay. DB index optimization required.</p>
-                    <div class="mt-3 flex justify-end">
-                        <button class="text-[10px] font-mono-label text-primary border border-primary/40 px-2 py-0.5 group-hover:bg-primary group-hover:text-on-primary cursor-pointer">REINDEX_DB</button>
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 bg-surface-container-lowest border-t border-outline-variant/30">
-                <div class="flex justify-between mb-2">
-                    <span class="text-[10px] font-mono-label text-on-surface-variant">SYSCPU_LOAD</span>
-                    <span class="text-[10px] font-mono-data text-primary">42%</span>
-                </div>
-                <div class="w-full bg-surface-variant h-1">
-                    <div class="bg-primary h-full" style="width: 42%"></div>
-                </div>
-            </div>
-        </section>
+    <!-- Critical Alerts -->
+    <section
+      class="col-span-12 lg:col-span-4 bg-surface-container-low tech-border flex flex-col h-full"
+    >
+      <div class="p-4 border-b border-outline-variant bg-error/5 flex items-center gap-2">
+        <span class="material-symbols-outlined text-error text-[20px]">warning</span>
+        <h3 class="font-mono-label text-[11px] text-error font-bold">CRITICAL_ALERTS (02)</h3>
+      </div>
+      <div class="flex-1 p-0 overflow-y-auto">
+        <div
+          class="p-4 border-b border-outline-variant/30 bg-surface-container hover:bg-surface-variant transition-colors cursor-pointer group"
+        >
+          <div class="flex justify-between items-start mb-1">
+            <span class="font-mono-label text-[10px] text-error">SECURITY_BREACH_ATTEMPT</span>
+            <span class="font-mono-data text-[10px] text-on-surface-variant">12:45:01</span>
+          </div>
+          <p class="text-[13px] text-on-surface leading-tight font-sans">
+            Multiple failed login attempts from unrecognized IP range: 192.168.x.x
+          </p>
+          <div class="mt-3 flex justify-end">
+            <button
+              class="text-[10px] font-mono-label text-primary border border-primary/40 px-2 py-0.5 group-hover:bg-primary group-hover:text-on-primary cursor-pointer"
+              >INVESTIGATE</button
+            >
+          </div>
+        </div>
+        <div
+          class="p-4 border-b border-outline-variant/30 hover:bg-surface-variant transition-colors cursor-pointer group"
+        >
+          <div class="flex justify-between items-start mb-1">
+            <span class="font-mono-label text-[10px] text-error">LATENCY_SPIKE</span>
+            <span class="font-mono-data text-[10px] text-on-surface-variant">11:32:44</span>
+          </div>
+          <p class="text-[13px] text-on-surface leading-tight font-sans">
+            API endpoint /v1/orders responding with 1500ms delay. DB index optimization required.
+          </p>
+          <div class="mt-3 flex justify-end">
+            <button
+              class="text-[10px] font-mono-label text-primary border border-primary/40 px-2 py-0.5 group-hover:bg-primary group-hover:text-on-primary cursor-pointer"
+              >REINDEX_DB</button
+            >
+          </div>
+        </div>
+      </div>
+      <div class="p-4 bg-surface-container-lowest border-t border-outline-variant/30">
+        <div class="flex justify-between mb-2">
+          <span class="text-[10px] font-mono-label text-on-surface-variant">SYSCPU_LOAD</span>
+          <span class="text-[10px] font-mono-data text-primary">42%</span>
+        </div>
+        <div class="w-full bg-surface-variant h-1">
+          <div class="bg-primary h-full" style="width: 42%"></div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Real-time Event Log -->
-        <section class="col-span-12 bg-black tech-border mt-6">
-            <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-[18px]">terminal</span>
-                    <h3 class="font-mono-label text-[11px] text-on-surface uppercase font-bold">SYSTEM_EVENT_LOG_V2</h3>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-primary rounded-full status-pulse"></span>
-                        <span class="font-mono-label text-[10px] text-primary">LIVE_STREAMING</span>
-                    </div>
-                    <button class="text-on-surface-variant hover:text-primary cursor-pointer"><span class="material-symbols-outlined text-[18px]">download</span></button>
-                </div>
+    <!-- Real-time Event Log -->
+    <section class="col-span-12 bg-black tech-border mt-6">
+      <div
+        class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low"
+      >
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[18px]">terminal</span>
+          <h3 class="font-mono-label text-[11px] text-on-surface uppercase font-bold">
+            SYSTEM_EVENT_LOG_V2
+          </h3>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-primary rounded-full status-pulse"></span>
+            <span class="font-mono-label text-[10px] text-primary">LIVE_STREAMING</span>
+          </div>
+          <button class="text-on-surface-variant hover:text-primary cursor-pointer"
+            ><span class="material-symbols-outlined text-[18px]">download</span></button
+          >
+        </div>
+      </div>
+      <div
+        class="h-64 overflow-y-auto p-4 font-mono-data text-[13px] text-secondary/80 leading-relaxed scroll-smooth"
+        id="log-container"
+      >
+        {
+          initialEvents.map((log) => (
+            <div class="flex gap-4 border-b border-white/5 py-1 transition-opacity duration-500">
+              <span class="text-outline">[{log.time}]</span>
+              <span
+                class={
+                  log.type === "INFO"
+                    ? "text-primary"
+                    : log.type === "WARN"
+                      ? "text-error"
+                      : "text-secondary"
+                }
+              >
+                {log.type}
+              </span>
+              <span>{log.text}</span>
             </div>
-            <div class="h-64 overflow-y-auto p-4 font-mono-data text-[13px] text-secondary/80 leading-relaxed scroll-smooth" id="log-container">
-                {initialEvents.map((log) => (
-                    <div class="flex gap-4 border-b border-white/5 py-1 transition-opacity duration-500">
-                        <span class="text-outline">[{log.time}]</span>
-                        <span class={log.type === "INFO" ? "text-primary" : log.type === "WARN" ? "text-error" : "text-secondary"}>{log.type}</span>
-                        <span>{log.text}</span>
-                    </div>
-                ))}
-            </div>
-        </section>
-    </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 
-    <script is:inline>
-        // Log stream simulation
-        const logContainer = document.getElementById('log-container');
-        const statuses = ['INFO', 'DEBUG', 'WARN'];
-        const messages = [
-            'Request processed in 45ms.',
-            'Order #8892 transition: pending -> processing',
-            'Worker thread pool expanded to 12.',
-            'Search index heartbeat received.',
-            'DB Connection pool state: healthy (24/100)',
-            'Identity provider token refreshed.'
-        ];
+  <script is:inline>
+    // Log stream simulation
+    const logContainer = document.getElementById("log-container");
+    const statuses = ["INFO", "DEBUG", "WARN"];
+    const messages = [
+      "Request processed in 45ms.",
+      "Order #8892 transition: pending -> processing",
+      "Worker thread pool expanded to 12.",
+      "Search index heartbeat received.",
+      "DB Connection pool state: healthy (24/100)",
+      "Identity provider token refreshed.",
+    ];
 
-        setInterval(() => {
-            if (!logContainer) return;
-            const now = new Date();
-            const timestamp = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
-            const status = statuses[Math.floor(Math.random() * statuses.length)];
-            const message = messages[Math.floor(Math.random() * messages.length)];
-            
-            const colorClass = status === 'INFO' ? 'text-primary' : (status === 'WARN' ? 'text-error' : 'text-secondary');
-            
-            const div = document.createElement('div');
-            div.className = 'flex gap-4 border-b border-white/5 py-1 transition-opacity duration-500';
-            div.innerHTML = `
+    setInterval(() => {
+      if (!logContainer) return;
+      const now = new Date();
+      const timestamp = `[${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")}]`;
+      const status = statuses[Math.floor(Math.random() * statuses.length)];
+      const message = messages[Math.floor(Math.random() * messages.length)];
+
+      const colorClass =
+        status === "INFO" ? "text-primary" : status === "WARN" ? "text-error" : "text-secondary";
+
+      const div = document.createElement("div");
+      div.className = "flex gap-4 border-b border-white/5 py-1 transition-opacity duration-500";
+      div.innerHTML = `
                 <span class="text-outline">${timestamp}</span>
                 <span class="${colorClass}">${status}</span>
                 <span>${message}</span>
             `;
-            
-            logContainer.appendChild(div);
-            
-            if (logContainer.childNodes.length > 50) {
-                logContainer.removeChild(logContainer.firstChild);
-            }
-            
-            logContainer.scrollTop = logContainer.scrollHeight;
-        }, 3000);
-    </script>
+
+      logContainer.appendChild(div);
+
+      if (logContainer.childNodes.length > 50) {
+        logContainer.removeChild(logContainer.firstChild);
+      }
+
+      logContainer.scrollTop = logContainer.scrollHeight;
+    }, 3000);
+  </script>
 </AdminLayout>

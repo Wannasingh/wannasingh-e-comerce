@@ -9,20 +9,26 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!stripeSecretKey || stripeSecretKey.includes("REPLACE_WITH")) {
     return new Response(
-      JSON.stringify({ error: "Stripe secret key not configured. Add STRIPE_SECRET_KEY to your .env file." }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      JSON.stringify({
+        error: "Stripe secret key not configured. Add STRIPE_SECRET_KEY to your .env file.",
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 
   try {
-    const body = await request.json() as { amount: number; currency?: string; metadata?: Record<string, string> };
+    const body = (await request.json()) as {
+      amount: number;
+      currency?: string;
+      metadata?: Record<string, string>;
+    };
     const { amount, currency = "usd", metadata = {} } = body;
 
     if (!amount || amount < 50) {
-      return new Response(
-        JSON.stringify({ error: "Invalid amount. Minimum is $0.50." }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Invalid amount. Minimum is $0.50." }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     const stripe = new Stripe(stripeSecretKey);
@@ -37,15 +43,15 @@ export const POST: APIRoute = async ({ request }) => {
       metadata,
     });
 
-    return new Response(
-      JSON.stringify({ clientSecret: paymentIntent.client_secret }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ clientSecret: paymentIntent.client_secret }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    return new Response(
-      JSON.stringify({ error: message }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
