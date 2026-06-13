@@ -52,8 +52,9 @@ describe("encryptionMiddleware", () => {
     expect(mockSet).toHaveBeenCalledWith("Content-Type", "application/json");
     expect(mockSend).toHaveBeenCalled();
 
-    const sentArg = mockSend.mock.calls[0][0] as string;
-    expect(typeof sentArg).toBe("string");
+    const firstCall = mockSend.mock.calls[0];
+    expect(firstCall).toBeDefined();
+    const sentArg = (firstCall ? firstCall[0] : "") as string;
 
     const parsed = JSON.parse(sentArg) as { iv?: unknown; data?: unknown };
     expect(parsed).toHaveProperty("iv");

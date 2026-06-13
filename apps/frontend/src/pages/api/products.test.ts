@@ -107,7 +107,7 @@ describe("GET products API endpoint", () => {
     const data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(2);
     expect(data.products).toHaveLength(2);
-    expect(data.products[0].name).toBe("Pants B"); // sorted by newest first by default
+    expect(data.products[0]?.name).toBe("Pants B"); // sorted by newest first by default
   });
 
   it("should filter by category", async () => {
@@ -117,7 +117,7 @@ describe("GET products API endpoint", () => {
     const response = await GET(context);
     const data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Jacket A");
+    expect(data.products[0]?.name).toBe("Jacket A");
   });
 
   it("should filter by search query q", async () => {
@@ -127,7 +127,7 @@ describe("GET products API endpoint", () => {
     const response = await GET(context);
     const data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Pants B");
+    expect(data.products[0]?.name).toBe("Pants B");
   });
 
   it("should paginate correctly with limit and offset", async () => {
@@ -137,7 +137,7 @@ describe("GET products API endpoint", () => {
     const response = await GET(context);
     const data = (await response.json()) as ProductResponse;
     expect(data.products).toHaveLength(1);
-    expect(data.products[0].name).toBe("Jacket A"); // offset 1
+    expect(data.products[0]?.name).toBe("Jacket A"); // offset 1
   });
 
   it("should filter by price ranges (minPrice and maxPrice)", async () => {
@@ -147,7 +147,7 @@ describe("GET products API endpoint", () => {
     const response = await GET(context);
     const data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Jacket A"); // price 150
+    expect(data.products[0]?.name).toBe("Jacket A"); // price 150
   });
 
   it("should support sorting options (price-asc, price-desc, oldest, newest)", async () => {
@@ -155,13 +155,13 @@ describe("GET products API endpoint", () => {
     let mockUrl = new URL("https://example.com/api/products?sort=oldest");
     let response = await GET({ url: mockUrl } as unknown as APIContext);
     let data = (await response.json()) as ProductResponse;
-    expect(data.products[0].name).toBe("Jacket A");
+    expect(data.products[0]?.name).toBe("Jacket A");
 
     // price-desc
     mockUrl = new URL("https://example.com/api/products?sort=price-desc");
     response = await GET({ url: mockUrl } as unknown as APIContext);
     data = (await response.json()) as ProductResponse;
-    expect(data.products[0].name).toBe("Jacket A");
+    expect(data.products[0]?.name).toBe("Jacket A");
   });
 
   it("should filter by technical performance (perf=waterproof, windproof, breathable, insulated)", async () => {
@@ -182,14 +182,14 @@ describe("GET products API endpoint", () => {
     response = await GET({ url: mockUrl } as unknown as APIContext);
     data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Jacket A");
+    expect(data.products[0]?.name).toBe("Jacket A");
 
     // Insulated
     mockUrl = new URL("https://example.com/api/products?perf=insulated");
     response = await GET({ url: mockUrl } as unknown as APIContext);
     data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Pants B");
+    expect(data.products[0]?.name).toBe("Pants B");
   });
 
   it("should filter by fabric technology (fabric=gore-tex pro, dyneema® blend, 3l cordura®)", async () => {
@@ -198,21 +198,21 @@ describe("GET products API endpoint", () => {
     let response = await GET({ url: mockUrl } as unknown as APIContext);
     let data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Pants B");
+    expect(data.products[0]?.name).toBe("Pants B");
 
     // DYNEEMA® BLEND
     mockUrl = new URL("https://example.com/api/products?fabric=dyneema%C2%AE+blend");
     response = await GET({ url: mockUrl } as unknown as APIContext);
     data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Pants B");
+    expect(data.products[0]?.name).toBe("Pants B");
 
     // 3L CORDURA®
     mockUrl = new URL("https://example.com/api/products?fabric=3l+cordura%C2%AE");
     response = await GET({ url: mockUrl } as unknown as APIContext);
     data = (await response.json()) as ProductResponse;
     expect(data.total).toBe(1);
-    expect(data.products[0].name).toBe("Jacket A");
+    expect(data.products[0]?.name).toBe("Jacket A");
   });
 
   it("should handle error gracefully and return 500 status", async () => {
