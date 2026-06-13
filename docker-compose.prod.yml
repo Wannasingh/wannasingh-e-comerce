@@ -1,0 +1,164 @@
+# =============================================================================
+# docker-compose.prod.yml — Production Self-Hosted Deployment
+# =============================================================================
+
+name: wannasingh-ecommerce
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
+  postgres-data:
+    driver: local
+
+services:
+  # ── PostgreSQL Database for MedusaJS Core ────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: wannasingh-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: wannasingh_ecommerce
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── MongoDB with single-node replica set ──────────────────────────────────
+  mongo:
+    image: mongo:7.0
+    container_name: wannasingh-mongo
+    restart: unless-stopped
+    command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongo/keyfile"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: wannasingh_ecommerce
+    volumes:
+      - mongo-data:/data/db
+      - ./docker/mongo/keyfile:/etc/mongo/keyfile:ro
+      - ./docker/mongo/init-scripts:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    healthcheck:
+      test: |
+        mongosh --quiet --eval "db.adminCommand('ping').ok" \
+          --username root --password rootpassword --authenticationDatabase admin
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ── Replica set initializer (runs once, then exits) ───────────────────────
+  mongo-init:
+    image: mongo:7.0
+    container_name: wannasingh-mongo-init
+    restart: on-failure
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - app-network
+    command: >
+      mongosh --host mongo:27017
+        --username root --password rootpassword
+        --authenticationDatabase admin
+        --eval "
+          try {
+            rs.status();
+            print('Replica set already initialized');
+          } catch (err) {
+            rs.initiate({
+              _id: 'rs0',
+              members: [{ _id: 0, host: 'mongo:27017' }]
+            });
+            print('Replica set initialized successfully');
+          }
+        "
+
+  # ── Redis (enables pub/sub & job queues) ──────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: wannasingh-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  # ── MedusaJS Backend ──────────────────────────────────────────────────────
+  backend:
+    image: ghcr.io/wannasingh/backend:${IMAGE_TAG:-latest}
+    container_name: wannasingh-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+      mongo-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/wannasingh_ecommerce
+      MONGODB_URI_LOCAL: mongodb://root:rootpassword@mongo:27017/wannasingh_ecommerce?authSource=admin&replicaSet=rs0
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev-jwt-secret-change-in-production
+      COOKIE_SECRET: dev-cookie-secret-change-in-production
+      MEDUSA_BACKEND_URL: http://140.245.116.220:9000
+      STORE_CORS: http://140.245.116.220:4321
+      ADMIN_CORS: http://140.245.116.220:7001
+      AUTH_CORS: http://140.245.116.220:4321,http://140.245.116.220:7001
+      DISABLE_MEDUSA_ADMIN: "false"
+    ports:
+      - "9000:9000"
+      - "7001:7001"   # Medusa Admin dashboard
+    networks:
+      - app-network
+    command: ["node", "server/index.js"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # ── Astro Frontend ────────────────────────────────────────────────────────
+  frontend:
+    image: ghcr.io/wannasingh/frontend:${IMAGE_TAG:-latest}
+    container_name: wannasingh-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PUBLIC_MEDUSA_BACKEND_URL: http://140.245.116.220:9000
+      PUBLIC_SITE_URL: http://140.245.116.220:4321
+    ports:
+      - "4321:4321"
+    networks:
+      - app-network
+    command: ["node", "./dist/server/entry.mjs"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4321/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
