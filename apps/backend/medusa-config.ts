@@ -22,9 +22,15 @@ export default defineConfig({
     databaseUrl: DATABASE_URL,
     databaseDriverOptions: {
       connection: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        ...(process.env.DATABASE_URL?.includes("sslmode=disable") ||
+        process.env.DATABASE_URL?.includes("localhost") ||
+        process.env.DATABASE_URL?.includes("postgres:5432")
+          ? {}
+          : {
+              ssl: {
+                rejectUnauthorized: false,
+              },
+            }),
       },
     },
     // ── HTTP ─────────────────────────────────────────────────────────────────
