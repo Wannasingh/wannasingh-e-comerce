@@ -5,8 +5,7 @@ describe("E2E Smoke Tests", () => {
   });
 
   it("should load the health endpoint", () => {
-    cy.visit("/health");
-    cy.contains("OK");
+    cy.request("/health").its("body.status").should("eq", "ok");
   });
 
   it("should check the shopping cart empty state", () => {
