@@ -34,6 +34,8 @@ pipeline {
     // Staging and Production URLs
     STAGING_URL      = "https://e-commerce.wannasingh.dev"
     PRODUCTION_URL   = "https://e-commerce.wannasingh.dev"
+    PUBLIC_MEDUSA_BACKEND_URL = "https://e-commerce-api.wannasingh.dev"
+    PUBLIC_SITE_URL           = "https://e-commerce.wannasingh.dev"
 
     // Node.js / pnpm Setup
     NODE_VERSION     = "20"
