@@ -57,22 +57,21 @@ ENV PUBLIC_SITE_URL=${PUBLIC_SITE_URL}
 WORKDIR /repo/apps/frontend
 RUN pnpm build
 
-# ==============================================================================
-# Stage 3: runner — Minimal production image
-# ==============================================================================
 FROM node:${NODE_VERSION}-alpine AS runner
 
 # Security: run as non-root user
 RUN addgroup --system --gid 1001 astro && \
     adduser  --system --uid 1001 astro
 
-WORKDIR /app
+# Maintain pnpm workspace directory structure to keep symlinks working
+WORKDIR /repo/apps/frontend
 
 # Copy only the compiled server bundle (no source code in production image)
 COPY --from=builder --chown=astro:astro /repo/apps/frontend/dist ./dist
 
-# Copy only production node_modules needed by the Node adapter
+# Copy production node_modules and root node_modules virtual store
 COPY --from=builder --chown=astro:astro /repo/apps/frontend/node_modules ./node_modules
+COPY --from=builder --chown=astro:astro /repo/node_modules /repo/node_modules
 
 USER astro
 
@@ -87,4 +86,4 @@ EXPOSE 4321
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD wget -qO- http://localhost:4321/health || exit 1
 
-CMD ["node", "./dist/server/entry.mjs"]
+CMD ["node", "dist/server/entry.mjs"]
