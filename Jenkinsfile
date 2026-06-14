@@ -84,7 +84,7 @@ pipeline {
             // รัน TruffleHog ผ่าน Docker เพื่อป้องกันความไม่เข้ากันของ Agent CLI
             // แนะนำให้ตั้งค่า --fail เพื่อหยุด Pipeline ทันทีหากตรวจพบ Secrets (ในที่นี้ใส่ || true เพื่อความยืดหยุ่น)
             sh """
-              docker run --rm -v ${WORKSPACE}:/workspace trufflesecurity/trufflehog:latest git file:///workspace --since-commit=HEAD~1 --only-verified --fail || {
+              docker run --rm -v \$(echo \${WORKSPACE} | sed 's|/var/jenkins_home/|/var/lib/docker/volumes/wannasingh-portfolios_jenkins_data/_data/|'):/workspace trufflesecurity/trufflehog:latest git file:///workspace --since-commit=HEAD~1 --only-verified --fail || {
                 echo "⚠️ TruffleHog scan completed. (Secrets might have been ignored for testing, enforce fail in production!)"
               }
             """
@@ -364,7 +364,7 @@ pipeline {
         stage("E2E Integration (Cypress)") {
           steps {
             echo "🧪 Running Cypress End-to-End Tests against Staging..."
-            sh "docker run --rm --add-host e-commerce.wannasingh.dev:64.110.115.33 -v \${WORKSPACE}:/e2e -w /e2e cypress/included:13.12.0 --config baseUrl=https://e-commerce.wannasingh.dev"
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:64.110.115.33 -v \$(echo \${WORKSPACE} | sed 's|/var/jenkins_home/|/var/lib/docker/volumes/wannasingh-portfolios_jenkins_data/_data/|'):/e2e -w /e2e cypress/included:13.12.0 --config baseUrl=https://e-commerce.wannasingh.dev"
           }
           post {
             always {
@@ -383,7 +383,7 @@ pipeline {
         stage("Performance / Load Testing") {
           steps {
             echo "📈 Running Load Testing (k6)..."
-            sh "docker run --rm --add-host e-commerce.wannasingh.dev:64.110.115.33 -v \${WORKSPACE}:/apps -w /apps grafana/k6 run scripts/load-tests.js --env TARGET_URL=https://e-commerce.wannasingh.dev"
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:64.110.115.33 -v \$(echo \${WORKSPACE} | sed 's|/var/jenkins_home/|/var/lib/docker/volumes/wannasingh-portfolios_jenkins_data/_data/|'):/apps -w /apps grafana/k6 run scripts/load-tests.js --env TARGET_URL=https://e-commerce.wannasingh.dev"
           }
         }
         stage("Dynamic Application Security Testing (DAST)") {
