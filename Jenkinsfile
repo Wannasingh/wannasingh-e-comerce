@@ -312,6 +312,16 @@ pipeline {
             always {
               sh "docker logout ${REGISTRY}"
             }
+            success {
+              echo "🧹 Cleaning up local Docker images and builder cache from agent..."
+              sh """
+                docker rmi ${IMAGE_FRONTEND}:${IMAGE_TAG} || true
+                docker rmi ${IMAGE_FRONTEND}:latest || true
+                docker rmi ${IMAGE_BACKEND}:${IMAGE_TAG} || true
+                docker rmi ${IMAGE_BACKEND}:latest || true
+                docker builder prune -f --filter "until=24h" || true
+              """
+            }
           }
         }
       }
