@@ -2,6 +2,7 @@ describe("E2E Smoke Tests", () => {
   it("should load the homepage and check title", () => {
     cy.visit("/");
     cy.title().should("include", "WANNASINGH");
+    cy.screenshot("homepage-view");
   });
 
   it("should load the health endpoint", () => {

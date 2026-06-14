@@ -12,7 +12,7 @@ export default defineConfig({
   },
   e2e: {
     baseUrl: "https://e-commerce.wannasingh.dev",
-    supportFile: false,
+    supportFile: "cypress/support/e2e.ts",
     chromeWebSecurity: false, // Bypass SSL verification errors for self-signed certificates
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
     setupNodeEvents(on) {
