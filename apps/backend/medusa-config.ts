@@ -3,17 +3,6 @@ import { loadEnv, defineConfig } from "@medusajs/framework/utils";
 // Load environment variables from .env file
 loadEnv(process.env.NODE_ENV ?? "development", process.cwd());
 
-// ─── MongoDB connection URI ──────────────────────────────────────────────────
-// Use MONGODB_URI for Atlas in production, MONGODB_URI_LOCAL for local docker
-const MONGODB_URI =
-  process.env.MONGODB_URI ??
-  process.env.MONGODB_URI_LOCAL ??
-  "mongodb://localhost:27017/wannasingh_ecommerce?replicaSet=rs0";
-
-if (!MONGODB_URI) {
-  throw new Error("MONGODB_URI environment variable is required in production");
-}
-
 const DATABASE_URL =
   process.env.DATABASE_URL ?? "postgres://postgres:postgres@localhost:5432/wannasingh_ecommerce";
 

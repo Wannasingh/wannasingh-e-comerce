@@ -407,8 +407,6 @@ pipeline {
         withCredentials([sshUserPrivateKey(credentialsId: 'apps-ssh-key', keyFileVariable: 'APPS_KEY', usernameVariable: 'APPS_USER')]) {
           sh """
             scp -i \$APPS_KEY -o StrictHostKeyChecking=no docker-compose.prod.yml \$APPS_USER@64.110.115.33:/home/ubuntu/docker-compose.yml
-            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@64.110.115.33 "mkdir -p /home/ubuntu/docker/mongo"
-            scp -r -i \$APPS_KEY -o StrictHostKeyChecking=no docker/mongo/* \$APPS_USER@64.110.115.33:/home/ubuntu/docker/mongo/
           """
           
           sh """
