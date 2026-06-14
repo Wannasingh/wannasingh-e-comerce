@@ -4,7 +4,7 @@
 #           mongo-init (RS initializer), sonarqube (optional QA)
 # =============================================================================
 
-name: wannasingh-ecommerce
+name: e-commerce
 
 # ── Shared network ─────────────────────────────────────────────────────────────
 networks:
@@ -21,7 +21,7 @@ services:
   # ── Redis (enables pub/sub & job queues) ──────────────────────────────────
   redis:
     image: redis:7-alpine
-    container_name: wannasingh-redis
+    container_name: e-commerce-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -34,7 +34,7 @@ services:
       context: .
       dockerfile: apps/backend/Dockerfile
       target: builder     # Use builder stage in dev for faster iteration
-    container_name: wannasingh-backend
+    container_name: e-commerce-backend
     restart: unless-stopped
     depends_on:
       redis:
@@ -81,7 +81,7 @@ services:
       args:
         PUBLIC_MEDUSA_BACKEND_URL: http://localhost:9000
         PUBLIC_SITE_URL: http://localhost:4321
-    container_name: wannasingh-frontend
+    container_name: e-commerce-frontend
     restart: unless-stopped
     depends_on:
       backend:
