@@ -357,6 +357,7 @@ pipeline {
           branch "main"
           branch "master"
           branch "feat/domain-and-real-tests"
+          branch "feat/oracle-db-transition"
           branch pattern: "release/.*", comparator: "REGEXP"
         }
       }
