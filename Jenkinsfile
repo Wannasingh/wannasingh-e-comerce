@@ -285,6 +285,7 @@ pipeline {
             anyOf {
               branch "main"
               branch "master"
+              branch "feat/domain-and-real-tests"
               branch pattern: "release/.*", comparator: "REGEXP"
             }
           }
@@ -314,6 +315,7 @@ pipeline {
         anyOf {
           branch "main"
           branch "master"
+          branch "feat/domain-and-real-tests"
           branch pattern: "release/.*", comparator: "REGEXP"
         }
       }
@@ -336,6 +338,7 @@ pipeline {
         anyOf {
           branch "main"
           branch "master"
+          branch "feat/domain-and-real-tests"
           branch pattern: "release/.*", comparator: "REGEXP"
         }
       }
