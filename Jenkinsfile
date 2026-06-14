@@ -215,6 +215,14 @@ pipeline {
 
     // ── Stage 4: Artifact Packaging & Containerization ─────────────────────
     stage("Artifact Packaging & Containerization") {
+      when {
+        anyOf {
+          branch "main"
+          branch "master"
+          branch "develop"
+          branch pattern: "release/.*", comparator: "REGEXP"
+        }
+      }
       stages {
         stage("Docker Build") {
           parallel {
