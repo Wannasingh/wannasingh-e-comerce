@@ -21,9 +21,9 @@ pipeline {
   // ── Environment & Credentials ──────────────────────────────────────────────
   environment {
     // Registry Target
-    REGISTRY         = "${env.REGISTRY ?: 'ghcr.io/wannasingh'}"
-    IMAGE_FRONTEND   = "${REGISTRY}/frontend"
-    IMAGE_BACKEND    = "${REGISTRY}/backend"
+    REGISTRY         = "${env.REGISTRY ?: 'ap-singapore-1.ocir.io/axwlz6nlaqwo'}"
+    IMAGE_FRONTEND   = "${REGISTRY}/wannasingh-frontend-prod"
+    IMAGE_BACKEND    = "${REGISTRY}/wannasingh-api-prod"
     IMAGE_TAG        = "build-${env.BUILD_NUMBER}"
 
     // Jenkins Credentials - ต้องสร้างไว้ใน Jenkins > Credentials ก่อน

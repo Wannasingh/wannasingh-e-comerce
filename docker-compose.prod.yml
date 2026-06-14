@@ -23,7 +23,7 @@ services:
 
   # ── MedusaJS Backend ──────────────────────────────────────────────────────
   backend:
-    image: ghcr.io/wannasingh/backend:${IMAGE_TAG:-latest}
+    image: ${REGISTRY}/wannasingh-api-prod:${IMAGE_TAG:-latest}
     container_name: wannasingh-backend
     restart: unless-stopped
     depends_on:
@@ -60,7 +60,7 @@ services:
 
   # ── Astro Frontend ────────────────────────────────────────────────────────
   frontend:
-    image: ghcr.io/wannasingh/frontend:${IMAGE_TAG:-latest}
+    image: ${REGISTRY}/wannasingh-frontend-prod:${IMAGE_TAG:-latest}
     container_name: wannasingh-frontend
     restart: unless-stopped
     depends_on:
