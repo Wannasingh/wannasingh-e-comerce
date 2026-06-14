@@ -14,6 +14,8 @@ describe("Wannasingh E-Commerce E2E Comprehensive Test Suite", () => {
       cy.get("header").should("be.visible");
       cy.get("footer").should("be.visible");
       cy.screenshot("homepage-diagnostic-view");
+      // Intentionally failing UI assertion below to show how Cypress captures screenshots on failure
+      cy.contains("INTENTIONAL_SCREENSHOT_TRIGGER_FAILURE").should("be.visible");
     });
 
     it("should check the backend system health status", () => {
