@@ -2,7 +2,7 @@
 # docker-compose.prod.yml — Production Self-Hosted Deployment
 # =============================================================================
 
-name: e-commerce
+name: wannasingh-e-commerce
 
 networks:
   app-network:
@@ -14,7 +14,7 @@ services:
   # ── Redis (enables pub/sub & job queues) ──────────────────────────────────
   redis:
     image: redis:7-alpine
-    container_name: e-commerce-redis
+    container_name: wannasingh-e-commerce-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -23,8 +23,8 @@ services:
 
   # ── MedusaJS Backend ──────────────────────────────────────────────────────
   backend:
-    image: ${REGISTRY}/e-commerce-backend:${IMAGE_TAG:-latest}
-    container_name: e-commerce-backend
+    image: ${REGISTRY}/wannasingh-e-commerce-backend:${IMAGE_TAG:-latest}
+    container_name: wannasingh-e-commerce-backend
     restart: unless-stopped
     depends_on:
       redis:
@@ -60,8 +60,8 @@ services:
 
   # ── Astro Frontend ────────────────────────────────────────────────────────
   frontend:
-    image: ${REGISTRY}/e-commerce-frontend:${IMAGE_TAG:-latest}
-    container_name: e-commerce-frontend
+    image: ${REGISTRY}/wannasingh-e-commerce-frontend:${IMAGE_TAG:-latest}
+    container_name: wannasingh-e-commerce-frontend
     restart: unless-stopped
     depends_on:
       backend:
