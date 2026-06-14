@@ -2,98 +2,19 @@
 # docker-compose.prod.yml — Production Self-Hosted Deployment
 # =============================================================================
 
-name: wannasingh-ecommerce
+name: wannasingh-e-commerce
 
 networks:
   app-network:
     driver: bridge
 
-volumes:
-  mongo-data:
-    driver: local
-  postgres-data:
-    driver: local
+volumes: {}
 
 services:
-  # ── PostgreSQL Database for MedusaJS Core ────────────────────────────────
-  postgres:
-    image: postgres:16-alpine
-    container_name: wannasingh-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # ── MongoDB with single-node replica set ──────────────────────────────────
-  mongo:
-    image: mongo:7.0
-    container_name: wannasingh-mongo
-    restart: unless-stopped
-    command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongo/keyfile"]
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_DB}
-    volumes:
-      - mongo-data:/data/db
-      - ./docker/mongo/keyfile:/etc/mongo/keyfile:ro
-      - ./docker/mongo/init-scripts:/docker-entrypoint-initdb.d:ro
-    ports:
-      - "27017:27017"
-    networks:
-      - app-network
-    healthcheck:
-      test: |
-        mongosh --quiet --eval "db.adminCommand('ping').ok" \
-          --username $$MONGO_INITDB_ROOT_USERNAME --password $$MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
-  # ── Replica set initializer (runs once, then exits) ───────────────────────
-  mongo-init:
-    image: mongo:7.0
-    container_name: wannasingh-mongo-init
-    restart: on-failure
-    depends_on:
-      mongo:
-        condition: service_healthy
-    networks:
-      - app-network
-    command: >
-      mongosh --host mongo:27017
-        --username ${MONGO_ROOT_USER} --password ${MONGO_ROOT_PASSWORD}
-        --authenticationDatabase admin
-        --eval "
-          try {
-            rs.status();
-            print('Replica set already initialized');
-          } catch (err) {
-            rs.initiate({
-              _id: 'rs0',
-              members: [{ _id: 0, host: 'mongo:27017' }]
-            });
-            print('Replica set initialized successfully');
-          }
-        "
-
   # ── Redis (enables pub/sub & job queues) ──────────────────────────────────
   redis:
     image: redis:7-alpine
-    container_name: wannasingh-redis
+    container_name: wannasingh-e-commerce-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -102,22 +23,15 @@ services:
 
   # ── MedusaJS Backend ──────────────────────────────────────────────────────
   backend:
-    image: ghcr.io/wannasingh/backend:${IMAGE_TAG:-latest}
-    container_name: wannasingh-backend
+    image: ${REGISTRY}/wannasingh-e-commerce-backend:${IMAGE_TAG:-latest}
+    container_name: wannasingh-e-commerce-backend
     restart: unless-stopped
     depends_on:
-      postgres:
-        condition: service_healthy
-      mongo:
-        condition: service_healthy
-      mongo-init:
-        condition: service_completed_successfully
       redis:
         condition: service_started
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      MONGODB_URI_LOCAL: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017/${MONGO_DB}?authSource=admin&replicaSet=rs0
+      DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: redis://redis:6379
       JWT_SECRET: ${JWT_SECRET}
       COOKIE_SECRET: ${COOKIE_SECRET}
@@ -126,6 +40,12 @@ services:
       ADMIN_CORS: https://admin-e-commerce.wannasingh.dev,http://admin-e-commerce.wannasingh.dev
       AUTH_CORS: https://e-commerce.wannasingh.dev,http://e-commerce.wannasingh.dev,https://admin-e-commerce.wannasingh.dev,http://admin-e-commerce.wannasingh.dev
       DISABLE_MEDUSA_ADMIN: "false"
+      TNS_ADMIN: /oracle-wallet
+      ORACLE_CONNECTION_STRING: ${ORACLE_CONNECTION_STRING}
+      ORACLE_USER: ${ORACLE_USER}
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}
+    volumes:
+      - ${TNS_ADMIN:-/Users/haru/oracle-26-ai/APPSDB/Wallet_APPSDB/}:/oracle-wallet:ro
     ports:
       - "9000:9000"
       - "7001:7001"   # Medusa Admin dashboard
@@ -140,8 +60,8 @@ services:
 
   # ── Astro Frontend ────────────────────────────────────────────────────────
   frontend:
-    image: ghcr.io/wannasingh/frontend:${IMAGE_TAG:-latest}
-    container_name: wannasingh-frontend
+    image: ${REGISTRY}/wannasingh-e-commerce-frontend:${IMAGE_TAG:-latest}
+    container_name: wannasingh-e-commerce-frontend
     restart: unless-stopped
     depends_on:
       backend:

@@ -21,9 +21,9 @@ pipeline {
   // ── Environment & Credentials ──────────────────────────────────────────────
   environment {
     // Registry Target
-    REGISTRY         = "${env.REGISTRY ?: 'ghcr.io/wannasingh'}"
-    IMAGE_FRONTEND   = "${REGISTRY}/frontend"
-    IMAGE_BACKEND    = "${REGISTRY}/backend"
+    REGISTRY         = "${env.REGISTRY ?: 'ap-singapore-1.ocir.io/axwlz6nlaqwo'}"
+    IMAGE_FRONTEND   = "${REGISTRY}/wannasingh-e-commerce-frontend"
+    IMAGE_BACKEND    = "${REGISTRY}/wannasingh-e-commerce-backend"
     IMAGE_TAG        = "build-${env.BUILD_NUMBER}"
 
     // Jenkins Credentials - ต้องสร้างไว้ใน Jenkins > Credentials ก่อน
@@ -215,6 +215,14 @@ pipeline {
 
     // ── Stage 4: Artifact Packaging & Containerization ─────────────────────
     stage("Artifact Packaging & Containerization") {
+      when {
+        anyOf {
+          branch "main"
+          branch "master"
+          branch "develop"
+          branch pattern: "release/.*", comparator: "REGEXP"
+        }
+      }
       stages {
         stage("Docker Build") {
           parallel {
@@ -303,6 +311,16 @@ pipeline {
           post {
             always {
               sh "docker logout ${REGISTRY}"
+            }
+            success {
+              echo "🧹 Cleaning up local Docker images and builder cache from agent..."
+              sh """
+                docker rmi ${IMAGE_FRONTEND}:${IMAGE_TAG} || true
+                docker rmi ${IMAGE_FRONTEND}:latest || true
+                docker rmi ${IMAGE_BACKEND}:${IMAGE_TAG} || true
+                docker rmi ${IMAGE_BACKEND}:latest || true
+                docker builder prune -f --filter "until=24h" || true
+              """
             }
           }
         }
@@ -407,8 +425,6 @@ pipeline {
         withCredentials([sshUserPrivateKey(credentialsId: 'apps-ssh-key', keyFileVariable: 'APPS_KEY', usernameVariable: 'APPS_USER')]) {
           sh """
             scp -i \$APPS_KEY -o StrictHostKeyChecking=no docker-compose.prod.yml \$APPS_USER@64.110.115.33:/home/ubuntu/docker-compose.yml
-            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@64.110.115.33 "mkdir -p /home/ubuntu/docker/mongo"
-            scp -r -i \$APPS_KEY -o StrictHostKeyChecking=no docker/mongo/* \$APPS_USER@64.110.115.33:/home/ubuntu/docker/mongo/
           """
           
           sh """
