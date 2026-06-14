@@ -11,7 +11,7 @@ describe("Wannasingh E-Commerce E2E Comprehensive Test Suite", () => {
     it("should load the homepage, verify theme elements, and take screenshot", () => {
       cy.visit("/");
       cy.title().should("include", "WANNASINGH");
-      cy.get("header").should("be.visible");
+      cy.get("nav").should("be.visible");
       cy.get("footer").should("be.visible");
       cy.screenshot("homepage-diagnostic-view");
 
