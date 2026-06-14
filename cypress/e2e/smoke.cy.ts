@@ -14,8 +14,7 @@ describe("Wannasingh E-Commerce E2E Comprehensive Test Suite", () => {
       cy.get("header").should("be.visible");
       cy.get("footer").should("be.visible");
       cy.screenshot("homepage-diagnostic-view");
-      // Intentionally failing UI assertion below to show how Cypress captures screenshots on failure
-      cy.contains("INTENTIONAL_SCREENSHOT_TRIGGER_FAILURE").should("be.visible");
+
     });
 
     it("should check the backend system health status", () => {
@@ -44,8 +43,7 @@ describe("Wannasingh E-Commerce E2E Comprehensive Test Suite", () => {
         .type("Tactical Jacket")
         .should("have.value", "Tactical Jacket");
 
-      // Verify category filter choices exist and are selectable
-      cy.get('input[name="category-filter"]').should("have.length.at.least(5)");
+      cy.get('input[name="category-filter"]').should("have.length.at.least", 5);
       cy.get('input[name="category-filter"][value="Bottoms"]').check();
       cy.get('input[name="category-filter"][value="Bottoms"]').should("be.checked");
 
@@ -99,7 +97,7 @@ describe("Wannasingh E-Commerce E2E Comprehensive Test Suite", () => {
       cy.contains("MOCK CYBER MID-LAYER").should("be.visible");
 
       // Verify total quantities and subtotal format
-      cy.get("#summary-total").should("be.visible").and("not.contain", "$0.00");
+      cy.get("#summary-total").scrollIntoView().should("be.visible").and("not.contain", "$0.00");
       
       // Proceed to checkout button link verification
       cy.contains("PROCEED TO CHECKOUT")
