@@ -21,9 +21,9 @@ pipeline {
   // ── Environment & Credentials ──────────────────────────────────────────────
   environment {
     // Registry Target
-    REGISTRY         = "${env.REGISTRY ?: 'ghcr.io/wannasingh'}"
-    IMAGE_FRONTEND   = "${REGISTRY}/frontend"
-    IMAGE_BACKEND    = "${REGISTRY}/backend"
+    REGISTRY         = "${env.REGISTRY ?: 'ap-singapore-1.ocir.io/axwlz6nlaqwo'}"
+    IMAGE_FRONTEND   = "${REGISTRY}/wannasingh-e-commerce-frontend"
+    IMAGE_BACKEND    = "${REGISTRY}/wannasingh-e-commerce-backend"
     IMAGE_TAG        = "build-${env.BUILD_NUMBER}"
 
     // Jenkins Credentials - ต้องสร้างไว้ใน Jenkins > Credentials ก่อน
@@ -98,7 +98,7 @@ pipeline {
         echo "🔍 Fetching status and logs from Apps VM..."
         withCredentials([sshUserPrivateKey(credentialsId: 'apps-ssh-key', keyFileVariable: 'APPS_KEY', usernameVariable: 'APPS_USER')]) {
           sh """
-            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@140.245.116.220 "
+            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@64.110.115.33 "
               cd /home/ubuntu
               echo '=== Docker Containers ==='
               docker compose ps
@@ -215,6 +215,14 @@ pipeline {
 
     // ── Stage 4: Artifact Packaging & Containerization ─────────────────────
     stage("Artifact Packaging & Containerization") {
+      when {
+        anyOf {
+          branch "main"
+          branch "master"
+          branch "develop"
+          branch pattern: "release/.*", comparator: "REGEXP"
+        }
+      }
       stages {
         stage("Docker Build") {
           parallel {
@@ -285,6 +293,7 @@ pipeline {
             anyOf {
               branch "main"
               branch "master"
+              branch "feat/domain-and-real-tests"
               branch pattern: "release/.*", comparator: "REGEXP"
             }
           }
@@ -303,6 +312,16 @@ pipeline {
             always {
               sh "docker logout ${REGISTRY}"
             }
+            success {
+              echo "🧹 Cleaning up local Docker images and builder cache from agent..."
+              sh """
+                docker rmi ${IMAGE_FRONTEND}:${IMAGE_TAG} || true
+                docker rmi ${IMAGE_FRONTEND}:latest || true
+                docker rmi ${IMAGE_BACKEND}:${IMAGE_TAG} || true
+                docker rmi ${IMAGE_BACKEND}:latest || true
+                docker builder prune -f --filter "until=24h" || true
+              """
+            }
           }
         }
       }
@@ -314,6 +333,7 @@ pipeline {
         anyOf {
           branch "main"
           branch "master"
+          branch "feat/domain-and-real-tests"
           branch pattern: "release/.*", comparator: "REGEXP"
         }
       }
@@ -336,6 +356,7 @@ pipeline {
         anyOf {
           branch "main"
           branch "master"
+          branch "feat/domain-and-real-tests"
           branch pattern: "release/.*", comparator: "REGEXP"
         }
       }
@@ -343,19 +364,32 @@ pipeline {
         stage("E2E Integration (Cypress)") {
           steps {
             echo "🧪 Running Cypress End-to-End Tests against Staging..."
-            sh "docker run --rm --add-host e-commerce.wannasingh.dev:140.245.116.220 -v \${WORKSPACE}:/e2e -w /e2e cypress/included:13.12.0 --config baseUrl=https://e-commerce.wannasingh.dev"
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:64.110.115.33 -v \${WORKSPACE}:/e2e -w /e2e cypress/included:13.12.0 --config baseUrl=https://e-commerce.wannasingh.dev"
+          }
+          post {
+            always {
+              publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'cypress/reports',
+                reportFiles: 'index.html',
+                reportName: 'Cypress E2E Report',
+                reportTitles: 'Cypress E2E Test Report'
+              ])
+            }
           }
         }
         stage("Performance / Load Testing") {
           steps {
             echo "📈 Running Load Testing (k6)..."
-            sh "docker run --rm --add-host e-commerce.wannasingh.dev:140.245.116.220 -v \${WORKSPACE}:/apps -w /apps grafana/k6 run scripts/load-tests.js --env TARGET_URL=https://e-commerce.wannasingh.dev"
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:64.110.115.33 -v \${WORKSPACE}:/apps -w /apps grafana/k6 run scripts/load-tests.js --env TARGET_URL=https://e-commerce.wannasingh.dev"
           }
         }
         stage("Dynamic Application Security Testing (DAST)") {
           steps {
             echo "🔥 Running DAST Scan (OWASP ZAP) against Staging URL..."
-            sh "docker run --rm --add-host e-commerce.wannasingh.dev:140.245.116.220 -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://e-commerce.wannasingh.dev || true"
+            sh "docker run --rm --add-host e-commerce.wannasingh.dev:64.110.115.33 -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://e-commerce.wannasingh.dev || true"
           }
         }
       }
@@ -390,13 +424,11 @@ pipeline {
         echo "🚀 Deploying to Apps production server..."
         withCredentials([sshUserPrivateKey(credentialsId: 'apps-ssh-key', keyFileVariable: 'APPS_KEY', usernameVariable: 'APPS_USER')]) {
           sh """
-            scp -i \$APPS_KEY -o StrictHostKeyChecking=no docker-compose.prod.yml \$APPS_USER@140.245.116.220:/home/ubuntu/docker-compose.yml
-            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@140.245.116.220 "mkdir -p /home/ubuntu/docker/mongo"
-            scp -r -i \$APPS_KEY -o StrictHostKeyChecking=no docker/mongo/* \$APPS_USER@140.245.116.220:/home/ubuntu/docker/mongo/
+            scp -i \$APPS_KEY -o StrictHostKeyChecking=no docker-compose.prod.yml \$APPS_USER@64.110.115.33:/home/ubuntu/docker-compose.yml
           """
           
           sh """
-            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@140.245.116.220 "
+            ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@64.110.115.33 "
               echo '${DOCKER_CREDS_PSW}' | docker login ghcr.io --username '${DOCKER_CREDS_USR}' --password-stdin
               IMAGE_TAG=${IMAGE_TAG} docker compose pull
               IMAGE_TAG=${IMAGE_TAG} docker compose up -d
@@ -408,7 +440,7 @@ pipeline {
         echo "🔬 Running Production Smoke Tests..."
         sh """
           sleep 15
-          STATUS_CODE=\$(curl -s -k -o /dev/null -w "%{http_code}" -H "Host: e-commerce.wannasingh.dev" https://140.245.116.220 || echo "000")
+          STATUS_CODE=\$(curl -s -k -o /dev/null -w "%{http_code}" -H "Host: e-commerce.wannasingh.dev" https://64.110.115.33 || echo "000")
           if [ "\$STATUS_CODE" -eq 200 ] || [ "\$STATUS_CODE" -eq 301 ] || [ "\$STATUS_CODE" -eq 302 ]; then
             echo "✅ Smoke test passed! Production URL https://e-commerce.wannasingh.dev is active and healthy."
           else
