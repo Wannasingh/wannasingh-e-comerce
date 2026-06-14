@@ -7,6 +7,7 @@
     "build": "medusa build",
     "start": "medusa start",
     "seed": "medusa exec ./src/scripts/seed.ts",
+    "migrate:oracle": "ts-node src/scripts/migrate-to-oracle.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --max-warnings 0",
     "test": "vitest run --coverage"
@@ -20,8 +21,10 @@
     "@medusajs/file-local": "^2.15.5",
     "@medusajs/framework": "^2.6.0",
     "@medusajs/medusa": "^2.6.0",
+    "@types/pg": "^8.20.0",
     "dotenv": "^16.4.0",
     "oracledb": "^6.6.0",
+    "pg": "^8.21.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zod": "^3.24.0"
