@@ -430,10 +430,10 @@ pipeline {
           
           sh """
             ssh -i \$APPS_KEY -o StrictHostKeyChecking=no \$APPS_USER@64.110.115.33 "
-              echo '${DOCKER_CREDS_PSW}' | docker login ghcr.io --username '${DOCKER_CREDS_USR}' --password-stdin
+              echo '${DOCKER_CREDS_PSW}' | docker login ${REGISTRY} --username '${DOCKER_CREDS_USR}' --password-stdin
               IMAGE_TAG=${IMAGE_TAG} docker compose pull
               IMAGE_TAG=${IMAGE_TAG} docker compose up -d
-              docker logout ghcr.io
+              docker logout ${REGISTRY}
             "
           """
         }
