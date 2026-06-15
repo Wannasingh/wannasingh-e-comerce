@@ -68,6 +68,15 @@ pipeline {
       parallel {
         stage("Checkout Code") {
           steps {
+            // แจ้งเตือนเมื่อบิวด์เริ่มต้นขึ้น ด้วยรูปแบบที่จัดแต่งสวยงาม
+            slackSend(
+              color: '#439FE0',
+              message: """*🟡 PIPELINE STARTED*
+• *Project:* `${env.JOB_NAME}`
+• *Build:* `#${env.BUILD_NUMBER}`
+• *Branch:* `${env.BRANCH_NAME}`
+• *Link:* <${env.BUILD_URL}|Track Progress>"""
+            )
             echo "🔁 Checking out source code..."
             checkout scm
             sh "git log --oneline -5"
@@ -406,6 +415,15 @@ pipeline {
         }
       }
       steps {
+        // แจ้งเตือนเมื่อบิวด์เดินทางมาถึงจุดขออนุมัติขึ้น Production
+        slackSend(
+          color: '#FF8C00',
+          message: """*⏸️ ACTION REQUIRED: Waiting for Approval*
+• *Project:* `${env.JOB_NAME}`
+• *Build:* `#${env.BUILD_NUMBER}`
+• *Message:* Approve deployment to Production?
+• *Action:* 👉 <${env.BUILD_URL}|Click here to Approve / Reject>"""
+        )
         echo "⏸️ Pausing Pipeline: Waiting for Tech Lead or QA Manager approval before Production deployment..."
         // หน้าจอ Jenkins จะมีปุ่มให้กด Approve หรือ Abort
         input id: 'DeployGate', message: "Approve deployment of build ${env.BUILD_NUMBER} to Production?", ok: "Approve & Release"
@@ -462,17 +480,41 @@ pipeline {
     }
     success {
       echo "🎉 Pipeline completed successfully!"
-      // ส่งแจ้งเตือน Slack ด้วย Slack Plugin
-      // slackSend channel: '#ci-cd-deployments', color: 'good', message: "✅ BUILD SUCCESSFUL: Job '${env.JOB_NAME}' [${env.BUILD_NUMBER}] successfully built, tested and deployed to Production! (${env.BUILD_URL})"
+      // (เรานำ slackSend success ออกตามที่คุณระบุ: "succress แต่ไม่ส่งบอกนะ")
     }
     failure {
       echo "❌ Pipeline failed! Sending alerts..."
-      // ส่งแจ้งเตือน Slack กรณีบิวด์พัง
-      // slackSend channel: '#ci-cd-deployments', color: 'danger', message: "❌ BUILD FAILED: Job '${env.JOB_NAME}' [${env.BUILD_NUMBER}] failed at stage: ${env.STAGE_NAME}. Check Jenkins log: ${env.BUILD_URL}"
+      slackSend(
+        color: '#FF0000',
+        message: """*🔴 BUILD FAILED*
+• *Project:* `${env.JOB_NAME}`
+• *Build Number:* `#${env.BUILD_NUMBER}`
+• *Failed Stage:* `${env.STAGE_NAME}`
+• *Branch:* `${env.BRANCH_NAME}`
+• *Console Log:* <${env.BUILD_URL}console|View Console Log>"""
+      )
     }
     unstable {
       echo "⚠️ Pipeline is Unstable. Please inspect tests and quality gates."
-      // slackSend channel: '#ci-cd-deployments', color: 'warning', message: "⚠️ BUILD UNSTABLE: Job '${env.JOB_NAME}' [${env.BUILD_NUMBER}] completed but contains test failures or quality gate warnings. (${env.BUILD_URL})"
+      slackSend(
+        color: '#FFA500',
+        message: """*⚠️ BUILD UNSTABLE*
+• *Project:* `${env.JOB_NAME}`
+• *Build:* `#${env.BUILD_NUMBER}`
+• *Status:* Unstable (Test failures / Quality warnings)
+• *Link:* <${env.BUILD_URL}|Open Build Details>"""
+      )
+    }
+    aborted {
+      echo "🛑 Pipeline was aborted."
+      slackSend(
+        color: '#808080',
+        message: """*🛑 BUILD ABORTED*
+• *Project:* `${env.JOB_NAME}`
+• *Build:* `#${env.BUILD_NUMBER}`
+• *Status:* Aborted (Possibly superceded by a new build)
+• *Link:* <${env.BUILD_URL}|Open Build>"""
+      )
     }
   }
 }
