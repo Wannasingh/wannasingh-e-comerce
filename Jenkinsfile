@@ -43,6 +43,7 @@ pipeline {
     NODE_VERSION     = "20"
     PNPM_VERSION     = "9.15.0"
     PNPM_HOME        = "${WORKSPACE}/.pnpm"
+    PNPM_STORE_DIR   = "/var/jenkins_home/.pnpm-store"
     PATH             = "${PNPM_HOME}:${PATH}"
   }
 
@@ -191,6 +192,8 @@ pipeline {
             withSonarQubeEnv("SonarQube") {
               script {
                 def sonarParams = "-Dsonar.login=${SONAR_TOKEN} -Dsonar.host.url=${SONAR_HOST_URL}"
+                sonarParams += " -Dsonar.analysisCache.enabled=true"
+                sonarParams += " -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/.next/**,**/.astro/**,**/coverage/**"
                 
                 // ตรวจสอบว่าเป็น Pull Request (PR) หรือไม่ (ตัวแปรถูกสร้างโดย GitHub Branch Source Plugin)
                 if (env.CHANGE_ID) {
