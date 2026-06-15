@@ -44,6 +44,8 @@ services:
       ORACLE_CONNECTION_STRING: ${ORACLE_CONNECTION_STRING}
       ORACLE_USER: ${ORACLE_USER}
       ORACLE_PASSWORD: ${ORACLE_PASSWORD}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
     volumes:
       - ${TNS_ADMIN:-/Users/haru/oracle-26-ai/APPSDB/Wallet_APPSDB/}:/oracle-wallet:ro
     ports:
@@ -70,6 +72,8 @@ services:
       NODE_ENV: production
       PUBLIC_MEDUSA_BACKEND_URL: https://e-commerce-api.wannasingh.dev
       PUBLIC_SITE_URL: https://e-commerce.wannasingh.dev
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
     ports:
       - "4321:4321"
     networks:
